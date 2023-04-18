@@ -1,18 +1,28 @@
-import { useEffect } from 'react'
+import { Fragment, FunctionComponent } from 'react'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import './App.css'
 
-function App() {
-  useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}`
-      const response = await fetch(url)
-      const data = await response.json()
-      console.log(data)
-    }
+const App: FunctionComponent = () => {
+  return (
+    <Fragment>
+      <Routes>
+        <Route path="/login" element={<></>} />
+        <Route element={<></>}>
+          <Route path="/" element={<></>} />
+          <Route path="/profile" element={<></>} />
+          <Route path="/forum" element={<></>} />
+          <Route path="/leaderboard" element={<></>} />
+          <Route path="/singup" element={<></>} />
+          <Route path="*" element={<p>Error</p>} />
+        </Route>
+      </Routes>
+    </Fragment>
+  )
+}
 
-    fetchServerData()
-  }, [])
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>
+const PrivateRoute: FunctionComponent = () => {
+  //return user ? <Outlet /> : <Navigate to="/login" />
+  return <></>
 }
 
 export default App

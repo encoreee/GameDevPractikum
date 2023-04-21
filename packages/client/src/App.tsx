@@ -25,20 +25,22 @@ const App: FunctionComponent = () => {
 }
 
 const PrivateRoute: FunctionComponent = () => {
-  const [user, setUser] = useState<User | undefined>(undefined)
-  const dispatch = useAppDispatch()
+  // const [user, setUser] = useState<User | undefined>(undefined)
+  // const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(loadUser())
-      .then(unwrapResult)
-      .then(obj => {
-        if (obj as User) {
-          setUser(obj)
-        }
-      })
-  }, [])
+  // useEffect(() => {
+  //   dispatch(loadUser())
+  //     .then(unwrapResult)
+  //     .then(obj => {
+  //       if (obj as User) {
+  //         setUser(obj)
+  //       }
+  //     })
+  // }, [])
 
-  return user ? <Outlet /> : <Navigate to="/login" />
+  // return user ? <Outlet /> : <Navigate to="/login" />
+
+  return <Outlet />
 }
 
 export default App

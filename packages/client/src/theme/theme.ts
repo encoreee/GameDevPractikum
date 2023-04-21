@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
   palette: {
@@ -14,4 +14,4 @@ export const theme = createTheme({
   typography: {
     fontFamily: ['"Press Start 2P"', 'cursive'].join(','),
   },
-})
+});

@@ -1,7 +1,6 @@
 {
   "singleQuote": true,
-  "semi": false,
-  "arrowParens": "avoid",
+  "semi": true,
   "bracketSameLine": true,
   "width": 50
 }

@@ -1,19 +1,19 @@
-import { Paper, Stack, Typography } from '@mui/material'
-import { FunctionComponent } from 'react'
-import { useAppDispatch } from '../../app/hooks'
-import { styled } from '@mui/system'
+import { Paper, Stack, Typography } from '@mui/material';
+import { FunctionComponent } from 'react';
+import { useAppDispatch } from '../../app/hooks';
+import { styled } from '@mui/system';
 
-import BackGround from '../../assets/backGround.png' // Import using relative path
+import BackGround from '../../assets/backGround.png'; // Import using relative path
 
-import DataBox from '../../components/DataBox'
-import MainLabel from '../../components/MainLabel'
-import DataField from '../../components/DataField'
-import MainButton from '../../components/MainButton'
-import NavLink from '../../components/NavLink'
+import DataBox from '../../components/DataBox';
+import MainLabel from '../../components/MainLabel';
+import DataField from '../../components/DataField';
+import MainButton from '../../components/MainButton';
+import NavLink from '../../components/NavLink';
 
 const Container = styled('div')({
   height: '98vh',
-})
+});
 
 const styles = {
   paper: {
@@ -21,7 +21,7 @@ const styles = {
     minHeight: '100%',
     backgroundImage: `url(${BackGround})`,
   },
-}
+};
 
 const ProjectsPage: FunctionComponent = () => {
   return (
@@ -45,7 +45,7 @@ const ProjectsPage: FunctionComponent = () => {
         </Stack>
       </Paper>
     </Container>
-  )
-}
+  );
+};
 
-export default ProjectsPage
+export default ProjectsPage;

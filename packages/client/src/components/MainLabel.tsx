@@ -18,11 +18,11 @@ const MainLabel: FunctionComponent = () => {
           backgroundClip: 'text',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
+          fontSize: 160,
         }}>
         Galaga
       </Typography>
       <Typography
-        variant="h6"
         sx={{
           backgroundcolor: 'primary',
           backgroundImage: `linear-gradient(100deg, #006569, #035639)`,

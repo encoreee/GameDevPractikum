@@ -1,14 +1,12 @@
 import { Box, Stack } from '@mui/material'
 import { FunctionComponent, PropsWithChildren } from 'react'
 
-type DataBoxProps = {
+type DataBoxProps = PropsWithChildren<{
   height?: number
   width?: number
-}
+}>
 
-const DataBox: FunctionComponent<DataBoxProps> = (
-  props: PropsWithChildren<DataBoxProps>
-) => {
+const DataBox: FunctionComponent<DataBoxProps> = props => {
   return (
     <Box
       sx={{
@@ -33,7 +31,7 @@ const DataBox: FunctionComponent<DataBoxProps> = (
 
 DataBox.defaultProps = {
   height: 550,
-  width: 600,
+  width: 700,
 }
 
 export default DataBox

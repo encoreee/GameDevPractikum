@@ -1,4 +1,4 @@
-export const API_ADDRESS = process.env.REACT_APP_API_ADDRESS
+export const API_ADDRESS = 'https://ya-praktikum.tech/api/v2/'
 
 export function apiFetch() {
   const request = (method: string) => {

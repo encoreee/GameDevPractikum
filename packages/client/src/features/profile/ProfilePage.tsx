@@ -1,12 +1,15 @@
-import { Paper, Stack } from '@mui/material'
-import { FunctionComponent, useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { Paper, Stack, Typography } from '@mui/material'
+import { FunctionComponent } from 'react'
+import { useAppDispatch } from '../../app/hooks'
 import { useNavigate } from 'react-router-dom'
 import { styled } from '@mui/system'
 
 import BackGround from '../../assets/backGround.png' // Import using relative path
-import MainLabel from './componets/MainLabel'
-import DataBox from './componets/DataBox'
+
+import DataBox from '../../components/DataBox'
+import MainLabel from '../../components/MainLabel'
+import DataField from '../../components/DataField'
+import MainButton from '../../components/MainButton'
 
 const Container = styled('div')({
   height: '98vh',
@@ -30,7 +33,17 @@ const ProjectsPage: FunctionComponent = () => {
       <Paper sx={{ display: 'flex' }} style={styles.paper}>
         <Stack sx={{ margin: 'auto' }} direction={'column'}>
           <MainLabel />
-          <DataBox></DataBox>
+          <DataBox>
+            <DataField label="label" value="value"></DataField>
+            <DataField label="label" value="value"></DataField>
+            <DataField label="label" value="value"></DataField>
+            <DataField label="label" value="value"></DataField>
+            <DataField label="label" value="value"></DataField>
+            <MainButton label="Save" />
+            <Typography sx={{ margin: 1 }} variant="h6" color="secondary.dark">
+              cancel
+            </Typography>
+          </DataBox>
         </Stack>
       </Paper>
     </Container>

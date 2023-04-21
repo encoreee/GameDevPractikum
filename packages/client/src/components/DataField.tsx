@@ -1,4 +1,4 @@
-import { Grid, Stack, TextField, Typography } from '@mui/material'
+import { Grid, TextField, Typography } from '@mui/material'
 import { FunctionComponent } from 'react'
 
 interface DataFieldProps {

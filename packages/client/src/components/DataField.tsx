@@ -1,0 +1,34 @@
+import { Grid, TextField, Typography } from '@mui/material';
+import { FunctionComponent } from 'react';
+
+interface DataFieldProps {
+  label: string;
+  value?: string;
+}
+
+const DataField: FunctionComponent<DataFieldProps> = (props) => {
+  return (
+    <Grid alignItems="center" margin={1} container spacing={1}>
+      <Grid item xs={5}>
+        <Typography variant="h6" color="primary.main">
+          {props.label}{' '}
+        </Typography>
+      </Grid>
+      <Grid item xs={7}>
+        <TextField
+          style={{
+            backgroundColor: 'black',
+          }}
+          InputProps={{
+            style: {
+              color: 'white',
+            },
+          }}
+          value={props.value}
+        />
+      </Grid>
+    </Grid>
+  );
+};
+
+export default DataField;

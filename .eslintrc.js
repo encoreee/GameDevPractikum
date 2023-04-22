@@ -6,15 +6,24 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier',
+    'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 11,
+    ecmaFeatures: {
+      jsx: true,
+    },
+
+    jsxPragma: null,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'react', 'prettier'],
   rules: {
-    '@typescript-eslint/ban-ts-comment': 1,
+    'prettier/prettier': ['warn'],
+    '@typescript-eslint/ban-ts-comment': 0,
+    'react/react-in-jsx-scope': 0,
+    'react/jsx-uses-react': 0,
   },
-}
+};

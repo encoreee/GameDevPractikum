@@ -1,11 +1,11 @@
-import { Button } from '@mui/material'
-import { FunctionComponent } from 'react'
+import { Button } from '@mui/material';
+import { FunctionComponent } from 'react';
 
 interface MainButtonProps {
-  label: string
+  label: string;
 }
 
-const MainButton: FunctionComponent<MainButtonProps> = props => {
+const MainButton: FunctionComponent<MainButtonProps> = (props) => {
   return (
     <Button
       sx={{
@@ -20,7 +20,7 @@ const MainButton: FunctionComponent<MainButtonProps> = props => {
       color="secondary">
       {props.label}
     </Button>
-  )
-}
+  );
+};
 
-export default MainButton
+export default MainButton;

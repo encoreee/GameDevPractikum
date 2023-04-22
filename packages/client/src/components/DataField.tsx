@@ -1,12 +1,12 @@
-import { Grid, TextField, Typography } from '@mui/material'
-import { FunctionComponent } from 'react'
+import { Grid, TextField, Typography } from '@mui/material';
+import { FunctionComponent } from 'react';
 
 interface DataFieldProps {
-  label: string
-  value?: string
+  label: string;
+  value?: string;
 }
 
-const DataField: FunctionComponent<DataFieldProps> = props => {
+const DataField: FunctionComponent<DataFieldProps> = (props) => {
   return (
     <Grid alignItems="center" margin={1} container spacing={1}>
       <Grid item xs={5}>
@@ -28,7 +28,7 @@ const DataField: FunctionComponent<DataFieldProps> = props => {
         />
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default DataField
+export default DataField;

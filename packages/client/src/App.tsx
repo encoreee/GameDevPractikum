@@ -1,17 +1,10 @@
-<<<<<<< HEAD
-import { Fragment, FunctionComponent, useEffect, useState } from 'react'
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
-import './App.css'
-import ProfilePage from './features/profile/ProfilePage'
-import { User, loadUser } from './app/user/userSlice'
-import { useAppDispatch } from './app/hooks'
-import { unwrapResult } from '@reduxjs/toolkit'
-=======
-import { Fragment, FunctionComponent } from 'react';
+import { Fragment, FunctionComponent, useEffect, useState } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
-import ProfilePage from '@features/profile/ProfilePage';
->>>>>>> sprint_1
+import ProfilePage from './features/profile/ProfilePage';
+import { User, loadUser } from './app/user/userSlice';
+import { useAppDispatch } from './app/hooks';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const App: FunctionComponent = () => {
   return (
@@ -32,7 +25,6 @@ const App: FunctionComponent = () => {
 };
 
 const PrivateRoute: FunctionComponent = () => {
-<<<<<<< HEAD
   // const [user, setUser] = useState<User | undefined>(undefined)
   // const dispatch = useAppDispatch()
 
@@ -48,12 +40,7 @@ const PrivateRoute: FunctionComponent = () => {
 
   // return user ? <Outlet /> : <Navigate to="/login" />
 
-  return <Outlet />
-}
-=======
-  //return user ? <Outlet /> : <Navigate to="/login" />
   return <Outlet />;
 };
->>>>>>> sprint_1
 
 export default App;

@@ -1,7 +1,7 @@
-import { Fragment, FunctionComponent } from 'react'
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
-import './App.css'
-import ProfilePage from './features/profile/ProfilePage'
+import { Fragment, FunctionComponent } from 'react';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import './App.css';
+import ProfilePage from '@features/profile/ProfilePage';
 
 const App: FunctionComponent = () => {
   return (
@@ -18,12 +18,12 @@ const App: FunctionComponent = () => {
         </Route>
       </Routes>
     </Fragment>
-  )
-}
+  );
+};
 
 const PrivateRoute: FunctionComponent = () => {
   //return user ? <Outlet /> : <Navigate to="/login" />
-  return <Outlet />
-}
+  return <Outlet />;
+};
 
-export default App
+export default App;

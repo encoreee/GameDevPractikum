@@ -1,5 +1,5 @@
-import { Stack, Typography } from '@mui/material'
-import { FunctionComponent } from 'react'
+import { Stack, Typography } from '@mui/material';
+import { FunctionComponent } from 'react';
 
 const MainLabel: FunctionComponent = () => {
   return (
@@ -35,7 +35,7 @@ const MainLabel: FunctionComponent = () => {
         by react&.
       </Typography>
     </Stack>
-  )
-}
+  );
+};
 
-export default MainLabel
+export default MainLabel;

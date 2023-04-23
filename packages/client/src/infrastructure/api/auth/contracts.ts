@@ -1,16 +1,10 @@
-export interface LoginRequest {
-  userName: string;
-  password: string;
-  rememberMe: boolean;
-}
-
-export interface TokenRefreshRequest {
-  token: string;
-  refreshToken: string;
-}
-
-export interface LoginResponse {
-  userName: string;
-  token: string;
-  refreshToken: string;
+export interface UserInfoResponse {
+  id: number
+  first_name: string
+  second_name: string
+  display_name: string
+  login: string
+  email: string
+  phone: string
+  avatar: string
 }

@@ -20,7 +20,7 @@ const DataField: FunctionComponent<DataFieldProps> = (props) => {
       <TextField
         style={{
           backgroundColor: 'black',
-          marginBottom: '20px',
+          marginBottom: '30px',
           marginTop: '0px',
         }}
         InputProps={{

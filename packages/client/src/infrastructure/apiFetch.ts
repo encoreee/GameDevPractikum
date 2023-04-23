@@ -1,4 +1,4 @@
-export const API_ADDRESS = 'https://ya-praktikum.tech/api/v2/'
+export const API_ADDRESS = 'https://ya-praktikum.tech/api/v2/';
 
 export function apiFetch() {
   const request = (method: string) => {
@@ -10,41 +10,41 @@ export function apiFetch() {
       const requestOptions = {
         method,
         headers,
-      } as RequestInit
+      } as RequestInit;
 
       if (body) {
         if (body instanceof FormData) {
-          requestOptions.body = body
+          requestOptions.body = body;
         } else {
-          const newHeaders = new Headers(requestOptions.headers)
-          newHeaders.set('Content-Type', 'application/json')
+          const newHeaders = new Headers(requestOptions.headers);
+          newHeaders.set('Content-Type', 'application/json');
 
-          requestOptions.headers = newHeaders
-          requestOptions.body = JSON.stringify(body)
+          requestOptions.headers = newHeaders;
+          requestOptions.body = JSON.stringify(body);
         }
       }
 
-      return fetch(url, requestOptions)
-    }
-  }
+      return fetch(url, requestOptions);
+    };
+  };
 
   return {
     get: request('GET'),
     post: request('POST'),
     put: request('PUT'),
     delete: request('DELETE'),
-  }
+  };
 }
 
 export function apiAuthFetch() {
   const authHeader = (accessToken: string, init?: HeadersInit) => {
-    const headers = new Headers(init)
+    const headers = new Headers(init);
 
-    const bearer = `Bearer ${accessToken}`
-    headers.append('Authorization', bearer)
+    const bearer = `Bearer ${accessToken}`;
+    headers.append('Authorization', bearer);
 
-    return headers
-  }
+    return headers;
+  };
 
   const request = (method: string) => {
     return function (
@@ -56,28 +56,28 @@ export function apiAuthFetch() {
       const requestOptions = {
         method,
         headers: authHeader(accessToken, headers),
-      } as RequestInit
+      } as RequestInit;
 
       if (body) {
         if (body instanceof FormData) {
-          requestOptions.body = body
+          requestOptions.body = body;
         } else {
-          const newHeaders = new Headers(requestOptions.headers)
-          newHeaders.set('Content-Type', 'application/json')
+          const newHeaders = new Headers(requestOptions.headers);
+          newHeaders.set('Content-Type', 'application/json');
 
-          requestOptions.headers = newHeaders
-          requestOptions.body = JSON.stringify(body)
+          requestOptions.headers = newHeaders;
+          requestOptions.body = JSON.stringify(body);
         }
       }
 
-      return fetch(url, requestOptions)
-    }
-  }
+      return fetch(url, requestOptions);
+    };
+  };
 
   return {
     get: request('GET'),
     post: request('POST'),
     put: request('PUT'),
     delete: request('DELETE'),
-  }
+  };
 }

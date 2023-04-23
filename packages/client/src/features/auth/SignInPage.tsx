@@ -10,13 +10,13 @@ import NavLink from '../../components/NavLink';
 const SignInPage: FunctionComponent = () => {
   return (
     <MainPageTemplate>
-      <DataBox width={400} height={400}>
+      <DataBox width={400} height={380}>
         <DataFieldLT label="email" value="Alex" />
         <DataFieldLT label="password" value="Raykov" />
         <MainButton label="Sign in" />
-        <Box margin={2} width={'80%'}>
-          <NavLink href="/signup">I don’t have account</NavLink>
-        </Box>
+        <NavLink variant="body2" color="white" href="/signup">
+          I don’t have an account
+        </NavLink>
       </DataBox>
     </MainPageTemplate>
   );

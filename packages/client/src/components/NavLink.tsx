@@ -8,11 +8,17 @@ const NavLink: FunctionComponent<LinkProps> = (props) => {
       {...props}
       component={ReactRouterLink}
       to={props.href ?? '#'}
-      variant="h6"
-      color="secondary.dark"
+      variant={props.variant}
+      color={props.color}
       sx={{ margin: 1, textDecoration: 'none' }}
+      underline="hover"
     />
   );
+};
+
+NavLink.defaultProps = {
+  variant: 'h6',
+  color: 'secondary.dark',
 };
 
 export default NavLink;

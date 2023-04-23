@@ -2,6 +2,7 @@ import { Fragment, FunctionComponent } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
 import ProfilePage from '@features/profile/ProfilePage';
+import SignInPage from './features/auth/SignInPage';
 
 const App: FunctionComponent = () => {
   return (
@@ -13,6 +14,7 @@ const App: FunctionComponent = () => {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/forum" element={<></>} />
           <Route path="/leaderboard" element={<></>} />
+          <Route path="/signin" element={<SignInPage />} />
           <Route path="/singup" element={<></>} />
           <Route path="*" element={<p>Error</p>} />
         </Route>

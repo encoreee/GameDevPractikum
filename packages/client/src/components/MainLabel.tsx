@@ -12,7 +12,7 @@ const MainLabel: FunctionComponent = () => {
         variant="h1"
         sx={{
           backgroundcolor: 'primary',
-          backgroundImage: `linear-gradient(100deg, #CB5DD9, #004FC4)`,
+          backgroundImage: `linear-gradient(180deg, #CB5DD9, #004FC4)`,
           backgroundSize: '100%',
           backgroundRepeat: 'repeat',
           backgroundClip: 'text',
@@ -25,7 +25,7 @@ const MainLabel: FunctionComponent = () => {
       <Typography
         sx={{
           backgroundcolor: 'primary',
-          backgroundImage: `linear-gradient(100deg, #006569, #035639)`,
+          backgroundImage: `linear-gradient(180deg, #006569, #035639)`,
           backgroundSize: '100%',
           backgroundRepeat: 'repeat',
           backgroundClip: 'text',

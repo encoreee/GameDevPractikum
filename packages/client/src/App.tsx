@@ -1,10 +1,12 @@
 import { Fragment, FunctionComponent, useEffect, useState } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
-import ProfilePage from './features/profile/ProfilePage';
 import { User, loadUser } from './app/user/userSlice';
 import { useAppDispatch } from './app/hooks';
 import { unwrapResult } from '@reduxjs/toolkit';
+
+import ProfilePage from '@features/profile/ProfilePage';
+import SignUpPage from './features/auth/SignUpPage';
 
 const App: FunctionComponent = () => {
   return (
@@ -17,6 +19,8 @@ const App: FunctionComponent = () => {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/forum" element={<></>} />
           <Route path="/leaderboard" element={<></>} />
+          <Route path="/signin" element={<></>} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route path="*" element={<p>Error</p>} />
         </Route>
       </Routes>

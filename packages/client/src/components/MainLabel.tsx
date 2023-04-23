@@ -7,7 +7,7 @@ const MainLabel: FunctionComponent = () => {
       direction="column"
       justifyContent="flex-end"
       alignItems="flex-end"
-      spacing={1}>
+      spacing={0}>
       <Typography
         variant="h1"
         sx={{
@@ -23,6 +23,8 @@ const MainLabel: FunctionComponent = () => {
         Galaga
       </Typography>
       <Typography
+        variant="h5"
+        component="h2"
         sx={{
           backgroundcolor: 'primary',
           backgroundImage: `linear-gradient(180deg, #006569, #035639)`,
@@ -31,6 +33,7 @@ const MainLabel: FunctionComponent = () => {
           backgroundClip: 'text',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
+          opacity: 0.6,
         }}>
         by react&.
       </Typography>

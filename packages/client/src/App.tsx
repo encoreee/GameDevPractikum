@@ -6,7 +6,7 @@ import { useAppDispatch } from './app/hooks';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 import ProfilePage from '@features/profile/ProfilePage';
-import SignInPage from './features/auth/SignInPage';
+import SignUpPage from './features/auth/SignUpPage';
 
 const App: FunctionComponent = () => {
   return (
@@ -19,8 +19,8 @@ const App: FunctionComponent = () => {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/forum" element={<></>} />
           <Route path="/leaderboard" element={<></>} />
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/singup" element={<></>} />
+          <Route path="/signin" element={<></>} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route path="*" element={<p>Error</p>} />
         </Route>
       </Routes>

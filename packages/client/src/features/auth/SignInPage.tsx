@@ -18,8 +18,17 @@ const SignInPage: FunctionComponent = () => {
           defaultValues={{ email: '', password: '' }}
           onSuccess={onSubmit}>
           <Stack direction={'column'}>
-            <DataFieldLT label="email" type="email" autofocus required />
-            <DataFieldLT label="password" type="password" required />
+            <DataFieldLT
+              label="email"
+              type="email"
+              autofocus
+              validation={{ required: true }}
+            />
+            <DataFieldLT
+              label="password"
+              type="password"
+              validation={{ required: true }}
+            />
             <MainButton label="Sign in" type="submit" />
           </Stack>
         </FormContainer>

@@ -2,6 +2,7 @@ import { InputLabel } from '@mui/material';
 import { FunctionComponent } from 'react';
 import { TextFieldElement } from 'react-hook-form-mui';
 import { styled } from '@mui/material/styles';
+import { FieldValues, RegisterOptions } from 'react-hook-form-mui';
 
 interface DataFieldProps {
   label: string;
@@ -9,7 +10,10 @@ interface DataFieldProps {
   value?: string;
   autofocus?: boolean;
   type?: string;
-  required?: boolean;
+  validation?: Omit<
+    RegisterOptions<FieldValues, string>,
+    'disabled' | 'valueAsNumber' | 'valueAsDate' | 'setValueAs'
+  >;
 }
 
 const TextFieldStyled = styled(TextFieldElement)({
@@ -58,8 +62,11 @@ const DataField: FunctionComponent<DataFieldProps> = (props) => {
           },
         }}
         type={props.type || 'text'}
-        required={props.required}
         autoFocus={props.autofocus}
+        validation={{
+          ...props.validation,
+          required: props.validation?.required && 'This field is required',
+        }}
       />
     </>
   );

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
 import MainPageTemplate from '../../components/MainPageTemplate';
-import DataBox from '../../components/DataBox';
+import defaultAvatar from '../../assets/defaultAvatar.svg';
 
-import { Container, Grid, TextField, Typography } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 
 const styles = {
   content: {
@@ -36,7 +36,20 @@ const styles = {
     textFillColor: 'transparent',
     backgroundClip: 'text',
   },
+  gridStyle: { width: '680px' },
+  gridContainer: {
+    backgroundColor: 'primary.dark',
+    color: 'white',
+    width: 700,
+    height: 400,
+  },
 };
+
+const data = [
+  { avatar: defaultAvatar, name: 'Ivan Petrov', score: '3643' },
+  { avatar: defaultAvatar, name: 'Semen Ivanov', score: '2913' },
+  { avatar: defaultAvatar, name: 'Maksim Sinica', score: '2654' },
+];
 
 const LeaderBoardPage: FC = () => {
   return (
@@ -49,7 +62,32 @@ const LeaderBoardPage: FC = () => {
         </Typography>
       </Container>
 
-      <DataBox marginTop={0} height={400}></DataBox>
+      <Box sx={styles.gridContainer}>
+        {data.map((person, index) => {
+          return (
+            <Grid
+              container
+              alignItems="center"
+              margin={1}
+              spacing={2}
+              sx={styles.gridStyle}
+              key={index + person.name + person.score}>
+              <Grid item xs={2}>
+                <Typography>{index + 1}</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <img src={person.avatar} alt="avatar" />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>{person.name}</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography>{person.score}</Typography>
+              </Grid>
+            </Grid>
+          );
+        })}
+      </Box>
 
       <Container style={styles.content}>
         <Typography sx={styles.backText}> &#9664; Back</Typography>

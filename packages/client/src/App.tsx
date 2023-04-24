@@ -7,7 +7,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 import ProfilePage from '@features/profile/ProfilePage';
 import SignUpPage from './features/auth/SignUpPage';
-import LeaderBoardPage from './features/profile/ProfilePage';
+import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 
 const App: FunctionComponent = () => {
   return (

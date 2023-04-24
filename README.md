@@ -1,3 +1,13 @@
+# Galaga by react&.
+
+![Galaga - game logo](./docs/images/galaga-game-logo.png)
+
+![react&. - team logo](./docs/images/by-react-and-dot.png)
+
+[📄 Документ с описанием механик и логики игры](/docs/design-document.md)
+
+[🎨 Figma template](https://www.figma.com/file/HCw45jmCOZLIvle2qEWYsY/galaga?node-id=0-1)
+
 ### Как запускать?
 
 1. Убедитесь что у вас установлен `node` и `docker`

@@ -40,6 +40,7 @@ const DataField: FunctionComponent<DataFieldProps> = (props) => {
         name={props.name || props.label}
         helperText=" "
         sx={{
+          width: '100%',
           marginBottom: '10px',
           marginTop: '0px',
         }}
@@ -53,6 +54,7 @@ const DataField: FunctionComponent<DataFieldProps> = (props) => {
         FormHelperTextProps={{
           sx: {
             maxWidth: '320px',
+            fontSize: '9px',
           },
         }}
         type={props.type || 'text'}

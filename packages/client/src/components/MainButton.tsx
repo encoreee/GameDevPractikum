@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 
 interface MainButtonProps {
   label: string;
+  type?: 'submit' | 'button';
 }
 
 const MainButton: FunctionComponent<MainButtonProps> = (props) => {
@@ -11,13 +12,13 @@ const MainButton: FunctionComponent<MainButtonProps> = (props) => {
       sx={{
         width: '100%',
         height: 60,
-        margin: 1,
         marginTop: 2,
         fontSize: 24,
         borderRadius: '0px',
       }}
       variant="contained"
-      color="secondary">
+      color="secondary"
+      type={props.type || 'button'}>
       {props.label}
     </Button>
   );

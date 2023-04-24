@@ -1,4 +1,6 @@
 import { FunctionComponent } from 'react';
+import { Stack } from '@mui/material';
+import { FormContainer } from 'react-hook-form-mui';
 
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
@@ -7,12 +9,20 @@ import MainButton from '../../components/MainButton';
 import NavLink from '../../components/NavLink';
 
 const SignInPage: FunctionComponent = () => {
+  const onSubmit = (data: any) => console.log(data);
+
   return (
     <MainPageTemplate>
       <DataBox width={400} height={380}>
-        <DataFieldLT label="email" value="Alex" />
-        <DataFieldLT label="password" value="Raykov" />
-        <MainButton label="Sign in" />
+        <FormContainer
+          defaultValues={{ email: '', password: '' }}
+          onSuccess={onSubmit}>
+          <Stack direction={'column'}>
+            <DataFieldLT label="email" type="email" autofocus required />
+            <DataFieldLT label="password" type="password" required />
+            <MainButton label="Sign in" type="submit" />
+          </Stack>
+        </FormContainer>
         <NavLink variant="body2" color="white" href="/signup">
           I don’t have an account
         </NavLink>

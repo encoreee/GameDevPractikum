@@ -7,6 +7,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 import ProfilePage from '@features/profile/ProfilePage';
 import SignUpPage from './features/auth/SignUpPage';
+import LeaderBoardPage from './features/profile/ProfilePage';
 
 const App: FunctionComponent = () => {
   return (
@@ -18,7 +19,7 @@ const App: FunctionComponent = () => {
           <Route path="/" element={<></>} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/forum" element={<></>} />
-          <Route path="/leaderboard" element={<></>} />
+          <Route path="/leaderboard" element={<LeaderBoardPage />} />
           <Route path="/signin" element={<></>} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="*" element={<p>Error</p>} />

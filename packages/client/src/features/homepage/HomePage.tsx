@@ -1,16 +1,12 @@
 import { FC } from 'react';
-import { Paper, Stack, Typography, List, ListItem } from '@mui/material';
-import { styled } from '@mui/system';
+import { Typography, List, ListItem } from '@mui/material';
+
 import MainPageTemplate from '@/components/MainPageTemplate';
 
 import BackGround from '../../assets/backGround.png';
-import MainLabel from '../../components/MainLabel';
+
 import mainShipFullHealth from '../../assets/mainShipFullHealth.svg';
 import NavLink from '../../components/NavLink';
-
-const Container = styled('div')({
-  height: '98vh',
-});
 
 const styles = {
   paper: {
@@ -57,7 +53,11 @@ const HomePage: FC = () => {
           <Typography>leader board</Typography>
         </ListItem>
         <ListItem sx={styles.listItem}>
-          <NavLink sx={styles.link} href="/profile">
+          <NavLink
+            href="/profile"
+            sx={styles.link}
+            underline="none"
+            variant="h1">
             <Typography>profile</Typography>
           </NavLink>
         </ListItem>

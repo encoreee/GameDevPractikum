@@ -29,6 +29,14 @@ const styles = {
       },
     },
   },
+  backText: {
+    cursor: 'pointer',
+    fontSize: '12px',
+    marginTop: '50px',
+    background: 'linear-gradient(145.51deg, #AC5DD9 7.21%, #004FC4 94.47%)',
+    textFillColor: 'transparent',
+    backgroundClip: 'text',
+  },
 };
 
 const LeaderBoardPage: FC = () => {
@@ -45,7 +53,7 @@ const LeaderBoardPage: FC = () => {
       <DataBox marginTop={0}></DataBox>
 
       <Container>
-        <Typography></Typography>
+        <Typography sx={styles.backText}> Back</Typography>
         <Typography></Typography>
       </Container>
     </MainPageTemplate>

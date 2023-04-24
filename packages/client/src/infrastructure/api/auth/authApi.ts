@@ -1,27 +1,16 @@
-import { apiFetch, API_ADDRESS, apiAuthFetch } from '../apiFetch';
-import { handleErrors } from '../errorHandler';
-import { LoginRequest, LoginResponse, TokenRefreshRequest } from './contracts';
+import { apiFetch, API_ADDRESS } from '../../apiFetch'
+import { handleErrors } from '../errorHandler'
+import { UserInfoResponse } from './contracts'
 
 class AuthApi {
-  login = (loginRequest: LoginRequest) => {
+  getUserInfo = () => {
     return apiFetch()
-      .post(`${API_ADDRESS}/api/auth/login`, loginRequest)
+      .get(`${API_ADDRESS}/auth/user`)
       .then(handleErrors)
-      .then<LoginResponse>((res) => res.json());
-  };
-
-  refresh = (tokenRefreshRequest: TokenRefreshRequest) => {
-    return apiFetch()
-      .post(`${API_ADDRESS}/api/auth/refresh`, tokenRefreshRequest)
-      .then(handleErrors)
-      .then<LoginResponse>((res) => res.json());
-  };
-
-  revoke = (token: string) => {
-    return apiAuthFetch().post(`${API_ADDRESS}/api/auth/revoke`, token);
-  };
+      .then<UserInfoResponse>(res => res.json())
+  }
 }
 
-const authApi = new AuthApi();
+const authApi = new AuthApi()
 
-export default authApi;
+export default authApi

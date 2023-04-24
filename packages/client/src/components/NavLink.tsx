@@ -5,14 +5,19 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 const NavLink: FunctionComponent<LinkProps> = (props) => {
   return (
     <MuiLink
-      sx={{ margin: 1, textDecoration: 'none' }}
       component={ReactRouterLink}
       to={props.href ?? '#'}
-      variant="h6"
-      color="secondary.dark"
-      {...props}
+      variant={props.variant}
+      color={props.color}
+      sx={{ margin: 1, textDecoration: 'none' }}
+      underline="hover"
     />
   );
+};
+
+NavLink.defaultProps = {
+  variant: 'h6',
+  color: 'secondary.dark',
 };
 
 export default NavLink;

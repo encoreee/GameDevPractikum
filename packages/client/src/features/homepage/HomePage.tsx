@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Paper, Stack, Typography, List, ListItem } from '@mui/material';
 import { styled } from '@mui/system';
+import MainPageTemplate from '@/components/MainPageTemplate';
 
 import BackGround from '../../assets/backGround.png';
 import MainLabel from '../../components/MainLabel';
@@ -47,37 +48,27 @@ const styles = {
 
 const HomePage: FC = () => {
   return (
-    <Container>
-      <Paper style={styles.paper}>
-        <Stack
-          sx={{ margin: 'auto' }}
-          direction="column"
-          justifyContent="center"
-          alignItems="center">
-          <MainLabel />
-
-          <List sx={styles.listContainer}>
-            <ListItem sx={styles.listItem}>
-              <Typography>start game</Typography>
-            </ListItem>
-            <ListItem sx={styles.listItem}>
-              <Typography>leader board</Typography>
-            </ListItem>
-            <ListItem sx={styles.listItem}>
-              <NavLink sx={styles.link} href="/profile">
-                <Typography>profile</Typography>
-              </NavLink>
-            </ListItem>
-            <ListItem sx={styles.listItem}>
-              <Typography>forums</Typography>
-            </ListItem>
-            <ListItem sx={styles.listItem}>
-              <Typography>log out</Typography>
-            </ListItem>
-          </List>
-        </Stack>
-      </Paper>
-    </Container>
+    <MainPageTemplate>
+      <List sx={styles.listContainer}>
+        <ListItem sx={styles.listItem}>
+          <Typography>start game</Typography>
+        </ListItem>
+        <ListItem sx={styles.listItem}>
+          <Typography>leader board</Typography>
+        </ListItem>
+        <ListItem sx={styles.listItem}>
+          <NavLink sx={styles.link} href="/profile">
+            <Typography>profile</Typography>
+          </NavLink>
+        </ListItem>
+        <ListItem sx={styles.listItem}>
+          <Typography>forums</Typography>
+        </ListItem>
+        <ListItem sx={styles.listItem}>
+          <Typography>log out</Typography>
+        </ListItem>
+      </List>
+    </MainPageTemplate>
   );
 };
 

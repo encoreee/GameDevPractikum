@@ -7,12 +7,12 @@ const MainLabel: FunctionComponent = () => {
       direction="column"
       justifyContent="flex-end"
       alignItems="flex-end"
-      spacing={1}>
+      spacing={0}>
       <Typography
         variant="h1"
         sx={{
           backgroundcolor: 'primary',
-          backgroundImage: `linear-gradient(100deg, #CB5DD9, #004FC4)`,
+          backgroundImage: `linear-gradient(180deg, #CB5DD9, #004FC4)`,
           backgroundSize: '100%',
           backgroundRepeat: 'repeat',
           backgroundClip: 'text',
@@ -23,14 +23,17 @@ const MainLabel: FunctionComponent = () => {
         Galaga
       </Typography>
       <Typography
+        variant="h5"
+        component="h2"
         sx={{
           backgroundcolor: 'primary',
-          backgroundImage: `linear-gradient(100deg, #006569, #035639)`,
+          backgroundImage: `linear-gradient(180deg, #006569, #035639)`,
           backgroundSize: '100%',
           backgroundRepeat: 'repeat',
           backgroundClip: 'text',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
+          opacity: 0.6,
         }}>
         by react&.
       </Typography>

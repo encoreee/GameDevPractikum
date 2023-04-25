@@ -1,6 +1,9 @@
+import AuthController from '../../controllers/authController';
 import { FunctionComponent } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { FormContainer } from 'react-hook-form-mui';
+import { useState } from 'react';
+import { SignInRequest } from '../../infrastructure/api/auth/contracts';
 
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
@@ -9,18 +12,24 @@ import MainButton from '../../components/MainButton';
 import NavLink from '../../components/NavLink';
 
 const SignInPage: FunctionComponent = () => {
-  const onSubmit = (data: any) => console.log(data);
+  const [signInError, setSignInError] = useState<string>('');
+
+  const onSubmit = async (data: SignInRequest) => {
+    const error = await AuthController.signIn(data);
+    if (typeof error === 'string') {
+      setSignInError(error);
+    }
+  };
 
   return (
     <MainPageTemplate>
       <DataBox width={400} height={380}>
         <FormContainer
-          defaultValues={{ email: '', password: '' }}
+          defaultValues={{ login: '', password: '' }}
           onSuccess={onSubmit}>
           <Stack direction={'column'}>
             <DataFieldLT
-              label="email"
-              type="email"
+              label="login"
               autofocus
               validation={{ required: true }}
             />
@@ -29,6 +38,7 @@ const SignInPage: FunctionComponent = () => {
               type="password"
               validation={{ required: true }}
             />
+            <Typography>{signInError} </Typography>
             <MainButton label="Sign in" type="submit" />
           </Stack>
         </FormContainer>

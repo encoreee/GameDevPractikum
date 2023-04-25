@@ -8,3 +8,8 @@ export interface UserInfoResponse {
   phone: string;
   avatar: string;
 }
+
+export interface SignInRequest {
+  login: string;
+  password: string;
+}

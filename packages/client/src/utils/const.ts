@@ -17,3 +17,7 @@ export const ValidationAssertions = {
   onlyNumbersAndPlus: (value: string) =>
     /^\+{0,1}[0-9]+$/.test(value) || 'Only numbers and "+" allowed',
 };
+
+export const AppMessage = {
+  UNKNOWN_API_ERROR: 'Unknown API error',
+};

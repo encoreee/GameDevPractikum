@@ -1,15 +1,15 @@
-import { Fragment, FunctionComponent, useEffect, useState } from 'react';
+import { Fragment, FunctionComponent, useEffect } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { User, loadUser, selectUser } from './app/user/userSlice';
+import { loadUser, selectUser } from './app/user/userSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
-import { unwrapResult } from '@reduxjs/toolkit';
+// import { unwrapResult } from '@reduxjs/toolkit';
 
 import ProfilePage from '@features/profile/ProfilePage';
 import HomePage from '@features/homepage/HomePage';
 import Error from '@/features/Errors/Error';
 import SignUpPage from './features/auth/SignUpPage';
-import { logout, singin } from './app/auth/authSlice';
+// import { logout, singin } from './app/auth/authSlice';
 
 const App: FunctionComponent = () => {
   return (

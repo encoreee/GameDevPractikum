@@ -11,6 +11,7 @@ import { loadUser, selectUser } from './app/user/userSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import ProfilePage from '@features/profile/ProfilePage';
 import SignUpPage from './features/auth/SignUpPage';
+import Error from './features/errors/Error';
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
@@ -32,7 +33,12 @@ const App: FunctionComponent = () => {
                 <Route path="/leaderboard" element={<></>} />
                 <Route path="/signin" element={<></>} />
                 <Route path="/signup" element={<SignUpPage />} />
-                <Route path="*" element={<p>Error</p>} />
+                <Route
+                  path="*"
+                  element={
+                    <Error errorType="404" errorMessage="Page Not Found." />
+                  }
+                />
               </Route>
             </Routes>
           </BrowserRouter>

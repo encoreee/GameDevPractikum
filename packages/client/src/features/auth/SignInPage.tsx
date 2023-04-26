@@ -20,7 +20,7 @@ const SignInPage: FunctionComponent = () => {
   const onSubmit = async (data: SignInRequest) => {
     const error = await AuthController.signIn(data);
 
-    if (typeof error === 'string') {
+    if (error) {
       setSignInError(error);
       return;
     }

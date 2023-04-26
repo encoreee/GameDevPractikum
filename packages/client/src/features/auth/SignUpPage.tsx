@@ -35,9 +35,8 @@ const SignInPage: FunctionComponent = () => {
   const onSubmit = async (data: typeof defaultValues) => {
     const finalData = removeAttrFromObject(data, 'repeatPassword');
     const error = await AuthController.signUp(finalData);
-    console.log(error);
 
-    if (typeof error === 'string') {
+    if (error) {
       setSignUpError(error);
       return;
     }

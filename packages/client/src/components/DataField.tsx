@@ -4,6 +4,7 @@ import { FunctionComponent } from 'react';
 interface DataFieldProps {
   label: string;
   value?: string;
+  onChange(e: unknown): void;
 }
 
 const DataField: FunctionComponent<DataFieldProps> = (props) => {
@@ -24,7 +25,12 @@ const DataField: FunctionComponent<DataFieldProps> = (props) => {
               color: 'white',
             },
           }}
-          value={props.value}
+          defaultValue={props.value}
+          onChange={(e) => {
+            if (props.onChange) {
+              props.onChange(e.target.value);
+            }
+          }}
         />
       </Grid>
     </Grid>

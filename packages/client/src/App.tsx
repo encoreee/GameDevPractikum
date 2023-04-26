@@ -1,14 +1,15 @@
 import { Fragment, FunctionComponent, useEffect, useState } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { User, loadUser } from './app/user/userSlice';
-import { useAppDispatch } from './app/hooks';
+import { User, loadUser, selectUser } from './app/user/userSlice';
+import { useAppDispatch, useAppSelector } from './app/hooks';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 import ProfilePage from '@features/profile/ProfilePage';
 import HomePage from '@features/homepage/HomePage';
 import Error from '@/features/Errors/Error';
 import SignUpPage from './features/auth/SignUpPage';
+import { logout, singin } from './app/auth/authSlice';
 
 const App: FunctionComponent = () => {
   return (
@@ -35,22 +36,18 @@ const App: FunctionComponent = () => {
 };
 
 const PrivateRoute: FunctionComponent = () => {
-  // const [user, setUser] = useState<User | undefined>(undefined)
-  // const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
 
-  // useEffect(() => {
-  //   dispatch(loadUser())
-  //     .then(unwrapResult)
-  //     .then(obj => {
-  //       if (obj as User) {
-  //         setUser(obj)
-  //       }
-  //     })
-  // }, [])
+  useEffect(() => {
+    //  dispatch(singin({ login: 'your_login', password: 'your_pass' }));
+    // dispatch(logout());
+    dispatch(loadUser());
+  }, []);
 
-  // return user ? <Outlet /> : <Navigate to="/login" />
+  return user ? <Outlet /> : <Navigate to="/login" />;
 
-  return <Outlet />;
+  //return <Outlet />;
 };
 
 export default App;

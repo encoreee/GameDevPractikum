@@ -1,78 +1,26 @@
 import { Grid } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { FormContainer, useWatch, useForm } from 'react-hook-form-mui';
-import { ValidationAssertions } from '../../utils/const';
+import AuthController from '../../controllers/authController';
+import { ValidationScheme } from './SignUpValidationScheme';
+import { removeAttrFromObject } from '../../utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
 import DataFieldLT from '../../components/DataFieldLabelOnTop';
 import MainButton from '../../components/MainButton';
 import NavLink from '../../components/NavLink';
-
-const {
-  onlyCyrillicLatinAndDash,
-  firstLetterUpper,
-  onlyNumbersAndPlus,
-  atLeastOneNumber,
-  atLeastOneUppercase,
-  atLeastOneLowercase,
-} = ValidationAssertions;
+import FormErrorMessage from '../../components/FormErrorMessage';
 
 const defaultValues = {
-  name: '',
-  surname: '',
+  first_name: '',
+  second_name: '',
   email: '',
-  phoneNumber: '',
+  login: '',
+  phone: '',
   password: '',
   repeatPassword: '',
-  test: '',
-};
-
-const ValidationScheme = {
-  name: {
-    required: true,
-    maxLength: {
-      value: 40,
-      message: 'Maximum 40 characters',
-    },
-    validate: {
-      onlyCyrillicLatinAndDash,
-      firstLetterUpper,
-    },
-  },
-  surname: {
-    required: true,
-    maxLength: {
-      value: 40,
-      message: 'Maximum 40 characters',
-    },
-    validate: {
-      onlyCyrillicLatinAndDash,
-      firstLetterUpper,
-    },
-  },
-  phoneNumber: {
-    required: true,
-    validate: {
-      onlyNumbersAndPlus,
-    },
-  },
-  password: {
-    required: true,
-    minLength: {
-      value: 8,
-      message: 'Minimum 8 characters',
-    },
-    maxLength: {
-      value: 40,
-      message: 'Maximum 40 characters',
-    },
-    validate: {
-      atLeastOneLowercase,
-      atLeastOneUppercase,
-      atLeastOneNumber,
-    },
-  },
 };
 
 const SignInPage: FunctionComponent = () => {
@@ -81,12 +29,25 @@ const SignInPage: FunctionComponent = () => {
     name: 'password',
     control: formContext.control,
   });
+  const [signUpError, setSignUpError] = useState<string>(' ');
+  const navigate = useNavigate();
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = async (data: typeof defaultValues) => {
+    const finalData = removeAttrFromObject(data, 'repeatPassword');
+    const error = await AuthController.signUp(finalData);
+    console.log(error);
+
+    if (typeof error === 'string') {
+      setSignUpError(error);
+      return;
+    }
+
+    navigate('/');
+  };
 
   return (
     <MainPageTemplate>
-      <DataBox width={900} height={510}>
+      <DataBox width={900} height={610}>
         <FormContainer
           defaultValues={defaultValues}
           onSuccess={onSubmit}
@@ -100,6 +61,7 @@ const SignInPage: FunctionComponent = () => {
             <Grid item xs={6}>
               <DataFieldLT
                 label="name"
+                name="first_name"
                 autofocus
                 validation={ValidationScheme.name}
               />
@@ -107,6 +69,7 @@ const SignInPage: FunctionComponent = () => {
             <Grid item xs={6}>
               <DataFieldLT
                 label="surname"
+                name="second_name"
                 validation={ValidationScheme.surname}
               />
             </Grid>
@@ -122,8 +85,12 @@ const SignInPage: FunctionComponent = () => {
             <Grid item xs={6}>
               <DataFieldLT
                 label="phone number"
+                name="phone"
                 validation={ValidationScheme.phoneNumber}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <DataFieldLT label="login" validation={ValidationScheme.login} />
             </Grid>
             <Grid item xs={6}>
               <DataFieldLT
@@ -138,6 +105,7 @@ const SignInPage: FunctionComponent = () => {
                 type="password"
                 name="repeatPassword"
                 validation={{
+                  required: true,
                   validate: {
                     passwordsMatch: (value: string) =>
                       value === passwordValue || 'Passwords do not match',
@@ -146,9 +114,10 @@ const SignInPage: FunctionComponent = () => {
               />
             </Grid>
           </Grid>
+          <FormErrorMessage maxWidth="830px" errorMessage={signUpError} />
           <MainButton label="Sign up" type="submit" />
         </FormContainer>
-        <NavLink variant="body2" color="white" href="/signup">
+        <NavLink variant="body2" color="white" href="/signin">
           I already have an account
         </NavLink>
       </DataBox>

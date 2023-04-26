@@ -1,24 +1,31 @@
 import AuthController from '../../controllers/authController';
 import { FunctionComponent } from 'react';
-import { Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 import { FormContainer } from 'react-hook-form-mui';
 import { useState } from 'react';
 import { SignInRequest } from '../../infrastructure/api/auth/contracts';
+import { useNavigate } from 'react-router-dom';
 
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
 import DataFieldLT from '../../components/DataFieldLabelOnTop';
 import MainButton from '../../components/MainButton';
 import NavLink from '../../components/NavLink';
+import FormErrorMessage from '../../components/FormErrorMessage';
 
 const SignInPage: FunctionComponent = () => {
-  const [signInError, setSignInError] = useState<string>('');
+  const [signInError, setSignInError] = useState<string>(' ');
+  const navigate = useNavigate();
 
   const onSubmit = async (data: SignInRequest) => {
     const error = await AuthController.signIn(data);
+
     if (typeof error === 'string') {
       setSignInError(error);
+      return;
     }
+
+    navigate('/');
   };
 
   return (
@@ -38,7 +45,7 @@ const SignInPage: FunctionComponent = () => {
               type="password"
               validation={{ required: true }}
             />
-            <Typography>{signInError} </Typography>
+            <FormErrorMessage errorMessage={signInError} />
             <MainButton label="Sign in" type="submit" />
           </Stack>
         </FormContainer>

@@ -17,6 +17,7 @@ import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
 import { store } from './app/store';
+import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 
 const App: FunctionComponent = () => {
   return (
@@ -31,7 +32,7 @@ const App: FunctionComponent = () => {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum" element={<></>} />
-                <Route path="/leaderboard" element={<></>} />
+                <Route path="/leaderboard" element={<LeaderBoardPage />} />
                 <Route path="/signin" element={<></>} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route

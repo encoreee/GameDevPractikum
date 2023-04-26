@@ -12,6 +12,8 @@ export function apiFetch() {
         headers,
       } as RequestInit;
 
+      requestOptions.credentials = 'include';
+
       if (body) {
         if (body instanceof FormData) {
           requestOptions.body = body;

@@ -1,11 +1,10 @@
 import { Fragment, FunctionComponent, useEffect, useState } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { User, loadUser } from './app/user/userSlice';
-import { useAppDispatch } from './app/hooks';
-import { unwrapResult } from '@reduxjs/toolkit';
+import AuthController from './controllers/authController';
+import { User } from './app/user/userSlice';
 
-import ProfilePage from '@features/profile/ProfilePage';
+import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
 
@@ -13,25 +12,30 @@ const App: FunctionComponent = () => {
   return (
     <Fragment>
       <Routes>
-        <Route path="/login" element={<></>} />
-        <Route path="/singup" element={<></>} />
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<></>} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/forum" element={<></>} />
           <Route path="/leaderboard" element={<></>} />
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="*" element={<p>Error</p>} />
         </Route>
+        <Route path="*" element={<p>Error</p>} />
       </Routes>
     </Fragment>
   );
 };
 
 const PrivateRoute: FunctionComponent = () => {
-  // const [user, setUser] = useState<User | undefined>(undefined)
-  // const dispatch = useAppDispatch()
+  const [user, setUser] = useState<User | undefined>(undefined);
+
+  useEffect(() => {
+    AuthController.getUserInfo().then((obj) => {
+      if (obj as User) {
+        setUser(obj);
+      }
+    });
+  }, []);
 
   // useEffect(() => {
   //   dispatch(loadUser())
@@ -43,9 +47,7 @@ const PrivateRoute: FunctionComponent = () => {
   //     })
   // }, [])
 
-  // return user ? <Outlet /> : <Navigate to="/login" />
-
-  return <Outlet />;
+  return user ? <Outlet /> : <Navigate to="/signin" />;
 };
 
 export default App;

@@ -3,7 +3,7 @@ import { Typography, List, ListItem } from '@mui/material';
 
 import MainPageTemplate from '@/components/MainPageTemplate';
 
-import mainShipFullHealth from '@/assets/mainShipFullHealth.svg';
+import mainShipFullHealth from '../../assets/mainShipFullHealth.svg';
 import NavLink from '../../components/NavLink';
 
 const styles = {

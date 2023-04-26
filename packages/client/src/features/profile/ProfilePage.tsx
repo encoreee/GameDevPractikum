@@ -6,6 +6,7 @@ import MainButton from '../../components/MainButton';
 import NavLink from '../../components/NavLink';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { User, selectUser, updateProfile } from '@/app/user/userSlice';
+import { Stack } from '@mui/material';
 
 const ProjectsPage: FunctionComponent = () => {
   const dispatch = useAppDispatch();
@@ -76,8 +77,14 @@ const ProjectsPage: FunctionComponent = () => {
       <DataBox>
         <form onSubmit={(event) => handleSubmit(event)}>
           {user.user && renderbase(user.user)}
-          <MainButton label="Save" />
-          <NavLink href="/">cancel</NavLink>
+          <Stack
+            margin="auto"
+            direction="column"
+            justifyContent="center"
+            alignItems="center">
+            <MainButton label="Save" />
+            <NavLink href="/">cancel</NavLink>
+          </Stack>
         </form>
       </DataBox>
     </MainPageTemplate>

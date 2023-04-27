@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 interface DataFieldProps {
   label: string;
   value?: string;
-  onChange?: (e: string) => void;
+  onChange?: (newValue: string) => void;
 }
 
 const DataField: FunctionComponent<DataFieldProps> = (props) => {

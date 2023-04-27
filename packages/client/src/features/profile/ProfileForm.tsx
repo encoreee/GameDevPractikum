@@ -2,11 +2,11 @@ import { useAppDispatch } from '@/app/hooks';
 import { User, updateProfile } from '@/app/user/userSlice';
 import DataField from '@/components/DataField';
 import MainButton from '@/components/MainButton';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 type ProfileFormProps = { user?: User };
 
-const ProfileForm = (props: ProfileFormProps) => {
+const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
   const dispatch = useAppDispatch();
 
   const [firstName, setFirstName] = useState('');

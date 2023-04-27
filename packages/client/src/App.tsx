@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent, useEffect, useState } from 'react';
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import AuthController from './controllers/authController';
 import { User } from './app/user/userSlice';
@@ -28,6 +28,7 @@ const App: FunctionComponent = () => {
 
 const PrivateRoute: FunctionComponent = () => {
   const [user, setUser] = useState<User | undefined>(undefined);
+  const location = useLocation();
 
   useEffect(() => {
     AuthController.getUserInfo().then((obj) => {
@@ -46,8 +47,12 @@ const PrivateRoute: FunctionComponent = () => {
   //       }
   //     })
   // }, [])
+  console.log(user);
 
-  return user ? <Outlet /> : <Navigate to="/signin" />;
+  const result = user ? location.pathname : '/signin';
+  console.log(result);
+
+  return <Navigate to={result} />;
 };
 
 export default App;

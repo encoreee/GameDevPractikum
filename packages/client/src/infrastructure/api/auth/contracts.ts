@@ -22,4 +22,3 @@ export interface UserProfileRequest {
   email: string;
   phone: string;
 }
-

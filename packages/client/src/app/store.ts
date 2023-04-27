@@ -5,9 +5,10 @@ import {
   combineReducers,
 } from '@reduxjs/toolkit';
 import user from './user/userSlice';
+import auth from './auth/authSlice';
 
 export const store = configureStore({
-  reducer: { user },
+  reducer: { auth, user },
 });
 
 export type AppDispatch = typeof store.dispatch;

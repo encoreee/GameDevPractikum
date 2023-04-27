@@ -25,10 +25,9 @@ export class AuthController {
   public async getUserInfo() {
     try {
       const user = await AuthAPI.getUserInfo();
-      console.log(user);
       return user;
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      return undefined;
     }
   }
 }

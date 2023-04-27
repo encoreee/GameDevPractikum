@@ -1,5 +1,11 @@
-import { Fragment, FunctionComponent, useEffect, useState } from 'react';
-import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import {
+  Fragment,
+  FunctionComponent,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from 'react';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
 import AuthController from './controllers/authController';
 import { User } from './app/user/userSlice';
@@ -14,7 +20,12 @@ const App: FunctionComponent = () => {
       <Routes>
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route element={<PrivateRoute />}>
+        <Route
+          element={
+            <PrivateRoute>
+              <Outlet />
+            </PrivateRoute>
+          }>
           <Route path="/" element={<></>} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/forum" element={<></>} />
@@ -26,33 +37,24 @@ const App: FunctionComponent = () => {
   );
 };
 
-const PrivateRoute: FunctionComponent = () => {
-  const [user, setUser] = useState<User | undefined>(undefined);
-  const location = useLocation();
+const PrivateRoute: FunctionComponent<PropsWithChildren> = () => {
+  const [user, setUser] = useState<number | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     AuthController.getUserInfo().then((obj) => {
       if (obj as User) {
-        setUser(obj);
+        setUser(obj?.id);
       }
+      setIsLoading(false);
     });
-  }, []);
+  }, [user]);
 
-  // useEffect(() => {
-  //   dispatch(loadUser())
-  //     .then(unwrapResult)
-  //     .then(obj => {
-  //       if (obj as User) {
-  //         setUser(obj)
-  //       }
-  //     })
-  // }, [])
-  console.log(user);
+  if (isLoading) {
+    return null;
+  }
 
-  const result = user ? location.pathname : '/signin';
-  console.log(result);
-
-  return <Navigate to={result} />;
+  return user ? <Outlet /> : <Navigate to="/signin" replace />;
 };
 
 export default App;

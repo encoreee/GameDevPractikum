@@ -1,10 +1,6 @@
 import { apiFetch, API_ADDRESS } from '../../apiFetch';
 import { handleErrors } from '../errorHandler';
-import {
-  SignInRequest,
-  UserProfileRequest,
-  UserInfoResponse,
-} from './contracts';
+import { SignInRequest, SignUpRequest, UserInfoResponse } from './contracts';
 
 class AuthApi {
   getUserInfo = () => {
@@ -19,7 +15,7 @@ class AuthApi {
       .post(`${API_ADDRESS}/auth/signin`, data)
       .then(handleErrors);
   };
-  signUp = (data: UserProfileRequest) => {
+  signUp = (data: SignUpRequest) => {
     return apiFetch()
       .post(`${API_ADDRESS}/auth/signup`, data)
       .then(handleErrors);

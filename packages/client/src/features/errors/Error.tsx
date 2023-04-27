@@ -14,6 +14,8 @@ const styles = {
     fontSize: '128px',
   },
   subtext: {
+    color: 'white',
+
     fontSize: '24px',
   },
   backText: {

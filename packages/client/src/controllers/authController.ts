@@ -1,7 +1,7 @@
 import AuthAPI from '../infrastructure/api/auth/authApi';
 import {
   SignInRequest,
-  SignUpRequest,
+  UserProfileRequest,
 } from '../infrastructure/api/auth/contracts';
 import { AppMessage } from '../utils/const';
 
@@ -14,7 +14,7 @@ export class AuthController {
     }
   }
 
-  public async signUp(data: SignUpRequest) {
+  public async signUp(data: UserProfileRequest) {
     try {
       await AuthAPI.signUp(data);
     } catch (err) {

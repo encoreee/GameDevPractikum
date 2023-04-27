@@ -14,7 +14,7 @@ export interface SignInRequest {
   password: string;
 }
 
-export interface SignUpRequest {
+export interface UserProfileRequest {
   first_name: string;
   second_name: string;
   login: string;

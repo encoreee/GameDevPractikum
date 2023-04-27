@@ -10,6 +10,7 @@ export function apiFetch() {
       const requestOptions = {
         method,
         headers,
+        credentials: 'include',
       } as RequestInit;
 
       requestOptions.credentials = 'include';

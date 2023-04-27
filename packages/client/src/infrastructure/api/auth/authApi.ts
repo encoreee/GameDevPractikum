@@ -13,6 +13,7 @@ class AuthApi {
       .then(handleErrors)
       .then<UserInfoResponse>((res) => res.json());
   };
+
   signIn = (data: SignInRequest) => {
     return apiFetch()
       .post(`${API_ADDRESS}/auth/signin`, data)

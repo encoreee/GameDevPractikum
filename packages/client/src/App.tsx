@@ -14,6 +14,7 @@ import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
 
+
 const App: FunctionComponent = () => {
   return (
     <Fragment>

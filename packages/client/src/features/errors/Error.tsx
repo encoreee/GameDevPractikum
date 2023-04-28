@@ -8,14 +8,6 @@ import spaceRock2 from '../../assets/spaceRock2.svg';
 import NavLink from '../../components/NavLink';
 
 const styles = {
-  error: {
-    color: 'white',
-    fontWeight: '400',
-    fontSize: '128px',
-  },
-  subtext: {
-    fontSize: '24px',
-  },
   backText: {
     cursor: 'pointer',
     fontSize: '12px',
@@ -39,18 +31,18 @@ const Error: FC<{ errorType: string; errorMessage: string }> = ({
         justifyContent="center"
         alignItems="center">
         {errorType === '404' ? (
-          <Typography sx={styles.error}>
+          <Typography variant="h1">
             4<img src={spaceZero} alt="spacezero" />4
           </Typography>
         ) : (
-          <Typography sx={styles.error}>
+          <Typography variant="h1">
             5
             <img src={spaceRock1} alt="spaceRock1" style={styles.imageSpace} />
             <img src={spaceRock2} alt="spaceRock2" style={styles.imageSpace} />
           </Typography>
         )}
 
-        <Typography sx={styles.subtext}>{errorMessage}</Typography>
+        <Typography variant="body1">{errorMessage}</Typography>
 
         <NavLink href="/">
           <Typography sx={styles.backText}>

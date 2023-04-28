@@ -12,16 +12,23 @@ import {
   Routes,
   BrowserRouter,
 } from 'react-router-dom';
+
 import AuthController from './controllers/authController';
 import { User } from './app/user/userSlice';
+import { loadUser, selectUser } from './app/user/userSlice';
+import { useAppDispatch, useAppSelector } from './app/hooks';
+
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
 import { store } from './app/store';
 
+import Error from './features/errors/Error';
+import HomePage from './features/homepage/Homepage';
 import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
+import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 
 const App: FunctionComponent = () => {
   return (
@@ -30,6 +37,7 @@ const App: FunctionComponent = () => {
         <ThemeProvider theme={theme}>
           <BrowserRouter>
             <Routes>
+
               <Route path="/signin" element={<SignInPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route
@@ -38,12 +46,17 @@ const App: FunctionComponent = () => {
                     <Outlet />
                   </PrivateRoute>
                 }>
-                <Route path="/" element={<></>} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum" element={<></>} />
-                <Route path="/leaderboard" element={<></>} />
+                <Route path="/leaderboard" element={<LeaderBoardPage />} />      
               </Route>
-              <Route path="*" element={<p>Error</p>} />
+              <Route
+                  path="*"
+                  element={
+                    <Error errorType="404" errorMessage="Page Not Found." />
+                  }
+                />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
@@ -60,6 +73,7 @@ const PrivateRoute: FunctionComponent<PropsWithChildren> = () => {
     AuthController.getUserInfo().then((obj) => {
       if (obj as User) {
         setUser(obj?.id);
+        dispatch(loadUser());
       }
       setIsLoading(false);
     });

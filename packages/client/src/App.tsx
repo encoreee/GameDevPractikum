@@ -55,14 +55,10 @@ const PrivateRoute: FunctionComponent = () => {
   const user = useAppSelector(selectUser);
 
   useEffect(() => {
-    //  dispatch(singin({ login: 'your_login', password: 'your_pass' }));
-    // dispatch(logout());
     dispatch(loadUser());
   }, []);
 
   return user ? <Outlet /> : <Navigate to="/login" />;
-
-  //return <Outlet />;
 };
 
 export default App;

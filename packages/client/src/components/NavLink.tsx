@@ -10,7 +10,6 @@ const NavLink: FunctionComponent<LinkProps> = (props) => {
       variant={props.variant}
       color={props.color}
       sx={{ margin: 1, textDecoration: 'none' }}
-      underline={props.underline}
       {...props}
     />
   );

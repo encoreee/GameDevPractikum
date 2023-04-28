@@ -1,8 +1,7 @@
 import App from './App';
 import { render, screen } from '@testing-library/react';
-// import HomePage from './features/homepage/Homepage';
 
-// const appContent = HomePage;
+const appContent = 'Galaga';
 
 // @ts-ignore
 global.fetch = jest.fn(() =>
@@ -11,5 +10,5 @@ global.fetch = jest.fn(() =>
 
 test('Example test', async () => {
   render(<App />);
-  // expect(screen.getByText(appContent)).toBeDefined();
+  expect(screen.getByText(appContent)).toBeDefined();
 });

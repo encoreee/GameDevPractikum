@@ -6,10 +6,7 @@ import {
 import { RootState } from '../store';
 import authApi from '../../infrastructure/api/auth/authApi';
 import userApi from '../../infrastructure/api/auth/userApi';
-import {
-  SinginRequest,
-  UserProfileRequest,
-} from '@/infrastructure/api/auth/contracts';
+import { UserProfileRequest } from '@/infrastructure/api/auth/contracts';
 
 export interface UserState {
   status: 'idle' | 'loading' | 'failed';

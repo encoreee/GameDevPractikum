@@ -3,7 +3,7 @@ import { FunctionComponent, useState } from 'react';
 import { FormContainer, useWatch, useForm } from 'react-hook-form-mui';
 import AuthController from '../../controllers/authController';
 import { ValidationScheme } from './SignUpValidationScheme';
-import { removeAttrFromObject } from '../../utils/utils';
+import { omit } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 
 import MainPageTemplate from '../../components/MainPageTemplate';
@@ -33,7 +33,7 @@ const SignInPage: FunctionComponent = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: typeof defaultValues) => {
-    const finalData = removeAttrFromObject(data, 'repeatPassword');
+    const finalData = omit(data, 'repeatPassword');
     const error = await AuthController.signUp(finalData);
 
     if (error) {

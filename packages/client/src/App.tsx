@@ -2,6 +2,7 @@ import { Fragment, FunctionComponent } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
 import ProfilePage from '@features/profile/ProfilePage';
+import GamePage from './features/game/GamePage';
 
 const App: FunctionComponent = () => {
   return (
@@ -9,7 +10,7 @@ const App: FunctionComponent = () => {
       <Routes>
         <Route path="/login" element={<></>} />
         <Route element={<PrivateRoute />}>
-          <Route path="/" element={<></>} />
+          <Route path="/" element={<GamePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/forum" element={<></>} />
           <Route path="/leaderboard" element={<></>} />

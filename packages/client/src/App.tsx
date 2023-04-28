@@ -15,8 +15,6 @@ import {
 
 import AuthController from './controllers/authController';
 import { User } from './app/user/userSlice';
-import { loadUser, selectUser } from './app/user/userSlice';
-import { useAppDispatch, useAppSelector } from './app/hooks';
 
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
@@ -37,7 +35,6 @@ const App: FunctionComponent = () => {
         <ThemeProvider theme={theme}>
           <BrowserRouter>
             <Routes>
-
               <Route path="/signin" element={<SignInPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route
@@ -49,14 +46,14 @@ const App: FunctionComponent = () => {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum" element={<></>} />
-                <Route path="/leaderboard" element={<LeaderBoardPage />} />      
+                <Route path="/leaderboard" element={<LeaderBoardPage />} />
               </Route>
               <Route
-                  path="*"
-                  element={
-                    <Error errorType="404" errorMessage="Page Not Found." />
-                  }
-                />
+                path="*"
+                element={
+                  <Error errorType="404" errorMessage="Page Not Found." />
+                }
+              />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
@@ -73,7 +70,6 @@ const PrivateRoute: FunctionComponent<PropsWithChildren> = () => {
     AuthController.getUserInfo().then((obj) => {
       if (obj as User) {
         setUser(obj?.id);
-        dispatch(loadUser());
       }
       setIsLoading(false);
     });

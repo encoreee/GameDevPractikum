@@ -12,7 +12,6 @@ import {
   Routes,
   BrowserRouter,
 } from 'react-router-dom';
-import './App.css';
 import AuthController from './controllers/authController';
 import { User } from './app/user/userSlice';
 import { ThemeProvider } from '@mui/material';

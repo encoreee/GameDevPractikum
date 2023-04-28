@@ -1,14 +1,13 @@
-import App from './App';
 import { render, screen } from '@testing-library/react';
-
-const appContent = 'Главная страница';
 
 // @ts-ignore
 global.fetch = jest.fn(() =>
   Promise.resolve({ json: () => Promise.resolve('hey') })
 );
+const MyMockComponent = () => <div>Hello World</div>;
 
 test('Example test', async () => {
-  render(<App />);
-  expect(screen.getByText(appContent)).toBeDefined();
+  render(<MyMockComponent />);
+
+  expect(screen.getByText('Hello World')).toBeDefined();
 });

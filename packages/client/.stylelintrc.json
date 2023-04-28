@@ -1,7 +1,5 @@
 {
-  "plugins": [
-    "stylelint-prettier"
-  ],
+  "plugins": ["stylelint-prettier"],
   "extends": "stylelint-config-standard",
   "rules": {
     "prettier/prettier": true,
@@ -9,8 +7,5 @@
     "declaration-colon-newline-after": null,
     "no-empty-source": null
   },
-  "ignoreFiles": [
-    "dist/*",
-    "node_modules/*"
-  ]
+  "ignoreFiles": ["dist/*", "node_modules/*"]
 }

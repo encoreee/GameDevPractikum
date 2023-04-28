@@ -11,6 +11,8 @@ import { loadUser, selectUser } from './app/user/userSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import ProfilePage from '@features/profile/ProfilePage';
 import SignUpPage from './features/auth/SignUpPage';
+import Error from './features/errors/Error';
+import HomePage from './features/homepage/Homepage';
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
@@ -26,13 +28,18 @@ const App: FunctionComponent = () => {
               <Route path="/login" element={<></>} />
               <Route path="/singup" element={<></>} />
               <Route element={<PrivateRoute />}>
-                <Route path="/" element={<>Главная страница</>} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum" element={<></>} />
                 <Route path="/leaderboard" element={<></>} />
                 <Route path="/signin" element={<></>} />
                 <Route path="/signup" element={<SignUpPage />} />
-                <Route path="*" element={<p>Error</p>} />
+                <Route
+                  path="*"
+                  element={
+                    <Error errorType="404" errorMessage="Page Not Found." />
+                  }
+                />
               </Route>
             </Routes>
           </BrowserRouter>
@@ -47,14 +54,10 @@ const PrivateRoute: FunctionComponent = () => {
   const user = useAppSelector(selectUser);
 
   useEffect(() => {
-    //  dispatch(singin({ login: 'your_login', password: 'your_pass' }));
-    // dispatch(logout());
     dispatch(loadUser());
   }, []);
 
   return user ? <Outlet /> : <Navigate to="/login" />;
-
-  //return <Outlet />;
 };
 
 export default App;

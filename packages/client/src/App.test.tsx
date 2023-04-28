@@ -1,7 +1,7 @@
 import App from './App';
 import { render, screen } from '@testing-library/react';
 
-const appContent = 'Главная страница';
+const appContent = 'Galaga';
 
 // @ts-ignore
 global.fetch = jest.fn(() =>

@@ -8,7 +8,6 @@ interface MainButtonProps {
 const MainButton: FunctionComponent<MainButtonProps> = (props) => {
   return (
     <Button
-      type="submit"
       sx={{
         width: '100%',
         height: 60,

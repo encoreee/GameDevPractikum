@@ -13,6 +13,8 @@ export default {
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@features/(.*)$': '<rootDir>/src/features/$1',
     '^@infrastructure/(.*)$': '<rootDir>/src/infrastructure/$1',
+    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg)$':
+      'identity-obj-proxy',
   },
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,

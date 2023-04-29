@@ -1,24 +1,23 @@
-import { apiFetch, API_ADDRESS, apiAuthFetch } from '../apiFetch';
+import { apiFetch, API_ADDRESS } from '../../apiFetch';
 import { handleErrors } from '../errorHandler';
-import { LoginRequest, LoginResponse, TokenRefreshRequest } from './contracts';
+import { SinginRequest, UserInfoResponse } from './contracts';
 
 class AuthApi {
-  login = (loginRequest: LoginRequest) => {
+  getUserInfo = () => {
     return apiFetch()
-      .post(`${API_ADDRESS}/api/auth/login`, loginRequest)
+      .get(`${API_ADDRESS}/auth/user`)
       .then(handleErrors)
-      .then<LoginResponse>((res) => res.json());
+      .then<UserInfoResponse>((res) => res.json());
   };
 
-  refresh = (tokenRefreshRequest: TokenRefreshRequest) => {
+  singin = (singinRequest: SinginRequest) => {
     return apiFetch()
-      .post(`${API_ADDRESS}/api/auth/refresh`, tokenRefreshRequest)
-      .then(handleErrors)
-      .then<LoginResponse>((res) => res.json());
+      .post(`${API_ADDRESS}/auth/signin`, singinRequest)
+      .then(handleErrors);
   };
 
-  revoke = (token: string) => {
-    return apiAuthFetch().post(`${API_ADDRESS}/api/auth/revoke`, token);
+  logout = () => {
+    return apiFetch().post(`${API_ADDRESS}/auth/logout`).then(handleErrors);
   };
 }
 

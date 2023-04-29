@@ -22,9 +22,9 @@ export const singin = createAsyncThunk(
   }
 );
 
-// export const logout = createAsyncThunk('logout', async () => {
-//   return await authApi.logout();
-// });
+export const logout = createAsyncThunk('logout', async () => {
+  return await authApi.logout();
+});
 
 export const authSlice = createSlice({
   name: 'auth-slice',

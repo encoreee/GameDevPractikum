@@ -20,6 +20,10 @@ class AuthApi {
       .post(`${API_ADDRESS}/auth/signup`, data)
       .then(handleErrors);
   };
+
+  logout = () => {
+    return apiFetch().post(`${API_ADDRESS}/auth/logout`).then(handleErrors);
+  };
 }
 
 export default new AuthApi();

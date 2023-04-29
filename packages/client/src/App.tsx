@@ -13,6 +13,7 @@ import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
 import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
+import GameStartPage from './features/gameStart/GameStartPage';
 
 const App: FC = () => {
   return (
@@ -33,6 +34,18 @@ const App: FC = () => {
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum" element={<></>} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />
+<<<<<<< HEAD
+=======
+                <Route path="/signin" element={<></>} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/start" element={<GameStartPage />} />
+                <Route
+                  path="*"
+                  element={
+                    <Error errorType="404" errorMessage="Page Not Found." />
+                  }
+                />
+>>>>>>> 179696f (Страница обратного отсчета)
               </Route>
               <Route
                 path="*"

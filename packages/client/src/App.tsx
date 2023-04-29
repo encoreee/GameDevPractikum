@@ -18,6 +18,7 @@ import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
 import { store } from './app/store';
 import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
+import GameStartPage from './features/gameStart/GameStartPage';
 
 const App: FunctionComponent = () => {
   return (
@@ -35,6 +36,7 @@ const App: FunctionComponent = () => {
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />
                 <Route path="/signin" element={<></>} />
                 <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/start" element={<GameStartPage />} />
                 <Route
                   path="*"
                   element={

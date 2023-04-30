@@ -1,12 +1,19 @@
 import { Stack, TextField, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { ChangeEvent, FunctionComponent } from 'react';
 
 interface DataFieldProps {
   label: string;
+  onChange?: (newValue: string) => void;
   value?: string;
 }
 
 const DataField: FunctionComponent<DataFieldProps> = (props) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (props.onChange) {
+      props.onChange(e.target.value);
+    }
+  };
+
   return (
     <Stack spacing={2}>
       <Typography
@@ -28,6 +35,7 @@ const DataField: FunctionComponent<DataFieldProps> = (props) => {
             color: 'white',
           },
         }}
+        onChange={onChange}
         value={props.value}
       />
     </Stack>

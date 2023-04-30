@@ -10,6 +10,7 @@ import './App.css';
 import { loadUser, selectUser } from './app/user/userSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import ProfilePage from '@features/profile/ProfilePage';
+import ForumPages from '@features/forum/pages';
 import SignUpPage from './features/auth/SignUpPage';
 import Error from './features/errors/Error';
 import HomePage from './features/homepage/Homepage';
@@ -31,7 +32,7 @@ const App: FunctionComponent = () => {
               <Route element={<PrivateRoute />}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/forum" element={<></>} />
+                <Route path="/forum/*" element={<ForumPages />} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />
                 <Route path="/signin" element={<></>} />
                 <Route path="/signup" element={<SignUpPage />} />

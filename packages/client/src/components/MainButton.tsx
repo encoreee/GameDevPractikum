@@ -1,14 +1,17 @@
 import { Button } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactEventHandler } from 'react';
 
 interface MainButtonProps {
   label: string;
+  disabled?: boolean;
+  onClick: ReactEventHandler;
 }
 
 const MainButton: FunctionComponent<MainButtonProps> = (props) => {
   return (
     <Button
       type="submit"
+      disabled={props.disabled}
       sx={{
         width: '100%',
         height: 60,
@@ -18,6 +21,7 @@ const MainButton: FunctionComponent<MainButtonProps> = (props) => {
         borderRadius: '0px',
       }}
       variant="contained"
+      onClick={props.onClick}
       color="secondary">
       {props.label}
     </Button>

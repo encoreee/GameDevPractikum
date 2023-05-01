@@ -6,7 +6,6 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
-import './App.css';
 import { loadUser, selectUser } from './app/user/userSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import ProfilePage from '@features/profile/ProfilePage';

@@ -26,12 +26,6 @@ const ModalWindow: FunctionComponent<ModalPropsWithChildren> = ({
   title,
   children,
 }) => {
-  const TitleStyles: SxProps = {
-    background: 'linear-gradient(145.51deg, #AC5DD9 7.21%, #004FC4 94.47%);)',
-    padding: '0.5rem',
-    position: 'relative',
-  };
-
   return (
     <Modal open={open}>
       <Container sx={{ height: '100%' }}>
@@ -66,8 +60,15 @@ const ModalWindow: FunctionComponent<ModalPropsWithChildren> = ({
   );
 };
 
+const TitleStyles: SxProps = {
+  background: 'linear-gradient(145.51deg, #AC5DD9 7.21%, #004FC4 94.47%);)',
+  padding: '0.5rem',
+  position: 'relative',
+};
+
 export default ModalWindow;
 
+// Это норм место или куда-то нужно вынести?
 export const useModal = (title: ReactNode): ModalProps => {
   const [open, setOpen] = useState(false);
 

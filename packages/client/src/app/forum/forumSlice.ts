@@ -9,13 +9,18 @@ const initialState: ForumState = {
 };
 
 export const getThreadsList = createAsyncThunk(
-  'forumList/get',
+  'forum/getThreadList',
   async () => await ForumApi.getThreadList()
 );
 
 export const createNewThread = createAsyncThunk(
-  'forumList/createNewThread',
+  'forum/createNewThread',
   async (threadName: string) => await ForumApi.createThread({ threadName })
+);
+
+export const getThreadMessages = createAsyncThunk(
+  'forum/getThreadMessages',
+  async (id: string) => await ForumApi.getThreadMessagesById(id)
 );
 
 export const forumSlice = createSlice({

@@ -12,3 +12,11 @@ type threadData = {
 };
 
 type CreateNewThread = (threadData: threadData) => Promise<ForumThread>;
+
+type ThreadMessage = {
+  id: string;
+  time: string;
+  userName: string;
+  userAvatar: string;
+  message: string;
+};

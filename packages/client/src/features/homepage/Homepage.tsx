@@ -54,7 +54,9 @@ const HomePage: FC = () => {
           </NavLink>
         </ListItem>
         <ListItem sx={styles.listItem}>
-          <Typography>forums</Typography>
+          <NavLink href="/forum" sx={styles.link} underline="none" variant="h1">
+            <Typography>forums</Typography>
+          </NavLink>
         </ListItem>
         <ListItem sx={styles.listItem}>
           <Typography>log out</Typography>

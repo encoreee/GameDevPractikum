@@ -19,7 +19,10 @@ class ForumApi {
       )
     );
   };
-  // getThreadInfoById = (id) => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getThreadMessagesById = (_id: string) => {
+    return new Promise((res) => getData(res, '__threadMessages'));
+  };
 }
 
 export default new ForumApi();

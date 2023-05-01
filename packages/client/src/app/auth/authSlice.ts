@@ -34,6 +34,7 @@ export const authSlice = createSlice({
     build.addCase(singin.pending, (state) => {
       state.status = 'loading';
     });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     build.addCase(singin.fulfilled, (state, action) => {
       state.status = 'idle';
     });

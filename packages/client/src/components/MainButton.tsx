@@ -4,7 +4,7 @@ import { FunctionComponent, ReactEventHandler } from 'react';
 interface MainButtonProps {
   label: string;
   disabled?: boolean;
-  onClick: ReactEventHandler;
+  onClick?: ReactEventHandler;
 }
 
 const MainButton: FunctionComponent<MainButtonProps> = (props) => {

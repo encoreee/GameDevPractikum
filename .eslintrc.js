@@ -20,6 +20,7 @@ module.exports = {
     jsxPragma: null,
   },
   plugins: ['@typescript-eslint', 'react', 'prettier'],
+  settings: { react: { version: '18.2' } },
   rules: {
     'prettier/prettier': [
       'error',

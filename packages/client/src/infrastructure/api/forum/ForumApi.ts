@@ -2,6 +2,7 @@ import { getData } from './__data';
 
 class ForumApi {
   getThreadList = (): Promise<ForumThreadList> => {
+    //@ts-ignore
     return new Promise((res) => getData(res, '__forumThreads'));
   };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

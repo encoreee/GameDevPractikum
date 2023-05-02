@@ -1,18 +1,18 @@
 import Avatar from '@/components/Avatar';
 import { Grid, Stack, Typography } from '@mui/material';
-import { smallTextStyle, userInfoStyle } from '../styles';
+import { smallTextStyles, userInfoStyles } from '../styles';
 
 const Message = () => {
   return (
     <Grid container>
       <Grid item xs={2}>
-        <Stack sx={userInfoStyle}>
+        <Stack sx={userInfoStyles}>
           <Avatar src="defaultAvatar.svg"></Avatar>
-          <Typography sx={smallTextStyle}>Semen Ivanov</Typography>
+          <Typography sx={smallTextStyles}>Semen Ivanov</Typography>
         </Stack>
       </Grid>
       <Grid item xs={10}>
-        <Typography sx={smallTextStyle}>
+        <Typography sx={smallTextStyles}>
           {`If you're looking for a game that will transport you back to the
           golden age of gaming, look no further than [insert game name], a retro
           gem that's sure to delight fans of classic gaming. The first thing

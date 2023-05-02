@@ -73,10 +73,10 @@ export const tableBodyCellStyles: SxProps = {
   padding: '0.5rem 1.125rem',
 };
 
-export const userInfoStyle: SxProps = {
+export const userInfoStyles: SxProps = {
   alignItems: 'center',
   gap: '0.5rem',
   paddingRight: '1rem',
 };
 
-export const smallTextStyle: SxProps = { fontSize: '0.5rem', color: '#fff' };
+export const smallTextStyles: SxProps = { fontSize: '0.5rem', color: '#fff' };

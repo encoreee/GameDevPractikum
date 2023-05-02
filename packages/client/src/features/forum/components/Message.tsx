@@ -1,17 +1,18 @@
 import Avatar from '@/components/Avatar';
 import { Grid, Stack, Typography } from '@mui/material';
+import { smallTextStyle, userInfoStyle } from '../styles';
 
 const Message = () => {
   return (
-    <Grid container sx={{ gap: '1rem' }}>
+    <Grid container>
       <Grid item xs={2}>
         <Stack sx={userInfoStyle}>
           <Avatar src="defaultAvatar.svg"></Avatar>
-          <Typography sx={smallText}>Semen Ivanov</Typography>
+          <Typography sx={smallTextStyle}>Semen Ivanov</Typography>
         </Stack>
       </Grid>
-      <Grid item xs={8}>
-        <Typography sx={smallText}>
+      <Grid item xs={10}>
+        <Typography sx={smallTextStyle}>
           {`If you're looking for a game that will transport you back to the
           golden age of gaming, look no further than [insert game name], a retro
           gem that's sure to delight fans of classic gaming. The first thing
@@ -25,8 +26,5 @@ const Message = () => {
     </Grid>
   );
 };
-
-const userInfoStyle = { alignItems: 'center', gap: '0.5rem' };
-const smallText = { fontSize: '0.5rem', color: '#fff' };
 
 export default Message;

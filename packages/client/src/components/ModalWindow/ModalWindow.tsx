@@ -2,21 +2,14 @@ import {
   Container,
   IconButton,
   Modal,
-  Paper,
+  Box,
   Stack,
   SxProps,
   Typography,
 } from '@mui/material';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import { PropsWithChildren } from 'react';
-import { ReactNode } from 'react';
-
-export interface ModalProps {
-  open: boolean;
-  handleOpen: () => void;
-  handleClose: () => void;
-  title: ReactNode;
-}
+import { ModalProps } from './types';
 
 interface ModalPropsWithChildren extends ModalProps, PropsWithChildren {}
 
@@ -35,7 +28,7 @@ const ModalWindow: FunctionComponent<ModalPropsWithChildren> = ({
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Paper sx={{ width: 'fit-content' }}>
+          <Box sx={{ width: 'fit-content' }}>
             <Stack
               flexDirection={'row'}
               alignItems={'center'}
@@ -50,10 +43,10 @@ const ModalWindow: FunctionComponent<ModalPropsWithChildren> = ({
                 </Typography>
               </IconButton>
             </Stack>
-            <Paper sx={{ backgroundColor: 'primary.dark', borderRadius: '0' }}>
+            <Box sx={{ backgroundColor: 'primary.dark', borderRadius: '0' }}>
               {children}
-            </Paper>
-          </Paper>
+            </Box>
+          </Box>
         </Stack>
       </Container>
     </Modal>
@@ -67,18 +60,3 @@ const TitleStyles: SxProps = {
 };
 
 export default ModalWindow;
-
-// Это норм место или куда-то нужно вынести?
-export const useModal = (title: ReactNode): ModalProps => {
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return { open, handleClose, handleOpen, title };
-};

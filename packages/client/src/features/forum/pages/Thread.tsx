@@ -11,11 +11,12 @@ import {
 import { useSelector } from 'react-redux';
 import Message from '../components/Message';
 import {
-  bottomNav,
-  cleanButton,
-  greenButton,
-  mainBox,
-  purpleButton,
+  bottomNavStyles,
+  changePageBtnsStyles,
+  cleanButtonStyles,
+  greenButtonStyles,
+  mainBoxStyles,
+  purpleButtonStyles,
 } from '../styles';
 
 const ForumThread = () => {
@@ -40,28 +41,22 @@ const ForumThread = () => {
   return (
     <Stack alignItems={'start'} width={'100%'}>
       <BreadCrumbs items={BreadCrumbItems()} />
-      <Box sx={mainBox}>
+      <Box sx={{ ...mainBoxStyles }}>
         <Message />
       </Box>
-      <Stack sx={bottomNav}>
-        <Button variant="text" sx={purpleButton} onClick={onBack}>
+      <Stack sx={bottomNavStyles}>
+        <Button variant="text" sx={purpleButtonStyles} onClick={onBack}>
           {'<- Back'}
         </Button>
-        <Stack
-          sx={{
-            flexDirection: 'row',
-            flexGrow: '1',
-            justifyContent: 'center',
-            gap: '4rem',
-          }}>
-          <Button variant="text" sx={cleanButton}>
+        <Stack sx={changePageBtnsStyles}>
+          <Button variant="text" sx={cleanButtonStyles}>
             {'<Prev Page'}
           </Button>
-          <Button variant="text" sx={cleanButton}>
+          <Button variant="text" sx={cleanButtonStyles}>
             {'Next Page>'}
           </Button>
         </Stack>
-        <Button variant="text" sx={greenButton}>
+        <Button variant="text" sx={greenButtonStyles}>
           New Message
         </Button>
       </Stack>

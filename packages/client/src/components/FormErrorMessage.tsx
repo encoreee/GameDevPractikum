@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { Typography } from '@mui/material';
 
 type FormErrorMessageProps = {
@@ -6,7 +6,7 @@ type FormErrorMessageProps = {
   maxWidth?: string;
 };
 
-const FormErrorMessage: FunctionComponent<FormErrorMessageProps> = (props) => {
+const FormErrorMessage: FC<FormErrorMessageProps> = (props) => {
   return (
     <Typography
       maxWidth={props.maxWidth}

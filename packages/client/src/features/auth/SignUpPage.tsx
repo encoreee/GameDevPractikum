@@ -1,11 +1,11 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 import SignUpForm from './SingUpForm';
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
 import NavLink from '../../components/NavLink';
 
-const SignUpPage: FunctionComponent = () => {
+const SignUpPage: FC = () => {
   return (
     <MainPageTemplate>
       <DataBox width={900} height={650}>

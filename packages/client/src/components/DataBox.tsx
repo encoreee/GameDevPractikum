@@ -1,12 +1,12 @@
 import { Box, Stack } from '@mui/material';
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 type DataBoxProps = PropsWithChildren<{
   height?: number;
   width?: number;
 }>;
 
-const DataBox: FunctionComponent<DataBoxProps> = (props) => {
+const DataBox: FC<DataBoxProps> = (props) => {
   return (
     <Box
       sx={{

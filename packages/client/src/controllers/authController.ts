@@ -10,7 +10,7 @@ export class AuthController {
     try {
       await AuthAPI.signIn(data);
     } catch (err) {
-      return (err as Error).message || AppMessage.UNKNOWN_API_ERROR;
+      return err instanceof Error ? err.message : AppMessage.UNKNOWN_API_ERROR;
     }
   }
 
@@ -18,7 +18,7 @@ export class AuthController {
     try {
       await AuthAPI.signUp(data);
     } catch (err) {
-      return (err as Error).message || AppMessage.UNKNOWN_API_ERROR;
+      return err instanceof Error ? err.message : AppMessage.UNKNOWN_API_ERROR;
     }
   }
 
@@ -26,7 +26,7 @@ export class AuthController {
     try {
       const user = await AuthAPI.getUserInfo();
       return user;
-    } catch (e) {
+    } catch (err) {
       return undefined;
     }
   }

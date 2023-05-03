@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
-const MainLabel: FunctionComponent = () => {
+const MainLabel: FC = () => {
   return (
     <Stack
       direction="column"

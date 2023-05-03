@@ -1,5 +1,5 @@
 import AuthController from '../../controllers/authController';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { Stack } from '@mui/material';
 import { FormContainer } from 'react-hook-form-mui';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ import MainButton from '../../components/MainButton';
 import NavLink from '../../components/NavLink';
 import FormErrorMessage from '../../components/FormErrorMessage';
 
-const SignInPage: FunctionComponent = () => {
+const SignInPage: FC = () => {
   const [signInError, setSignInError] = useState<string>(' ');
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ const SignInPage: FunctionComponent = () => {
         <FormContainer
           defaultValues={{ login: '', password: '' }}
           onSuccess={onSubmit}>
-          <Stack direction={'column'}>
+          <Stack direction={'column'} width="350px">
             <DataFieldLT
               label="login"
               autofocus

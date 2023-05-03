@@ -1,5 +1,5 @@
 import { InputLabel } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { TextFieldElement } from 'react-hook-form-mui';
 import { styled } from '@mui/material/styles';
 import { FieldValues, RegisterOptions } from 'react-hook-form-mui';
@@ -27,7 +27,7 @@ const TextFieldStyled = styled(TextFieldElement)({
   },
 });
 
-const DataField: FunctionComponent<DataFieldProps> = (props) => {
+const DataField: FC<DataFieldProps> = (props) => {
   return (
     <>
       <InputLabel

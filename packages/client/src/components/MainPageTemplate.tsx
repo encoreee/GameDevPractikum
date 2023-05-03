@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { styled } from '@mui/system';
 
 import Background from '../assets/background.png'; // Import using relative path
@@ -18,7 +18,7 @@ const styles = {
   },
 };
 
-const MainPageTemplate: FunctionComponent<PropsWithChildren> = (props) => {
+const MainPageTemplate: FC<PropsWithChildren> = (props) => {
   return (
     <Container>
       <Box sx={{ display: 'flex', margin: 0, padding: 0 }} style={styles.box}>

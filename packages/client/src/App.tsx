@@ -1,20 +1,5 @@
-import {
-  Fragment,
-  FunctionComponent,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from 'react';
-import {
-  Navigate,
-  Outlet,
-  Route,
-  Routes,
-  BrowserRouter,
-} from 'react-router-dom';
-
-import AuthController from './controllers/authController';
-import { User } from './app/user/userSlice';
+import { Fragment, FC } from 'react';
+import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
@@ -22,13 +7,14 @@ import { theme } from './theme/theme';
 import { store } from './app/store';
 
 import Error from './features/errors/Error';
+import PrivateRoute from './components/privateRouter';
 import HomePage from './features/homepage/Homepage';
 import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
 import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 
-const App: FunctionComponent = () => {
+const App: FC = () => {
   return (
     <Fragment>
       <Provider store={store}>
@@ -60,26 +46,6 @@ const App: FunctionComponent = () => {
       </Provider>
     </Fragment>
   );
-};
-
-const PrivateRoute: FunctionComponent<PropsWithChildren> = () => {
-  const [user, setUser] = useState<number | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    AuthController.getUserInfo().then((obj) => {
-      if (obj as User) {
-        setUser(obj?.id);
-      }
-      setIsLoading(false);
-    });
-  }, [user]);
-
-  if (isLoading) {
-    return null;
-  }
-
-  return user ? <Outlet /> : <Navigate to="/signin" replace />;
 };
 
 export default App;

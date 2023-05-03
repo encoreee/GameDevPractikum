@@ -1,5 +1,5 @@
 import AuthController from '../../controllers/authController';
-import { FunctionComponent, useState } from 'react';
+import { FC, useState } from 'react';
 import { useWatch, useForm, FormContainer } from 'react-hook-form-mui';
 import { useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
@@ -20,7 +20,7 @@ export const defaultValues = {
   repeatPassword: '',
 };
 
-const SignUpForm: FunctionComponent = () => {
+const SignUpForm: FC = () => {
   const formContext = useForm<typeof defaultValues>();
   const passwordValue = useWatch<typeof defaultValues>({
     name: 'password',

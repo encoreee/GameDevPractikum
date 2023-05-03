@@ -1,8 +1,8 @@
 import { LinkProps, Link as MuiLink } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-const NavLink: FunctionComponent<LinkProps> = (props) => {
+const NavLink: FC<LinkProps> = (props) => {
   return (
     <MuiLink
       component={ReactRouterLink}

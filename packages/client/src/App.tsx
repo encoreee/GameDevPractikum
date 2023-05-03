@@ -18,6 +18,7 @@ import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
 import { store } from './app/store';
 import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
+import GamePage from './features/game/GamePage';
 
 const App: FunctionComponent = () => {
   return (
@@ -30,6 +31,7 @@ const App: FunctionComponent = () => {
               <Route path="/singup" element={<></>} />
               <Route element={<PrivateRoute />}>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/game" element={<GamePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum" element={<></>} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />

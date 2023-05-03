@@ -1,9 +1,13 @@
-import { Container } from '@mui/material';
+import MainPageTemplate from '@/components/MainPageTemplate';
 import React, { FunctionComponent, useEffect, useRef } from 'react';
-import { GalagaGame } from './core/GalagaGame';
+import { Canvas } from './core/Canvas';
+import { GalagaGame } from './GalagaGame';
 
 const styles: React.CSSProperties = {
   border: '1px solid silver',
+  backgroundColor: 'hsla(0, 0%, 56%, 30%)',
+  // backdropFilter: 'blur(4px)',
+  marginTop: '2rem',
 };
 
 const GamePage: FunctionComponent = () => {
@@ -11,31 +15,38 @@ const GamePage: FunctionComponent = () => {
   const HEIGHT = 500;
   const WIDTH = 500;
 
+  const galaga = new GalagaGame();
+
   useEffect(() => {
+    document.addEventListener('keydown', onKeyDownHandler);
+    document.addEventListener('keyup', onKeyUpHandler);
+
     if (canvas.current) {
-      galaga.setCanvas(canvas.current);
+      Canvas.create(canvas.current);
+      galaga.init();
     }
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDownHandler);
+      document.removeEventListener('keyup', onKeyUpHandler);
+    };
   }, []);
 
-  const galaga = new GalagaGame(WIDTH, HEIGHT);
-  const onKeyDownHandler = (event: React.KeyboardEvent<HTMLCanvasElement>) => {
+  const onKeyDownHandler = (event: KeyboardEvent) => {
     galaga.keyboard.keyDownHandler(event.key);
   };
-  const onKeyUpHandler = (event: React.KeyboardEvent<HTMLCanvasElement>) => {
+  const onKeyUpHandler = (event: KeyboardEvent) => {
     galaga.keyboard.keyUpHandler(event.key);
   };
 
   return (
-    <Container>
+    <MainPageTemplate>
       <canvas
-        tabIndex={1}
-        onKeyDown={onKeyDownHandler}
-        onKeyUp={onKeyUpHandler}
         ref={canvas}
         width={WIDTH}
         height={HEIGHT}
         style={styles}></canvas>
-    </Container>
+    </MainPageTemplate>
   );
 };
 

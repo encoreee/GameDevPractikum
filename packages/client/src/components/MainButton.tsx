@@ -1,28 +1,27 @@
 import { Button } from '@mui/material';
-import { FunctionComponent, ReactEventHandler } from 'react';
+import { FC, ReactEventHandler } from 'react';
 
 interface MainButtonProps {
   label: string;
   disabled?: boolean;
+  type?: 'submit' | 'button';
   onClick?: ReactEventHandler;
 }
 
-const MainButton: FunctionComponent<MainButtonProps> = (props) => {
+const MainButton: FC<MainButtonProps> = (props) => {
   return (
     <Button
-      type="submit"
-      disabled={props.disabled}
       sx={{
         width: '100%',
         height: 60,
-        margin: 1,
         marginTop: 2,
         fontSize: 24,
         borderRadius: '0px',
       }}
       variant="contained"
       onClick={props.onClick}
-      color="secondary">
+      color="secondary"
+      type={props.type || 'button'}>
       {props.label}
     </Button>
   );

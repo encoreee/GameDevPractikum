@@ -1,44 +1,74 @@
-import { Stack, TextField, Typography } from '@mui/material';
-import { ChangeEvent, FunctionComponent } from 'react';
+import { InputLabel } from '@mui/material';
+import { FC } from 'react';
+import { TextFieldElement } from 'react-hook-form-mui';
+import { styled } from '@mui/material/styles';
+import { FieldValues, RegisterOptions } from 'react-hook-form-mui';
 
 interface DataFieldProps {
   label: string;
-  onChange?: (newValue: string) => void;
+  name?: string;
   value?: string;
+  autofocus?: boolean;
+  type?: string;
+  validation?: Omit<
+    RegisterOptions<FieldValues, string>,
+    'disabled' | 'valueAsNumber' | 'valueAsDate' | 'setValueAs'
+  >;
 }
 
-const DataField: FunctionComponent<DataFieldProps> = (props) => {
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (props.onChange) {
-      props.onChange(e.target.value);
-    }
-  };
+const TextFieldStyled = styled(TextFieldElement)({
+  '& input:-internal-autofill-previewed': {
+    WebkitBoxShadow: '0 0 0 1000px black inset',
+    WebkitTextFillColor: 'white',
+  },
+  '& input:-internal-autofill-selected': {
+    WebkitBoxShadow: '0 0 0 1000px black inset',
+    WebkitTextFillColor: 'white',
+  },
+});
 
+const DataField: FC<DataFieldProps> = (props) => {
   return (
-    <Stack spacing={2}>
-      <Typography
-        variant="h6"
-        color="primary.main"
-        style={{
-          marginBottom: '0px',
+    <>
+      <InputLabel
+        htmlFor={props.label}
+        size="normal"
+        sx={{
+          color: 'primary.main',
+          marginBottom: '4px',
+          fontSize: 18,
         }}>
-        {props.label}{' '}
-      </Typography>
-      <TextField
-        style={{
-          backgroundColor: 'black',
-          marginBottom: '30px',
+        {props.label}
+      </InputLabel>
+      <TextFieldStyled
+        name={props.name || props.label}
+        helperText=" "
+        sx={{
+          width: '100%',
+          marginBottom: '10px',
           marginTop: '0px',
         }}
         InputProps={{
-          style: {
+          sx: {
             color: 'white',
+            background: 'black',
+            borderRadius: '0px',
           },
         }}
-        onChange={onChange}
-        value={props.value}
+        FormHelperTextProps={{
+          sx: {
+            maxWidth: '320px',
+            fontSize: '9px',
+          },
+        }}
+        type={props.type || 'text'}
+        autoFocus={props.autofocus}
+        validation={{
+          ...props.validation,
+          required: props.validation?.required && 'This field is required',
+        }}
       />
-    </Stack>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import { createNewThread } from '@/app/forum/forumSlice';
 import { AppDispatch } from '@/app/store';
-import DataField from '@/components/DataFieldLabelOnTop';
+import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '@/components/MainButton';
 import ModalWindow, { ModalProps } from '@/components/ModalWindow';
 import { Stack } from '@mui/material';
@@ -41,8 +41,10 @@ export const NewThreadModal: FunctionComponent<ModalProps> = ({
       <Stack sx={{ padding: '1rem 4rem' }}>
         <DataField
           label="Theme"
+          variant={DATA_FIELD_VARIANTS.LABEL_TOP}
           onChange={onChangeThemeName}
-          value={themeName}></DataField>
+          value={themeName}
+        />
         <MainButton label="Create" onClick={onCreate} disabled={!themeName} />
       </Stack>
     </ModalWindow>

@@ -1,64 +1,51 @@
-import { Fragment, FunctionComponent, useEffect } from 'react';
-import {
-  BrowserRouter,
-  Navigate,
-  Outlet,
-  Route,
-  Routes,
-} from 'react-router-dom';
-import './App.css';
-import { loadUser, selectUser } from './app/user/userSlice';
-import { useAppDispatch, useAppSelector } from './app/hooks';
-import ProfilePage from '@features/profile/ProfilePage';
-import SignUpPage from './features/auth/SignUpPage';
-import Error from './features/errors/Error';
-import HomePage from './features/homepage/Homepage';
+import { Fragment, FC } from 'react';
+import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
+
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
 import { store } from './app/store';
+
+import Error from './features/errors/Error';
+import PrivateRoute from './components/privateRouter';
+import HomePage from './features/homepage/Homepage';
+import ProfilePage from './features/profile/ProfilePage';
+import SignInPage from './features/auth/SignInPage';
+import SignUpPage from './features/auth/SignUpPage';
 import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 
-const App: FunctionComponent = () => {
+const App: FC = () => {
   return (
     <Fragment>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <BrowserRouter>
             <Routes>
-              <Route path="/login" element={<></>} />
-              <Route path="/singup" element={<></>} />
-              <Route element={<PrivateRoute />}>
+              <Route path="/signin" element={<SignInPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route
+                element={
+                  <PrivateRoute>
+                    <Outlet />
+                  </PrivateRoute>
+                }>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum" element={<></>} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />
-                <Route path="/signin" element={<></>} />
-                <Route path="/signup" element={<SignUpPage />} />
-                <Route
-                  path="*"
-                  element={
-                    <Error errorType="404" errorMessage="Page Not Found." />
-                  }
-                />
               </Route>
+              <Route
+                path="*"
+                element={
+                  <Error errorType="404" errorMessage="Page Not Found." />
+                }
+              />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
       </Provider>
     </Fragment>
   );
-};
-
-const PrivateRoute: FunctionComponent = () => {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUser);
-
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
-
-  return user ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default App;

@@ -4,7 +4,7 @@ import {
   SerializedError,
 } from '@reduxjs/toolkit';
 import authApi from '../../infrastructure/api/auth/authApi';
-import { SinginRequest } from '@/infrastructure/api/auth/contracts';
+import { SignInRequest } from '@/infrastructure/api/auth/contracts';
 
 export interface AuthState {
   status: 'idle' | 'loading' | 'failed';
@@ -17,8 +17,8 @@ const initialState: AuthState = {
 
 export const singin = createAsyncThunk(
   'singin',
-  async (request: SinginRequest) => {
-    return await authApi.singin(request);
+  async (request: SignInRequest) => {
+    return await authApi.signIn(request);
   }
 );
 
@@ -34,7 +34,7 @@ export const authSlice = createSlice({
     build.addCase(singin.pending, (state) => {
       state.status = 'loading';
     });
-    build.addCase(singin.fulfilled, (state, action) => {
+    build.addCase(singin.fulfilled, (state) => {
       state.status = 'idle';
     });
     build.addCase(singin.rejected, (state, action) => {

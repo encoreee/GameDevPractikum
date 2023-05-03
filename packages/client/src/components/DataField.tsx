@@ -1,5 +1,5 @@
 import { Grid, TextField, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 interface DataFieldProps {
   label: string;
@@ -7,7 +7,7 @@ interface DataFieldProps {
   onChange?: (newValue: string) => void;
 }
 
-const DataField: FunctionComponent<DataFieldProps> = (props) => {
+const DataField: FC<DataFieldProps> = (props) => {
   return (
     <Grid alignItems="center" margin={1} container spacing={1}>
       <Grid item xs={5}>

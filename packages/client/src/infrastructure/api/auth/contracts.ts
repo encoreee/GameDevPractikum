@@ -9,6 +9,11 @@ export interface UserInfoResponse {
   avatar: string;
 }
 
+export interface SignInRequest {
+  login: string;
+  password: string;
+}
+
 export interface UserProfileRequest {
   first_name: string;
   second_name: string;
@@ -18,7 +23,11 @@ export interface UserProfileRequest {
   phone: string;
 }
 
-export interface SinginRequest {
+export interface SignUpRequest {
+  first_name: string;
+  second_name: string;
   login: string;
+  email: string;
+  phone: string;
   password: string;
 }

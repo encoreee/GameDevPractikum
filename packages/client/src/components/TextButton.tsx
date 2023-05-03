@@ -1,11 +1,11 @@
 import { Button } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 interface MainButtonProps {
   label: string;
 }
 
-const MainButton: FunctionComponent<MainButtonProps> = (props) => {
+const MainButton: FC<MainButtonProps> = (props) => {
   return (
     <Button
       sx={{

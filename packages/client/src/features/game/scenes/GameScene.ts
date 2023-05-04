@@ -10,6 +10,23 @@ import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { Vector2 } from '../utils/Vector2';
 import { SceneInterface } from './SceneInterface';
 
+type PlayerCreateConfig = {
+  size: Size;
+  canvasSize: Size;
+  bulletSize: Size;
+  bulletCreateDelay: number;
+  paddingBottom: number;
+  speed: number;
+};
+
+type EnemyCreateConfig = {
+  numberEnemy: number;
+  gap: number;
+  size: Size;
+  canvasSize: Size;
+  paddingTop: number;
+};
+
 export class GameScene implements SceneInterface {
   private readonly player: Player;
   private readonly playerBulletCollection = new GameObjectCollection();
@@ -22,6 +39,7 @@ export class GameScene implements SceneInterface {
       bulletSize: { width: 20, height: 20 },
       paddingBottom: 50,
       speed: 500,
+      bulletCreateDelay: 300,
     });
   }
   public init(): void {
@@ -53,29 +71,16 @@ export class GameScene implements SceneInterface {
     });
   }
 
-  private createPlayer(config: {
-    size: Size;
-    canvasSize: Size;
-    bulletSize: Size;
-    paddingBottom: number;
-    speed: number;
-  }): Player {
+  private createPlayer(config: PlayerCreateConfig): Player {
     const position = new Vector2(
       config.canvasSize.width / 2 - config.size.width / 2,
       config.canvasSize.height - config.size.height - config.paddingBottom
     );
-    let lastBulletCreateTime = performance.now();
-    const bulletCreateDelay = 500;
 
-    const fireCallback = (position: Vector2) => {
-      const currentBulletCreateTime = performance.now();
-      if (currentBulletCreateTime > lastBulletCreateTime + bulletCreateDelay) {
-        const bullet = this.createPlayerBullet(position, config.bulletSize);
-        this.playerBulletCollection.push(bullet);
-        lastBulletCreateTime = currentBulletCreateTime;
-      }
-    };
-
+    const fireCallback = this.fireAction(
+      config.bulletSize,
+      config.bulletCreateDelay
+    );
     const input = new PlayerInput(
       this.keyboard.getAction(),
       config.speed,
@@ -91,6 +96,22 @@ export class GameScene implements SceneInterface {
     );
   }
 
+  /**
+   * @returns `fireCallback` a function that should be called on each fire action
+   */
+  public fireAction(bulletSize: Size, bulletCreateDelay: number) {
+    let lastBulletCreateTime = 0;
+
+    return (position: Vector2) => {
+      const currentBulletCreateTime = performance.now();
+      if (currentBulletCreateTime > lastBulletCreateTime + bulletCreateDelay) {
+        const bullet = this.createPlayerBullet(position, bulletSize);
+        this.playerBulletCollection.push(bullet);
+        lastBulletCreateTime = currentBulletCreateTime;
+      }
+    };
+  }
+
   private createPlayerBullet(position: Vector2, size: Size): GameObject {
     return new GameObject(
       position.substract(new Vector2(-size.width / 2, 0)),
@@ -100,13 +121,7 @@ export class GameScene implements SceneInterface {
     );
   }
 
-  private createEnemies(config: {
-    numberEnemy: number;
-    gap: number;
-    size: Size;
-    canvasSize: Size;
-    paddingTop: number;
-  }): void {
+  private createEnemies(config: EnemyCreateConfig): void {
     const startX =
       (config.canvasSize.width +
         config.size.width / 2 -

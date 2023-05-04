@@ -20,6 +20,7 @@ const MainButton: FC<MainButtonProps> = (props) => {
       }}
       variant="contained"
       onClick={props.onClick}
+      disabled={props.disabled}
       color="secondary"
       type={props.type || 'button'}>
       {props.label}

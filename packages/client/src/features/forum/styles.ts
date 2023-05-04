@@ -12,6 +12,9 @@ export const mainBoxStyles: SxProps = {
 export const cleanButtonStyles: SxProps = {
   color: '#fff',
   textTransform: 'none',
+  '&:hover': {
+    textDecoration: 'underline',
+  },
 };
 
 export const purpleButtonStyles: SxProps = {

@@ -1,6 +1,6 @@
 import Avatar from '@/components/Avatar';
-import { Grid, Stack, Typography } from '@mui/material';
-import { smallTextStyles, userInfoStyles } from '../styles';
+import { Button, Grid, Stack, Typography } from '@mui/material';
+import { greenButtonStyles, smallTextStyles, userInfoStyles } from '../styles';
 
 const Message = () => {
   return (
@@ -12,8 +12,9 @@ const Message = () => {
         </Stack>
       </Grid>
       <Grid item xs={10}>
-        <Typography sx={smallTextStyles}>
-          {`If you're looking for a game that will transport you back to the
+        <Stack>
+          <Typography sx={smallTextStyles}>
+            {`If you're looking for a game that will transport you back to the
           golden age of gaming, look no further than [insert game name], a retro
           gem that's sure to delight fans of classic gaming. The first thing
           you'll notice about this game is the nostalgic graphics, which are a
@@ -21,7 +22,16 @@ const Message = () => {
           with each level featuring its own unique aesthetic. But don't be
           fooled by the old-school graphics - this game has plenty of modern
           touches that make it a blast to play`}
-        </Typography>
+          </Typography>
+          <Stack direction={'row'} alignItems={'center'} gap={'0.5rem'}>
+            <Button sx={{ ...greenButtonStyles, fontSize: '0.5rem' }}>
+              Reply
+            </Button>
+            <Typography color={'primary.main'} fontSize={'0.5rem'}>
+              12.03.2022
+            </Typography>
+          </Stack>
+        </Stack>
       </Grid>
     </Grid>
   );

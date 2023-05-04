@@ -39,12 +39,15 @@ export const NewThreadModal: FunctionComponent<ModalProps> = ({
   return (
     <ModalWindow {...{ open, handleClose, handleOpen, title }}>
       <Stack sx={{ padding: '1rem 4rem' }}>
-        <DataField
-          label="Theme"
-          variant={DATA_FIELD_VARIANTS.LABEL_TOP}
-          onChange={onChangeThemeName}
-          value={themeName}
-        />
+        {open && (
+          <DataField
+            label="Theme"
+            variant={DATA_FIELD_VARIANTS.LABEL_TOP}
+            autoFocus
+            onChange={onChangeThemeName}
+            value={themeName}
+          />
+        )}
         <MainButton label="Create" onClick={onCreate} disabled={!themeName} />
       </Stack>
     </ModalWindow>

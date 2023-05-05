@@ -12,7 +12,7 @@ const ProjectsPage: FC = () => {
 
   return (
     <MainPageTemplate>
-      <DataBox>
+      <DataBox width={800} height={600}>
         <Stack
           margin="auto"
           direction="column"

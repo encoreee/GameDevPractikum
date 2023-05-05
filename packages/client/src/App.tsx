@@ -7,12 +7,13 @@ import { theme } from './theme/theme';
 import { store } from './app/store';
 
 import Error from './features/errors/Error';
-import PrivateRoute from './components/privateRouter';
+import PrivateRoute from './components/PrivateRouter';
 import HomePage from './features/homepage/Homepage';
 import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
 import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
+import GameStartPage from './features/gameStart/GameStartPage';
 
 const App: FC = () => {
   return (
@@ -33,6 +34,9 @@ const App: FC = () => {
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum" element={<></>} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />
+                <Route path="/signin" element={<></>} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/start" element={<GameStartPage />} />
               </Route>
               <Route
                 path="*"

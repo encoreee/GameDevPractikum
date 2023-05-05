@@ -35,6 +35,7 @@ const App: FC = () => {
                 <Route path="/forum" element={<></>} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                 <Route path="/signin" element={<></>} />
                 <Route path="/signup" element={<SignUpPage />} />
@@ -46,6 +47,11 @@ const App: FC = () => {
                   }
                 />
 >>>>>>> 179696f (Страница обратного отсчета)
+=======
+                <Route path="/signin" element={<></>} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/start" element={<GameStartPage />} />
+>>>>>>> 133b1f4814b707286a798d757db795225e6a0d40
               </Route>
               <Route
                 path="*"
@@ -53,7 +59,7 @@ const App: FC = () => {
                   <Error errorType="404" errorMessage="Page Not Found." />
                 }
               />
-            </Routes>
+            </Routes
           </BrowserRouter>
         </ThemeProvider>
       </Provider>

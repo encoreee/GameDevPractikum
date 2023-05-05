@@ -39,7 +39,9 @@ const HomePage: FC = () => {
     <MainPageTemplate>
       <List sx={styles.listContainer}>
         <ListItem sx={styles.listItem}>
-          <Typography>start game</Typography>
+          <NavLink href="/start" sx={styles.link} underline="none" variant="h1">
+            <Typography>Start game</Typography>
+          </NavLink>
         </ListItem>
         <ListItem sx={styles.listItem}>
           <Typography>leader board</Typography>

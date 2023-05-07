@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
 import NavLink from '../../components/NavLink';
@@ -7,12 +7,12 @@ import { selectUser } from '@/app/user/userSlice';
 import { Stack } from '@mui/material';
 import ProfileForm from './ProfileForm';
 
-const ProjectsPage: FunctionComponent = () => {
+const ProjectsPage: FC = () => {
   const userState = useAppSelector(selectUser);
 
   return (
     <MainPageTemplate>
-      <DataBox>
+      <DataBox width={800} height={600}>
         <Stack
           margin="auto"
           direction="column"

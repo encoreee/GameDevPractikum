@@ -21,7 +21,10 @@ export class Collider {
       }
     } else {
       if (absoluteDifX < this.gameObject.size.width) {
-        if (absoluteDifY < other.size.height) {
+        if (
+          absoluteDifY <
+          this.gameObject.size.height - other.size.height / 2
+        ) {
           return true;
         }
       }

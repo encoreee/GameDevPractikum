@@ -118,7 +118,7 @@ export class GameScene implements SceneInterface {
     playerSize: Size
   ): GameObject {
     return new GameObject(
-      position.add(new Vector2(playerSize.width / 2 + bulletSize.width / 2, 0)),
+      position.add(new Vector2(playerSize.width / 2 - bulletSize.width / 2, 0)),
       bulletSize,
       new BulletPhysics(),
       new GameObjectGraphics()

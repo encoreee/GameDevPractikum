@@ -26,13 +26,7 @@ export class PlayerInput implements GameObjectComponent {
     }
 
     if (this.actionFlag.FIRE) {
-      const sizeVector = new Vector2(
-        gameObject.size.width,
-        gameObject.size.height
-      );
-      const position = gameObject.position.substract(sizeVector.divide(2));
-
-      this.fireCallback(position);
+      this.fireCallback(gameObject.position);
     }
   }
 }

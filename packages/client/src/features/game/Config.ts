@@ -5,7 +5,7 @@ import {
 } from './scenes/GameScene';
 
 export const canvasSize: Size = {
-  width: 500,
+  width: 700,
   height: 500,
 };
 
@@ -17,15 +17,15 @@ export const playerConfig: PlayerCreateConfigType = {
   canvasSize,
   paddingBottom: 50,
   speed: 500,
-  bulletCreateDelay: 300,
+  bulletCreateDelay: 150,
   bulletSize: {
-    width: 25,
-    height: 25,
+    width: 10,
+    height: 10,
   },
 };
 
 export const enemyConfig: EnemyCreateConfigType = {
-  numberEnemy: 1,
+  numberEnemy: 6,
   canvasSize,
   gap: 25,
   paddingTop: 50,

@@ -25,7 +25,7 @@ export const playerConfig: PlayerCreateConfigType = {
 };
 
 export const enemyConfig: EnemyCreateConfigType = {
-  numberEnemy: 6,
+  numberEnemy: 1,
   canvasSize,
   gap: 25,
   paddingTop: 50,

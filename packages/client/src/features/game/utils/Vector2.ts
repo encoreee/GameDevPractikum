@@ -6,7 +6,7 @@ export class Vector2 {
   }
 
   public substract(vec2: Vector2): Vector2 {
-    return new Vector2(this.x + vec2.x, this.y - vec2.y);
+    return new Vector2(this.x - vec2.x, this.y - vec2.y);
   }
 
   public multiply(scalar: number): Vector2 {

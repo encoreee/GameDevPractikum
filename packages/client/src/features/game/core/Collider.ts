@@ -10,6 +10,22 @@ export class Collider {
    * @see https://linear.app/gamedevpracticum/issue/GAM-27/realizovana-odna-iz-igrovyh-mehanik-opisannyh-v-dokumente-s-logikoj
    */
   public collideWith(other: GameObject): boolean {
+    const difference = this.gameObject.position.substract(other.position);
+    const absoluteDifX = Math.abs(difference.x);
+    const absoluteDifY = Math.abs(difference.y);
+    if (difference.x > 0) {
+      if (absoluteDifX < other.size.width) {
+        if (absoluteDifY < other.size.height) {
+          return true;
+        }
+      }
+    } else {
+      if (absoluteDifX < this.gameObject.size.width) {
+        if (absoluteDifY < other.size.height) {
+          return true;
+        }
+      }
+    }
     return false;
   }
   public collideWithWall(canvasSize: Size): boolean {

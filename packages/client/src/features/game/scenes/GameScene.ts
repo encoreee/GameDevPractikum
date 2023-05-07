@@ -48,7 +48,15 @@ export class GameScene implements SceneInterface {
       }
       bullet.update(dt);
     });
-    this.enemyCollection.forEachFromEnd((enemy) => enemy.update(dt));
+    this.enemyCollection.forEachFromEnd((enemy, enemyIndex) => {
+      this.playerBulletCollection.forEachFromEnd((bullet, bulletIndex) => {
+        if (enemy.collideWith(bullet)) {
+          this.playerBulletCollection.delete(bulletIndex);
+          this.enemyCollection.delete(enemyIndex);
+        }
+      });
+      enemy.update(dt);
+    });
   }
 
   public render(dt: number): void {
@@ -93,17 +101,25 @@ export class GameScene implements SceneInterface {
     return (position: Vector2) => {
       const currentBulletCreateTime = performance.now();
       if (currentBulletCreateTime > lastBulletCreateTime + bulletCreateDelay) {
-        const bullet = this.createPlayerBullet(position, bulletSize);
+        const bullet = this.createPlayerBullet(
+          position,
+          bulletSize,
+          this.player.size
+        );
         this.playerBulletCollection.push(bullet);
         lastBulletCreateTime = currentBulletCreateTime;
       }
     };
   }
 
-  private createPlayerBullet(position: Vector2, size: Size): GameObject {
+  private createPlayerBullet(
+    position: Vector2,
+    bulletSize: Size,
+    playerSize: Size
+  ): GameObject {
     return new GameObject(
-      position.substract(new Vector2(-size.width / 2, 0)),
-      size,
+      position.add(new Vector2(playerSize.width / 2 + bulletSize.width / 2, 0)),
+      bulletSize,
       new BulletPhysics(),
       new GameObjectGraphics()
     );

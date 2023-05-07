@@ -10,7 +10,7 @@ export class EnemyObjectPhysics implements GameObjectComponent {
       new Vector2(vx, vy).multiply(dt)
     );
 
-    gameObject.currentAngle += 0.1;
+    gameObject.currentAngle += 0.15;
 
     return;
   }

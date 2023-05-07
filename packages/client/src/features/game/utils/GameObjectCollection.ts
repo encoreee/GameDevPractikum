@@ -11,6 +11,10 @@ export class GameObjectCollection<T extends GameObject = GameObject> {
     this.collection.splice(index, 1);
   }
 
+  public empty(): boolean {
+    return this.collection && this.collection.length === 0;
+  }
+
   /**
    * Iterate over an array of elements from the end
    */

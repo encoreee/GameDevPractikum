@@ -58,6 +58,9 @@ export class GameScene implements SceneInterface {
         if (enemy.collideWith(bullet)) {
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);
+          if (this.enemyCollection.empty()) {
+            this.createEnemies(enemyConfig);
+          }
         }
       });
       enemy.update(dt);
@@ -150,7 +153,7 @@ export class GameScene implements SceneInterface {
         enemyVector,
         config.size,
         0,
-        100,
+        300,
         new EnemyObjectPhysics(),
         new GameObjectGraphics()
       );

@@ -19,8 +19,8 @@ export class GameObject {
   constructor(
     public position: Vector2,
     public readonly size: Size,
-    private readonly physics: GameObjectComponent,
-    private readonly graphics: GraphicComponent
+    protected readonly physics: GameObjectComponent,
+    protected readonly graphics: GraphicComponent
   ) {
     this.collider = new Collider(this);
   }
@@ -38,5 +38,20 @@ export class GameObject {
   }
   public collideWithWall(canvasSize: Size): boolean {
     return this.collider.collideWithWall(canvasSize);
+  }
+}
+
+export class CircleMovementObject extends GameObject {
+  constructor(
+    public position: Vector2,
+    public readonly size: Size,
+    public currentAngle: number,
+    public radius: number,
+    protected readonly physics: GameObjectComponent,
+    protected readonly graphics: GraphicComponent
+  ) {
+    super(position, size, physics, graphics);
+    this.currentAngle = currentAngle;
+    this.radius = radius;
   }
 }

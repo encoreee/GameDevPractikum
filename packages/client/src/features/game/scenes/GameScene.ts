@@ -3,13 +3,18 @@ import { BulletPhysics } from '../game-object/components/BulletPhysics';
 import { GameObjectGraphics } from '../game-object/components/GameObjectGraphics';
 import { GameObjectPhysics } from '../game-object/components/GameObjectPhysics';
 import { PlayerInput } from '../game-object/components/PlayerInput';
-import { GameObject, Size } from '../game-object/GameObject';
+import {
+  CircleMovementObject,
+  GameObject,
+  Size,
+} from '../game-object/GameObject';
 import { Player } from '../game-object/Player';
 import { KeyboardController } from '../core/KeyboardController';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { Vector2 } from '../utils/Vector2';
 import { SceneInterface } from './SceneInterface';
 import { enemyConfig, playerConfig } from '../Config';
+import { EnemyObjectPhysics } from '../game-object/components/EnemyObjectPhysics';
 
 export type PlayerCreateConfigType = {
   size: Size;
@@ -141,10 +146,12 @@ export class GameScene implements SceneInterface {
         startY
       );
 
-      const enemy = new GameObject(
+      const enemy = new CircleMovementObject(
         enemyVector,
         config.size,
-        new GameObjectPhysics(),
+        0,
+        100,
+        new EnemyObjectPhysics(),
         new GameObjectGraphics()
       );
 

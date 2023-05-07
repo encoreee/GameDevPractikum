@@ -9,8 +9,9 @@ import { KeyboardController } from '../core/KeyboardController';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { Vector2 } from '../utils/Vector2';
 import { SceneInterface } from './SceneInterface';
+import { enemyConfig, playerConfig } from '../Config';
 
-type PlayerCreateConfig = {
+export type PlayerCreateConfigType = {
   size: Size;
   canvasSize: Size;
   bulletSize: Size;
@@ -19,7 +20,7 @@ type PlayerCreateConfig = {
   speed: number;
 };
 
-type EnemyCreateConfig = {
+export type EnemyCreateConfigType = {
   numberEnemy: number;
   gap: number;
   size: Size;
@@ -33,23 +34,10 @@ export class GameScene implements SceneInterface {
   private readonly enemyCollection = new GameObjectCollection();
 
   constructor(private readonly keyboard: KeyboardController) {
-    this.player = this.createPlayer({
-      size: { width: 50, height: 50 },
-      canvasSize: Canvas.size(),
-      bulletSize: { width: 20, height: 20 },
-      paddingBottom: 50,
-      speed: 500,
-      bulletCreateDelay: 300,
-    });
+    this.player = this.createPlayer(playerConfig);
   }
   public init(): void {
-    this.createEnemies({
-      numberEnemy: 6,
-      gap: 25,
-      size: { width: 50, height: 50 },
-      canvasSize: Canvas.size(),
-      paddingTop: 50,
-    });
+    this.createEnemies(enemyConfig);
   }
 
   public update(dt: number): void {
@@ -71,7 +59,7 @@ export class GameScene implements SceneInterface {
     });
   }
 
-  private createPlayer(config: PlayerCreateConfig): Player {
+  private createPlayer(config: PlayerCreateConfigType): Player {
     const position = new Vector2(
       config.canvasSize.width / 2 - config.size.width / 2,
       config.canvasSize.height - config.size.height - config.paddingBottom
@@ -121,7 +109,7 @@ export class GameScene implements SceneInterface {
     );
   }
 
-  private createEnemies(config: EnemyCreateConfig): void {
+  private createEnemies(config: EnemyCreateConfigType): void {
     const startX =
       (config.canvasSize.width +
         config.size.width / 2 -

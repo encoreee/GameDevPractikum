@@ -1,8 +1,14 @@
-import { Vector2 } from '../utils/Vector2';
 import { GameObject, Size } from '../game-object/GameObject';
 
 export class Collider {
   constructor(private readonly gameObject: GameObject) {}
+
+  /**
+   * //TODO: GAM-27. Реализована одна из игровых механик, описанных в документе с логикой игры.
+   *
+   * Обработка коллизий объектов
+   * @see https://linear.app/gamedevpracticum/issue/GAM-27/realizovana-odna-iz-igrovyh-mehanik-opisannyh-v-dokumente-s-logikoj
+   */
   public collideWith(other: GameObject): boolean {
     return false;
   }

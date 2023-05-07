@@ -1,21 +1,20 @@
 import MainPageTemplate from '@/components/MainPageTemplate';
 import React, { FunctionComponent, useEffect, useRef } from 'react';
+import { canvasSize } from './Config';
 import { Canvas } from './core/Canvas';
 import { GalagaGame } from './GalagaGame';
 
 const styles: React.CSSProperties = {
   border: '1px solid silver',
   backgroundColor: 'hsla(0, 0%, 56%, 30%)',
-  // backdropFilter: 'blur(4px)',
+  backdropFilter: 'blur(4px)',
   marginTop: '2rem',
 };
 
+const galaga = new GalagaGame();
+
 const GamePage: FunctionComponent = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
-  const HEIGHT = 500;
-  const WIDTH = 500;
-
-  const galaga = new GalagaGame();
 
   useEffect(() => {
     document.addEventListener('keydown', onKeyDownHandler);
@@ -30,7 +29,7 @@ const GamePage: FunctionComponent = () => {
       document.removeEventListener('keydown', onKeyDownHandler);
       document.removeEventListener('keyup', onKeyUpHandler);
     };
-  }, []);
+  }, [canvas]);
 
   const onKeyDownHandler = (event: KeyboardEvent) => {
     galaga.keyboard.keyDownHandler(event.key);
@@ -43,8 +42,8 @@ const GamePage: FunctionComponent = () => {
     <MainPageTemplate>
       <canvas
         ref={canvas}
-        width={WIDTH}
-        height={HEIGHT}
+        width={canvasSize.width}
+        height={canvasSize.height}
         style={styles}></canvas>
     </MainPageTemplate>
   );

@@ -12,7 +12,10 @@ export enum SceneName {
 
 type ScenesCollectionType = Record<
   SceneName,
-  new (keyboard: KeyboardController) => SceneInterface
+  new (
+    keyboard: KeyboardController,
+    endGameCallback: () => void
+  ) => SceneInterface
 >;
 
 export class SceneManager {
@@ -23,12 +26,18 @@ export class SceneManager {
     start: StartScene,
     gameover: EndScene,
   };
+  private static end: boolean;
+  private static endCallBack(): void {
+    SceneManager.end = true;
+  }
 
   /**
    * Update function the current scene
    */
   public update(dt: number) {
-    SceneManager.currentScene.update(dt);
+    if (!SceneManager.end) {
+      SceneManager.currentScene.update(dt);
+    }
   }
 
   /**
@@ -46,8 +55,10 @@ export class SceneManager {
       throw new Error('Keyboard is undefined. Set keyboard');
     }
     SceneManager.currentScene = new SceneManager.scenesCollection[name](
-      SceneManager.keyboard
+      SceneManager.keyboard,
+      SceneManager.endCallBack
     );
+    SceneManager.end = false;
     SceneManager.currentScene.init();
   }
 

@@ -1,5 +1,8 @@
 import { Canvas } from '../core/Canvas';
-import { BulletPhysics } from '../game-object/components/BulletPhysics';
+import {
+  EnemyBulletPhysics,
+  PlayerBulletPhysics,
+} from '../game-object/components/BulletPhysics';
 import { GameObjectGraphics } from '../game-object/components/GameObjectGraphics';
 import { GameObjectPhysics } from '../game-object/components/GameObjectPhysics';
 import { PlayerInput } from '../game-object/components/PlayerInput';
@@ -15,6 +18,7 @@ import { Vector2 } from '../utils/Vector2';
 import { SceneInterface } from './SceneInterface';
 import { enemyConfig, playerConfig } from '../Config';
 import { EnemyObjectPhysics } from '../game-object/components/EnemyObjectPhysics';
+import { getRandomInt } from '../utils/Math';
 
 export type PlayerCreateConfigType = {
   size: Size;
@@ -31,15 +35,25 @@ export type EnemyCreateConfigType = {
   size: Size;
   canvasSize: Size;
   paddingTop: number;
+  bulletSize: Size;
+  bulletCreateDelay: number;
 };
 
 export class GameScene implements SceneInterface {
   private readonly player: Player;
+  private readonly absoluteStartTime: number;
+  private lastBulletCreateTime: number;
   private readonly playerBulletCollection = new GameObjectCollection();
+  private readonly enemyBulletCollection = new GameObjectCollection();
   private readonly enemyCollection = new GameObjectCollection();
 
-  constructor(private readonly keyboard: KeyboardController) {
+  constructor(
+    private readonly keyboard: KeyboardController,
+    private endGameCallback: () => void
+  ) {
     this.player = this.createPlayer(playerConfig);
+    this.absoluteStartTime = performance.now();
+    this.lastBulletCreateTime = performance.now();
   }
   public init(): void {
     this.createEnemies(enemyConfig);
@@ -47,12 +61,44 @@ export class GameScene implements SceneInterface {
 
   public update(dt: number): void {
     this.player.update(dt);
+
+    const selectEnemyToAttack = getRandomInt(this.enemyCollection.count());
+    const enemyToAttack = this.enemyCollection.getObject(selectEnemyToAttack);
+    let bulletCreateDelay = enemyConfig.bulletCreateDelay;
+    if (
+      this.enemyCollection.count() <= enemyConfig.numberEnemy / 3 &&
+      this.enemyCollection.count() > 1
+    ) {
+      bulletCreateDelay = bulletCreateDelay * 2;
+    } else if (this.enemyCollection.count() === 1) {
+      bulletCreateDelay = bulletCreateDelay * 3;
+    }
+
+    this.enemyFireAction(
+      enemyToAttack,
+      enemyConfig.bulletSize,
+      bulletCreateDelay
+    )(enemyToAttack.position, this.lastBulletCreateTime);
+
+    this.enemyBulletCollection.forEachFromEnd((bullet, index) => {
+      if (bullet.collideWithWall(Canvas.size())) {
+        this.enemyBulletCollection.delete(index);
+      }
+
+      if (this.player.collideWith(bullet)) {
+        this.endGameCallback();
+      }
+
+      bullet.update(dt);
+    });
+
     this.playerBulletCollection.forEachFromEnd((bullet, index) => {
       if (bullet.collideWithWall(Canvas.size())) {
         this.playerBulletCollection.delete(index);
       }
       bullet.update(dt);
     });
+
     this.enemyCollection.forEachFromEnd((enemy, enemyIndex) => {
       this.playerBulletCollection.forEachFromEnd((bullet, bulletIndex) => {
         if (enemy.collideWith(bullet)) {
@@ -63,6 +109,7 @@ export class GameScene implements SceneInterface {
           }
         }
       });
+
       enemy.update(dt);
     });
   }
@@ -72,6 +119,9 @@ export class GameScene implements SceneInterface {
     this.playerBulletCollection.forEachFromEnd((bullet) => bullet.render(dt));
     this.enemyCollection.forEachFromEnd((enemy) => {
       enemy.render(dt);
+    });
+    this.enemyBulletCollection.forEachFromEnd((bullet) => {
+      bullet.render(dt);
     });
   }
 
@@ -85,6 +135,7 @@ export class GameScene implements SceneInterface {
       config.bulletSize,
       config.bulletCreateDelay
     );
+
     const input = new PlayerInput(
       this.keyboard.getAction(),
       config.speed,
@@ -109,10 +160,11 @@ export class GameScene implements SceneInterface {
     return (position: Vector2) => {
       const currentBulletCreateTime = performance.now();
       if (currentBulletCreateTime > lastBulletCreateTime + bulletCreateDelay) {
-        const bullet = this.createPlayerBullet(
+        const bullet = this.createBullet(
           position,
           bulletSize,
-          this.player.size
+          this.player.size,
+          true
         );
         this.playerBulletCollection.push(bullet);
         lastBulletCreateTime = currentBulletCreateTime;
@@ -120,17 +172,51 @@ export class GameScene implements SceneInterface {
     };
   }
 
-  private createPlayerBullet(
+  public enemyFireAction(
+    gameObject: GameObject,
+    bulletSize: Size,
+    bulletCreateDelay: number
+  ) {
+    return (position: Vector2, lastBulletCreateTime: number) => {
+      const currentBulletCreateTime = performance.now();
+      if (currentBulletCreateTime > lastBulletCreateTime + bulletCreateDelay) {
+        const bullet = this.createBullet(
+          position,
+          bulletSize,
+          gameObject.size,
+          false
+        );
+        this.enemyBulletCollection.push(bullet);
+        this.lastBulletCreateTime = currentBulletCreateTime;
+      }
+    };
+  }
+
+  private createBullet(
     position: Vector2,
     bulletSize: Size,
-    playerSize: Size
+    objectSize: Size,
+    player: boolean
   ): GameObject {
-    return new GameObject(
-      position.add(new Vector2(playerSize.width / 2 - bulletSize.width / 2, 0)),
-      bulletSize,
-      new BulletPhysics(),
-      new GameObjectGraphics()
-    );
+    if (player) {
+      return new GameObject(
+        position.add(
+          new Vector2(objectSize.width / 2 - bulletSize.width / 2, 0)
+        ),
+        bulletSize,
+        new PlayerBulletPhysics(),
+        new GameObjectGraphics()
+      );
+    } else {
+      return new GameObject(
+        position.add(
+          new Vector2(objectSize.width / 2 - bulletSize.width / 2, 0)
+        ),
+        bulletSize,
+        new EnemyBulletPhysics(),
+        new GameObjectGraphics()
+      );
+    }
   }
 
   private createEnemies(config: EnemyCreateConfigType): void {
@@ -153,7 +239,7 @@ export class GameScene implements SceneInterface {
         enemyVector,
         config.size,
         0,
-        300,
+        200,
         new EnemyObjectPhysics(),
         new GameObjectGraphics()
       );

@@ -33,4 +33,9 @@ export const enemyConfig: EnemyCreateConfigType = {
     width: 50,
     height: 50,
   },
+  bulletCreateDelay: 800,
+  bulletSize: {
+    width: 10,
+    height: 10,
+  },
 };

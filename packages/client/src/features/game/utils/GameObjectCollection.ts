@@ -11,8 +11,17 @@ export class GameObjectCollection<T extends GameObject = GameObject> {
     this.collection.splice(index, 1);
   }
 
+  public getObject(index: number): T {
+    const enemy = this.collection[index];
+    return enemy;
+  }
+
   public empty(): boolean {
     return this.collection && this.collection.length === 0;
+  }
+
+  public count(): number {
+    return this.collection.length;
   }
 
   /**

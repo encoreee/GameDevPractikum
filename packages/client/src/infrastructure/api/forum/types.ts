@@ -1,22 +1,21 @@
-type ForumThread = {
+export type ForumThread = {
   id: string;
   theme: string;
   lastUpdate: Nullable<string>;
   messagesCount: Nullable<number>;
 };
 
-type ForumThreadList = ForumThread[];
-
-type threadData = {
+export type threadData = {
   threadName: string;
 };
 
-type CreateNewThread = (threadData: threadData) => Promise<ForumThread>;
+export type CreateNewThread = (threadData: threadData) => Promise<ForumThread>;
 
-type ThreadMessage = {
+export type ThreadMessage = {
   id: string;
   time: string;
   userName: string;
   userAvatar: string;
   message: string;
+  threadId: string;
 };

@@ -8,7 +8,7 @@ import {
   Box,
 } from '@mui/material';
 import BreadCrumbs from '@components/BreadCrumbs';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import {
   getThreadsList,
   selectThreadList,
@@ -31,10 +31,14 @@ import {
   tableHeadCellStyles,
 } from '../styles';
 import TBThreads from '../components/TBThreads';
+import type { ForumThread } from '@/infrastructure/api/forum/types';
+
+const THREADS_PER_PAGE = 9;
 
 const ForumThreadList: FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const threadList = useSelector(selectThreadList);
   const threadListStatus = useSelector(selectThreadListStatus);
 
@@ -42,15 +46,18 @@ const ForumThreadList: FC = () => {
     if (!threadListStatus) {
       dispatch(getThreadsList());
     }
-  });
+  }, []);
 
   const [params, setSearchParam] = useSearchParams();
 
   const currentPagesIdx = params.get('page') || 1;
 
-  const threadsPerPage = 9;
-
-  const chankedThreadList = chunk(threadList, threadsPerPage);
+  const chankedThreadList = useMemo<ForumThread[][]>(() => {
+    if (threadList) {
+      return chunk(threadList, THREADS_PER_PAGE);
+    }
+    return [];
+  }, [threadList]);
 
   const lastPageIdx = chankedThreadList.length;
 
@@ -62,9 +69,14 @@ const ForumThreadList: FC = () => {
         setSearchParam({ page: '1' });
       }
     }
-  });
+  }, [threadListStatus, currentPagesIdx]);
 
-  const threadListByPageIdx = chankedThreadList[+currentPagesIdx - 1] || [];
+  const threadListByPageIdx = useMemo<ForumThread[]>(() => {
+    if (chankedThreadList) {
+      return chankedThreadList[+currentPagesIdx - 1];
+    }
+    return [];
+  }, [chankedThreadList, currentPagesIdx]);
 
   const onNextPage = () => {
     const nextPageIndex = +currentPagesIdx + 1;
@@ -80,18 +92,17 @@ const ForumThreadList: FC = () => {
     navigate('/');
   };
 
-  const BreadCrumbItems = ['Forums'];
+  const breadCrumbItems = ['Forums'];
 
   const isPrevPageBtnVisible = +currentPagesIdx !== 1;
 
   const isNextPageBtnVisible = chankedThreadList[+currentPagesIdx]?.length > 0;
 
-  const ModalProps = useModalWindow('New Theme');
-
+  const modalProps = useModalWindow('New Theme');
   return (
     <>
       <Stack alignItems={'start'} sx={{ width: '100%' }}>
-        <BreadCrumbs items={BreadCrumbItems} />
+        <BreadCrumbs items={breadCrumbItems} />
         <Box sx={mainBoxStyles}>
           <Table>
             <TableHead>
@@ -104,10 +115,8 @@ const ForumThreadList: FC = () => {
               </TableRow>
             </TableHead>
             <TBThreads
-              {...{
-                threadList: threadListByPageIdx,
-                threadListStatus,
-              }}
+              threadList={threadListByPageIdx}
+              threadListStatus={threadListStatus}
             />
           </Table>
         </Box>
@@ -134,12 +143,12 @@ const ForumThreadList: FC = () => {
           <Button
             variant="text"
             sx={greenButtonStyles}
-            onClick={ModalProps.handleOpen}>
+            onClick={modalProps.handleOpen}>
             New Theme
           </Button>
         </Stack>
       </Stack>
-      <NewThreadModal {...ModalProps} />
+      <NewThreadModal {...modalProps} />
     </>
   );
 };

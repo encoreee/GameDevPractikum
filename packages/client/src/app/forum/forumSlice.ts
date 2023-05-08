@@ -1,12 +1,14 @@
-import ForumApi from '@/infrastructure/api/forum/ForumApi';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { ForumApi } from '@/infrastructure/api/forum/ForumApi';
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+} from '@reduxjs/toolkit';
 import { ForumState } from './types';
 import { RootState } from '../store';
 import { STATE_STATUSES } from '@/shared/const/store/stateStatuses';
-
-const initialState: ForumState = {
-  status: { threadList: null },
-};
+import { ThreadMessage } from '@/infrastructure/api/forum/types';
 
 export const getThreadsList = createAsyncThunk(
   'forum/getThreadList',
@@ -22,6 +24,23 @@ export const getThreadMessages = createAsyncThunk(
   'forum/getThreadMessages',
   async (id: string) => await ForumApi.getThreadMessagesById(id)
 );
+
+const threadMessagesAdapter = createEntityAdapter<ThreadMessage[]>({
+  selectId: (message) => {
+    console.log(message);
+    return message[0].threadId;
+  },
+});
+
+console.log(threadMessagesAdapter.getInitialState());
+
+const initialState: ForumState = {
+  status: { threadList: null, createThread: null },
+  threadMessages: threadMessagesAdapter.getInitialState({
+    status: null,
+    errorMessage: '',
+  }),
+};
 
 export const forumSlice = createSlice({
   name: 'forum-slice',
@@ -40,11 +59,27 @@ export const forumSlice = createSlice({
       state.threadList = undefined;
       state.error = action.error;
     });
+    build.addCase(createNewThread.pending, (state) => {
+      state.status.createThread = STATE_STATUSES.LOADING;
+    });
+    build.addCase(createNewThread.rejected, (state) => {
+      state.status.createThread = STATE_STATUSES.FAILED;
+    });
     build.addCase(createNewThread.fulfilled, (state, action) => {
       state.threadList?.unshift({
         ...action.payload,
         id: state.threadList.length.toString(),
       });
+    });
+    build.addCase(getThreadMessages.pending, (state) => {
+      console.log(state);
+    });
+    build.addCase(getThreadMessages.rejected, (state) => {
+      console.log(state);
+    });
+    build.addCase(getThreadMessages.fulfilled, (state, action) => {
+      console.log(action.payload);
+      threadMessagesAdapter.addOne(state.threadMessages, action.payload);
     });
   },
 });
@@ -57,5 +92,10 @@ export const selectThreadListStatus = (state: RootState) =>
 export const selectThreadById = (id: string) => (state: RootState) => {
   return state.forum.threadList?.find((thread) => +thread.id === +id);
 };
+
+const threadMessagesSelectors = threadMessagesAdapter.getSelectors();
+
+export const selectThreadMessagesById = (id: string) => (state: RootState) =>
+  threadMessagesSelectors.selectById(state.forum.threadMessages, id) || [];
 
 export default forumSlice.reducer;

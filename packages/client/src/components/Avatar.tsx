@@ -8,23 +8,18 @@ interface AvatarProps {
 }
 
 const Avatar: FC<AvatarProps> = ({ src, alt = 'avatar' }) => {
-  // const onLoaded = () => {
-  //   console.log();
-  // };
-  // const onError = () => {
-  //   console.log();
-  // };
   return (
     <Box sx={styles.box}>
       {src ? (
         <img src={defaultAvatar} alt={alt} />
       ) : (
         <img src={src} alt={alt} />
-      )}{' '}
-      {/**TODO Загрузка с прелоадером */}
+      )}
     </Box>
   );
 };
+
+export default Avatar;
 
 const styles = {
   box: {
@@ -38,4 +33,3 @@ const styles = {
     img: { width: '100%', height: '100%' },
   },
 };
-export default Avatar;

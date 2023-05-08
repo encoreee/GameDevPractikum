@@ -1,34 +1,33 @@
 import Avatar from '@/components/Avatar';
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { greenButtonStyles, smallTextStyles, userInfoStyles } from '../styles';
+import { ThreadMessage } from '@/infrastructure/api/forum/types';
+import { FC } from 'react';
+import { formatDateFromUTCString } from '@/shared';
 
-const Message = () => {
+const Message: FC<ThreadMessage> = ({
+  time,
+  userName,
+  userAvatar,
+  message,
+}) => {
   return (
     <Grid container>
       <Grid item xs={2}>
         <Stack sx={userInfoStyles}>
-          <Avatar src="defaultAvatar.svg"></Avatar>
-          <Typography sx={smallTextStyles}>Semen Ivanov</Typography>
+          <Avatar src={userAvatar} />
+          <Typography sx={smallTextStyles}>{userName}</Typography>
         </Stack>
       </Grid>
       <Grid item xs={10}>
         <Stack>
-          <Typography sx={smallTextStyles}>
-            {`If you're looking for a game that will transport you back to the
-          golden age of gaming, look no further than [insert game name], a retro
-          gem that's sure to delight fans of classic gaming. The first thing
-          you'll notice about this game is the nostalgic graphics, which are a
-          loving homage to the 8-bit era. The pixel art is vibrant and colorful,
-          with each level featuring its own unique aesthetic. But don't be
-          fooled by the old-school graphics - this game has plenty of modern
-          touches that make it a blast to play`}
-          </Typography>
+          <Typography sx={smallTextStyles}>{message}</Typography>
           <Stack direction={'row'} alignItems={'center'} gap={'0.5rem'}>
             <Button sx={{ ...greenButtonStyles, fontSize: '0.5rem' }}>
               Reply
             </Button>
             <Typography color={'primary.main'} fontSize={'0.5rem'}>
-              12.03.2022
+              {formatDateFromUTCString(time)}
             </Typography>
           </Stack>
         </Stack>

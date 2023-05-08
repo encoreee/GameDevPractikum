@@ -1,4 +1,6 @@
-const __forumThreads: ForumThreadList = [
+import { ForumThread, ThreadMessage } from '../types';
+
+const FORUM_TREADS_MOCK: ForumThread[] = [
   {
     id: '1',
     theme: 'New games',
@@ -86,20 +88,21 @@ const __forumThreads: ForumThreadList = [
   },
 ];
 
-const __threadMessages: ThreadMessage[] = [
+export const THREAD_MESSAGES_MOCK = (id: string): ThreadMessage[] => [
   {
     id: '1',
     time: 'Tue, 27 Sep 2022 00:00:00 GMT',
     userName: 'Semen Ivanov',
-    userAvatar: '',
+    userAvatar: 'defaultAvatar.svg',
     message: `If you're looking for a game that will transport you back to the golden age of gaming, look no further than [insert game name], a retro gem that's sure to delight fans of classic gaming.
 The first thing you'll notice about this game is the nostalgic graphics, which are a loving homage to the 8-bit era. The pixel art is vibrant and colorful, with each level featuring its own unique aesthetic. But don't be fooled by the old-school graphics - this game has plenty of modern touches that make it a blast to play.`,
+    threadId: id,
   },
 ];
 
 const ForumData = {
-  __forumThreads,
-  __threadMessages,
+  THREAD_MESSAGES_MOCK,
+  FORUM_TREADS_MOCK,
 };
 
 export const getData = (

@@ -2,7 +2,7 @@ import { Collider } from '../core/Collider';
 import { Vector2 } from '../utils/Vector2';
 
 export interface GameObjectComponent {
-  update(gameObject: GameObject, dt: number): void;
+  update(gameObject: GameObject, dt: number, absTime?: number): void;
 }
 
 export interface GraphicComponent {
@@ -25,8 +25,8 @@ export class GameObject {
     this.collider = new Collider(this);
   }
 
-  public update(dt: number): void {
-    this.physics.update(this, dt);
+  public update(dt: number, absTime?: number): void {
+    this.physics.update(this, dt, absTime);
   }
 
   public render(dt: number): void {
@@ -53,5 +53,20 @@ export class CircleMovementObject extends GameObject {
     super(position, size, physics, graphics);
     this.currentAngle = currentAngle;
     this.radius = radius;
+  }
+}
+
+export class SquadPositionedObject extends CircleMovementObject {
+  constructor(
+    public position: Vector2,
+    public readonly size: Size,
+    public currentAngle: number,
+    public radius: number,
+    public squadPosition: Vector2,
+    protected readonly physics: GameObjectComponent,
+    protected readonly graphics: GraphicComponent
+  ) {
+    super(position, size, currentAngle, radius, physics, graphics);
+    this.squadPosition = squadPosition;
   }
 }

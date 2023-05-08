@@ -6,7 +6,7 @@ import {
 
 export const canvasSize: Size = {
   width: 700,
-  height: 500,
+  height: 900,
 };
 
 export const playerConfig: PlayerCreateConfigType = {
@@ -25,15 +25,16 @@ export const playerConfig: PlayerCreateConfigType = {
 };
 
 export const enemyConfig: EnemyCreateConfigType = {
-  numberEnemy: 1,
+  numberEnemy: 6,
   canvasSize,
-  gap: 25,
+  gap: 50,
   paddingTop: 50,
   size: {
     width: 50,
     height: 50,
   },
   bulletCreateDelay: 800,
+  enemyCreateDelay: 300,
   bulletSize: {
     width: 10,
     height: 10,

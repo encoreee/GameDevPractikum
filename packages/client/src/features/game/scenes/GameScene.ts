@@ -7,9 +7,9 @@ import { GameObjectGraphics } from '../game-object/components/GameObjectGraphics
 import { GameObjectPhysics } from '../game-object/components/GameObjectPhysics';
 import { PlayerInput } from '../game-object/components/PlayerInput';
 import {
-  CircleMovementObject,
   GameObject,
   Size,
+  SquadPositionedObject,
 } from '../game-object/GameObject';
 import { Player } from '../game-object/Player';
 import { KeyboardController } from '../core/KeyboardController';
@@ -37,48 +37,73 @@ export type EnemyCreateConfigType = {
   paddingTop: number;
   bulletSize: Size;
   bulletCreateDelay: number;
+  enemyCreateDelay: number;
 };
 
 export class GameScene implements SceneInterface {
   private readonly player: Player;
-  private readonly absoluteStartTime: number;
-  private lastBulletCreateTime: number;
+  private absoluteTime: number;
+  private lastAttackCreateTime: number;
+  private lastEnemyCreateTime: number;
   private readonly playerBulletCollection = new GameObjectCollection();
   private readonly enemyBulletCollection = new GameObjectCollection();
   private readonly enemyCollection = new GameObjectCollection();
+
+  private startX: number;
+  private startY: number;
 
   constructor(
     private readonly keyboard: KeyboardController,
     private endGameCallback: () => void
   ) {
     this.player = this.createPlayer(playerConfig);
-    this.absoluteStartTime = performance.now();
-    this.lastBulletCreateTime = performance.now();
+    this.absoluteTime = performance.now();
+    this.lastAttackCreateTime = performance.now();
+    this.lastEnemyCreateTime = performance.now();
+    this.startX = 0;
+    this.startY = 0;
   }
   public init(): void {
-    this.createEnemies(enemyConfig);
+    this.startX =
+      (enemyConfig.canvasSize.width +
+        enemyConfig.size.width / 2 -
+        enemyConfig.size.width * enemyConfig.numberEnemy -
+        enemyConfig.gap * enemyConfig.numberEnemy -
+        1) /
+      2;
+    this.startY = enemyConfig.paddingTop;
   }
 
   public update(dt: number): void {
+    this.absoluteTime = performance.now();
     this.player.update(dt);
+
+    if (this.enemyCollection.count() < enemyConfig.numberEnemy) {
+      this.tryCreateEnemy(
+        enemyConfig.enemyCreateDelay,
+        this.enemyCollection.count()
+      )(this.lastAttackCreateTime);
+    }
 
     const selectEnemyToAttack = getRandomInt(this.enemyCollection.count());
     const enemyToAttack = this.enemyCollection.getObject(selectEnemyToAttack);
-    let bulletCreateDelay = enemyConfig.bulletCreateDelay;
-    if (
-      this.enemyCollection.count() <= enemyConfig.numberEnemy / 3 &&
-      this.enemyCollection.count() > 1
-    ) {
-      bulletCreateDelay = bulletCreateDelay * 2;
-    } else if (this.enemyCollection.count() === 1) {
-      bulletCreateDelay = bulletCreateDelay * 3;
-    }
+    if (enemyToAttack) {
+      let bulletCreateDelay = enemyConfig.bulletCreateDelay;
+      if (
+        this.enemyCollection.count() <= enemyConfig.numberEnemy / 3 &&
+        this.enemyCollection.count() > 1
+      ) {
+        bulletCreateDelay = bulletCreateDelay * 2;
+      } else if (this.enemyCollection.count() === 1) {
+        bulletCreateDelay = bulletCreateDelay * 3;
+      }
 
-    this.enemyFireAction(
-      enemyToAttack,
-      enemyConfig.bulletSize,
-      bulletCreateDelay
-    )(enemyToAttack.position, this.lastBulletCreateTime);
+      this.enemyFireAction(
+        enemyToAttack,
+        enemyConfig.bulletSize,
+        bulletCreateDelay
+      )(enemyToAttack.position, this.lastAttackCreateTime);
+    }
 
     this.enemyBulletCollection.forEachFromEnd((bullet, index) => {
       if (bullet.collideWithWall(Canvas.size())) {
@@ -105,12 +130,12 @@ export class GameScene implements SceneInterface {
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);
           if (this.enemyCollection.empty()) {
-            this.createEnemies(enemyConfig);
+            console.log('empty');
           }
         }
       });
 
-      enemy.update(dt);
+      enemy.update(dt, this.absoluteTime);
     });
   }
 
@@ -187,7 +212,7 @@ export class GameScene implements SceneInterface {
           false
         );
         this.enemyBulletCollection.push(bullet);
-        this.lastBulletCreateTime = currentBulletCreateTime;
+        this.lastAttackCreateTime = currentBulletCreateTime;
       }
     };
   }
@@ -219,28 +244,46 @@ export class GameScene implements SceneInterface {
     }
   }
 
-  private createEnemies(config: EnemyCreateConfigType): void {
-    const startX =
-      (config.canvasSize.width +
-        config.size.width / 2 -
-        config.size.width * config.numberEnemy -
-        config.gap * config.numberEnemy -
-        1) /
-      2;
-    const startY = config.paddingTop;
+  public tryCreateEnemy(enemyCreateDelay: number, index: number) {
+    return (lastEnemyCreateTime: number) => {
+      const currentEnemyCreateTime = performance.now();
+      if (currentEnemyCreateTime > lastEnemyCreateTime + enemyCreateDelay) {
+        this.createEnemy(
+          enemyConfig,
+          this.startX,
+          this.startY,
+          0,
+          enemyConfig.canvasSize.width / 8,
+          300,
+          index
+        );
+        this.lastAttackCreateTime = currentEnemyCreateTime;
+      }
+    };
+  }
 
-    for (let i = 0; i < config.numberEnemy; i++) {
+  private createEnemy(
+    config: EnemyCreateConfigType,
+    xSquadPositionConst: number,
+    ySquadPositionConst: number,
+    xBirthPosition: number,
+    yBirthPosition: number,
+    movementRadius: number,
+    enemyNumber: number
+  ): void {
+    {
       const enemyVector = new Vector2(
-        startX + (config.size.width + config.gap) * i,
-        startY
+        xSquadPositionConst + (config.size.width + config.gap) * enemyNumber,
+        ySquadPositionConst
       );
 
-      const enemy = new CircleMovementObject(
-        enemyVector,
+      const enemy = new SquadPositionedObject(
+        new Vector2(xBirthPosition, yBirthPosition),
         config.size,
         0,
-        200,
-        new EnemyObjectPhysics(),
+        movementRadius,
+        enemyVector,
+        new EnemyObjectPhysics(performance.now(), config),
         new GameObjectGraphics()
       );
 

@@ -14,6 +14,7 @@ import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
 import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 import ForumPages from '@features/forum/pages';
+import GamePage from './features/game/GamePage';
 import GameStartPage from './features/gameStart/GameStartPage';
 
 const App: FC = () => {
@@ -32,6 +33,7 @@ const App: FC = () => {
                   </PrivateRoute>
                 }>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/game" element={<GamePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum/*" element={<ForumPages />} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />

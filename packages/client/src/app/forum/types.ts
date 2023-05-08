@@ -6,11 +6,14 @@ export type ForumStatus = {
   createThread: StateStatus;
 };
 
+export interface EntityAdapterInitalState<T> extends EntityState<T> {
+  status: StateStatus;
+  error: SerializedError;
+}
+
 export type ForumState = {
   status: ForumStatus;
   threadList?: ForumThread[];
-  threadMessages: EntityState<ThreadMessage[]>;
+  threadMessages: EntityAdapterInitalState<ThreadMessage[]>;
   error?: SerializedError;
 };
-
-// export type

@@ -5,7 +5,7 @@ import {
   createEntityAdapter,
   createSlice,
 } from '@reduxjs/toolkit';
-import { ForumState } from './types';
+import { EntityAdapterInitalState, ForumState } from './types';
 import { RootState } from '../store';
 import { STATE_STATUSES } from '@/shared/const/store/stateStatuses';
 import { ThreadMessage } from '@/infrastructure/api/forum/types';
@@ -27,19 +27,16 @@ export const getThreadMessages = createAsyncThunk(
 
 const threadMessagesAdapter = createEntityAdapter<ThreadMessage[]>({
   selectId: (message) => {
-    console.log(message);
     return message[0].threadId;
   },
 });
-
-console.log(threadMessagesAdapter.getInitialState());
 
 const initialState: ForumState = {
   status: { threadList: null, createThread: null },
   threadMessages: threadMessagesAdapter.getInitialState({
     status: null,
-    errorMessage: '',
-  }),
+    error: '',
+  }) as EntityAdapterInitalState<ThreadMessage[]>,
 };
 
 export const forumSlice = createSlice({
@@ -72,13 +69,13 @@ export const forumSlice = createSlice({
       });
     });
     build.addCase(getThreadMessages.pending, (state) => {
-      console.log(state);
+      state.threadMessages.status = STATE_STATUSES.LOADING;
     });
     build.addCase(getThreadMessages.rejected, (state) => {
-      console.log(state);
+      state.threadMessages.status = STATE_STATUSES.FAILED;
     });
     build.addCase(getThreadMessages.fulfilled, (state, action) => {
-      console.log(action.payload);
+      state.threadMessages.status = STATE_STATUSES.IDLE;
       threadMessagesAdapter.addOne(state.threadMessages, action.payload);
     });
   },

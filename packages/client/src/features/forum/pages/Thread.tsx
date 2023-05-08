@@ -57,7 +57,6 @@ const ForumThread = () => {
 
   const threadMessages = useSelector(selectThreadMessagesById(id));
 
-  console.log(threadMessages);
   return (
     <Stack alignItems={'start'} width={'100%'}>
       <BreadCrumbs items={BreadCrumbItems} />

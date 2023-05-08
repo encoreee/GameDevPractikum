@@ -15,16 +15,21 @@ export class Collider {
     const absoluteDifY = Math.abs(difference.y);
     if (difference.x > 0) {
       if (absoluteDifX < other.size.width) {
-        if (absoluteDifY < other.size.height) {
+        if (difference.y > 0) {
+          if (absoluteDifY < other.size.height) {
+            return true;
+          }
+        } else if (absoluteDifY < this.gameObject.size.height) {
           return true;
         }
       }
     } else {
       if (absoluteDifX < this.gameObject.size.width) {
-        if (
-          absoluteDifY <
-          this.gameObject.size.height - other.size.height / 2
-        ) {
+        if (difference.y > 0) {
+          if (absoluteDifY < other.size.height) {
+            return true;
+          }
+        } else if (absoluteDifY < other.size.height) {
           return true;
         }
       }

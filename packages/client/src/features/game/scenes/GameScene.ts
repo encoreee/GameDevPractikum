@@ -18,8 +18,9 @@ import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { Vector2 } from '../utils/Vector2';
 import { SceneInterface } from './SceneInterface';
 import { enemyConfig, playerConfig } from '../Config';
-import { EnemyObjectPhysics } from '../game-object/components/EnemyObjectPhysics';
+import { WarriorEnemyObjectPhysics } from '../game-object/components/WarriorEnemyObjectPhysics';
 import { getRandomInt } from '../utils/Math';
+import { OrdinaryEnemyObjectPhysics } from '../game-object/components/OrdinaryEnemyObjectPhysics';
 
 export type PlayerCreateConfigType = {
   size: Size;
@@ -40,16 +41,19 @@ export type EnemyCreateConfigType = {
   bulletSize: Size;
   bulletCreateDelay: number;
   enemyCreateDelay: number;
+  enemyRowCreateDelay: number;
 };
 
 export class GameScene implements SceneInterface {
   private readonly player: Player;
   private absoluteTime: number;
   private lastAttackCreateTime: number;
+  private lastEnemyCreateTime: number;
   private enemiesSquadCount: number;
   private readonly playerBulletCollection = new GameObjectCollection();
   private readonly enemyBulletCollection = new GameObjectCollection();
   private readonly enemyCollection = new GameObjectCollection();
+  private currentRow = 1;
 
   private startX: number;
   private startY: number;
@@ -61,6 +65,7 @@ export class GameScene implements SceneInterface {
     this.player = this.createPlayer(playerConfig);
     this.absoluteTime = performance.now();
     this.lastAttackCreateTime = performance.now();
+    this.lastEnemyCreateTime = performance.now();
     this.startX = 0;
     this.startY = 0;
     this.enemiesSquadCount = 0;
@@ -83,8 +88,9 @@ export class GameScene implements SceneInterface {
     if (this.enemiesSquadCount < enemyConfig.numberEnemy) {
       this.tryCreateEnemy(
         enemyConfig.enemyCreateDelay,
+        enemyConfig.enemyRowCreateDelay,
         this.enemiesSquadCount
-      )(this.lastAttackCreateTime);
+      )(this.lastEnemyCreateTime);
     }
 
     const selectEnemyToAttack = getRandomInt(this.enemyCollection.count());
@@ -212,7 +218,6 @@ export class GameScene implements SceneInterface {
         );
         this.enemyBulletCollection.push(bullet);
         this.lastAttackCreateTime = currentBulletCreateTime;
-        this.enemiesSquadCount++;
       }
     };
   }
@@ -244,21 +249,27 @@ export class GameScene implements SceneInterface {
     }
   }
 
-  public tryCreateEnemy(enemyCreateDelay: number, index: number) {
+  public tryCreateEnemy(
+    enemyCreateDelay: number,
+    rowCreateDelay: number,
+    index: number
+  ) {
     return (lastEnemyCreateTime: number) => {
       const currentEnemyCreateTime = performance.now();
-      if (currentEnemyCreateTime > lastEnemyCreateTime + enemyCreateDelay) {
-        this.createEnemy(
-          enemyConfig,
-          this.startX,
-          this.startY,
-          0,
-          enemyConfig.canvasSize.width / 8,
-          300,
-          index
-        );
-        this.lastAttackCreateTime = currentEnemyCreateTime;
-        this.enemiesSquadCount++;
+      const squadRow = Math.floor(index / enemyConfig.numberPerRow) + 1;
+      if (this.currentRow === squadRow) {
+        if (currentEnemyCreateTime > lastEnemyCreateTime + enemyCreateDelay) {
+          this.createEnemy(enemyConfig, this.startX, this.startY, 300, index);
+          this.lastEnemyCreateTime = currentEnemyCreateTime;
+          this.enemiesSquadCount++;
+        }
+      } else {
+        if (currentEnemyCreateTime > lastEnemyCreateTime + rowCreateDelay) {
+          this.createEnemy(enemyConfig, this.startX, this.startY, 400, index);
+          this.lastEnemyCreateTime = currentEnemyCreateTime;
+          this.enemiesSquadCount++;
+          this.currentRow = squadRow;
+        }
       }
     };
   }
@@ -267,12 +278,11 @@ export class GameScene implements SceneInterface {
     config: EnemyCreateConfigType,
     xSquadPositionConst: number,
     ySquadPositionConst: number,
-    xBirthPosition: number,
-    yBirthPosition: number,
     movementRadius: number,
     enemyNumber: number
   ): void {
     {
+      const squadRow = Math.floor(enemyNumber / config.numberPerRow) + 1;
       let enemyNumberRest = enemyNumber;
       while (!(enemyNumberRest < config.numberPerRow)) {
         enemyNumberRest -= config.numberPerRow;
@@ -280,22 +290,46 @@ export class GameScene implements SceneInterface {
       const enemyVector = new Vector2(
         xSquadPositionConst +
           (config.size.width + config.gap) * enemyNumberRest,
-        ySquadPositionConst *
-          (Math.floor(enemyNumber / config.numberPerRow) + 1) *
-          2
+        ySquadPositionConst * squadRow * 2
       );
 
-      const enemy = new SquadPositionedObject(
-        new Vector2(xBirthPosition, yBirthPosition),
-        config.size,
-        0,
-        movementRadius,
-        enemyVector,
-        new EnemyObjectPhysics(performance.now(), config),
-        new GameObjectGraphics()
-      );
-
-      this.enemyCollection.push(enemy);
+      if (squadRow === 1) {
+        const enemy = new SquadPositionedObject(
+          new Vector2(0, enemyConfig.canvasSize.height / 8),
+          config.size,
+          0,
+          movementRadius,
+          enemyVector,
+          new WarriorEnemyObjectPhysics(performance.now(), config),
+          new GameObjectGraphics()
+        );
+        this.enemyCollection.push(enemy);
+      } else if (squadRow === 2) {
+        const enemy = new SquadPositionedObject(
+          new Vector2(
+            config.canvasSize.width,
+            enemyConfig.canvasSize.height / 8
+          ),
+          config.size,
+          0,
+          movementRadius,
+          enemyVector,
+          new OrdinaryEnemyObjectPhysics(performance.now(), config),
+          new GameObjectGraphics()
+        );
+        this.enemyCollection.push(enemy);
+      } else if (squadRow === 3) {
+        const enemy = new SquadPositionedObject(
+          new Vector2(0, enemyConfig.canvasSize.height / 6),
+          config.size,
+          0,
+          movementRadius,
+          enemyVector,
+          new WarriorEnemyObjectPhysics(performance.now(), config),
+          new GameObjectGraphics()
+        );
+        this.enemyCollection.push(enemy);
+      }
     }
   }
 }

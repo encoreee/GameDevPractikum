@@ -17,7 +17,7 @@ export const playerConfig: PlayerCreateConfigType = {
   canvasSize,
   paddingBottom: 50,
   speed: 500,
-  bulletCreateDelay: 150,
+  bulletCreateDelay: 450,
   bulletSize: {
     width: 10,
     height: 10,
@@ -36,6 +36,7 @@ export const enemyConfig: EnemyCreateConfigType = {
   },
   bulletCreateDelay: 800,
   enemyCreateDelay: 300,
+  enemyRowCreateDelay: 1500,
   bulletSize: {
     width: 10,
     height: 10,

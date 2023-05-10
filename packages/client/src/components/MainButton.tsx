@@ -1,9 +1,11 @@
 import { Button } from '@mui/material';
-import { FC } from 'react';
+import { FC, ReactEventHandler } from 'react';
 
 interface MainButtonProps {
   label: string;
+  disabled?: boolean;
   type?: 'submit' | 'button';
+  onClick?: ReactEventHandler;
 }
 
 const MainButton: FC<MainButtonProps> = (props) => {
@@ -17,6 +19,8 @@ const MainButton: FC<MainButtonProps> = (props) => {
         borderRadius: '0px',
       }}
       variant="contained"
+      onClick={props.onClick}
+      disabled={props.disabled}
       color="secondary"
       type={props.type || 'button'}>
       {props.label}

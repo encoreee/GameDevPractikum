@@ -7,6 +7,7 @@ import { GameObjectGraphics } from '../game-object/components/GameObjectGraphics
 import { GameObjectPhysics } from '../game-object/components/GameObjectPhysics';
 import { PlayerInput } from '../game-object/components/PlayerInput';
 import {
+  EnemyBulletObject,
   GameObject,
   Size,
   SquadPositionedObject,
@@ -115,7 +116,7 @@ export class GameScene implements SceneInterface {
         this.endGameCallback();
       }
 
-      bullet.update(dt);
+      bullet.update(dt, 0, this.player);
     });
 
     this.playerBulletCollection.forEachFromEnd((bullet, index) => {
@@ -130,9 +131,6 @@ export class GameScene implements SceneInterface {
         if (enemy.collideWith(bullet)) {
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);
-          if (this.enemyCollection.empty()) {
-            console.log('empty');
-          }
         }
       });
 
@@ -235,7 +233,7 @@ export class GameScene implements SceneInterface {
         new GameObjectGraphics()
       );
     } else {
-      return new GameObject(
+      return new EnemyBulletObject(
         position.add(
           new Vector2(objectSize.width / 2 - bulletSize.width / 2, 0)
         ),

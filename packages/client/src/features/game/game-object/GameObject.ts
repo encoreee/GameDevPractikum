@@ -2,7 +2,21 @@ import { Collider } from '../core/Collider';
 import { Vector2 } from '../utils/Vector2';
 
 export interface GameObjectComponent {
-  update(gameObject: GameObject, dt: number, absTime?: number): void;
+  update(
+    gameObject: GameObject,
+    dt: number,
+    absTime?: number,
+    refObject?: GameObject
+  ): void;
+}
+export interface EnemyBulletObjectComponent extends GameObjectComponent {
+  shuted: boolean;
+  update(
+    gameObject: GameObject,
+    dt: number,
+    absTime?: number,
+    refObject?: GameObject
+  ): void;
 }
 
 export interface GraphicComponent {
@@ -25,8 +39,8 @@ export class GameObject {
     this.collider = new Collider(this);
   }
 
-  public update(dt: number, absTime?: number): void {
-    this.physics.update(this, dt, absTime);
+  public update(dt: number, absTime?: number, refObject?: GameObject): void {
+    this.physics.update(this, dt, absTime, refObject);
   }
 
   public render(dt: number): void {
@@ -38,6 +52,19 @@ export class GameObject {
   }
   public collideWithWall(canvasSize: Size): boolean {
     return this.collider.collideWithWall(canvasSize);
+  }
+}
+
+export class EnemyBulletObject extends GameObject {
+  public shuted = false;
+  public defaultAttackDirection = new Vector2(0, 250);
+  constructor(
+    public position: Vector2,
+    public readonly size: Size,
+    protected readonly physics: GameObjectComponent,
+    protected readonly graphics: GraphicComponent
+  ) {
+    super(position, size, physics, graphics);
   }
 }
 

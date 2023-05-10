@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ForumApi } from '@/infrastructure/api/forum/ForumApi';
 import {
   createAsyncThunk,
@@ -27,7 +26,7 @@ export const getThreadMessages = createAsyncThunk(
 
 const threadMessagesAdapter = createEntityAdapter<ThreadMessage[]>({
   selectId: (message) => {
-    return message[0].threadId;
+    return message?.[0].threadId;
   },
 });
 

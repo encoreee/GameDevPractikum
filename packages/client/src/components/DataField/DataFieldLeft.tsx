@@ -10,9 +10,7 @@ const DataFieldLeft: FC<DataFieldProps> = ({
   inputRef,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (onChange) {
-      onChange(event.target?.value);
-    }
+    onChange?.(event.target?.value);
   };
 
   return (

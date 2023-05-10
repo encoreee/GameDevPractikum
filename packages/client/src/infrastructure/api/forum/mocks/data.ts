@@ -101,12 +101,11 @@ The first thing you'll notice about this game is the nostalgic graphics, which a
 ];
 
 const ForumData = {
-  THREAD_MESSAGES_MOCK,
   FORUM_TREADS_MOCK,
 };
 
 export const getData = (
-  resolve: (...args: unknown[]) => void,
+  resolve: (result: typeof ForumData[keyof typeof ForumData]) => void,
   type: keyof typeof ForumData
 ) => {
   const time = Math.random() * 3000;
@@ -114,5 +113,4 @@ export const getData = (
     setTimeout(() => resolve(ForumData[type]), time);
     return;
   }
-  resolve();
 };

@@ -1,9 +1,9 @@
 import { Breadcrumbs, Skeleton, Typography } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { BC_PENDING_SYMBOL } from './const';
 import { BreadCrumbProps } from './types';
 
-const BreadCrumb: FunctionComponent<BreadCrumbProps> = ({ items = [] }) => {
+const BreadCrumb: FC<BreadCrumbProps> = ({ items = [] }) => {
   return (
     <Breadcrumbs separator="->" sx={{ color: 'white' }}>
       {items.map((item, index) =>

@@ -25,7 +25,8 @@ export const playerConfig: PlayerCreateConfigType = {
 };
 
 export const enemyConfig: EnemyCreateConfigType = {
-  numberEnemy: 6,
+  numberPerRow: 6,
+  numberEnemy: 18,
   canvasSize,
   gap: 50,
   paddingTop: 50,

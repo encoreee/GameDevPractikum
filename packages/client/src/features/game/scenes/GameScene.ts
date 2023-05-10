@@ -30,6 +30,7 @@ export type PlayerCreateConfigType = {
 };
 
 export type EnemyCreateConfigType = {
+  numberPerRow: 6;
   numberEnemy: number;
   gap: number;
   size: Size;
@@ -44,7 +45,7 @@ export class GameScene implements SceneInterface {
   private readonly player: Player;
   private absoluteTime: number;
   private lastAttackCreateTime: number;
-  private lastEnemyCreateTime: number;
+  private enemiesSquadCount: number;
   private readonly playerBulletCollection = new GameObjectCollection();
   private readonly enemyBulletCollection = new GameObjectCollection();
   private readonly enemyCollection = new GameObjectCollection();
@@ -59,16 +60,16 @@ export class GameScene implements SceneInterface {
     this.player = this.createPlayer(playerConfig);
     this.absoluteTime = performance.now();
     this.lastAttackCreateTime = performance.now();
-    this.lastEnemyCreateTime = performance.now();
     this.startX = 0;
     this.startY = 0;
+    this.enemiesSquadCount = 0;
   }
   public init(): void {
     this.startX =
       (enemyConfig.canvasSize.width +
         enemyConfig.size.width / 2 -
-        enemyConfig.size.width * enemyConfig.numberEnemy -
-        enemyConfig.gap * enemyConfig.numberEnemy -
+        enemyConfig.size.width * enemyConfig.numberPerRow -
+        enemyConfig.gap * enemyConfig.numberPerRow -
         1) /
       2;
     this.startY = enemyConfig.paddingTop;
@@ -78,10 +79,10 @@ export class GameScene implements SceneInterface {
     this.absoluteTime = performance.now();
     this.player.update(dt);
 
-    if (this.enemyCollection.count() < enemyConfig.numberEnemy) {
+    if (this.enemiesSquadCount < enemyConfig.numberEnemy) {
       this.tryCreateEnemy(
         enemyConfig.enemyCreateDelay,
-        this.enemyCollection.count()
+        this.enemiesSquadCount
       )(this.lastAttackCreateTime);
     }
 
@@ -95,7 +96,7 @@ export class GameScene implements SceneInterface {
       ) {
         bulletCreateDelay = bulletCreateDelay * 2;
       } else if (this.enemyCollection.count() === 1) {
-        bulletCreateDelay = bulletCreateDelay * 3;
+        bulletCreateDelay = bulletCreateDelay * 2;
       }
 
       this.enemyFireAction(
@@ -213,6 +214,7 @@ export class GameScene implements SceneInterface {
         );
         this.enemyBulletCollection.push(bullet);
         this.lastAttackCreateTime = currentBulletCreateTime;
+        this.enemiesSquadCount++;
       }
     };
   }
@@ -258,6 +260,7 @@ export class GameScene implements SceneInterface {
           index
         );
         this.lastAttackCreateTime = currentEnemyCreateTime;
+        this.enemiesSquadCount++;
       }
     };
   }
@@ -272,9 +275,16 @@ export class GameScene implements SceneInterface {
     enemyNumber: number
   ): void {
     {
+      let enemyNumberRest = enemyNumber;
+      while (!(enemyNumberRest < config.numberPerRow)) {
+        enemyNumberRest -= config.numberPerRow;
+      }
       const enemyVector = new Vector2(
-        xSquadPositionConst + (config.size.width + config.gap) * enemyNumber,
-        ySquadPositionConst
+        xSquadPositionConst +
+          (config.size.width + config.gap) * enemyNumberRest,
+        ySquadPositionConst *
+          (Math.floor(enemyNumber / config.numberPerRow) + 1) *
+          2
       );
 
       const enemy = new SquadPositionedObject(

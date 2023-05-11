@@ -1,28 +1,58 @@
-import { Fragment, FunctionComponent } from 'react'
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
-import './App.css'
+import { Fragment, FC } from 'react';
+import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
 
-const App: FunctionComponent = () => {
+import { ThemeProvider } from '@mui/material';
+import { Provider } from 'react-redux';
+import { theme } from './theme/theme';
+import { store } from './app/store';
+
+import Error from './features/errors/Error';
+import PrivateRoute from './components/PrivateRouter';
+import HomePage from './features/homepage/Homepage';
+import ProfilePage from './features/profile/ProfilePage';
+import SignInPage from './features/auth/SignInPage';
+import SignUpPage from './features/auth/SignUpPage';
+import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
+import ForumPages from '@features/forum/pages';
+import GamePage from './features/game/GamePage';
+import GameStartPage from './features/gameStart/GameStartPage';
+
+const App: FC = () => {
   return (
     <Fragment>
-      <Routes>
-        <Route path="/login" element={<></>} />
-        <Route element={<></>}>
-          <Route path="/" element={<></>} />
-          <Route path="/profile" element={<></>} />
-          <Route path="/forum" element={<></>} />
-          <Route path="/leaderboard" element={<></>} />
-          <Route path="/singup" element={<></>} />
-          <Route path="*" element={<p>Error</p>} />
-        </Route>
-      </Routes>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/signin" element={<SignInPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route
+                element={
+                  <PrivateRoute>
+                    <Outlet />
+                  </PrivateRoute>
+                }>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/game" element={<GamePage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/forum/*" element={<ForumPages />} />
+                <Route path="/leaderboard" element={<LeaderBoardPage />} />
+                <Route path="/signin" element={<></>} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/start" element={<GameStartPage />} />
+              </Route>
+              <Route
+                path="*"
+                element={
+                  <Error errorType="404" errorMessage="Page Not Found." />
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </Provider>
     </Fragment>
-  )
-}
+  );
+};
 
-const PrivateRoute: FunctionComponent = () => {
-  //return user ? <Outlet /> : <Navigate to="/login" />
-  return <></>
-}
-
-export default App
+export default App;

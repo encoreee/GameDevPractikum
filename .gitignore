@@ -1,6 +1,10 @@
+.DS_Store
 node_modules/
 .env
 .idea
 .vscode
 dist
 tmp
+lerna-debug.log
+TODO.md
+.stylelintcache

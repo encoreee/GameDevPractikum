@@ -17,39 +17,25 @@ import { KeyboardController } from '../core/KeyboardController';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { Vector2 } from '../utils/Vector2';
 import { SceneInterface } from './SceneInterface';
-import { enemyConfig, playerConfig } from '../Config';
+import {
+  EnemyCreateConfigType,
+  PlayerCreateConfigType,
+  enemyConfig,
+  playerConfig,
+} from '../Config';
 import { WarriorEnemyObjectPhysics } from '../game-object/components/WarriorEnemyObjectPhysics';
 import { getRandomInt } from '../utils/Math';
 import { OrdinaryEnemyObjectPhysics } from '../game-object/components/OrdinaryEnemyObjectPhysics';
-
-export type PlayerCreateConfigType = {
-  size: Size;
-  canvasSize: Size;
-  bulletSize: Size;
-  bulletCreateDelay: number;
-  paddingBottom: number;
-  speed: number;
-};
-
-export type EnemyCreateConfigType = {
-  numberPerRow: 6;
-  numberEnemy: number;
-  gap: number;
-  size: Size;
-  canvasSize: Size;
-  paddingTop: number;
-  bulletSize: Size;
-  bulletCreateDelay: number;
-  enemyCreateDelay: number;
-  enemyRowCreateDelay: number;
-};
 
 export class GameScene implements SceneInterface {
   private readonly player: Player;
   private absoluteTime: number;
   private lastAttackCreateTime: number;
   private lastEnemyCreateTime: number;
+  private lastEnemyKillTime: number;
   private enemiesSquadCount: number;
+  private enemiesWaveCount: number;
+  private currentEnemiesWave: number;
   private readonly playerBulletCollection = new GameObjectCollection();
   private readonly enemyBulletCollection = new GameObjectCollection();
   private readonly enemyCollection = new GameObjectCollection();
@@ -69,6 +55,9 @@ export class GameScene implements SceneInterface {
     this.startX = 0;
     this.startY = 0;
     this.enemiesSquadCount = 0;
+    this.enemiesWaveCount = 0;
+    this.currentEnemiesWave = 0;
+    this.lastEnemyKillTime = 0;
   }
   public init(): void {
     this.startX =
@@ -86,11 +75,10 @@ export class GameScene implements SceneInterface {
     this.player.update(dt);
 
     if (this.enemiesSquadCount < enemyConfig.numberEnemy) {
-      this.tryCreateEnemy(
-        enemyConfig.enemyCreateDelay,
-        enemyConfig.enemyRowCreateDelay,
-        this.enemiesSquadCount
-      )(this.lastEnemyCreateTime);
+      this.tryCreateEnemy(this.enemiesSquadCount)(
+        this.lastEnemyCreateTime,
+        this.lastEnemyKillTime
+      );
     }
 
     const selectEnemyToAttack = getRandomInt(this.enemyCollection.count());
@@ -119,7 +107,7 @@ export class GameScene implements SceneInterface {
       }
 
       if (this.player.collideWith(bullet)) {
-        this.endGameCallback();
+        //this.endGameCallback();
       }
 
       bullet.update(dt, 0, this.player);
@@ -137,6 +125,14 @@ export class GameScene implements SceneInterface {
         if (enemy.collideWith(bullet)) {
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);
+          if (this.enemyCollection.count() === 0) {
+            if (this.enemiesWaveCount < 2) {
+              this.enemiesSquadCount = 0;
+              this.currentRow = 1;
+              this.enemiesWaveCount++;
+              this.lastEnemyKillTime = performance.now();
+            }
+          }
         }
       });
 
@@ -249,26 +245,40 @@ export class GameScene implements SceneInterface {
     }
   }
 
-  public tryCreateEnemy(
-    enemyCreateDelay: number,
-    rowCreateDelay: number,
-    index: number
-  ) {
-    return (lastEnemyCreateTime: number) => {
+  public tryCreateEnemy(index: number) {
+    return (lastEnemyCreateTime: number, lastEnemyKillTime: number) => {
       const currentEnemyCreateTime = performance.now();
       const squadRow = Math.floor(index / enemyConfig.numberPerRow) + 1;
-      if (this.currentRow === squadRow) {
-        if (currentEnemyCreateTime > lastEnemyCreateTime + enemyCreateDelay) {
+      if (this.enemiesWaveCount === this.currentEnemiesWave) {
+        if (this.currentRow === squadRow) {
+          if (
+            currentEnemyCreateTime >
+            lastEnemyCreateTime + enemyConfig.enemyCreateDelay
+          ) {
+            this.createEnemy(enemyConfig, this.startX, this.startY, 300, index);
+            this.lastEnemyCreateTime = currentEnemyCreateTime;
+            this.enemiesSquadCount++;
+          }
+        } else {
+          if (
+            currentEnemyCreateTime >
+            lastEnemyCreateTime + enemyConfig.enemyRowCreateDelay
+          ) {
+            this.createEnemy(enemyConfig, this.startX, this.startY, 400, index);
+            this.lastEnemyCreateTime = currentEnemyCreateTime;
+            this.enemiesSquadCount++;
+            this.currentRow = squadRow;
+          }
+        }
+      } else {
+        if (
+          currentEnemyCreateTime >
+          lastEnemyKillTime + enemyConfig.enemyWaveCreateDelay
+        ) {
           this.createEnemy(enemyConfig, this.startX, this.startY, 300, index);
           this.lastEnemyCreateTime = currentEnemyCreateTime;
           this.enemiesSquadCount++;
-        }
-      } else {
-        if (currentEnemyCreateTime > lastEnemyCreateTime + rowCreateDelay) {
-          this.createEnemy(enemyConfig, this.startX, this.startY, 400, index);
-          this.lastEnemyCreateTime = currentEnemyCreateTime;
-          this.enemiesSquadCount++;
-          this.currentRow = squadRow;
+          this.currentEnemiesWave = this.enemiesWaveCount;
         }
       }
     };

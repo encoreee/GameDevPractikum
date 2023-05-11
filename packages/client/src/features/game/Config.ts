@@ -1,8 +1,27 @@
 import { Size } from './game-object/GameObject';
-import {
-  EnemyCreateConfigType,
-  PlayerCreateConfigType,
-} from './scenes/GameScene';
+
+export type PlayerCreateConfigType = {
+  size: Size;
+  canvasSize: Size;
+  bulletSize: Size;
+  bulletCreateDelay: number;
+  paddingBottom: number;
+  speed: number;
+};
+
+export type EnemyCreateConfigType = {
+  numberPerRow: 6;
+  numberEnemy: number;
+  gap: number;
+  size: Size;
+  canvasSize: Size;
+  paddingTop: number;
+  bulletSize: Size;
+  bulletCreateDelay: number;
+  enemyCreateDelay: number;
+  enemyRowCreateDelay: number;
+  enemyWaveCreateDelay: number;
+};
 
 export const canvasSize: Size = {
   width: 700,
@@ -17,7 +36,7 @@ export const playerConfig: PlayerCreateConfigType = {
   canvasSize,
   paddingBottom: 50,
   speed: 500,
-  bulletCreateDelay: 450,
+  bulletCreateDelay: 200,
   bulletSize: {
     width: 10,
     height: 10,
@@ -37,6 +56,7 @@ export const enemyConfig: EnemyCreateConfigType = {
   bulletCreateDelay: 800,
   enemyCreateDelay: 300,
   enemyRowCreateDelay: 1500,
+  enemyWaveCreateDelay: 3500,
   bulletSize: {
     width: 10,
     height: 10,

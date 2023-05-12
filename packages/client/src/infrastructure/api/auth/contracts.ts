@@ -3,6 +3,17 @@ export interface SignInRequest {
   password: string;
 }
 
+export interface User {
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+  avatar: string;
+}
+
 export interface UserProfileRequest {
   first_name: string;
   second_name: string;
@@ -19,4 +30,8 @@ export interface SignUpRequest {
   email: string;
   phone: string;
   password: string;
+}
+
+export interface ErrorData {
+  reason: string;
 }

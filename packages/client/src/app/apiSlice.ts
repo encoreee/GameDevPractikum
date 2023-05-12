@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { User } from '../../infrastructure/api/auth/contracts';
-
-const API_ADDRESS = 'https://ya-praktikum.tech/api/v2';
+import { User } from '../infrastructure/api/auth/contracts';
+import { API_ADDRESS } from '@/infrastructure/apiFetch';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -9,7 +8,6 @@ export const apiSlice = createApi({
     baseUrl: API_ADDRESS,
     credentials: 'include',
   }),
-  tagTypes: ['User'],
   endpoints: (build) => ({
     getUserInfo: build.query<User, void>({
       query: () => `/auth/user`,

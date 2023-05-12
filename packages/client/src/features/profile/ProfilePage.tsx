@@ -2,7 +2,7 @@ import { FC } from 'react';
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
 import NavLink from '../../components/NavLink';
-import { useGetUserInfoQuery } from '@/app/auth/apiSlice';
+import { useGetUserInfoQuery } from '@/app/apiSlice';
 import { Stack } from '@mui/material';
 import ProfileForm from './ProfileForm';
 

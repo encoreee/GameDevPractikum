@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from 'react';
-import { useGetUserInfoQuery } from '@/app/auth/apiSlice';
+import { useGetUserInfoQuery } from '@/app/apiSlice';
 import { Outlet, Navigate } from 'react-router-dom';
 
 const PrivateRoute: FC<PropsWithChildren> = () => {

@@ -2,7 +2,7 @@ import DataField from '@/components/DataField';
 import MainButton from '@/components/MainButton';
 import React, { FC, useEffect, useState } from 'react';
 import { User, ErrorData } from '../../infrastructure/api/auth/contracts';
-import { useUpdateUserInfoMutation } from '@/app/auth/apiSlice';
+import { useUpdateUserInfoMutation } from '@/app/apiSlice';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import FormErrorMessage from '../../components/FormErrorMessage';
 

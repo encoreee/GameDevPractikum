@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import forum from './forum/forumSlice';
-import { apiSlice } from './auth/apiSlice';
+import { apiSlice } from './apiSlice';
 
 export const store = configureStore({
   reducer: {

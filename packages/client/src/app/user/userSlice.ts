@@ -1,18 +1,7 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  SerializedError,
-} from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import authApi from '../../infrastructure/api/auth/authApi';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import userApi from '../../infrastructure/api/auth/userApi';
 import { UserProfileRequest } from '@/infrastructure/api/auth/contracts';
-
-export interface UserState {
-  status: 'idle' | 'loading' | 'failed';
-  user?: User;
-  error?: SerializedError;
-}
 
 export interface User {
   id: number;
@@ -25,41 +14,9 @@ export interface User {
   avatar: string;
 }
 
-const initialState: UserState = {
-  status: 'idle',
-};
-
-export const loadUser = createAsyncThunk('user/load', async () => {
-  return await authApi.getUserInfo();
-});
-
 export const updateProfile = createAsyncThunk(
   'user/updateProfile',
   async (request: UserProfileRequest) => {
     return await userApi.profile(request);
   }
 );
-
-export const userSlice = createSlice({
-  name: 'user-slice',
-  initialState,
-  reducers: {},
-  extraReducers: (build) => {
-    build.addCase(loadUser.pending, (state) => {
-      state.status = 'loading';
-    });
-    build.addCase(loadUser.fulfilled, (state, action) => {
-      state.status = 'idle';
-      state.user = action.payload;
-    });
-    build.addCase(loadUser.rejected, (state, action) => {
-      state.status = 'failed';
-      state.user = undefined;
-      state.error = action.error;
-    });
-  },
-});
-
-export const selectUser = (state: RootState) => state.user;
-
-export default userSlice.reducer;

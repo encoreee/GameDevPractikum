@@ -1,10 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import user from './user/userSlice';
 import forum from './forum/forumSlice';
-import auth from './auth/authSlice';
+import { apiSlice } from './auth/apiSlice';
 
 export const store = configureStore({
-  reducer: { auth, user, forum },
+  reducer: {
+    forum,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

@@ -12,6 +12,7 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
   const [firstName, setFirstName] = useState('');
   const [secondName, setSecondName] = useState('');
   const [login, setLogin] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
@@ -22,6 +23,7 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
       setLogin(props.user.login);
       setEmail(props.user.email);
       setPhone(props.user.phone);
+      setDisplayName(props.user.display_name);
     }
   }, [props.user]);
 
@@ -32,7 +34,7 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
       updateProfile({
         first_name: firstName,
         second_name: secondName,
-        display_name: login,
+        display_name: displayName,
         login: login,
         email: email,
         phone: phone,
@@ -56,6 +58,10 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
             label={'login'}
             value={props.user.login}
             onChange={setLogin}></DataField>
+          <DataField
+            label={'display name'}
+            value={props.user.display_name}
+            onChange={setDisplayName}></DataField>
           <DataField
             label={'email'}
             value={props.user.email}

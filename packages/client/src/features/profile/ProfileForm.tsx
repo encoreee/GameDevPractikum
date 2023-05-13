@@ -1,86 +1,94 @@
-import DataField from '@/components/DataField';
-import MainButton from '@/components/MainButton';
-import React, { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
+import { useForm, FormContainer } from 'react-hook-form-mui';
 import { User, ErrorData } from '../../infrastructure/api/auth/contracts';
 import { useUpdateUserInfoMutation } from '@/app/apiSlice';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { Grid } from '@mui/material';
+import { ValidationScheme } from '../auth/SignUpValidationScheme';
+
+import MainButton from '@/components/MainButton';
 import FormErrorMessage from '../../components/FormErrorMessage';
+import DataFieldLT from '../../components/DataFieldLabelOnTop';
 
 type ProfileFormProps = { user?: User };
 
 const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
-  const [firstName, setFirstName] = useState('');
-  const [secondName, setSecondName] = useState('');
-  const [login, setLogin] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-
   const [updateUserInfo, { error }] = useUpdateUserInfoMutation();
   const updateError = error as FetchBaseQueryError;
 
-  useEffect(() => {
-    if (props.user) {
-      setFirstName(props.user.first_name);
-      setSecondName(props.user.second_name);
-      setLogin(props.user.login);
-      setEmail(props.user.email);
-      setPhone(props.user.phone);
-      setDisplayName(props.user.display_name);
-    }
-  }, [props.user]);
+  type UserProfile = Omit<User, 'avatar'>;
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const defaultValues = {
+    first_name: props?.user?.first_name,
+    second_name: props?.user?.second_name,
+    email: props?.user?.email,
+    login: props?.user?.login,
+    display_name: props?.user?.display_name,
+    phone: props?.user?.phone,
+  };
 
-    updateUserInfo({
-      first_name: firstName,
-      second_name: secondName,
-      display_name: displayName,
-      login: login,
-      email: email,
-      phone: phone,
-    });
+  const formContext = useForm<UserProfile>({ defaultValues });
+
+  const onSubmit = (data: UserProfile) => {
+    console.log(data);
+
+    updateUserInfo(data);
   };
 
   return (
-    <React.Fragment>
-      {props.user && (
-        <form onSubmit={(event) => handleSubmit(event)}>
-          <DataField
-            label={'name'}
-            value={props.user.first_name}
-            onChange={setFirstName}></DataField>
-          <DataField
-            label={'surname'}
-            value={props.user.second_name}
-            onChange={setSecondName}></DataField>
-          <DataField
-            label={'login'}
-            value={props.user.login}
-            onChange={setLogin}></DataField>
-          <DataField
-            label={'display name'}
-            value={props.user.display_name}
-            onChange={setDisplayName}></DataField>
-          <DataField
-            label={'email'}
-            value={props.user.email}
-            onChange={setEmail}></DataField>
-          <DataField
-            label={'phone'}
-            value={props.user.phone}
-            onChange={setPhone}></DataField>
-          <FormErrorMessage
-            maxWidth="1000px"
-            errorMessage={
-              updateError ? (updateError.data as ErrorData).reason : ''
-            }
+    <FormContainer
+      defaultValues={defaultValues}
+      onSuccess={onSubmit}
+      formContext={formContext}>
+      <Grid
+        container
+        alignItems="center"
+        spacing={4}
+        rowSpacing={1}
+        width="860px">
+        <Grid item xs={6}>
+          <DataFieldLT
+            label="name"
+            name="first_name"
+            validation={ValidationScheme.name}
           />
-          <MainButton label="Save" type="submit" />
-        </form>
-      )}
-    </React.Fragment>
+        </Grid>
+        <Grid item xs={6}>
+          <DataFieldLT
+            label="surname"
+            name="second_name"
+            validation={ValidationScheme.surname}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <DataFieldLT
+            label="email"
+            type="email"
+            validation={{
+              required: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <DataFieldLT
+            label="phone number"
+            name="phone"
+            validation={ValidationScheme.phoneNumber}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <DataFieldLT label="login" validation={ValidationScheme.login} />
+        </Grid>
+        <Grid item xs={6}>
+          <DataFieldLT label="display name" name="display_name" />
+        </Grid>
+      </Grid>
+      <FormErrorMessage
+        maxWidth="1000px"
+        errorMessage={updateError ? (updateError.data as ErrorData).reason : ''}
+      />
+      <MainButton label="Save" type="submit" />
+    </FormContainer>
   );
 };
 

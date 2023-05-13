@@ -10,7 +10,7 @@ import FormErrorMessage from '../../components/FormErrorMessage';
 import MainButton from '../../components/MainButton';
 import DataFieldLT from '../../components/DataFieldLabelOnTop';
 
-export const defaultValues = {
+const defaultValues = {
   first_name: '',
   second_name: '',
   email: '',
@@ -21,7 +21,7 @@ export const defaultValues = {
 };
 
 const SignUpForm: FC = () => {
-  const formContext = useForm<typeof defaultValues>();
+  const formContext = useForm<typeof defaultValues>({ defaultValues });
   const passwordValue = useWatch<typeof defaultValues>({
     name: 'password',
     control: formContext.control,

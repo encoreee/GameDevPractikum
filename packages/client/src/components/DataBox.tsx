@@ -4,13 +4,14 @@ import { FC, PropsWithChildren } from 'react';
 type DataBoxProps = PropsWithChildren<{
   height?: number;
   width?: number;
+  marginTop?: number;
 }>;
 
 const DataBox: FC<DataBoxProps> = (props) => {
   return (
     <Box
       sx={{
-        marginTop: 10,
+        marginTop: props.marginTop,
         marginLeft: 'auto',
         marginRight: 'auto',
         display: 'flex',
@@ -32,6 +33,7 @@ const DataBox: FC<DataBoxProps> = (props) => {
 DataBox.defaultProps = {
   height: 550,
   width: 700,
+  marginTop: 10,
 };
 
 export default DataBox;

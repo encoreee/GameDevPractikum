@@ -31,7 +31,7 @@ const DataField: FC<DataFieldProps> = (props) => {
   return (
     <>
       <InputLabel
-        htmlFor={props.label}
+        htmlFor={props.name || props.label}
         size="normal"
         sx={{
           color: 'primary.main',

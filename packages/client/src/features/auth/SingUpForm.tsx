@@ -6,9 +6,9 @@ import { Grid } from '@mui/material';
 import { ValidationScheme } from './SignUpValidationScheme';
 import { omit } from 'lodash';
 
+import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import FormErrorMessage from '../../components/FormErrorMessage';
 import MainButton from '../../components/MainButton';
-import DataFieldLT from '../../components/DataFieldLabelOnTop';
 
 const defaultValues = {
   first_name: '',
@@ -21,6 +21,7 @@ const defaultValues = {
 };
 
 const SignUpForm: FC = () => {
+  const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
   const formContext = useForm<typeof defaultValues>({ defaultValues });
   const passwordValue = useWatch<typeof defaultValues>({
     name: 'password',
@@ -54,51 +55,61 @@ const SignUpForm: FC = () => {
         rowSpacing={1}
         width="860px">
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="name"
             name="first_name"
-            autofocus
+            autoFocus
+            variant={variant}
             validation={ValidationScheme.name}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="surname"
             name="second_name"
+            variant={variant}
             validation={ValidationScheme.surname}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="email"
             type="email"
+            variant={variant}
             validation={{
               required: true,
             }}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="phone number"
             name="phone"
+            variant={variant}
             validation={ValidationScheme.phoneNumber}
           />
         </Grid>
         <Grid item xs={12}>
-          <DataFieldLT label="login" validation={ValidationScheme.login} />
+          <DataField
+            label="login"
+            variant={variant}
+            validation={ValidationScheme.login}
+          />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="password"
             type="password"
+            variant={variant}
             validation={ValidationScheme.password}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="repeat password"
             type="password"
             name="repeatPassword"
+            variant={variant}
             validation={{
               required: true,
               validate: {

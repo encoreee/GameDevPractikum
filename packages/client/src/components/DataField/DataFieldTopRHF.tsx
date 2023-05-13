@@ -2,19 +2,7 @@ import { InputLabel } from '@mui/material';
 import { FC } from 'react';
 import { TextFieldElement } from 'react-hook-form-mui';
 import { styled } from '@mui/material/styles';
-import { FieldValues, RegisterOptions } from 'react-hook-form-mui';
-
-interface DataFieldProps {
-  label: string;
-  name?: string;
-  value?: string;
-  autofocus?: boolean;
-  type?: string;
-  validation?: Omit<
-    RegisterOptions<FieldValues, string>,
-    'disabled' | 'valueAsNumber' | 'valueAsDate' | 'setValueAs'
-  >;
-}
+import { DataFieldProps } from './types';
 
 const TextFieldStyled = styled(TextFieldElement)({
   '& input:-internal-autofill-previewed': {
@@ -62,7 +50,7 @@ const DataField: FC<DataFieldProps> = (props) => {
           },
         }}
         type={props.type || 'text'}
-        autoFocus={props.autofocus}
+        autoFocus={props.autoFocus}
         validation={{
           ...props.validation,
           required: props.validation?.required && 'This field is required',

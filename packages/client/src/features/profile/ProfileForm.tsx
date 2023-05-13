@@ -6,15 +6,16 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { Grid } from '@mui/material';
 import { ValidationScheme } from '../auth/SignUpValidationScheme';
 
+import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '@/components/MainButton';
 import FormErrorMessage from '../../components/FormErrorMessage';
-import DataFieldLT from '../../components/DataFieldLabelOnTop';
 
 type ProfileFormProps = { user?: User };
 
 const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
   const [updateUserInfo, { error }] = useUpdateUserInfoMutation();
   const updateError = error as FetchBaseQueryError;
+  const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
 
   type UserProfile = Omit<User, 'avatar'>;
 
@@ -47,40 +48,52 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
         rowSpacing={1}
         width="860px">
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="name"
             name="first_name"
+            variant={variant}
             validation={ValidationScheme.name}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="surname"
             name="second_name"
+            variant={variant}
             validation={ValidationScheme.surname}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="email"
             type="email"
+            variant={variant}
             validation={{
               required: true,
             }}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="phone number"
             name="phone"
+            variant={variant}
             validation={ValidationScheme.phoneNumber}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT label="login" validation={ValidationScheme.login} />
+          <DataField
+            label="login"
+            variant={variant}
+            validation={ValidationScheme.login}
+          />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT label="display name" name="display_name" />
+          <DataField
+            label="display name"
+            name="display_name"
+            variant={variant}
+          />
         </Grid>
       </Grid>
       <FormErrorMessage

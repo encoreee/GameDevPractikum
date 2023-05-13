@@ -16,7 +16,7 @@ const ProjectsPage: FC = () => {
     <MainPageTemplate>
       <Stack alignItems={'start'}>
         <BreadCrumbs items={breadCrumbItems} />
-        <DataBox width={900} height={600} marginTop={1}>
+        <DataBox width={900} height={550} marginTop={1}>
           <Stack
             margin="auto"
             direction="column"

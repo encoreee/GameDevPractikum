@@ -7,8 +7,10 @@ import { ValidationScheme } from './SignUpValidationScheme';
 import { omit } from 'lodash';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
-import FormErrorMessage from '../../components/FormErrorMessage';
 import MainButton from '../../components/MainButton';
+import FormNotification, {
+  FORM_NOTIFICATION_TYPE,
+} from '../../components/FormNotification';
 
 const defaultValues = {
   first_name: '',
@@ -120,7 +122,11 @@ const SignUpForm: FC = () => {
           />
         </Grid>
       </Grid>
-      <FormErrorMessage maxWidth="830px" errorMessage={signUpError} />
+      <FormNotification
+        maxWidth="830px"
+        text={signUpError}
+        type={FORM_NOTIFICATION_TYPE.ERROR}
+      />
       <MainButton label="Sign up" type="submit" />
     </FormContainer>
   );

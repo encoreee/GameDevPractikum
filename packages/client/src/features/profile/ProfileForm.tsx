@@ -8,12 +8,14 @@ import { ValidationScheme } from '../auth/SignUpValidationScheme';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '@/components/MainButton';
-import FormErrorMessage from '../../components/FormErrorMessage';
+import FormNotification, {
+  FORM_NOTIFICATION_TYPE,
+} from '../../components/FormNotification';
 
 type ProfileFormProps = { user?: User };
 
 const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
-  const [updateUserInfo, { error }] = useUpdateUserInfoMutation();
+  const [updateUserInfo, { error, isSuccess }] = useUpdateUserInfoMutation();
   const updateError = error as FetchBaseQueryError;
   const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
 
@@ -96,9 +98,15 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
           />
         </Grid>
       </Grid>
-      <FormErrorMessage
+      <FormNotification
         maxWidth="1000px"
-        errorMessage={updateError ? (updateError.data as ErrorData).reason : ''}
+        text={updateError ? (updateError.data as ErrorData).reason : ' '}
+        type={FORM_NOTIFICATION_TYPE.ERROR}
+      />
+      <FormNotification
+        maxWidth="1000px"
+        text={isSuccess ? 'Profile updated' : ' '}
+        type={FORM_NOTIFICATION_TYPE.MESSAGE}
       />
       <MainButton label="Save" type="submit" />
     </FormContainer>

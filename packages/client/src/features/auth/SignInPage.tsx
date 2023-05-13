@@ -11,7 +11,9 @@ import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
 import MainButton from '../../components/MainButton';
 import NavLink from '../../components/NavLink';
-import FormErrorMessage from '../../components/FormErrorMessage';
+import FormNotification, {
+  FORM_NOTIFICATION_TYPE,
+} from '../../components/FormNotification';
 
 const SignInPage: FC = () => {
   const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
@@ -48,7 +50,10 @@ const SignInPage: FC = () => {
               variant={variant}
               validation={{ required: true }}
             />
-            <FormErrorMessage errorMessage={signInError} />
+            <FormNotification
+              text={signInError}
+              type={FORM_NOTIFICATION_TYPE.ERROR}
+            />
             <MainButton label="Sign in" type="submit" />
           </Stack>
         </FormContainer>

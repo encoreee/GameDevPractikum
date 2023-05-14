@@ -16,6 +16,7 @@ import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 import ForumPages from '@features/forum/pages';
 import GamePage from './features/game/GamePage';
 import GameStartPage from './features/gameStart/GameStartPage';
+import GameOver from '@features/gameOver/GameOver';
 
 const App: FC = () => {
   return (
@@ -36,6 +37,7 @@ const App: FC = () => {
                 <Route path="/game" element={<GamePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum/*" element={<ForumPages />} />
+                <Route path="/game-over" element={<GameOver />} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />
                 <Route path="/signin" element={<></>} />
                 <Route path="/signup" element={<SignUpPage />} />

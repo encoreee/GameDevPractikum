@@ -13,19 +13,17 @@ import {
   statsTitle,
 } from './styles';
 import { Link } from 'react-router-dom';
-import { GameResult } from './types';
-
-enum Steps {
-  GameOver,
-  Result,
-}
+import { GameResult, ToResult } from './types';
 
 const GAME_RESULT_MOCK: GameResult = {
   shots: 755,
   hits: 322,
 };
 
-type ToResult = () => void;
+export enum Steps {
+  GameOver,
+  Result,
+}
 
 interface GameOverProps {
   toResult: ToResult;
@@ -35,7 +33,7 @@ const GameOverStep: FC<GameOverProps> = ({ toResult }) => {
   const [isMessageVisible, setIsMessageVisible] = useState(false);
 
   const listener = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
+    if (event.code === 'Space') {
       toResult();
     }
   };
@@ -48,9 +46,11 @@ const GameOverStep: FC<GameOverProps> = ({ toResult }) => {
     window.removeEventListener('keydown', listener);
   };
 
-  setTimeout(() => {
-    setIsMessageVisible(true);
-  }, 1000);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsMessageVisible(true);
+    }, 1000);
+  }, []);
 
   useEffect(() => {
     if (isMessageVisible) {
@@ -62,7 +62,7 @@ const GameOverStep: FC<GameOverProps> = ({ toResult }) => {
     <>
       <Typography fontSize={'4rem'}>Game Over</Typography>
       <Fade in={isMessageVisible} timeout={2000}>
-        <Typography fontSize={'1.25rem'}>Press Enter to continue</Typography>
+        <Typography fontSize={'1.25rem'}>Press Space to continue</Typography>
       </Fade>
     </>
   );

@@ -1,27 +1,15 @@
-import AuthController from '../controllers/authController';
-import { FC, useState, useEffect, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
+import { useGetUserInfoQuery } from '@/app/apiSlice';
 import { Outlet, Navigate } from 'react-router-dom';
 
-import { User } from '../app/user/userSlice';
-
 const PrivateRoute: FC<PropsWithChildren> = () => {
-  const [user, setUser] = useState<number | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    AuthController.getUserInfo().then((obj) => {
-      if (obj as User) {
-        setUser(obj?.id);
-      }
-      setIsLoading(false);
-    });
-  }, [user]);
+  const { data, isLoading } = useGetUserInfoQuery();
 
   if (isLoading) {
     return null;
   }
 
-  return user ? <Outlet /> : <Navigate to="/signin" replace />;
+  return data ? <Outlet /> : <Navigate to="/signin" replace />;
 };
 
 export default PrivateRoute;

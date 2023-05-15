@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath, URL } from 'url';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
@@ -35,5 +36,15 @@ export default defineConfig(() => ({
     react(),
     eslint({ lintOnStart: true, overrideConfigFile: '../../.eslintrc.js' }),
     stylelint({ fix: true }),
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: 'auto',
+      devOptions: {
+        enabled: true,
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg}'],
+      },
+    }),
   ],
 }));

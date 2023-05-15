@@ -9,12 +9,10 @@ import { PlayerInput } from '../game-object/components/PlayerInput';
 import {
   EnemyBulletObject,
   GameObject,
-  Size,
   SquadPositionedObject,
 } from '../game-object/GameObject';
 import { Player } from '../game-object/Player';
 import { KeyboardController } from '../core/KeyboardController';
-import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { Vector2 } from '../utils/Vector2';
 import { SceneInterface } from './SceneInterface';
 import {
@@ -26,6 +24,13 @@ import {
 import { WarriorEnemyObjectPhysics } from '../game-object/components/WarriorEnemyObjectPhysics';
 import { getRandomInt } from '../utils/Math';
 import { OrdinaryEnemyObjectPhysics } from '../game-object/components/OrdinaryEnemyObjectPhysics';
+import { PlayerProfile } from '../GamePage';
+import { Size } from '../game-object/components/Components';
+import { ReferenceObjectCollection } from '../utils/ReferenceObjectCollection';
+import { GameObjectCollection } from '../utils/GameObjectCollection';
+import { ReferenceObject } from '../game-object/ReferenceObject';
+import { ReferenceObjectAction } from '../game-object/components/ReferenceObjectAction';
+import { ReferenceObjectGraphics } from '../game-object/components/ReferenceObjectGraphics';
 
 export class GameScene implements SceneInterface {
   private readonly player: Player;
@@ -39,6 +44,8 @@ export class GameScene implements SceneInterface {
   private readonly playerBulletCollection = new GameObjectCollection();
   private readonly enemyBulletCollection = new GameObjectCollection();
   private readonly enemyCollection = new GameObjectCollection();
+  private readonly playerPointCollection = new ReferenceObjectCollection();
+  private readonly playerPoints: ReferenceObject;
   private currentRow = 1;
 
   private startX: number;
@@ -46,8 +53,10 @@ export class GameScene implements SceneInterface {
 
   constructor(
     private readonly keyboard: KeyboardController,
-    private endGameCallback: () => void
+    private endGameCallback: () => void,
+    private readonly profile: PlayerProfile
   ) {
+    this.profile = profile;
     this.player = this.createPlayer(playerConfig);
     this.absoluteTime = performance.now();
     this.lastAttackCreateTime = performance.now();
@@ -58,6 +67,16 @@ export class GameScene implements SceneInterface {
     this.enemiesWaveCount = 0;
     this.currentEnemiesWave = 0;
     this.lastEnemyKillTime = 0;
+    this.playerPoints = new ReferenceObject(
+      this.profile.points.toString(),
+      new Vector2(10, 30),
+      {
+        width: 1050,
+        height: 1050,
+      },
+      new ReferenceObjectAction(),
+      new ReferenceObjectGraphics()
+    );
   }
   public init(): void {
     this.startX =
@@ -123,8 +142,12 @@ export class GameScene implements SceneInterface {
     this.enemyCollection.forEachFromEnd((enemy, enemyIndex) => {
       this.playerBulletCollection.forEachFromEnd((bullet, bulletIndex) => {
         if (enemy.collideWith(bullet)) {
+          this.playerPoints.text;
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);
+
+          this.profile.points += 100;
+          this.playerPoints.update(dt, this.profile.points.toString());
           if (this.enemyCollection.count() === 0) {
             if (this.enemiesWaveCount < 2) {
               this.enemiesSquadCount = 0;
@@ -141,6 +164,7 @@ export class GameScene implements SceneInterface {
   }
 
   public render(dt: number): void {
+    this.playerPoints.render(dt);
     this.player.render(dt);
     this.playerBulletCollection.forEachFromEnd((bullet) => bullet.render(dt));
     this.enemyCollection.forEachFromEnd((enemy) => {

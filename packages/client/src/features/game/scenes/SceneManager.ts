@@ -1,3 +1,4 @@
+import { PlayerProfile } from '../GamePage';
 import { KeyboardController } from '../core/KeyboardController';
 import { EndScene } from './EndScene';
 import { GameScene } from './GameScene';
@@ -14,7 +15,8 @@ type ScenesCollectionType = Record<
   SceneName,
   new (
     keyboard: KeyboardController,
-    endGameCallback: () => void
+    endGameCallback: () => void,
+    profile: PlayerProfile
   ) => SceneInterface
 >;
 
@@ -50,13 +52,14 @@ export class SceneManager {
   /**
    * Set current scene and init
    */
-  public static setCurrentScene(name: SceneName) {
+  public static setCurrentScene(name: SceneName, profile: PlayerProfile) {
     if (!SceneManager.keyboard) {
       throw new Error('Keyboard is undefined. Set keyboard');
     }
     SceneManager.currentScene = new SceneManager.scenesCollection[name](
       SceneManager.keyboard,
-      SceneManager.endCallBack
+      SceneManager.endCallBack,
+      profile
     );
     SceneManager.end = false;
     SceneManager.currentScene.init();

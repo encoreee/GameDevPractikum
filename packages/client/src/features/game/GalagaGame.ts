@@ -2,23 +2,26 @@ import { KeyboardController } from './core/KeyboardController';
 import { SceneManager, SceneName } from './scenes/SceneManager';
 import { Canvas } from './core/Canvas';
 import { GameLoop } from './core/GameLoop';
+import { PlayerProfile } from './GamePage';
 
 export class GalagaGame {
   public readonly keyboard: KeyboardController = new KeyboardController();
   private readonly gameloop: GameLoop;
+  private readonly profile: PlayerProfile;
 
   private readonly sceneManager: SceneManager = new SceneManager();
 
-  constructor() {
+  constructor(profile: PlayerProfile) {
     this.gameloop = new GameLoop(
       this.update.bind(this),
       this.render.bind(this)
     );
+    this.profile = profile;
   }
 
   public init(): void {
     SceneManager.setKeyboard(this.keyboard);
-    SceneManager.setCurrentScene(SceneName.GAME);
+    SceneManager.setCurrentScene(SceneName.GAME, this.profile);
     this.gameloop.start();
   }
 

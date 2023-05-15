@@ -1,5 +1,6 @@
 import { Canvas } from '../../core/Canvas';
-import { GraphicComponent, GameObject } from '../GameObject';
+import { GameObject } from '../GameObject';
+import { GraphicComponent } from './Components';
 
 export class GameObjectGraphics implements GraphicComponent {
   private readonly canvas = Canvas;

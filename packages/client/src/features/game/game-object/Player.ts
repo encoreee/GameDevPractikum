@@ -1,10 +1,10 @@
 import { Vector2 } from '../utils/Vector2';
+import { GameObject } from './GameObject';
 import {
-  GameObject,
   GameObjectComponent,
   GraphicComponent,
   Size,
-} from './GameObject';
+} from './components/Components';
 
 export class Player extends GameObject {
   private readonly input: GameObjectComponent;

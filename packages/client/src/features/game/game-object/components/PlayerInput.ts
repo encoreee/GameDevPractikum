@@ -1,6 +1,7 @@
 import { ActionFlagType } from '../../core/KeyboardController';
 import { Vector2 } from '../../utils/Vector2';
-import { GameObjectComponent, GameObject } from '../GameObject';
+import { GameObject } from '../GameObject';
+import { GameObjectComponent } from './Components';
 
 export class PlayerInput implements GameObjectComponent {
   private velocity: Vector2;

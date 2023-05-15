@@ -1,4 +1,4 @@
-import { Size } from '../game-object/GameObject';
+import { Size } from '../game-object/components/Components';
 
 export class Canvas {
   private static htmlCanvasInstance?: HTMLCanvasElement;

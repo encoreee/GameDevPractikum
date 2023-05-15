@@ -11,7 +11,11 @@ const styles: React.CSSProperties = {
   marginTop: '2rem',
 };
 
-const galaga = new GalagaGame();
+export type PlayerProfile = { displayName: string; points: number };
+
+const dummy: PlayerProfile = { displayName: 'Alex', points: 0 };
+
+const galaga = new GalagaGame(dummy);
 
 const GamePage: FunctionComponent = () => {
   const canvas = useRef<HTMLCanvasElement>(null);

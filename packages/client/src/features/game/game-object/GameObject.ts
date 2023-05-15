@@ -1,32 +1,10 @@
 import { Collider } from '../core/Collider';
 import { Vector2 } from '../utils/Vector2';
-
-export interface GameObjectComponent {
-  update(
-    gameObject: GameObject,
-    dt: number,
-    absTime?: number,
-    refObject?: GameObject
-  ): void;
-}
-export interface EnemyBulletObjectComponent extends GameObjectComponent {
-  shuted: boolean;
-  update(
-    gameObject: GameObject,
-    dt: number,
-    absTime?: number,
-    refObject?: GameObject
-  ): void;
-}
-
-export interface GraphicComponent {
-  render(gameObject: GameObject, dt: number): void;
-}
-
-export type Size = {
-  width: number;
-  height: number;
-};
+import {
+  GameObjectComponent,
+  GraphicComponent,
+  Size,
+} from './components/Components';
 
 export class GameObject {
   private readonly collider: Collider;

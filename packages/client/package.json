@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "rm -rf ./dist && rm -rf ./dev-dist && vite",
-    "build": "tsc && vite build",
+    "dev": "rm -rf ./dev-dist && vite",
+    "build": "rm -rf ./dist && tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "typings": "tsc --noEmit",

@@ -47,7 +47,7 @@ export class SceneManager {
   }
 
   private static selectNextSceneCallBack(): void {
-    this.setCurrentSceneByIndex(SceneManager.currentSceneIndex++);
+    SceneManager.setCurrentSceneByIndex(SceneManager.currentSceneIndex++);
   }
 
   /**

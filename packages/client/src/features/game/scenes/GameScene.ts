@@ -34,22 +34,23 @@ import { ReferenceObjectGraphics } from '../game-object/components/ReferenceObje
 
 export class GameScene implements SceneInterface {
   private readonly player: Player;
-  private absoluteTime: number;
-  private lastAttackCreateTime: number;
-  private lastEnemyCreateTime: number;
-  private lastEnemyKillTime: number;
-  private enemiesSquadCount: number;
-  private enemiesWaveCount: number;
-  private currentEnemiesWave: number;
   private readonly playerBulletCollection = new GameObjectCollection();
   private readonly enemyBulletCollection = new GameObjectCollection();
   private readonly enemyCollection = new GameObjectCollection();
   private readonly playerPointCollection = new ReferenceObjectCollection();
   private readonly playerPoints: ReferenceObject;
+  private canStart = false;
+  private startDelay = 0;
   private currentRow = 1;
-
-  private startX: number;
-  private startY: number;
+  private startX = 0;
+  private startY = 0;
+  private absoluteTime = 0;
+  private lastAttackCreateTime = 0;
+  private lastEnemyCreateTime = 0;
+  private lastEnemyKillTime = 0;
+  private enemiesSquadCount = 0;
+  private enemiesWaveCount = 0;
+  private currentEnemiesWave = 0;
 
   constructor(
     private readonly keyboard: KeyboardController,
@@ -59,22 +60,9 @@ export class GameScene implements SceneInterface {
   ) {
     this.profile = profile;
     this.player = this.createPlayer(playerConfig);
-    this.absoluteTime = performance.now();
-    this.lastAttackCreateTime = performance.now();
-    this.lastEnemyCreateTime = performance.now();
-    this.startX = 0;
-    this.startY = 0;
-    this.enemiesSquadCount = 0;
-    this.enemiesWaveCount = 0;
-    this.currentEnemiesWave = 0;
-    this.lastEnemyKillTime = 0;
     this.playerPoints = new ReferenceObject(
       this.profile.points.toString(),
       new Vector2(10, 30),
-      {
-        width: 1050,
-        height: 1050,
-      },
       new ReferenceObjectAction(),
       new ReferenceObjectGraphics()
     );
@@ -89,11 +77,17 @@ export class GameScene implements SceneInterface {
       2;
     this.startY = enemyConfig.paddingTop;
     console.log('gameScene inited');
+    this.startDelay = performance.now();
   }
 
   public update(dt: number): void {
-    this.absoluteTime = performance.now();
     this.player.update(dt);
+    if (!this.canStart) {
+      this.delay(2000)(this.startDelay);
+      return;
+    }
+
+    this.absoluteTime = performance.now();
 
     if (this.enemiesSquadCount < enemyConfig.numberEnemy) {
       this.tryCreateEnemy(this.enemiesSquadCount)(
@@ -242,6 +236,15 @@ export class GameScene implements SceneInterface {
         );
         this.enemyBulletCollection.push(bullet);
         this.lastAttackCreateTime = currentBulletCreateTime;
+      }
+    };
+  }
+
+  public delay(delay: number) {
+    return (timeCheck: number) => {
+      const currentTime = performance.now();
+      if (currentTime > timeCheck + delay) {
+        this.canStart = true;
       }
     };
   }

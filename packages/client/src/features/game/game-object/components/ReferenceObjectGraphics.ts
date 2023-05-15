@@ -12,8 +12,7 @@ export class ReferenceObjectGraphics implements GraphicReferenceComponent {
       .fillText(
         referenceObject.text,
         referenceObject.position.x + dt,
-        referenceObject.position.y + dt,
-        referenceObject.size.height
+        referenceObject.position.y + dt
       );
   }
 }

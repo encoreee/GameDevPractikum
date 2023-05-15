@@ -2,14 +2,12 @@ import { Vector2 } from '../utils/Vector2';
 import {
   GraphicReferenceComponent,
   ReferenceObjectComponent,
-  Size,
 } from './components/Components';
 
 export class ReferenceObject {
   constructor(
     public text: string,
     public position: Vector2,
-    public readonly size: Size,
     protected readonly action: ReferenceObjectComponent,
     protected readonly graphics: GraphicReferenceComponent
   ) {}

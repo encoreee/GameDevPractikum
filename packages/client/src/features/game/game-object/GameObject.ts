@@ -33,6 +33,17 @@ export class GameObject {
   }
 }
 
+export class PlayerLiveObject extends GameObject {
+  constructor(
+    public position: Vector2,
+    public readonly size: Size,
+    protected readonly physics: GameObjectComponent,
+    protected readonly graphics: GraphicComponent
+  ) {
+    super(position, size, physics, graphics);
+  }
+}
+
 export class EnemyBulletObject extends GameObject {
   public shuted = false;
   public defaultAttackDirection = new Vector2(0, 250);

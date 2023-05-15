@@ -7,6 +7,13 @@ export type PlayerCreateConfigType = {
   bulletCreateDelay: number;
   paddingBottom: number;
   speed: number;
+  playerLives: PlayerLivesConfig;
+};
+
+export type PlayerLivesConfig = {
+  lives: number;
+  gap: number;
+  size: Size;
 };
 
 export type EnemyCreateConfigType = {
@@ -40,6 +47,14 @@ export const playerConfig: PlayerCreateConfigType = {
   bulletSize: {
     width: 10,
     height: 10,
+  },
+  playerLives: {
+    lives: 3,
+    size: {
+      width: 10,
+      height: 10,
+    },
+    gap: 10,
   },
 };
 

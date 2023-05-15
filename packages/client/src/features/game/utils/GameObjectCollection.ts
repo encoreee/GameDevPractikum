@@ -11,6 +11,10 @@ export class GameObjectCollection<T extends GameObject = GameObject> {
     this.collection.splice(index, 1);
   }
 
+  public erase() {
+    this.collection.splice(0, this.collection.length);
+  }
+
   public getObject(index: number): T {
     const enemy = this.collection[index];
     return enemy;

@@ -54,6 +54,7 @@ export class GameScene implements SceneInterface {
   constructor(
     private readonly keyboard: KeyboardController,
     private endGameCallback: () => void,
+    private selectNextSceneCallBack: () => void,
     private readonly profile: PlayerProfile
   ) {
     this.profile = profile;
@@ -87,6 +88,7 @@ export class GameScene implements SceneInterface {
         1) /
       2;
     this.startY = enemyConfig.paddingTop;
+    console.log('gameScene inited');
   }
 
   public update(dt: number): void {
@@ -154,6 +156,8 @@ export class GameScene implements SceneInterface {
               this.currentRow = 1;
               this.enemiesWaveCount++;
               this.lastEnemyKillTime = performance.now();
+            } else {
+              this.selectNextSceneCallBack();
             }
           }
         }

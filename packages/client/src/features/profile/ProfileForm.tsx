@@ -38,8 +38,6 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
   const formContext = useForm<UserProfile>({ defaultValues });
 
   const onSubmit = (data: UserProfile) => {
-    console.log(data);
-
     updateUserInfo(data);
   };
 

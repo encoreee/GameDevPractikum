@@ -5,6 +5,7 @@ import { useUpdateUserInfoMutation } from '@/app/apiSlice';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { Grid } from '@mui/material';
 import { ValidationScheme } from '../auth/SignUpValidationScheme';
+import { AppMessage } from '@/utils/const';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '@/components/MainButton';
@@ -17,6 +18,10 @@ type ProfileFormProps = { user?: User };
 const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
   const [updateUserInfo, { error, isSuccess }] = useUpdateUserInfoMutation();
   const updateError = error as FetchBaseQueryError;
+  const updateErrorData = updateError.data as ErrorData;
+  const errorReason = updateErrorData?.reason
+    ? updateErrorData.reason
+    : AppMessage.UNKNOWN_API_ERROR;
   const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
 
   type UserProfile = Omit<User, 'avatar'>;
@@ -100,7 +105,7 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
       </Grid>
       <FormNotification
         maxWidth="1000px"
-        text={updateError ? (updateError.data as ErrorData).reason : ' '}
+        text={updateError ? errorReason : ' '}
         type={FORM_NOTIFICATION_TYPE.ERROR}
       />
       <FormNotification

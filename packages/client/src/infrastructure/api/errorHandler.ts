@@ -1,3 +1,4 @@
+import { AppMessage } from '@/utils/const';
 import * as HttpStatus from 'http-status-codes';
 
 export async function handleErrors(response: Response, message?: string) {
@@ -6,7 +7,7 @@ export async function handleErrors(response: Response, message?: string) {
     const reason =
       response.status === 500
         ? HttpStatus.getStatusText(response.status)
-        : (await response.json()).reason;
+        : (await response.json())?.reason || AppMessage.UNKNOWN_API_ERROR;
 
     error.name = `${response.status.toString()} ${HttpStatus.getStatusText(
       response.status

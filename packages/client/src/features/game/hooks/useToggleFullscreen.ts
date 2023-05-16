@@ -20,9 +20,7 @@ export const useToggleFullScreen = (key: string) => {
   };
 
   useEffect(() => {
-    if (element.current !== null) {
-      document.addEventListener('keydown', onKeyDownHandler);
-    }
+    document.addEventListener('keydown', onKeyDownHandler);
 
     return () => {
       document.removeEventListener('keydown', onKeyDownHandler);

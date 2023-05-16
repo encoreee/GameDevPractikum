@@ -14,7 +14,7 @@ import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
 import GameStartPage from './features/gameStart/GameStartPage';
 import ForumPages from './features/forum/pages';
-
+import GameOver from './features/gameOver/GameOver';
 
 const App: FC = () => {
   return (

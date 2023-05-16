@@ -1,15 +1,35 @@
 declare const self: ServiceWorkerGlobalScope;
 
-const CACHE = 'my-site-cache-v1';
-const URLS = ['/assets/background.png'];
+const CACHE_NAME = 'app-cache-v1';
+const URLS = ['/index.html', '/app.js', '/assets/background.png'];
 const TIMEOUT = 400;
+
+const fromNetwork = (request: Request): Promise<Response> => {
+  return new Promise((fulfill, reject) => {
+    const timeoutId = setTimeout(reject, TIMEOUT);
+    fetch(request).then((response) => {
+      clearTimeout(timeoutId);
+      fulfill(response);
+    }, reject);
+  });
+};
+
+const fromCache = (request: Request) => {
+  return caches
+    .open(CACHE_NAME)
+    .then((cache) =>
+      cache
+        .match(request)
+        .then((matching) => matching || Promise.reject('no-match'))
+    );
+};
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
-      .open(CACHE)
+      .open(CACHE_NAME)
       .then((cache) => {
-        console.log('Opened cache');
+        console.log('Cache opened');
         return cache.addAll(URLS);
       })
       .catch((err) => {
@@ -36,30 +56,10 @@ self.addEventListener('activate', function (event) {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fromNetwork(event.request).catch((err) => {
-      console.log(`Error: ${err.message()}`);
+      console.log(`Error: ${err}`);
       return fromCache(event.request);
     })
   );
 });
-
-function fromNetwork(request: Request): Promise<Response> {
-  return new Promise((fulfill, reject) => {
-    const timeoutId = setTimeout(reject, TIMEOUT);
-    fetch(request).then((response) => {
-      clearTimeout(timeoutId);
-      fulfill(response);
-    }, reject);
-  });
-}
-
-function fromCache(request: Request) {
-  return caches
-    .open(CACHE)
-    .then((cache) =>
-      cache
-        .match(request)
-        .then((matching) => matching || Promise.reject('no-match'))
-    );
-}
 
 export {};

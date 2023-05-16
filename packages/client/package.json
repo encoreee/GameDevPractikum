@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "rm -rf ./dev-dist && vite",
-    "build": "rm -rf ./dist && tsc && vite build",
+    "dev": "rm -rf ./dev-dist && rm -rf ./dist && vite",
+    "build": "rm -rf ./dev-dist && rm -rf ./dist && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "typings": "tsc --noEmit",
@@ -58,7 +58,6 @@
     "vite": "3.0.7",
     "vite-plugin-checker": "0.6.0",
     "vite-plugin-eslint": "1.8.1",
-    "vite-plugin-pwa": "^0.14.7",
     "vite-plugin-stylelint": "4.3.0"
   },
   "license": "MIT"

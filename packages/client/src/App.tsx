@@ -1,5 +1,6 @@
-import { Fragment, FC } from 'react';
+import { Fragment, FC, useEffect } from 'react';
 import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
+import { startServiceWorker } from './utils/swRegistration';
 
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
@@ -17,27 +18,11 @@ import ForumPages from '@features/forum/pages';
 import GamePage from './features/game/GamePage';
 import GameStartPage from './features/gameStart/GameStartPage';
 
-// function startServiceWorker() {
-//   if ('serviceWorker' in navigator) {
-//     window.addEventListener('load', () => {
-//       navigator.serviceWorker
-//         .register('/sw.js')
-//         .then((registration) => {
-//           console.log(
-//             'ServiceWorker registration successful with scope: ',
-//             registration.scope
-//           );
-//         })
-//         .catch((error: string) => {
-//           console.log('ServiceWorker registration failed: ', error);
-//         });
-//     });
-//   }
-// }
-
-// startServiceWorker();
-
 const App: FC = () => {
+  useEffect(() => {
+    startServiceWorker();
+  }, []);
+
   return (
     <Fragment>
       <Provider store={store}>

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
-import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath, URL } from 'url';
+
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import stylelint from 'vite-plugin-stylelint';
@@ -31,20 +31,24 @@ export default defineConfig(() => ({
   define: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
+  build: {
+    rollupOptions: {
+      input: {
+        app: './index.html',
+        sw: './src/sw.ts',
+      },
+      output: {
+        // 2️⃣
+        entryFileNames: '[name].js',
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`,
+      },
+    },
+  },
   plugins: [
     checker({ typescript: true }),
     react(),
     eslint({ lintOnStart: true, overrideConfigFile: '../../.eslintrc.js' }),
     stylelint({ fix: true }),
-    VitePWA({
-      registerType: 'autoUpdate',
-      injectRegister: 'auto',
-      devOptions: {
-        enabled: true,
-      },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg}'],
-      },
-    }),
   ],
 }));

@@ -34,3 +34,7 @@ export const enemyConfig: EnemyCreateConfigType = {
     height: 50,
   },
 };
+
+export const KEY_BINDINGS = {
+  fullScreen: 'f',
+} as const;

@@ -1,7 +1,6 @@
 import { Canvas } from '../core/Canvas';
 import { Player } from '../game-object/Player';
 import { KeyboardController } from '../core/KeyboardController';
-import { Vector2 } from '../utils/Vector2';
 import {
   SceneEnemyMetrics,
   SceneInterface,
@@ -14,11 +13,10 @@ import { PlayerProfile } from '../GamePage';
 import { ReferenceObjectCollection } from '../utils/ReferenceObjectCollection';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { ReferenceObject } from '../game-object/ReferenceObject';
-import { ReferenceObjectAction } from '../game-object/components/ReferenceObjectAction';
-import { ReferenceObjectGraphics } from '../game-object/components/ReferenceObjectGraphics';
 import { createPlayer, createPlayerLives } from './SceneUtils/PlayerUtils';
 import { createEnemy, enemyFireAction } from './SceneUtils/EnemyUtils';
 import { delay } from './SceneUtils/TimeUtils';
+import { createLabel, createPlayerPoint } from './SceneUtils/SceneUtils';
 
 export class GameSceneLevel1 implements SceneInterface {
   private readonly player: Player;
@@ -62,19 +60,8 @@ export class GameSceneLevel1 implements SceneInterface {
       this.keyboard,
       this.playerBulletCollection
     );
-    this.playerPoints = new ReferenceObject(
-      this.profile.points.toString(),
-      new Vector2(10, 30),
-      new ReferenceObjectAction(),
-      new ReferenceObjectGraphics('blue', 23)
-    );
-
-    this.levelLabel = new ReferenceObject(
-      this.profile.points.toString(),
-      new Vector2(canvasSize.width / 2 - 50, canvasSize.height / 2),
-      new ReferenceObjectAction(),
-      new ReferenceObjectGraphics('white', 30)
-    );
+    this.playerPoints = createPlayerPoint(this.profile);
+    this.levelLabel = createLabel(this.referenceMetrics.levelLabel, canvasSize);
   }
   public init(): void {
     this.enemyMetrics.startX =

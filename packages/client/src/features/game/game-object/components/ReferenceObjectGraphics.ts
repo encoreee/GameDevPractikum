@@ -8,7 +8,7 @@ export class ReferenceObjectGraphics implements GraphicReferenceComponent {
   constructor(private color: string, private size: number) {}
   public render(referenceObject: ReferenceObject, dt: number): void {
     this.canvas.getContext2D().fillStyle = `${this.color}`;
-    this.canvas.getContext2D().font = `${this.size}pt Calibri`;
+    this.canvas.getContext2D().font = `${this.size}pt "Press Start 2P"`;
     this.canvas
       .getContext2D()
       .fillText(

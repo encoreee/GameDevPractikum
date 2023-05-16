@@ -1,8 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import MainPageTemplate from '../../components/MainPageTemplate';
-import { useAppSelector } from '@/app/hooks';
 import { Stack, Typography, Zoom } from '@mui/material';
 import EmptyMainPageTemplate from '@/components/EmptyMainPageTemplate';
+import { useNavigate } from 'react-router-dom';
 
 const countDownData = ['3', '2', '1', 'start!'];
 
@@ -10,15 +9,15 @@ const GameStartPage: FunctionComponent = () => {
   const [currentLabel, setCurrentLabel] = useState(countDownData[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [checked, setChecked] = useState(false);
-
   const [tick, setTick] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCurrentLabel(countDownData[currentIndex]);
     setCurrentIndex(currentIndex + 1);
     setChecked(true);
     if (currentIndex > countDownData.length) {
-      return;
+      navigate('/game');
     }
   }, [tick]);
 
@@ -27,13 +26,14 @@ const GameStartPage: FunctionComponent = () => {
       setTick(!tick);
       setChecked(() => false);
       clearInterval(timerOut);
-    }, 2000);
+    }, 1500);
     const timerOut = setInterval(() => {
       setChecked(() => false);
-    }, 1000);
+    }, 750);
 
     return () => {
       clearInterval(timerIn);
+      clearInterval(timerOut);
     };
   }, [tick]);
 

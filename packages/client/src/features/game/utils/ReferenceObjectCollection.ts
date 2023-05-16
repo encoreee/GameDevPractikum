@@ -1,4 +1,4 @@
-import { ReferenceObject } from '../game-object/ReferenceObject';
+import { ReferenceObject } from '../game-object/components/Objects/ReferenceObject';
 
 export class ReferenceObjectCollection<T extends ReferenceObject> {
   constructor(private collection: T[] = []) {}

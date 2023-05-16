@@ -1,8 +1,8 @@
-import { Vector2 } from '../utils/Vector2';
+import { Vector2 } from '@/features/game/utils/Vector2';
 import {
   GraphicReferenceComponent,
   ReferenceObjectComponent,
-} from './components/Components';
+} from '../Graphics/Components';
 
 export class ReferenceObject {
   constructor(

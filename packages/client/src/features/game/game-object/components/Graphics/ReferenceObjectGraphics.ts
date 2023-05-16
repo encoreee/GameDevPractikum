@@ -1,6 +1,6 @@
 import { Canvas } from '../../../core/Canvas';
-import { ReferenceObject } from '../../ReferenceObject';
-import { GraphicReferenceComponent } from '../Components';
+import { ReferenceObject } from '../Objects/ReferenceObject';
+import { GraphicReferenceComponent } from './Components';
 
 export class ReferenceObjectGraphics implements GraphicReferenceComponent {
   private readonly canvas = Canvas;

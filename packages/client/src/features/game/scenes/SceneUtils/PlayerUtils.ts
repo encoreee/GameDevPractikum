@@ -1,14 +1,14 @@
-import { GameObjectPhysics } from '../../game-object/components/GameObjectPhysics';
 import { PlayerLiveObjectGraphics } from '../../game-object/components/Graphics/PlayerLiveObjectGraphics';
 import { PlayerCreateConfigType } from '../../Config';
 import { Vector2 } from '../../utils/Vector2';
 import { GameObjectCollection } from '../../utils/GameObjectCollection';
 import { PlayerLiveObject } from '../../game-object/components/Objects/GameObject';
 import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
-import { Player } from '../../game-object/Player';
 import { PlayerInput } from '../../game-object/components/Graphics/PlayerInput';
 import { KeyboardController } from '../../core/KeyboardController';
 import { createBullet } from './BulletUtils';
+import { Player } from '../../game-object/components/Objects/Player';
+import { GameObjectPhysics } from '../../game-object/components/Physics/GameObjectPhysics';
 
 export function createPlayerLives(
   livesCollection: GameObjectCollection,

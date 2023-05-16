@@ -6,9 +6,9 @@ import {
   EnemyBulletPhysics,
   PlayerBulletPhysics,
 } from '../../game-object/components/Physics/BulletPhysics';
-import { Size } from '../../game-object/components/Components';
 import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
 import { Vector2 } from '../../utils/Vector2';
+import { Size } from '../../game-object/components/Graphics/Components';
 
 export function createBullet(
   position: Vector2,

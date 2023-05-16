@@ -1,7 +1,7 @@
-import { EnemyCreateConfigType } from '../../Config';
-import { Vector2 } from '../../utils/Vector2';
-import { SquadPositionedObject } from '../GameObject';
-import { GameObjectComponent } from './Components';
+import { EnemyCreateConfigType } from '@/features/game/Config';
+import { GameObjectComponent } from '../Graphics/Components';
+import { SquadPositionedObject } from '../Objects/GameObject';
+import { Vector2 } from '@/features/game/utils/Vector2';
 
 export class WarriorEnemyObjectPhysics implements GameObjectComponent {
   private actionNumber: number;

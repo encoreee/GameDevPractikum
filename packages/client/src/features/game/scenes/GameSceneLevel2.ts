@@ -1,5 +1,4 @@
 import { Canvas } from '../core/Canvas';
-import { Player } from '../game-object/Player';
 import { KeyboardController } from '../core/KeyboardController';
 import {
   SceneEnemyMetrics,
@@ -12,12 +11,12 @@ import { getRandomInt } from '../utils/Math';
 import { PlayerProfile } from '../GamePage';
 import { ReferenceObjectCollection } from '../utils/ReferenceObjectCollection';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
-import { ReferenceObject } from '../game-object/ReferenceObject';
-
 import { createPlayer, createPlayerLives } from './SceneUtils/PlayerUtils';
 import { createEnemy, enemyFireAction } from './SceneUtils/EnemyUtils';
 import { delay } from './SceneUtils/TimeUtils';
 import { createLabel, createPlayerPoint } from './SceneUtils/SceneUtils';
+import { ReferenceObject } from '../game-object/components/Objects/ReferenceObject';
+import { Player } from '../game-object/components/Objects/Player';
 
 export class GameSceneLevel2 implements SceneInterface {
   private readonly player: Player;

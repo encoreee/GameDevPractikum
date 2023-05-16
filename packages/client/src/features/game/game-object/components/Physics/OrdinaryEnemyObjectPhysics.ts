@@ -1,8 +1,7 @@
-import { EnemyCreateConfigType } from '../../Config';
-import {} from '../../scenes/GameSceneLevel1';
-import { Vector2 } from '../../utils/Vector2';
-import { SquadPositionedObject } from '../GameObject';
-import { GameObjectComponent } from './Components';
+import { EnemyCreateConfigType } from '@/features/game/Config';
+import { GameObjectComponent } from '../Graphics/Components';
+import { SquadPositionedObject } from '../Objects/GameObject';
+import { Vector2 } from '@/features/game/utils/Vector2';
 
 export class OrdinaryEnemyObjectPhysics implements GameObjectComponent {
   private actionNumber: number;

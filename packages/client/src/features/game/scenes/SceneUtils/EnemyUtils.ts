@@ -1,12 +1,12 @@
 import { SquadPositionedObject } from '../../game-object/components/Objects/GameObject';
 import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
-import { OrdinaryEnemyObjectPhysics } from '../../game-object/components/OrdinaryEnemyObjectPhysics';
-import { WarriorEnemyObjectPhysics } from '../../game-object/components/WarriorEnemyObjectPhysics';
 import { Vector2 } from '../../utils/Vector2';
 import { GameObjectCollection } from './../../utils/GameObjectCollection';
 import { EnemyCreateConfigType } from '../../Config';
 import { createBullet } from './BulletUtils';
 import { SceneTimeMetrics } from '../SceneInterface';
+import { WarriorEnemyObjectPhysics } from '../../game-object/components/Physics/WarriorEnemyObjectPhysics';
+import { OrdinaryEnemyObjectPhysics } from '../../game-object/components/Physics/OrdinaryEnemyObjectPhysics';
 
 export function createEnemy(
   enemyCollection: GameObjectCollection,

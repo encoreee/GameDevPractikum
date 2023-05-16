@@ -3,10 +3,10 @@ import { PlayerLiveObjectGraphics } from '../../game-object/components/Graphics/
 import { PlayerCreateConfigType } from '../../Config';
 import { Vector2 } from '../../utils/Vector2';
 import { GameObjectCollection } from '../../utils/GameObjectCollection';
-import { PlayerLiveObject } from '../../game-object/GameObject';
+import { PlayerLiveObject } from '../../game-object/components/Objects/GameObject';
 import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
 import { Player } from '../../game-object/Player';
-import { PlayerInput } from '../../game-object/components/PlayerInput';
+import { PlayerInput } from '../../game-object/components/Graphics/PlayerInput';
 import { KeyboardController } from '../../core/KeyboardController';
 import { createBullet } from './BulletUtils';
 

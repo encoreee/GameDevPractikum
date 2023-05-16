@@ -1,10 +1,10 @@
-import { Collider } from '../core/Collider';
-import { Vector2 } from '../utils/Vector2';
+import { Collider } from '../../../core/Collider';
+import { Vector2 } from '../../../utils/Vector2';
 import {
   GameObjectComponent,
   GraphicComponent,
   Size,
-} from './components/Components';
+} from '../Graphics/Components';
 
 export class GameObject {
   private readonly collider: Collider;

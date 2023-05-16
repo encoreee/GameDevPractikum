@@ -1,5 +1,5 @@
-import { ReferenceObject } from './../ReferenceObject';
-import { ReferenceObjectComponent } from './Components';
+import { ReferenceObjectComponent } from '../Graphics/Components';
+import { ReferenceObject } from '../Objects/ReferenceObject';
 
 export class ReferenceObjectAction implements ReferenceObjectComponent {
   public update(

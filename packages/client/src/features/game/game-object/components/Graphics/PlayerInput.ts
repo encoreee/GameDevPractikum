@@ -1,6 +1,6 @@
-import { ActionFlagType } from '../../core/KeyboardController';
-import { Vector2 } from '../../utils/Vector2';
-import { GameObject } from '../GameObject';
+import { ActionFlagType } from '../../../core/KeyboardController';
+import { Vector2 } from '../../../utils/Vector2';
+import { GameObject } from '../Objects/GameObject';
 import { GameObjectComponent } from './Components';
 
 export class PlayerInput implements GameObjectComponent {

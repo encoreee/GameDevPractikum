@@ -1,8 +1,8 @@
 import { PlayerProfile } from '../../GamePage';
 import { ReferenceObject } from '../../game-object/ReferenceObject';
 import { Size } from '../../game-object/components/Components';
-import { ReferenceObjectAction } from '../../game-object/components/ReferenceObjectAction';
-import { ReferenceObjectGraphics } from '../../game-object/components/ReferenceObjectGraphics';
+import { ReferenceObjectAction } from '../../game-object/components/Physics/ReferenceObjectAction';
+import { ReferenceObjectGraphics } from '../../game-object/components/Graphics/ReferenceObjectGraphics';
 import { Vector2 } from '../../utils/Vector2';
 
 export function createPlayerPoint(profile: PlayerProfile): ReferenceObject {

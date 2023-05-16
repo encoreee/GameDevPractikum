@@ -1,8 +1,11 @@
-import { EnemyBulletObject, GameObject } from '../../game-object/GameObject';
+import {
+  EnemyBulletObject,
+  GameObject,
+} from '../../game-object/components/Objects/GameObject';
 import {
   EnemyBulletPhysics,
   PlayerBulletPhysics,
-} from '../../game-object/components/BulletPhysics';
+} from '../../game-object/components/Physics/BulletPhysics';
 import { Size } from '../../game-object/components/Components';
 import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
 import { Vector2 } from '../../utils/Vector2';

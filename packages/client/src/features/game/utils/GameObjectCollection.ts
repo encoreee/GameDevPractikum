@@ -1,4 +1,4 @@
-import { GameObject } from '../game-object/GameObject';
+import { GameObject } from '../game-object/components/Objects/GameObject';
 
 export class GameObjectCollection<T extends GameObject = GameObject> {
   constructor(private collection: T[] = []) {}

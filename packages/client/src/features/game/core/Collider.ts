@@ -1,5 +1,5 @@
-import { GameObject } from '../game-object/GameObject';
-import { Size } from '../game-object/components/Components';
+import { Size } from '../game-object/components/Graphics/Components';
+import { GameObject } from '../game-object/components/Objects/GameObject';
 
 export class Collider {
   constructor(private readonly gameObject: GameObject) {}

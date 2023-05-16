@@ -1,6 +1,6 @@
-import { Vector2 } from '../../utils/Vector2';
-import { GameObject, EnemyBulletObject } from '../GameObject';
-import { GameObjectComponent } from './Components';
+import { Vector2 } from '../../../utils/Vector2';
+import { GameObjectComponent } from '../Graphics/Components';
+import { GameObject, EnemyBulletObject } from '../Objects/GameObject';
 
 export class PlayerBulletPhysics implements GameObjectComponent {
   public update(playerBulletObject: GameObject, dt: number): void {

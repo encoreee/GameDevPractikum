@@ -1,4 +1,4 @@
-import { SquadPositionedObject } from '../../game-object/GameObject';
+import { SquadPositionedObject } from '../../game-object/components/Objects/GameObject';
 import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
 import { OrdinaryEnemyObjectPhysics } from '../../game-object/components/OrdinaryEnemyObjectPhysics';
 import { WarriorEnemyObjectPhysics } from '../../game-object/components/WarriorEnemyObjectPhysics';

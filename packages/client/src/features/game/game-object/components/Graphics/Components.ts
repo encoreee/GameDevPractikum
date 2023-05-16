@@ -1,5 +1,5 @@
-import { GameObject } from '../GameObject';
-import { ReferenceObject } from '../ReferenceObject';
+import { GameObject } from '../Objects/GameObject';
+import { ReferenceObject } from '../Objects/ReferenceObject';
 
 export interface GameObjectComponent {
   update(

@@ -5,14 +5,15 @@ import {
   Size,
 } from '../Graphics/Components';
 import { GameObject } from './GameObject';
+import { PlayerInput } from '../Graphics/PlayerInput';
 
 export class Player extends GameObject {
-  private readonly input: GameObjectComponent;
+  private readonly input: PlayerInput;
 
   constructor(
     position: Vector2,
     size: Size,
-    input: GameObjectComponent,
+    input: PlayerInput,
     physics: GameObjectComponent,
     graphics: GraphicComponent
   ) {
@@ -22,5 +23,9 @@ export class Player extends GameObject {
   public update(dt: number): void {
     this.input.update(this, dt);
     super.update(dt);
+  }
+
+  public setShutAbility(ability: boolean) {
+    this.input.setShutAbility(ability);
   }
 }

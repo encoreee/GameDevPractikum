@@ -1,7 +1,10 @@
 import { GameObject } from '../game-object/components/Objects/GameObject';
 
 export class GameObjectCollection<T extends GameObject = GameObject> {
-  constructor(private collection: T[] = []) {}
+  private cancelationToken;
+  constructor(private collection: T[] = []) {
+    this.cancelationToken = false;
+  }
 
   public push(...items: T[]) {
     this.collection.push(...items);
@@ -28,6 +31,10 @@ export class GameObjectCollection<T extends GameObject = GameObject> {
     return this.collection.length;
   }
 
+  public stopIterate(): void {
+    this.cancelationToken = true;
+  }
+
   /**
    * Iterate over an array of elements from the end
    */
@@ -35,6 +42,10 @@ export class GameObjectCollection<T extends GameObject = GameObject> {
     const lastIndex = this.collection.length - 1;
     for (let i = lastIndex; i >= 0; i--) {
       callback(this.collection[i], i);
+      if (this.cancelationToken) {
+        break;
+      }
     }
+    this.cancelationToken = false;
   }
 }

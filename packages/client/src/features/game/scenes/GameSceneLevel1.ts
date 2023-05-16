@@ -94,6 +94,7 @@ export class GameSceneLevel1 implements SceneInterface {
 
     if (this.timeMetrics.canStart && this.levelLabel) {
       this.levelLabel = undefined;
+      this.player.setShutAbility(true);
     }
 
     this.timeMetrics.absoluteTime = performance.now();
@@ -129,6 +130,7 @@ export class GameSceneLevel1 implements SceneInterface {
     this.enemyBulletCollection.forEachFromEnd((bullet, index) => {
       if (bullet.collideWithWall(Canvas.size())) {
         this.enemyBulletCollection.delete(index);
+        this.enemyBulletCollection.stopIterate();
       }
 
       if (this.player.collideWith(bullet)) {
@@ -140,6 +142,8 @@ export class GameSceneLevel1 implements SceneInterface {
             playerConfig,
             this.profile.lives
           );
+
+          this.enemyBulletCollection.stopIterate();
         } else {
           this.endGameCallback();
         }
@@ -151,6 +155,7 @@ export class GameSceneLevel1 implements SceneInterface {
     this.playerBulletCollection.forEachFromEnd((bullet, index) => {
       if (bullet.collideWithWall(Canvas.size())) {
         this.playerBulletCollection.delete(index);
+        this.playerBulletCollection.stopIterate();
       }
       bullet.update(dt);
     });
@@ -170,6 +175,8 @@ export class GameSceneLevel1 implements SceneInterface {
               this.enemyMetrics.enemiesWaveCount++;
               this.timeMetrics.lastEnemyKillTime = performance.now();
             } else {
+              this.enemyBulletCollection.erase();
+              this.playerBulletCollection.erase();
               this.selectNextSceneCallBack();
             }
           }

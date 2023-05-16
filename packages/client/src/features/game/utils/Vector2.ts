@@ -28,4 +28,18 @@ export class Vector2 {
     }
     return this.divide(lenght);
   }
+
+  /**
+   * Переводит из полярных координат в угловую меру
+   *
+   * @public
+   * @param {number} radius Радиус движения
+   * @param {number} angle Угол выраженный в радианах
+   * @returns {Vector2}
+   */
+  public fromPolar(radius: number, angle: number): Vector2 {
+    const vx = Math.cos(angle) * radius;
+    const vy = Math.sin(angle) * radius;
+    return new Vector2(vx, vy);
+  }
 }

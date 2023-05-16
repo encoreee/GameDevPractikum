@@ -5,14 +5,19 @@ import { GameObjectComponent } from './Components';
 
 export class PlayerInput implements GameObjectComponent {
   private velocity: Vector2;
+  public canShut: boolean;
   constructor(
     private actionFlag: ActionFlagType,
     private speed: number,
     private fireCallback: (position: Vector2) => void
   ) {
     this.velocity = new Vector2(0, 0);
+    this.canShut = false;
   }
 
+  setShutAbility(ability: boolean) {
+    this.canShut = ability;
+  }
   update(gameObject: GameObject, dt: number): void {
     if (this.actionFlag.LEFT) {
       this.velocity = new Vector2(-this.speed, 0);
@@ -27,7 +32,9 @@ export class PlayerInput implements GameObjectComponent {
     }
 
     if (this.actionFlag.FIRE) {
-      this.fireCallback(gameObject.position);
+      if (this.canShut) {
+        this.fireCallback(gameObject.position);
+      }
     }
   }
 }

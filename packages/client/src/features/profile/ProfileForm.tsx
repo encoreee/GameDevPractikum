@@ -1,19 +1,23 @@
-import { useAppDispatch } from '@/app/hooks';
-import { User, updateProfile } from '@/app/user/userSlice';
 import DataField from '@/components/DataField';
 import MainButton from '@/components/MainButton';
 import React, { FC, useEffect, useState } from 'react';
+import { User, ErrorData } from '../../infrastructure/api/auth/contracts';
+import { useUpdateUserInfoMutation } from '@/app/apiSlice';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import FormErrorMessage from '../../components/FormErrorMessage';
 
 type ProfileFormProps = { user?: User };
 
 const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
-  const dispatch = useAppDispatch();
-
   const [firstName, setFirstName] = useState('');
   const [secondName, setSecondName] = useState('');
   const [login, setLogin] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+
+  const [updateUserInfo, { error }] = useUpdateUserInfoMutation();
+  const updateError = error as FetchBaseQueryError;
 
   useEffect(() => {
     if (props.user) {
@@ -22,22 +26,21 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
       setLogin(props.user.login);
       setEmail(props.user.email);
       setPhone(props.user.phone);
+      setDisplayName(props.user.display_name);
     }
   }, [props.user]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    dispatch(
-      updateProfile({
-        first_name: firstName,
-        second_name: secondName,
-        display_name: login,
-        login: login,
-        email: email,
-        phone: phone,
-      })
-    );
+    updateUserInfo({
+      first_name: firstName,
+      second_name: secondName,
+      display_name: displayName,
+      login: login,
+      email: email,
+      phone: phone,
+    });
   };
 
   return (
@@ -57,6 +60,10 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
             value={props.user.login}
             onChange={setLogin}></DataField>
           <DataField
+            label={'display name'}
+            value={props.user.display_name}
+            onChange={setDisplayName}></DataField>
+          <DataField
             label={'email'}
             value={props.user.email}
             onChange={setEmail}></DataField>
@@ -64,7 +71,13 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
             label={'phone'}
             value={props.user.phone}
             onChange={setPhone}></DataField>
-          <MainButton label="Save" />
+          <FormErrorMessage
+            maxWidth="1000px"
+            errorMessage={
+              updateError ? (updateError.data as ErrorData).reason : ''
+            }
+          />
+          <MainButton label="Save" type="submit" />
         </form>
       )}
     </React.Fragment>

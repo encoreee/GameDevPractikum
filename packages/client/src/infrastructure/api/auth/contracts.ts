@@ -1,4 +1,9 @@
-export interface UserInfoResponse {
+export interface SignInRequest {
+  login: string;
+  password: string;
+}
+
+export interface User {
   id: number;
   first_name: string;
   second_name: string;
@@ -7,11 +12,6 @@ export interface UserInfoResponse {
   email: string;
   phone: string;
   avatar: string;
-}
-
-export interface SignInRequest {
-  login: string;
-  password: string;
 }
 
 export interface UserProfileRequest {
@@ -30,4 +30,8 @@ export interface SignUpRequest {
   email: string;
   phone: string;
   password: string;
+}
+
+export interface ErrorData {
+  reason: string;
 }

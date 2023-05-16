@@ -13,7 +13,6 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: ['"Press Start 2P"', 'cursive'].join(','),
-
     h1: {
       color: 'white',
       fontWeight: '400',

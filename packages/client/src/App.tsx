@@ -1,24 +1,19 @@
 import { Fragment, FC } from 'react';
 import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
-
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
 import { store } from './app/store';
-<<<<<<<<< Temporary merge branch 1
-=========
 import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 import GamePage from './features/game/GamePage';
->>>>>>>>> Temporary merge branch 2
-
 import Error from './features/errors/Error';
 import PrivateRoute from './components/PrivateRouter';
 import HomePage from './features/homepage/Homepage';
 import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
-import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 import GameStartPage from './features/gameStart/GameStartPage';
+import ForumPages from './features/forum/pages';
 
 const App: FC = () => {
   return (

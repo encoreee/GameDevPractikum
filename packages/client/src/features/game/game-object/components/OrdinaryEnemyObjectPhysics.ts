@@ -1,5 +1,5 @@
 import { EnemyCreateConfigType } from '../../Config';
-import {} from '../../scenes/GameScene';
+import {} from '../../scenes/GameSceneLevel1';
 import { Vector2 } from '../../utils/Vector2';
 import { SquadPositionedObject } from '../GameObject';
 import { GameObjectComponent } from './Components';

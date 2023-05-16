@@ -20,7 +20,7 @@ import { createPlayer, createPlayerLives } from './SceneUtils/PlayerUtils';
 import { createEnemy, enemyFireAction } from './SceneUtils/EnemyUtils';
 import { delay } from './SceneUtils/TimeUtils';
 
-export class GameScene implements SceneInterface {
+export class GameSceneLevel3 implements SceneInterface {
   private readonly player: Player;
   private readonly playerBulletCollection = new GameObjectCollection();
   private readonly enemyBulletCollection = new GameObjectCollection();
@@ -47,7 +47,7 @@ export class GameScene implements SceneInterface {
   };
 
   private referenceMetrics: SceneReferenceMetrics = {
-    levelLabel: 'Level 1',
+    levelLabel: 'Level 3',
   };
 
   constructor(

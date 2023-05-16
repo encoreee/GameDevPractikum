@@ -1,7 +1,9 @@
 import { PlayerProfile } from '../GamePage';
 import { KeyboardController } from '../core/KeyboardController';
 import { EndScene } from './EndScene';
-import { GameScene } from './GameScene';
+import { GameSceneLevel1 } from './GameSceneLevel1';
+import { GameSceneLevel2 } from './GameSceneLevel2';
+import { GameSceneLevel3 } from './GameSceneLevel3';
 import { SceneInterface } from './SceneInterface';
 import { StartScene } from './StartScene';
 
@@ -28,9 +30,9 @@ export class SceneManager {
   private static keyboard: KeyboardController;
   private static scenesCollection: ScenesCollectionType = {
     start: StartScene,
-    level1: GameScene,
-    level2: GameScene,
-    level3: GameScene,
+    level1: GameSceneLevel1,
+    level2: GameSceneLevel2,
+    level3: GameSceneLevel3,
     gameover: EndScene,
   };
   private static sceneOrder: SceneName[] = Object.values(SceneName);

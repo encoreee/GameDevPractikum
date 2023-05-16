@@ -8,7 +8,7 @@ export async function handleErrors(response: Response, message?: string) {
     )}`;
     error.message =
       message ||
-      (await response.text()) ||
+      (await response.json()).reason ||
       HttpStatus.getStatusText(response.status);
     throw error;
   }

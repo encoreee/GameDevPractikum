@@ -1,24 +1,24 @@
 import { Button } from '@mui/material';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 interface MainButtonProps {
   label: string;
+  type?: 'submit' | 'button';
 }
 
-const MainButton: FunctionComponent<MainButtonProps> = (props) => {
+const MainButton: FC<MainButtonProps> = (props) => {
   return (
     <Button
-      type="submit"
       sx={{
         width: '100%',
         height: 60,
-        margin: 1,
         marginTop: 2,
         fontSize: 24,
         borderRadius: '0px',
       }}
       variant="contained"
-      color="secondary">
+      color="secondary"
+      type={props.type || 'button'}>
       {props.label}
     </Button>
   );

@@ -1,10 +1,8 @@
 import { Box, Stack } from '@mui/material';
-import { FC, PropsWithChildren } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import { styled } from '@mui/system';
 
 import Background from '../assets/background.png'; // Import using relative path
-
-import MainLabel from './MainLabel';
 
 const Container = styled('div')({
   height: '100vh',
@@ -18,7 +16,7 @@ const styles = {
   },
 };
 
-const MainPageTemplate: FC<PropsWithChildren> = (props) => {
+const EmptyMainPageTemplate: FunctionComponent<PropsWithChildren> = (props) => {
   return (
     <Container>
       <Box sx={{ display: 'flex', margin: 0, padding: 0 }} style={styles.box}>
@@ -27,7 +25,6 @@ const MainPageTemplate: FC<PropsWithChildren> = (props) => {
           direction="column"
           justifyContent="center"
           alignItems="center">
-          <MainLabel />
           {props.children}
         </Stack>
       </Box>
@@ -35,4 +32,4 @@ const MainPageTemplate: FC<PropsWithChildren> = (props) => {
   );
 };
 
-export default MainPageTemplate;
+export default EmptyMainPageTemplate;

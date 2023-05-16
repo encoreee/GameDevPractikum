@@ -1,6 +1,6 @@
 import { apiFetch, API_ADDRESS } from '../../apiFetch';
 import { handleErrors } from '../errorHandler';
-import { SinginRequest, UserInfoResponse } from './contracts';
+import { SignInRequest, SignUpRequest, UserInfoResponse } from './contracts';
 
 class AuthApi {
   getUserInfo = () => {
@@ -10,9 +10,14 @@ class AuthApi {
       .then<UserInfoResponse>((res) => res.json());
   };
 
-  singin = (singinRequest: SinginRequest) => {
+  signIn = (data: SignInRequest) => {
     return apiFetch()
-      .post(`${API_ADDRESS}/auth/signin`, singinRequest)
+      .post(`${API_ADDRESS}/auth/signin`, data)
+      .then(handleErrors);
+  };
+  signUp = (data: SignUpRequest) => {
+    return apiFetch()
+      .post(`${API_ADDRESS}/auth/signup`, data)
       .then(handleErrors);
   };
 
@@ -21,6 +26,4 @@ class AuthApi {
   };
 }
 
-const authApi = new AuthApi();
-
-export default authApi;
+export default new AuthApi();

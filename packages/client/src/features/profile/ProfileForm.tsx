@@ -44,7 +44,7 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       {props.user && (
         <form onSubmit={(event) => handleSubmit(event)}>
           <DataField
@@ -80,7 +80,7 @@ const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
           <MainButton label="Save" type="submit" />
         </form>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

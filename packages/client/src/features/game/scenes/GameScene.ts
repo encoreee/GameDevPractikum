@@ -5,12 +5,12 @@ import { Vector2 } from '../utils/Vector2';
 import {
   SceneEnemyMetrics,
   SceneInterface,
+  SceneReferenceMetrics,
   SceneTimeMetrics,
 } from './SceneInterface';
-import { enemyConfig, playerConfig } from '../Config';
+import { enemyConfig, playerConfig, canvasSize } from '../Config';
 import { getRandomInt } from '../utils/Math';
 import { PlayerProfile } from '../GamePage';
-import { Size } from '../game-object/components/Components';
 import { ReferenceObjectCollection } from '../utils/ReferenceObjectCollection';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { ReferenceObject } from '../game-object/ReferenceObject';
@@ -18,7 +18,6 @@ import { ReferenceObjectAction } from '../game-object/components/ReferenceObject
 import { ReferenceObjectGraphics } from '../game-object/components/ReferenceObjectGraphics';
 import { createPlayer, createPlayerLives } from './SceneUtils/PlayerUtils';
 import { createEnemy, enemyFireAction } from './SceneUtils/EnemyUtils';
-import { createBullet } from './SceneUtils/BulletUtils';
 import { delay } from './SceneUtils/TimeUtils';
 
 export class GameScene implements SceneInterface {
@@ -29,6 +28,7 @@ export class GameScene implements SceneInterface {
   private readonly playerPointCollection = new ReferenceObjectCollection();
   private readonly playerLivesCollection = new GameObjectCollection();
   private readonly playerPoints: ReferenceObject;
+  private levelLabel?: ReferenceObject;
   private timeMetrics: SceneTimeMetrics = {
     startDelay: 0,
     canStart: false,
@@ -44,6 +44,10 @@ export class GameScene implements SceneInterface {
     enemiesSquadCount: 0,
     enemiesWaveCount: 0,
     currentEnemiesWave: 0,
+  };
+
+  private referenceMetrics: SceneReferenceMetrics = {
+    levelLabel: 'Level 1',
   };
 
   constructor(
@@ -62,7 +66,14 @@ export class GameScene implements SceneInterface {
       this.profile.points.toString(),
       new Vector2(10, 30),
       new ReferenceObjectAction(),
-      new ReferenceObjectGraphics()
+      new ReferenceObjectGraphics('blue', 23)
+    );
+
+    this.levelLabel = new ReferenceObject(
+      this.profile.points.toString(),
+      new Vector2(canvasSize.width / 2 - 50, canvasSize.height / 2),
+      new ReferenceObjectAction(),
+      new ReferenceObjectGraphics('white', 30)
     );
   }
   public init(): void {
@@ -85,9 +96,17 @@ export class GameScene implements SceneInterface {
 
   public update(dt: number): void {
     this.player.update(dt);
+    if (this.levelLabel) {
+      this.levelLabel.update(dt, this.referenceMetrics.levelLabel);
+    }
+
     if (!this.timeMetrics.canStart) {
       delay(this.timeMetrics, 2000)(this.timeMetrics.startDelay);
       return;
+    }
+
+    if (this.timeMetrics.canStart && this.levelLabel) {
+      this.levelLabel = undefined;
     }
 
     this.timeMetrics.absoluteTime = performance.now();
@@ -152,7 +171,6 @@ export class GameScene implements SceneInterface {
     this.enemyCollection.forEachFromEnd((enemy, enemyIndex) => {
       this.playerBulletCollection.forEachFromEnd((bullet, bulletIndex) => {
         if (enemy.collideWith(bullet)) {
-          this.playerPoints.text;
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);
 
@@ -176,6 +194,9 @@ export class GameScene implements SceneInterface {
   }
 
   public render(dt: number): void {
+    if (this.levelLabel) {
+      this.levelLabel.render(dt);
+    }
     this.playerPoints.render(dt);
     this.player.render(dt);
     this.playerBulletCollection.forEachFromEnd((bullet) => bullet.render(dt));

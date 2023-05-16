@@ -15,6 +15,9 @@ export type SceneEnemyMetrics = {
   enemiesWaveCount: number;
   currentEnemiesWave: number;
 };
+export type SceneReferenceMetrics = {
+  levelLabel: string;
+};
 
 export interface SceneInterface {
   init(): void;

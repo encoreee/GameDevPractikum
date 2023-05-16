@@ -5,6 +5,8 @@ import { WarriorEnemyObjectPhysics } from '../../game-object/components/WarriorE
 import { Vector2 } from '../../utils/Vector2';
 import { GameObjectCollection } from './../../utils/GameObjectCollection';
 import { EnemyCreateConfigType } from '../../Config';
+import { createBullet } from './BulletUtils';
+import { SceneTimeMetrics } from '../SceneInterface';
 
 export function createEnemy(
   enemyCollection: GameObjectCollection,
@@ -64,4 +66,28 @@ export function createEnemy(
       enemyCollection.push(enemy);
     }
   }
+}
+
+export function enemyFireAction(
+  bulletCreateDelay: number,
+  config: EnemyCreateConfigType,
+  timeMetrics: SceneTimeMetrics,
+  enemyBulletCollection: GameObjectCollection
+) {
+  return (position: Vector2, lastBulletCreateTime: number) => {
+    const currentBulletCreateTime = performance.now();
+    if (
+      currentBulletCreateTime >
+      lastBulletCreateTime + config.bulletCreateDelay
+    ) {
+      const bullet = createBullet(
+        position,
+        config.bulletSize,
+        config.size,
+        false
+      );
+      enemyBulletCollection.push(bullet);
+      timeMetrics.lastAttackCreateTime = currentBulletCreateTime;
+    }
+  };
 }

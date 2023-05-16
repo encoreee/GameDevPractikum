@@ -3,17 +3,12 @@ import { PlayerLiveObjectGraphics } from '../../game-object/components/Graphics/
 import { PlayerCreateConfigType } from '../../Config';
 import { Vector2 } from '../../utils/Vector2';
 import { GameObjectCollection } from '../../utils/GameObjectCollection';
-import {
-  EnemyBulletObject,
-  GameObject,
-  PlayerLiveObject,
-} from '../../game-object/GameObject';
+import { PlayerLiveObject } from '../../game-object/GameObject';
 import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
-import { Size } from '../../game-object/components/Components';
-import {
-  EnemyBulletPhysics,
-  PlayerBulletPhysics,
-} from '../../game-object/components/BulletPhysics';
+import { Player } from '../../game-object/Player';
+import { PlayerInput } from '../../game-object/components/PlayerInput';
+import { KeyboardController } from '../../core/KeyboardController';
+import { createBullet } from './BulletUtils';
 
 export function createPlayerLives(
   livesCollection: GameObjectCollection,
@@ -38,25 +33,56 @@ export function createPlayerLives(
   }
 }
 
-export function createBullet(
-  position: Vector2,
-  bulletSize: Size,
-  objectSize: Size,
-  player: boolean
-): GameObject {
-  if (player) {
-    return new GameObject(
-      position.add(new Vector2(objectSize.width / 2 - bulletSize.width / 2, 0)),
-      bulletSize,
-      new PlayerBulletPhysics(),
-      new GameObjectGraphics()
-    );
-  } else {
-    return new EnemyBulletObject(
-      position.add(new Vector2(objectSize.width / 2 - bulletSize.width / 2, 0)),
-      bulletSize,
-      new EnemyBulletPhysics(),
-      new GameObjectGraphics()
-    );
-  }
+export function createPlayer(
+  config: PlayerCreateConfigType,
+  keyboard: KeyboardController,
+  playerBulletCollection: GameObjectCollection
+): Player {
+  const position = new Vector2(
+    config.canvasSize.width / 2 - config.size.width / 2,
+    config.canvasSize.height - config.size.height - config.paddingBottom
+  );
+
+  const fireCallback = fireAction(config, playerBulletCollection);
+
+  const input = new PlayerInput(
+    keyboard.getAction(),
+    config.speed,
+    fireCallback
+  );
+
+  return new Player(
+    position,
+    config.size,
+    input,
+    new GameObjectPhysics(),
+    new GameObjectGraphics()
+  );
+}
+
+/**
+ * @returns `fireCallback` a function that should be called on each fire action
+ */
+export function fireAction(
+  config: PlayerCreateConfigType,
+  playerBulletCollection: GameObjectCollection
+) {
+  let lastBulletCreateTime = 0;
+
+  return (position: Vector2) => {
+    const currentBulletCreateTime = performance.now();
+    if (
+      currentBulletCreateTime >
+      lastBulletCreateTime + config.bulletCreateDelay
+    ) {
+      const bullet = createBullet(
+        position,
+        config.bulletSize,
+        config.size,
+        true
+      );
+      playerBulletCollection.push(bullet);
+      lastBulletCreateTime = currentBulletCreateTime;
+    }
+  };
 }

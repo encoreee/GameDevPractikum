@@ -14,6 +14,7 @@ import { createPlayer, createPlayerLives } from './SceneUtils/PlayerUtils';
 import { createEnemy, enemyFireAction } from './SceneUtils/EnemyUtils';
 import { delay } from './SceneUtils/TimeUtils';
 import {
+  ExplosionObjectType,
   createExplosion,
   createLabel,
   createPlayerPoint,
@@ -131,6 +132,13 @@ export class GameSceneLevel1 implements SceneInterface {
       if (this.player.collideWith(bullet)) {
         if (this.profile.lives > 0) {
           this.profile.lives--;
+          this.explosionCollection.push(
+            createExplosion(
+              Vector2.copy(bullet.position),
+              ExplosionObjectType.PLAYER,
+              dt
+            )
+          );
           this.enemyBulletCollection.delete(index);
           createPlayerLives(
             this.playerLivesCollection,
@@ -159,7 +167,11 @@ export class GameSceneLevel1 implements SceneInterface {
       this.playerBulletCollection.forEachFromEnd((bullet, bulletIndex) => {
         if (enemy.collideWith(bullet)) {
           this.explosionCollection.push(
-            createExplosion(Vector2.copy(enemy.position))
+            createExplosion(
+              Vector2.copy(enemy.position),
+              ExplosionObjectType.ENEMY,
+              dt
+            )
           );
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);

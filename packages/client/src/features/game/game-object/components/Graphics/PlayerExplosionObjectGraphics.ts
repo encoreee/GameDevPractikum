@@ -1,12 +1,12 @@
 import { Canvas } from '../../../core/Canvas';
 import { GameObject } from '../Objects/GameObject';
 import { GraphicComponent } from './Components';
-import enemyExplosionImg from './enemyExplosionImg';
+import playerDamageExplosionImg from './playerDamageExplosionImg';
 
-const numColumns = 5;
-const numRows = 2;
+const numColumns = 3;
+const numRows = 3;
 
-export class ExplosionObjectGraphics implements GraphicComponent {
+export class PlayerExplosionObjectGraphics implements GraphicComponent {
   private readonly canvas = Canvas;
   private currentFrame = 0;
   private counter = 0;
@@ -14,8 +14,8 @@ export class ExplosionObjectGraphics implements GraphicComponent {
   private readonly frameWidth;
   private readonly frameHeight;
   constructor(private exposionDelay: number) {
-    this.frameWidth = enemyExplosionImg.width / numColumns;
-    this.frameHeight = enemyExplosionImg.height / numRows;
+    this.frameWidth = playerDamageExplosionImg.width / numColumns;
+    this.frameHeight = playerDamageExplosionImg.height / numRows;
   }
   public render(gameObject: GameObject, dt: number): void {
     this.counter++;
@@ -34,7 +34,7 @@ export class ExplosionObjectGraphics implements GraphicComponent {
     this.canvas
       .getContext2D()
       .drawImage(
-        enemyExplosionImg,
+        playerDamageExplosionImg,
         column * this.frameWidth,
         row * this.frameHeight,
         this.frameWidth,

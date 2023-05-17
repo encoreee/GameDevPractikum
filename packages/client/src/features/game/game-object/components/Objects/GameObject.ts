@@ -6,6 +6,7 @@ import {
   Size,
 } from '../Graphics/Components';
 import { ExplosionObjectGraphics } from '../Graphics/ExplosionObjectGraphics';
+import { PlayerExplosionObjectGraphics } from '../Graphics/PlayerExplosionObjectGraphics';
 
 export class GameObject {
   private readonly collider: Collider;
@@ -50,7 +51,9 @@ export class ExplosionObject extends GameObject {
     public position: Vector2,
     public readonly size: Size,
     protected readonly physics: GameObjectComponent,
-    protected readonly graphics: ExplosionObjectGraphics
+    protected readonly graphics:
+      | ExplosionObjectGraphics
+      | PlayerExplosionObjectGraphics
   ) {
     super(position, size, physics, graphics);
   }

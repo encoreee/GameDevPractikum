@@ -6,10 +6,10 @@ import {
   EnemyBulletPhysics,
   PlayerBulletPhysics,
 } from '../../game-object/components/Physics/BulletPhysics';
-import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
 import { Vector2 } from '../../utils/Vector2';
 import { Size } from '../../game-object/components/Graphics/Components';
 import { PlayerMissleObjectGraphics } from '../../game-object/components/Graphics/PlayerMissleObjectGraphics';
+import { EnemyMissleObjectGraphics } from '../../game-object/components/Graphics/EnemyMissleObjectGraphics';
 
 export function createBullet(
   position: Vector2,
@@ -29,7 +29,7 @@ export function createBullet(
       position.add(new Vector2(objectSize.width / 2 - bulletSize.width / 2, 0)),
       bulletSize,
       new EnemyBulletPhysics(),
-      new GameObjectGraphics()
+      new EnemyMissleObjectGraphics()
     );
   }
 }

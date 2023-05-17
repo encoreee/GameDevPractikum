@@ -73,7 +73,7 @@ export const enemyConfig: EnemyCreateConfigType = {
   enemyRowCreateDelay: 1500,
   enemyWaveCreateDelay: 3500,
   bulletSize: {
-    width: 10,
-    height: 10,
+    width: 25,
+    height: 50,
   },
 };

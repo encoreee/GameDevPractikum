@@ -15,22 +15,22 @@ export class Collider {
     const absoluteDifX = Math.abs(difference.x);
     const absoluteDifY = Math.abs(difference.y);
     if (difference.x > 0) {
-      if (absoluteDifX < other.size.width) {
+      if (absoluteDifX < other.size.width / 2) {
         if (difference.y > 0) {
-          if (absoluteDifY < other.size.height) {
+          if (absoluteDifY < other.size.height / 4) {
             return true;
           }
-        } else if (absoluteDifY < this.gameObject.size.height) {
+        } else if (absoluteDifY < this.gameObject.size.height / 4) {
           return true;
         }
       }
     } else {
-      if (absoluteDifX < this.gameObject.size.width) {
+      if (absoluteDifX < this.gameObject.size.width / 2) {
         if (difference.y > 0) {
-          if (absoluteDifY < other.size.height) {
+          if (absoluteDifY < other.size.height / 4) {
             return true;
           }
-        } else if (absoluteDifY < other.size.height) {
+        } else if (absoluteDifY < other.size.height / 4) {
           return true;
         }
       }

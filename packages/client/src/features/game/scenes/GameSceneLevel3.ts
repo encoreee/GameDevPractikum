@@ -9,22 +9,28 @@ import {
 import { enemyConfig, playerConfig, canvasSize } from '../Config';
 import { getRandomInt } from '../utils/Math';
 import { PlayerProfile } from '../GamePage';
-import { ReferenceObjectCollection } from '../utils/ReferenceObjectCollection';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { createPlayer, createPlayerLives } from './SceneUtils/PlayerUtils';
 import { createEnemy, enemyFireAction } from './SceneUtils/EnemyUtils';
 import { delay } from './SceneUtils/TimeUtils';
-import { createLabel, createPlayerPoint } from './SceneUtils/SceneUtils';
+import {
+  createExplosion,
+  createLabel,
+  createPlayerPoint,
+} from './SceneUtils/SceneUtils';
 import { Player } from '../game-object/components/Objects/Player';
 import { ReferenceObject } from '../game-object/components/Objects/ReferenceObject';
+import { Vector2 } from '../utils/Vector2';
+import { ExplosionObject } from '../game-object/components/Objects/GameObject';
 
 export class GameSceneLevel3 implements SceneInterface {
   private readonly player: Player;
   private readonly playerBulletCollection = new GameObjectCollection();
   private readonly enemyBulletCollection = new GameObjectCollection();
   private readonly enemyCollection = new GameObjectCollection();
-  private readonly playerPointCollection = new ReferenceObjectCollection();
   private readonly playerLivesCollection = new GameObjectCollection();
+  private readonly explosionCollection =
+    new GameObjectCollection<ExplosionObject>();
   private readonly playerPoints: ReferenceObject;
   private levelLabel?: ReferenceObject;
   private timeMetrics: SceneTimeMetrics = {
@@ -45,7 +51,7 @@ export class GameSceneLevel3 implements SceneInterface {
   };
 
   private referenceMetrics: SceneReferenceMetrics = {
-    levelLabel: 'Level 3',
+    levelLabel: 'Level 1',
   };
 
   constructor(
@@ -152,9 +158,11 @@ export class GameSceneLevel3 implements SceneInterface {
     this.enemyCollection.forEachFromEnd((enemy, enemyIndex) => {
       this.playerBulletCollection.forEachFromEnd((bullet, bulletIndex) => {
         if (enemy.collideWith(bullet)) {
+          this.explosionCollection.push(
+            createExplosion(Vector2.copy(enemy.position))
+          );
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);
-          this.enemyCollection.stopIterate();
 
           this.profile.points += 100;
           this.playerPoints.update(dt, this.profile.points.toString());
@@ -175,12 +183,21 @@ export class GameSceneLevel3 implements SceneInterface {
 
       enemy.update(dt, this.timeMetrics.absoluteTime);
     });
+
+    this.explosionCollection.forEachFromEnd((exp, index) => {
+      if (exp.isFinished()) {
+        this.explosionCollection.delete(index);
+      }
+    });
   }
 
   public render(dt: number): void {
     if (this.levelLabel) {
       this.levelLabel.render(dt);
     }
+    this.explosionCollection.forEachFromEnd((exp) => {
+      exp.render(dt);
+    });
     this.playerPoints.render(dt);
     this.player.render(dt);
     this.playerBulletCollection.forEachFromEnd((bullet) => bullet.render(dt));

@@ -5,6 +5,10 @@ export class Vector2 {
     return new Vector2(this.x + vec2.x, this.y + vec2.y);
   }
 
+  public static copy(vec2: Vector2): Vector2 {
+    return new Vector2(vec2.x, vec2.y);
+  }
+
   public substract(vec2: Vector2): Vector2 {
     return new Vector2(this.x - vec2.x, this.y - vec2.y);
   }

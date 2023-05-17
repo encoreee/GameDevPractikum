@@ -5,6 +5,7 @@ import {
   GraphicComponent,
   Size,
 } from '../Graphics/Components';
+import { ExplosionObjectGraphics } from '../Graphics/ExplosionObjectGraphics';
 
 export class GameObject {
   private readonly collider: Collider;
@@ -41,6 +42,20 @@ export class PlayerLiveObject extends GameObject {
     protected readonly graphics: GraphicComponent
   ) {
     super(position, size, physics, graphics);
+  }
+}
+
+export class ExplosionObject extends GameObject {
+  constructor(
+    public position: Vector2,
+    public readonly size: Size,
+    protected readonly physics: GameObjectComponent,
+    protected readonly graphics: ExplosionObjectGraphics
+  ) {
+    super(position, size, physics, graphics);
+  }
+  public isFinished(): boolean {
+    return this.graphics.finished;
   }
 }
 

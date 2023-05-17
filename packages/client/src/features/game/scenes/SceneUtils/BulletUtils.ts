@@ -9,6 +9,7 @@ import {
 import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
 import { Vector2 } from '../../utils/Vector2';
 import { Size } from '../../game-object/components/Graphics/Components';
+import { PlayerMissleObjectGraphics } from '../../game-object/components/Graphics/PlayerMissleObjectGraphics';
 
 export function createBullet(
   position: Vector2,
@@ -21,7 +22,7 @@ export function createBullet(
       position.add(new Vector2(objectSize.width / 2 - bulletSize.width / 2, 0)),
       bulletSize,
       new PlayerBulletPhysics(),
-      new GameObjectGraphics()
+      new PlayerMissleObjectGraphics()
     );
   } else {
     return new EnemyBulletObject(

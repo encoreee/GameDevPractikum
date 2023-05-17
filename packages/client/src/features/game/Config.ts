@@ -17,7 +17,7 @@ export type PlayerLivesConfig = {
 };
 
 export type EnemyCreateConfigType = {
-  numberPerRow: 6;
+  numberPerRow: number;
   numberEnemy: number;
   gap: number;
   size: Size;
@@ -37,16 +37,16 @@ export const canvasSize: Size = {
 
 export const playerConfig: PlayerCreateConfigType = {
   size: {
-    width: 50,
-    height: 50,
+    width: 80,
+    height: 80,
   },
   canvasSize,
   paddingBottom: 50,
   speed: 500,
   bulletCreateDelay: 200,
   bulletSize: {
-    width: 10,
-    height: 10,
+    width: 25,
+    height: 50,
   },
   playerLives: {
     lives: 3,

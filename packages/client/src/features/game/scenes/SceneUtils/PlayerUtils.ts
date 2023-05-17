@@ -3,12 +3,12 @@ import { PlayerCreateConfigType } from '../../Config';
 import { Vector2 } from '../../utils/Vector2';
 import { GameObjectCollection } from '../../utils/GameObjectCollection';
 import { PlayerLiveObject } from '../../game-object/components/Objects/GameObject';
-import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
 import { PlayerInput } from '../../game-object/components/Graphics/PlayerInput';
 import { KeyboardController } from '../../core/KeyboardController';
 import { createBullet } from './BulletUtils';
 import { Player } from '../../game-object/components/Objects/Player';
 import { GameObjectPhysics } from '../../game-object/components/Physics/GameObjectPhysics';
+import { PlayerObjectGraphics } from '../../game-object/components/Graphics/PlayerObjectGraphics';
 
 export function createPlayerLives(
   livesCollection: GameObjectCollection,
@@ -56,7 +56,7 @@ export function createPlayer(
     config.size,
     input,
     new GameObjectPhysics(),
-    new GameObjectGraphics()
+    new PlayerObjectGraphics()
   );
 }
 

@@ -21,6 +21,8 @@ export type EnemyCreateConfigType = {
   numberEnemy: number;
   gap: number;
   size: Size;
+  ordinaryEnemySize: Size;
+  warriorEnemySize: Size;
   canvasSize: Size;
   paddingTop: number;
   bulletSize: Size;
@@ -67,6 +69,14 @@ export const enemyConfig: EnemyCreateConfigType = {
   size: {
     width: 50,
     height: 50,
+  },
+  ordinaryEnemySize: {
+    width: 60,
+    height: 40,
+  },
+  warriorEnemySize: {
+    width: 40,
+    height: 35,
   },
   bulletCreateDelay: 800,
   enemyCreateDelay: 300,

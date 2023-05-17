@@ -1,5 +1,7 @@
-import { SquadPositionedObject } from '../../game-object/components/Objects/GameObject';
-import { GameObjectGraphics } from '../../game-object/components/Graphics/GameObjectGraphics';
+import {
+  GameObject,
+  SquadPositionedObject,
+} from '../../game-object/components/Objects/GameObject';
 import { Vector2 } from '../../utils/Vector2';
 import { GameObjectCollection } from './../../utils/GameObjectCollection';
 import { EnemyCreateConfigType } from '../../Config';
@@ -7,6 +9,10 @@ import { createBullet } from './BulletUtils';
 import { SceneTimeMetrics } from '../SceneInterface';
 import { WarriorEnemyObjectPhysics } from '../../game-object/components/Physics/WarriorEnemyObjectPhysics';
 import { OrdinaryEnemyObjectPhysics } from '../../game-object/components/Physics/OrdinaryEnemyObjectPhysics';
+import {
+  EnemyType,
+  EnemyObjectGraphics,
+} from '../../game-object/components/Graphics/EnemyObjectGraphics';
 
 export function createEnemy(
   enemyCollection: GameObjectCollection,
@@ -31,12 +37,12 @@ export function createEnemy(
     if (squadRow === 1) {
       const enemy = new SquadPositionedObject(
         new Vector2(0, enemyConfig.canvasSize.height / 8),
-        enemyConfig.size,
+        enemyConfig.warriorEnemySize,
         0,
         movementRadius,
         enemyVector,
         new WarriorEnemyObjectPhysics(performance.now(), enemyConfig),
-        new GameObjectGraphics()
+        new EnemyObjectGraphics(EnemyType.WARRIOR)
       );
       enemyCollection.push(enemy);
     } else if (squadRow === 2) {
@@ -45,23 +51,23 @@ export function createEnemy(
           enemyConfig.canvasSize.width,
           enemyConfig.canvasSize.height / 8
         ),
-        enemyConfig.size,
+        enemyConfig.ordinaryEnemySize,
         0,
         movementRadius,
         enemyVector,
         new OrdinaryEnemyObjectPhysics(performance.now(), enemyConfig),
-        new GameObjectGraphics()
+        new EnemyObjectGraphics(EnemyType.ORDINARY)
       );
       enemyCollection.push(enemy);
     } else if (squadRow === 3) {
       const enemy = new SquadPositionedObject(
         new Vector2(0, enemyConfig.canvasSize.height / 6),
-        enemyConfig.size,
+        enemyConfig.warriorEnemySize,
         0,
         movementRadius,
         enemyVector,
         new WarriorEnemyObjectPhysics(performance.now(), enemyConfig),
-        new GameObjectGraphics()
+        new EnemyObjectGraphics(EnemyType.WARRIOR)
       );
       enemyCollection.push(enemy);
     }
@@ -69,21 +75,20 @@ export function createEnemy(
 }
 
 export function enemyFireAction(
-  bulletCreateDelay: number,
   config: EnemyCreateConfigType,
   timeMetrics: SceneTimeMetrics,
   enemyBulletCollection: GameObjectCollection
 ) {
-  return (position: Vector2, lastBulletCreateTime: number) => {
+  return (object: GameObject, lastBulletCreateTime: number) => {
     const currentBulletCreateTime = performance.now();
     if (
       currentBulletCreateTime >
       lastBulletCreateTime + config.bulletCreateDelay
     ) {
       const bullet = createBullet(
-        position,
+        object.position,
         config.bulletSize,
-        config.size,
+        object.size,
         false
       );
       enemyBulletCollection.push(bullet);

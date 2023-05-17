@@ -109,22 +109,11 @@ export class GameSceneLevel2 implements SceneInterface {
     const selectEnemyToAttack = getRandomInt(this.enemyCollection.count());
     const enemyToAttack = this.enemyCollection.getObject(selectEnemyToAttack);
     if (enemyToAttack) {
-      let bulletCreateDelay = enemyConfig.bulletCreateDelay;
-      if (
-        this.enemyCollection.count() <= enemyConfig.numberEnemy / 3 &&
-        this.enemyCollection.count() > 1
-      ) {
-        bulletCreateDelay = bulletCreateDelay * 2;
-      } else if (this.enemyCollection.count() === 1) {
-        bulletCreateDelay = bulletCreateDelay * 2;
-      }
-
       enemyFireAction(
-        bulletCreateDelay,
         enemyConfig,
         this.timeMetrics,
         this.enemyBulletCollection
-      )(enemyToAttack.position, this.timeMetrics.lastAttackCreateTime);
+      )(enemyToAttack, this.timeMetrics.lastAttackCreateTime);
     }
 
     this.enemyBulletCollection.forEachFromEnd((bullet, index) => {

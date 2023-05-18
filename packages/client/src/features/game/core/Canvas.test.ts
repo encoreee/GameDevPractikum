@@ -1,6 +1,6 @@
 import { Canvas } from './Canvas';
 import { setupJestCanvasMock } from 'jest-canvas-mock';
-describe.only('Canvas', () => {
+describe('Canvas', () => {
   const canvas = document.createElement('canvas');
   beforeEach(() => {
     jest.resetAllMocks();

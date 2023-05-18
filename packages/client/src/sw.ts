@@ -43,13 +43,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', function (event) {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter(() => {
-            /* Нужно вернуть true, если хотите удалить этот файл из кеша совсем */
-          })
-          .map((name) => caches.delete(name))
-      );
+      return Promise.all(cacheNames.map((name) => caches.delete(name)));
     })
   );
 });

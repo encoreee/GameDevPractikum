@@ -21,7 +21,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react', 'prettier'],
   settings: { react: { version: '18.2' } },
-  ignorePatterns: ['*.js'],
+  ignorePatterns: ['/root/packages/client/dist/*.js'],
   rules: {
     'prettier/prettier': [
       'error',

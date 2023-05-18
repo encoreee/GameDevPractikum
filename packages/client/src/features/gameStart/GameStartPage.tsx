@@ -4,6 +4,8 @@ import EmptyMainPageTemplate from '@/components/EmptyMainPageTemplate';
 import { useNavigate } from 'react-router-dom';
 
 const countDownData = ['3', '2', '1', 'start!'];
+const TIME_IN = 1000;
+const TIME_OUT = 500;
 
 const GameStartPage: FunctionComponent = () => {
   const [currentLabel, setCurrentLabel] = useState(countDownData[0]);
@@ -26,10 +28,10 @@ const GameStartPage: FunctionComponent = () => {
       setTick(!tick);
       setChecked(() => false);
       clearInterval(timerOut);
-    }, 1500);
+    }, TIME_IN);
     const timerOut = setInterval(() => {
       setChecked(() => false);
-    }, 750);
+    }, TIME_OUT);
 
     return () => {
       clearInterval(timerIn);

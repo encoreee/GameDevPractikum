@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "rm -rf ./dev-dist && rm -rf ./dist && vite",
-    "build": "rm -rf ./dev-dist && rm -rf ./dist && vite build",
+    "build": "rm -rf ./dev-dist && rm -rf ./dist && tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "typings": "tsc --noEmit",

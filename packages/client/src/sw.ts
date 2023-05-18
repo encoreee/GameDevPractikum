@@ -37,6 +37,7 @@ self.addEventListener('install', (event) => {
         throw err;
       })
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', function (event) {
@@ -62,5 +63,4 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-skipWaiting();
 export {};

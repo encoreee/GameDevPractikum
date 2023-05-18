@@ -1,6 +1,4 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import MainPageTemplate from '../../components/MainPageTemplate';
-import { useAppSelector } from '@/app/hooks';
 import { Stack, Typography, Zoom } from '@mui/material';
 import EmptyMainPageTemplate from '@/components/EmptyMainPageTemplate';
 

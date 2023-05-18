@@ -6,14 +6,17 @@ import { useState } from 'react';
 import { SignInRequest } from '../../infrastructure/api/auth/contracts';
 import { useNavigate } from 'react-router-dom';
 
+import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
-import DataFieldLT from '../../components/DataFieldLabelOnTop';
 import MainButton from '../../components/MainButton';
 import NavLink from '../../components/NavLink';
-import FormErrorMessage from '../../components/FormErrorMessage';
+import FormNotification, {
+  FORM_NOTIFICATION_TYPE,
+} from '../../components/FormNotification';
 
 const SignInPage: FC = () => {
+  const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
   const [signInError, setSignInError] = useState<string>(' ');
   const navigate = useNavigate();
 
@@ -30,22 +33,27 @@ const SignInPage: FC = () => {
 
   return (
     <MainPageTemplate>
-      <DataBox width={400} height={380}>
+      <DataBox width={400} height={400}>
         <FormContainer
           defaultValues={{ login: '', password: '' }}
           onSuccess={onSubmit}>
           <Stack direction={'column'} width="350px">
-            <DataFieldLT
+            <DataField
               label="login"
-              autofocus
+              autoFocus
+              variant={variant}
               validation={{ required: true }}
             />
-            <DataFieldLT
+            <DataField
               label="password"
               type="password"
+              variant={variant}
               validation={{ required: true }}
             />
-            <FormErrorMessage errorMessage={signInError} />
+            <FormNotification
+              text={signInError}
+              type={FORM_NOTIFICATION_TYPE.ERROR}
+            />
             <MainButton label="Sign in" type="submit" />
           </Stack>
         </FormContainer>

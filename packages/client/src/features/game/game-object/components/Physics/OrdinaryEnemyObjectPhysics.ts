@@ -12,8 +12,19 @@ export class OrdinaryEnemyObjectPhysics implements GameObjectComponent {
     this.config = config;
   }
 
+  /**
+   * Измениение позиции врага в зависимости от его положения на экране.
+   * Обновление позиции включает в себя последовательно мещающие друг друга состояния,
+   * в зависимости от достижения определенного положения на экране, и заканчивающиеся выходом на матрицу расположения.
+   * При достижении позиции actionNumber меняет свое значение на следующее.
+   * Траектория движения задается добавлением actionNumber с необходимым поведением.
+   * @param gameObject
+   * @param dt
+   */
   public update(gameObject: SquadPositionedObject, dt: number): void {
+    // Вектор разницы по отношщению к указанной позиции в матрице расположения
     const diffVector = gameObject.squadPosition.substract(gameObject.position);
+    //Преобразование в угловую меру, необходим для расчета кругового движения
     const angleVector = gameObject.position.fromPolar(
       gameObject.radius,
       gameObject.currentAngle
@@ -23,13 +34,17 @@ export class OrdinaryEnemyObjectPhysics implements GameObjectComponent {
     let moveToPositionY = 0;
 
     switch (this.actionNumber) {
+      // Оработка линейного движения
       case 0:
         if (
           gameObject.position.x >
           this.config.canvasSize.width - (this.config.canvasSize.width / 4) * 3
         ) {
           gameObject.position = gameObject.position.add(
-            new Vector2(-400, 100).multiply(dt)
+            new Vector2(
+              -this.config.enemyPhisicsConfig.DEFAULT_X_SPEED,
+              this.config.enemyPhisicsConfig.DEFAULT_Y_SPEED
+            ).multiply(dt)
           );
         } else {
           gameObject.currentAngle = 1.5;
@@ -37,23 +52,29 @@ export class OrdinaryEnemyObjectPhysics implements GameObjectComponent {
         }
         break;
       case 1:
+        // Оработка кругового движения
         if (gameObject.currentAngle > 0) {
           gameObject.position = gameObject.position.add(
             angleVector.multiply(dt)
           );
-          gameObject.currentAngle -= 0.1;
+          gameObject.currentAngle -=
+            this.config.enemyPhisicsConfig.DEFAULT_ANGLE_INCREMENT;
         } else {
           gameObject.currentAngle = 0;
           this.actionNumber = 2;
         }
         break;
       case 2:
+        // Оработка линейного движения
         if (
           gameObject.position.x <
           this.config.canvasSize.width - this.config.canvasSize.width / 5
         ) {
           gameObject.position = gameObject.position.add(
-            new Vector2(400, 100).multiply(dt)
+            new Vector2(
+              this.config.enemyPhisicsConfig.DEFAULT_X_SPEED,
+              this.config.enemyPhisicsConfig.DEFAULT_Y_SPEED
+            ).multiply(dt)
           );
         } else {
           gameObject.currentAngle = 0;
@@ -61,23 +82,29 @@ export class OrdinaryEnemyObjectPhysics implements GameObjectComponent {
         }
         break;
       case 3:
+        // Оработка кругового движения
         if (gameObject.currentAngle < 3) {
           gameObject.position = gameObject.position.add(
             angleVector.multiply(dt)
           );
-          gameObject.currentAngle += 0.1;
+          gameObject.currentAngle +=
+            this.config.enemyPhisicsConfig.DEFAULT_ANGLE_INCREMENT;
         } else {
           gameObject.currentAngle = 0;
           this.actionNumber = 4;
         }
         break;
       case 4:
+        // Оработка линейного движения
         if (
           gameObject.position.x >
           this.config.canvasSize.width - (this.config.canvasSize.width / 5) * 4
         ) {
           gameObject.position = gameObject.position.add(
-            new Vector2(-400, 100).multiply(dt)
+            new Vector2(
+              -this.config.enemyPhisicsConfig.DEFAULT_X_SPEED,
+              this.config.enemyPhisicsConfig.DEFAULT_Y_SPEED
+            ).multiply(dt)
           );
         } else {
           gameObject.currentAngle = 3;
@@ -85,6 +112,7 @@ export class OrdinaryEnemyObjectPhysics implements GameObjectComponent {
         }
         break;
       case 5:
+        // Оработка кругового движения
         if (gameObject.currentAngle > -2) {
           gameObject.position = gameObject.position.add(
             angleVector.multiply(dt)
@@ -96,29 +124,47 @@ export class OrdinaryEnemyObjectPhysics implements GameObjectComponent {
         }
         break;
       case 6:
+        // Выход на позицию в матрице расположения, по линейному закону
+        // Обработка ситуация когда враг находится справа или слева от позиции
         if (diffVector.x > 0) {
-          if (diffVector.x > 250) {
-            moveToPositionX = -200;
+          if (
+            diffVector.x >
+            this.config.enemyPhisicsConfig.POSITION_EXIT_SPEED_BARRIER
+          ) {
+            moveToPositionX =
+              -this.config.enemyPhisicsConfig.DEFAULT_POSIOTION_EXIT_SPEED;
           } else {
             moveToPositionX = -diffVector.x;
           }
         } else {
-          if (diffVector.x < 250) {
-            moveToPositionX = 200;
+          if (
+            diffVector.x <
+            this.config.enemyPhisicsConfig.POSITION_EXIT_SPEED_BARRIER
+          ) {
+            moveToPositionX =
+              this.config.enemyPhisicsConfig.DEFAULT_POSIOTION_EXIT_SPEED;
           } else {
             moveToPositionX = diffVector.x;
           }
         }
-
+        // Обработка ситуация когда враг находится выше или ниже от позиции
         if (diffVector.y > 0) {
-          if (diffVector.y > 250) {
-            moveToPositionY = -200;
+          if (
+            diffVector.y >
+            this.config.enemyPhisicsConfig.POSITION_EXIT_SPEED_BARRIER
+          ) {
+            moveToPositionY =
+              -this.config.enemyPhisicsConfig.DEFAULT_POSIOTION_EXIT_SPEED;
           } else {
             moveToPositionY = -diffVector.y;
           }
         } else {
-          if (diffVector.y < 250) {
-            moveToPositionY = 200;
+          if (
+            diffVector.y <
+            this.config.enemyPhisicsConfig.POSITION_EXIT_SPEED_BARRIER
+          ) {
+            moveToPositionY =
+              this.config.enemyPhisicsConfig.DEFAULT_POSIOTION_EXIT_SPEED;
           } else {
             moveToPositionY = diffVector.y;
           }

@@ -235,7 +235,7 @@ export class GameSceneLevel3 implements SceneInterface {
         if (this.enemyMetrics.currentRow === squadRow) {
           if (
             currentEnemyCreateTime >
-            lastEnemyCreateTime + enemyConfig.enemyCreateDelay
+            lastEnemyCreateTime + enemyConfig.ENEMY_CREATE_DELAY
           ) {
             createEnemy(
               this.enemyCollection,
@@ -251,7 +251,7 @@ export class GameSceneLevel3 implements SceneInterface {
         } else {
           if (
             currentEnemyCreateTime >
-            lastEnemyCreateTime + enemyConfig.enemyRowCreateDelay
+            lastEnemyCreateTime + enemyConfig.ENEMY_ROW_CREATE_DELAY
           ) {
             createEnemy(
               this.enemyCollection,
@@ -269,7 +269,7 @@ export class GameSceneLevel3 implements SceneInterface {
       } else {
         if (
           currentEnemyCreateTime >
-          lastEnemyKillTime + enemyConfig.enemyWaveCreateDelay
+          lastEnemyKillTime + enemyConfig.ENEMY_WAVE_CREATE_DELAY
         ) {
           createEnemy(
             this.enemyCollection,

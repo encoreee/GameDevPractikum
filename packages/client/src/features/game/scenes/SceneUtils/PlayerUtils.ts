@@ -61,7 +61,7 @@ export function createPlayer(
 }
 
 /**
- * @returns `fireCallback` a function that should be called on each fire action
+ * @returns Функция обратного вызова для создания выстрела. Позволяет создвать выстрелы с задержкой
  */
 export function fireAction(
   config: PlayerCreateConfigType,

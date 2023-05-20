@@ -63,7 +63,7 @@ export class ExplosionObject extends GameObject {
 }
 
 export class EnemyBulletObject extends GameObject {
-  public shuted = false;
+  public shooted = false;
   public defaultAttackDirection = new Vector2(0, 250);
   constructor(
     public position: Vector2,

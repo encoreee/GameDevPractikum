@@ -5,6 +5,7 @@ export type PlayerCreateConfigType = {
   canvasSize: Size;
   bulletSize: Size;
   bulletCreateDelay: number;
+  bulletSpeed: number;
   paddingBottom: number;
   speed: number;
   playerLives: PlayerLivesConfig;
@@ -26,10 +27,23 @@ export type EnemyCreateConfigType = {
   canvasSize: Size;
   paddingTop: number;
   bulletSize: Size;
-  bulletCreateDelay: number;
-  enemyCreateDelay: number;
-  enemyRowCreateDelay: number;
-  enemyWaveCreateDelay: number;
+  shotDeceleration: number;
+  BULLET_CREATE_DELAY: number;
+  ENEMY_CREATE_DELAY: number;
+  ENEMY_ROW_CREATE_DELAY: number;
+  ENEMY_WAVE_CREATE_DELAY: number;
+  enemyPhisicsConfig: EnemyPhysicsConfigType;
+};
+
+export type EnemyPhysicsConfigType = {
+  // Скорости движения по умолчанию для направлений
+  DEFAULT_X_SPEED: number;
+  DEFAULT_Y_SPEED: number;
+  DEFAULT_ANGLE_INCREMENT: number;
+  //Eсли расстояние меньше указанного то, скорость устанавливается в DEFAULT_POSIOTION_EXIT_SPEED
+  POSITION_EXIT_SPEED_BARRIER: number;
+  //Скорость выхода на позицию в матрице расположения
+  DEFAULT_POSIOTION_EXIT_SPEED: number;
 };
 
 export const canvasSize: Size = {
@@ -50,6 +64,7 @@ export const playerConfig: PlayerCreateConfigType = {
     width: 25,
     height: 50,
   },
+  bulletSpeed: 1000,
   playerLives: {
     lives: 3,
     size: {
@@ -78,12 +93,20 @@ export const enemyConfig: EnemyCreateConfigType = {
     width: 40,
     height: 35,
   },
-  bulletCreateDelay: 800,
-  enemyCreateDelay: 300,
-  enemyRowCreateDelay: 1500,
-  enemyWaveCreateDelay: 3500,
+  shotDeceleration: 3,
+  BULLET_CREATE_DELAY: 800,
+  ENEMY_CREATE_DELAY: 300,
+  ENEMY_ROW_CREATE_DELAY: 1500,
+  ENEMY_WAVE_CREATE_DELAY: 3500,
   bulletSize: {
     width: 25,
     height: 50,
+  },
+  enemyPhisicsConfig: {
+    DEFAULT_X_SPEED: 400,
+    DEFAULT_Y_SPEED: 100,
+    DEFAULT_ANGLE_INCREMENT: 0.1,
+    POSITION_EXIT_SPEED_BARRIER: 250,
+    DEFAULT_POSIOTION_EXIT_SPEED: 200,
   },
 };

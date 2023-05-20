@@ -83,7 +83,7 @@ export function enemyFireAction(
     const currentBulletCreateTime = performance.now();
     if (
       currentBulletCreateTime >
-      lastBulletCreateTime + config.bulletCreateDelay
+      lastBulletCreateTime + config.BULLET_CREATE_DELAY
     ) {
       const bullet = createBullet(
         object.position,

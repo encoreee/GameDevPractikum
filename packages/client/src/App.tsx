@@ -1,6 +1,6 @@
 import { Fragment, FC, useEffect } from 'react';
 import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
-import { startServiceWorker } from './utils/swRegistration';
+import { startServiceWorker } from './utils/serviceWorkersRegistration';
 
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';

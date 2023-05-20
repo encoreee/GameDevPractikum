@@ -2,11 +2,11 @@ declare const self: ServiceWorkerGlobalScope;
 
 const CACHE_NAME = 'app-cache-v1';
 const URLS = ['/index.html', '/app.js', '/assets/background.png', '/'];
-const TIMEOUT = 1000;
+const NETWORK_TIMEOUT = 1000;
 
 const fromNetwork = (request: Request): Promise<Response> => {
   return new Promise((fulfill, reject) => {
-    const timeoutId = setTimeout(reject, TIMEOUT);
+    const timeoutId = setTimeout(reject, NETWORK_TIMEOUT);
     fetch(request).then((response) => {
       clearTimeout(timeoutId);
       fulfill(response);

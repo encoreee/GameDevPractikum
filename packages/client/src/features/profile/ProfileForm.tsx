@@ -18,7 +18,7 @@ type ProfileFormProps = { user?: User };
 const ProfileForm: FC<ProfileFormProps> = (props: ProfileFormProps) => {
   const [updateUserInfo, { error, isSuccess }] = useUpdateUserInfoMutation();
   const updateError = error as FetchBaseQueryError;
-  const updateErrorData = updateError?.data as ErrorData;
+  const updateErrorData = updateError?.data as ErrorData | undefined;
   const errorReason = updateErrorData?.reason
     ? updateErrorData.reason
     : AppMessage.UNKNOWN_API_ERROR;

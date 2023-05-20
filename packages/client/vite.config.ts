@@ -35,7 +35,8 @@ export default defineConfig(() => ({
     rollupOptions: {
       input: {
         app: './index.html',
-        sw: './src/sw.ts',
+        networkCacheServiceWorker:
+          './src/infrastructure/networkCacheServiceWorker.ts',
       },
       output: {
         // 2️⃣

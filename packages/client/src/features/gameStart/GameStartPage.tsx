@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { Stack, Typography, Zoom } from '@mui/material';
 import EmptyMainPageTemplate from '@/components/EmptyMainPageTemplate';
 import { useNavigate } from 'react-router-dom';
+import Audio from '@features/Audio';
 
 const countDownData = ['3', '2', '1', 'start!'];
 const TIME_IN = 1000;
@@ -18,6 +19,8 @@ const GameStartPage: FunctionComponent = () => {
     setCurrentLabel(countDownData[currentIndex]);
     setCurrentIndex(currentIndex + 1);
     setChecked(true);
+    const trackToPlay = `ready-${countDownData.length - currentIndex}`;
+    Audio.play(trackToPlay);
     if (currentIndex > countDownData.length) {
       navigate('/game');
     }

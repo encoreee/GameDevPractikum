@@ -4,6 +4,7 @@ import { canvasSize } from './Config';
 import { Canvas } from './core/Canvas';
 import { GalagaGame } from './GalagaGame';
 import { playerConfig } from '../game/Config';
+import Audio from '@features/Audio';
 
 const styles: React.CSSProperties = {
   border: '1px solid silver',
@@ -41,6 +42,7 @@ const GamePage: FunctionComponent = () => {
     return () => {
       document.removeEventListener('keydown', onKeyDownHandler);
       document.removeEventListener('keyup', onKeyUpHandler);
+      Audio.stopAll();
     };
   }, [canvas]);
 

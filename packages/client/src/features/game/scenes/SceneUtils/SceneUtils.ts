@@ -12,6 +12,7 @@ import { GameObjectPhysics } from '../../game-object/components/Physics/GameObje
 import { ExplosionObjectGraphics } from '../../game-object/components/Graphics/ExplosionObjectGraphics';
 import { Player } from './../../game-object/components/Objects/Player';
 import { PlayerExplosionObjectGraphics } from '../../game-object/components/Graphics/PlayerExplosionObjectGraphics';
+import Audio, { AUDIO_IDS } from '@/features/Audio';
 
 export function createPlayerPoint(profile: PlayerProfile): ReferenceObject {
   return new ReferenceObject(
@@ -49,6 +50,7 @@ export function createExplosion(
         new GameObjectPhysics(),
         new ExplosionObjectGraphics(7)
       );
+      Audio.play(AUDIO_IDS.EnemyExplosion);
       exp.render(dt);
       return exp;
     }
@@ -61,6 +63,7 @@ export function createExplosion(
         new PlayerExplosionObjectGraphics(7)
       );
       exp.render(dt);
+      Audio.play(AUDIO_IDS.PlayerExplosion);
       return exp;
     }
 

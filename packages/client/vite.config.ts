@@ -5,6 +5,7 @@ import eslint from 'vite-plugin-eslint';
 import stylelint from 'vite-plugin-stylelint';
 import dotenv from 'dotenv';
 import checker from 'vite-plugin-checker';
+import svgr from 'vite-plugin-svgr';
 dotenv.config();
 
 // https://vitejs.dev/config/
@@ -31,6 +32,7 @@ export default defineConfig(() => ({
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
   plugins: [
+    svgr(),
     checker({ typescript: true }),
     react(),
     eslint({ lintOnStart: true, overrideConfigFile: '../../.eslintrc.js' }),

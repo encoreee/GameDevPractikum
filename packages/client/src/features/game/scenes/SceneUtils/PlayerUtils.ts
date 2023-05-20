@@ -9,6 +9,7 @@ import { createBullet } from './BulletUtils';
 import { Player } from '../../game-object/components/Objects/Player';
 import { GameObjectPhysics } from '../../game-object/components/Physics/GameObjectPhysics';
 import { PlayerObjectGraphics } from '../../game-object/components/Graphics/PlayerObjectGraphics';
+import Audio, { AUDIO_IDS } from '@/features/Audio';
 
 export function createPlayerLives(
   livesCollection: GameObjectCollection,
@@ -81,6 +82,7 @@ export function fireAction(
         config.size,
         true
       );
+      Audio.play(AUDIO_IDS.PlayerShoot);
       playerBulletCollection.push(bullet);
       lastBulletCreateTime = currentBulletCreateTime;
     }

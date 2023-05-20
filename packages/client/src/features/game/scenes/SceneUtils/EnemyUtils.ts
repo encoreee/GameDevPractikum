@@ -13,6 +13,8 @@ import {
   EnemyType,
   EnemyObjectGraphics,
 } from '../../game-object/components/Graphics/EnemyObjectGraphics';
+import Audio from '@/features/Audio/Audio';
+import { AUDIO_IDS } from '@/features/Audio';
 
 export function createEnemy(
   enemyCollection: GameObjectCollection,
@@ -91,6 +93,7 @@ export function enemyFireAction(
         object.size,
         false
       );
+      Audio.play(AUDIO_IDS.EnemyShoot);
       enemyBulletCollection.push(bullet);
       timeMetrics.lastAttackCreateTime = currentBulletCreateTime;
     }

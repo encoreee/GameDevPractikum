@@ -13,6 +13,8 @@ import gameTheme from '@/assets/sounds/gameTheme.mp3';
 import { AUDIO_IDS } from './const';
 
 export const audioBootstrap = () => {
+  Audio.add(mainTheme, AUDIO_IDS.mainTheme);
+  Audio.add(gameTheme, AUDIO_IDS.gameTheme);
   Audio.add(playerShoot, AUDIO_IDS.PlayerShoot);
   Audio.add(shootEnemy, AUDIO_IDS.EnemyShoot);
   Audio.add(explosionPlayer, AUDIO_IDS.PlayerExplosion);
@@ -22,6 +24,5 @@ export const audioBootstrap = () => {
   Audio.add(ready2, AUDIO_IDS.Ready2);
   Audio.add(ready3, AUDIO_IDS.Ready3);
   Audio.add(ready4, AUDIO_IDS.Ready4);
-  Audio.add(mainTheme, AUDIO_IDS.mainTheme);
-  Audio.add(gameTheme, AUDIO_IDS.gameTheme);
+  Audio.init();
 };

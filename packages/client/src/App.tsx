@@ -1,4 +1,4 @@
-import { Fragment, FC, useEffect } from 'react';
+import { Fragment, FC } from 'react';
 import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
@@ -15,12 +15,8 @@ import SignUpPage from './features/auth/SignUpPage';
 import GameStartPage from './features/gameStart/GameStartPage';
 import ForumPages from './features/forum/pages';
 import GameOver from './features/gameOver/GameOver';
-import { audioBootstrap } from './features/Audio';
 
 const App: FC = () => {
-  useEffect(() => {
-    audioBootstrap();
-  }, []);
   return (
     <Fragment>
       <Provider store={store}>

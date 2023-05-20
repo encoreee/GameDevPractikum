@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ReactComponent as MuteSvg } from '@/assets/mute.svg';
 import { ReactComponent as SoundOnSvg } from '@/assets/soundOn.svg';
 import { Box, SxProps } from '@mui/material';
@@ -7,6 +7,9 @@ import Audio from '@/features/Audio';
 export const SoundSwitch: FC = () => {
   const [isSoundOn, setIsSoundOn] = useState(Audio.isSoundOn);
 
+  useEffect(() => {
+    setIsSoundOn(Audio.isSoundOn);
+  });
   const handleClick = () => {
     if (isSoundOn) {
       Audio.mute();

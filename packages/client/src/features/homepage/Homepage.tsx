@@ -38,7 +38,11 @@ const styles = {
 const HomePage: FC = () => {
   const handleMouseEnter = () => Audio.play(AUDIO_IDS.Jump);
   useEffect(() => {
+    Audio.stopAll();
     Audio.play(AUDIO_IDS.mainTheme, { loop: true });
+    return () => {
+      Audio.stopAll();
+    };
   }, []);
   return (
     <MainPageTemplate>

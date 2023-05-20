@@ -13,7 +13,8 @@ class Audio {
   private gainNode?: GainNode;
   private audioSourses: Record<Id, AudioBufferSourceNode> = {};
   private cache?: Cache;
-  public isSoundOn = false;
+  private requests: Promise<unknown>[] = [];
+  public isSoundOn = true;
 
   async add(src: Src, id: Id) {
     if (this.soundsStreams[id]) return;
@@ -22,7 +23,8 @@ class Audio {
     }
     if (this.cache) {
       try {
-        await this.cache.add(src);
+        this.requests.push(this.cache.add(src));
+        await this.allResoursesRequests();
         const response = await this.cache.match(src);
         if (response) {
           this.soundsStreams[id] = await response.arrayBuffer();
@@ -34,26 +36,43 @@ class Audio {
         throw new Error(e?.toString() || 'Failed on add Audio');
       }
     }
-    return this;
+  }
+
+  public init() {
+    this.createContext();
+    if (this.context) {
+      this.gainNode = this.context.createGain();
+    }
+    this.mute();
+  }
+
+  private async allResoursesRequests() {
+    await Promise.allSettled(this.requests);
   }
 
   private async decodeAudioData(id: Id) {
     if (this.context) {
-      if (this.buffer[id] || !this.soundsStreams[id]) return;
+      if (
+        this.buffer[id] ||
+        !this.soundsStreams[id] ||
+        this.soundsStreams[id].byteLength === 0
+      )
+        return;
       try {
         this.buffer[id] = await this.context.decodeAudioData(
           this.soundsStreams[id]
         );
       } catch {
-        console.error(`failed decode ${id}`);
+        console.error(`Failed decode ${id}`);
       }
+    } else {
+      console.error('Context is not created');
     }
   }
 
   private createContext() {
     if (!this.context) {
       this.context = new AudioContext();
-      this.context.suspend();
     }
   }
 
@@ -62,11 +81,7 @@ class Audio {
   }
 
   private createSourse(id: Id) {
-    if (this.context) {
-      if (!this.gainNode) {
-        this.gainNode = this.context.createGain();
-        this.mute();
-      }
+    if (this.context && this.gainNode) {
       this.audioSourses[id] = this.context.createBufferSource();
       this.audioSourses[id].buffer = this.buffer[id];
       this.audioSourses[id].connect(this.gainNode);
@@ -75,7 +90,8 @@ class Audio {
   }
 
   async play(id: Id, options?: PlayOptions) {
-    this.createContext();
+    await this.allResoursesRequests();
+
     await this.decodeAudioData(id);
     this.createSourse(id);
     if (this.context && this.audioSourses[id]) {
@@ -99,17 +115,14 @@ class Audio {
   }
 
   soundOn() {
-    if (this.context?.state === 'suspended') {
-      this.context.resume();
-    }
-    if (this.gainNode && this.context) {
+    if (this.gainNode && this.context && !this.isSoundOn) {
       this.isSoundOn = true;
       this.gainNode.gain.setValueAtTime(1, this.context.currentTime);
     }
   }
 
   mute() {
-    if (this.gainNode && this.context) {
+    if (this.gainNode && this.context && this.isSoundOn) {
       this.isSoundOn = false;
       this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
     }

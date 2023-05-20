@@ -22,6 +22,7 @@ const GameStartPage: FunctionComponent = () => {
     const trackToPlay = `ready-${countDownData.length - currentIndex}`;
     Audio.play(trackToPlay);
     if (currentIndex > countDownData.length) {
+      Audio.stopAll();
       navigate('/game');
     }
   }, [tick]);

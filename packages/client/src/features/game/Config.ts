@@ -17,13 +17,21 @@ export type PlayerLivesConfig = {
   size: Size;
 };
 
-export type EnemyCreateConfigType = {
+export type EnemyConfigType = {
+  size: Size;
+  moveRadius: number;
+};
+
+export type SceneEnemyCreateConfigType = {
   numberPerRow: number;
   numberEnemy: number;
   gap: number;
+};
+
+export type EnemyCreateConfigType = {
   size: Size;
-  ordinaryEnemySize: Size;
-  warriorEnemySize: Size;
+  ordinaryEnemyConfig: EnemyConfigType;
+  warriorEnemyConfig: EnemyConfigType;
   canvasSize: Size;
   paddingTop: number;
   bulletSize: Size;
@@ -81,22 +89,19 @@ export const playerConfig: PlayerCreateConfigType = {
 };
 
 export const enemyConfig: EnemyCreateConfigType = {
-  numberPerRow: 6,
-  numberEnemy: 18,
   canvasSize,
-  gap: 50,
   paddingTop: 50,
   size: {
     width: 50,
     height: 50,
   },
-  ordinaryEnemySize: {
-    width: 60,
-    height: 40,
+  ordinaryEnemyConfig: {
+    size: { width: 60, height: 40 },
+    moveRadius: 300,
   },
-  warriorEnemySize: {
-    width: 40,
-    height: 35,
+  warriorEnemyConfig: {
+    size: { width: 40, height: 35 },
+    moveRadius: 300,
   },
   shotDeceleration: 3,
   BULLET_CREATE_DELAY: 800,

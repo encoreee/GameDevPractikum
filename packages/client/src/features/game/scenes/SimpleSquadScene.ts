@@ -1,20 +1,21 @@
 import { KeyboardController } from '../core/KeyboardController';
 import { SceneInterface, SceneReferenceMetrics } from './SceneInterface';
-import { enemyConfig } from '../Config';
+import { SceneEnemyCreateConfigType, enemyConfig } from '../Config';
 import { PlayerProfile } from '../GamePage';
 import { GameSceneBase } from './GameSceneBase';
 import { enemyFireAction, tryCreateEnemy } from './SceneUtils/EnemyUtils';
 import { getRandomInt } from '../utils/Math';
 
-export class GameSceneLevel2 extends GameSceneBase implements SceneInterface {
+export class SimpleSquadScene extends GameSceneBase implements SceneInterface {
   public referenceMetrics: SceneReferenceMetrics = {
-    levelLabel: 'Level 2',
+    levelLabel: 'Level 1',
   };
   constructor(
     keyboard: KeyboardController,
     endGameCallback: () => void,
     selectNextSceneCallBack: () => void,
-    profile: PlayerProfile
+    profile: PlayerProfile,
+    private sceneEnemyConfig: SceneEnemyCreateConfigType
   ) {
     super(keyboard, endGameCallback, selectNextSceneCallBack, profile);
   }
@@ -23,8 +24,8 @@ export class GameSceneLevel2 extends GameSceneBase implements SceneInterface {
     this.enemyMetrics.startX =
       (enemyConfig.canvasSize.width +
         enemyConfig.size.width / 2 -
-        enemyConfig.size.width * enemyConfig.numberPerRow -
-        enemyConfig.gap * enemyConfig.numberPerRow -
+        enemyConfig.size.width * this.sceneEnemyConfig.numberPerRow -
+        this.sceneEnemyConfig.gap * this.sceneEnemyConfig.numberPerRow -
         1) /
       2;
     this.enemyMetrics.startY = enemyConfig.paddingTop;
@@ -32,12 +33,15 @@ export class GameSceneLevel2 extends GameSceneBase implements SceneInterface {
   }
 
   protected sceneEnemyAction() {
-    if (this.enemyMetrics.enemiesSquadCount < enemyConfig.numberEnemy) {
+    if (
+      this.enemyMetrics.enemiesSquadCount < this.sceneEnemyConfig.numberEnemy
+    ) {
       tryCreateEnemy(
         this.enemyMetrics.enemiesSquadCount,
         this.enemyMetrics,
         this.timeMetrics,
-        this.enemyCollection
+        this.enemyCollection,
+        this.sceneEnemyConfig
       )(
         this.timeMetrics.lastEnemyCreateTime,
         this.timeMetrics.lastEnemyKillTime

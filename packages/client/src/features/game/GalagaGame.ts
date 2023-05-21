@@ -22,7 +22,7 @@ export class GalagaGame {
 
   public init(): void {
     SceneManager.setKeyboard(this.keyboard);
-    SceneManager.setCurrentSceneByIndex(1);
+    SceneManager.setStartScene();
     this.gameloop.start();
   }
 

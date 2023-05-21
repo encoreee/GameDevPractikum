@@ -2,8 +2,8 @@ import { AUDIO_IDS } from './const';
 
 type Src = string;
 type Id = typeof AUDIO_IDS[keyof typeof AUDIO_IDS] | string;
-type SoundsStreams = Record<Id | string, ArrayBuffer>;
-type AudioSourses = Record<Id | string, AudioBufferSourceNode>;
+type SoundsStreams = Record<Id, ArrayBuffer>;
+type AudioSourсes = Record<Id, AudioBufferSourceNode>;
 type Buffer = Record<Id | string, AudioBuffer>;
 interface PlayOptions {
   loop: boolean;
@@ -14,7 +14,7 @@ class Audio {
   private soundsStreams: SoundsStreams = {};
   private buffer: Buffer = {};
   private gainNode?: GainNode;
-  private audioSourses: AudioSourses = {};
+  private audioSourсes: AudioSourсes = {};
   private cache?: Cache;
   private requests: Promise<unknown>[] = [];
   public isSoundOn = false;
@@ -26,20 +26,22 @@ class Audio {
     }
     if (this.cache) {
       try {
+        // Проверяем есть ли аудио исходник в кэше
         let response = await this.cache.match(src);
+        // Если его нет, то получаем и добавляем в кеш
         if (!response) {
           this.requests.push(this.cache.add(src));
-          await this.allResoursesRequests();
+          await this.allResourcesRequests();
+          response = await this.cache.match(src);
         }
-        response = await this.cache.match(src);
         if (response) {
           this.soundsStreams[id] = await response.arrayBuffer();
         } else {
-          throw new Error('error on fetch');
+          throw new Error('Error in Audio: Error on fetch');
         }
       } catch (e) {
         console.error(e);
-        throw new Error(e?.toString() || 'Failed on add Audio');
+        throw new Error(e?.toString() || 'Error in Audio:Failed on add Audio');
       }
     }
   }
@@ -52,7 +54,7 @@ class Audio {
     this.mute();
   }
 
-  private async allResoursesRequests() {
+  private async allResourcesRequests() {
     await Promise.allSettled(this.requests);
   }
 
@@ -69,10 +71,10 @@ class Audio {
           this.soundsStreams[id]
         );
       } catch {
-        console.error(`Failed decode ${id}`);
+        console.error(`Error in Audio:Failed decode ${id}`);
       }
     } else {
-      console.error('Context is not created');
+      console.error('Error in Audio:Context is not created');
     }
   }
 
@@ -88,34 +90,34 @@ class Audio {
 
   private createSource(id: Id) {
     if (this.context && this.gainNode) {
-      this.audioSourses[id] = this.context.createBufferSource();
-      this.audioSourses[id].buffer = this.buffer[id];
-      this.audioSourses[id].connect(this.gainNode);
+      this.audioSourсes[id] = this.context.createBufferSource();
+      this.audioSourсes[id].buffer = this.buffer[id];
+      this.audioSourсes[id].connect(this.gainNode);
       this.gainNode.connect(this.context.destination);
     }
   }
 
   async play(id: Id, options?: PlayOptions) {
-    await this.allResoursesRequests();
+    await this.allResourcesRequests();
 
     await this.decodeAudioData(id);
     this.createSource(id);
-    if (this.context && this.audioSourses[id]) {
-      this.audioSourses[id].start(this.context.currentTime);
+    if (this.context && this.audioSourсes[id]) {
+      this.audioSourсes[id].start(this.context.currentTime);
       if (options) {
-        this.audioSourses[id].loop = true;
+        this.audioSourсes[id].loop = options.loop;
       }
     }
   }
 
   stop(id: Id) {
-    if (this.audioSourses[id]) {
-      this.audioSourses[id].disconnect();
+    if (this.audioSourсes[id]) {
+      this.audioSourсes[id].disconnect();
     }
   }
 
   stopAll() {
-    Object.values(this.audioSourses).forEach((audioSource) => {
+    Object.values(this.audioSourсes).forEach((audioSource) => {
       audioSource.disconnect();
     });
   }

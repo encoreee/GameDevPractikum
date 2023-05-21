@@ -9,7 +9,7 @@ export const SoundSwitch: FC = () => {
 
   useEffect(() => {
     setIsSoundOn(Audio.isSoundOn);
-  });
+  }, []);
   const handleClick = () => {
     if (isSoundOn) {
       Audio.mute();

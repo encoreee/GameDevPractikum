@@ -16,7 +16,7 @@ class Audio {
   private gainNode?: GainNode;
   private audioSourсes: AudioSourсes = {};
   private cache?: Cache;
-  private requests: Promise<unknown>[] = [];
+  private requests: Promise<Response | undefined | void>[] = [];
   public isSoundOn = false;
 
   async add(src: Src, id: Id) {
@@ -26,13 +26,14 @@ class Audio {
     }
     if (this.cache) {
       try {
-        // Проверяем есть ли аудио исходник в кэше
-        let response = await this.cache.match(src);
-        // Если его нет, то получаем и добавляем в кеш
+        // Получаем исходник из кеша
+        let response = await this.matchCache(src);
+        // Если его нет, то делаем запрос на его получение и добавляем в кеш
         if (!response) {
+          // Пушим его в список реквестов на получение исходников
           this.requests.push(this.cache.add(src));
           await this.allResourcesRequests();
-          response = await this.cache.match(src);
+          response = await this.matchCache(src);
         }
         if (response) {
           this.soundsStreams[id] = await response.arrayBuffer();
@@ -46,32 +47,44 @@ class Audio {
     }
   }
 
+  private matchCache(src: Src) {
+    if (this.cache) {
+      const cachePromise =
+        this.requests[this.requests.push(this.cache.match(src)) - 1];
+      return cachePromise;
+    }
+  }
+
   public init() {
     this.createContext();
     if (this.context) {
       this.gainNode = this.context.createGain();
+      this.mute();
     }
-    this.mute();
   }
 
+  // Промис для всех запросов на получение исходников
   private async allResourcesRequests() {
-    await Promise.allSettled(this.requests);
+    return Promise.allSettled(this.requests);
   }
 
   private async decodeAudioData(id: Id) {
+    await this.allResourcesRequests();
     if (this.context) {
-      if (
-        this.buffer[id] ||
-        !this.soundsStreams[id] ||
-        this.soundsStreams[id].byteLength === 0
-      )
+      if (this.soundsStreams[id] && this.soundsStreams[id].byteLength === 0) {
+        console.error(`Error in Audio: empty source audio:${id}`);
         return;
+      }
+      if (this.buffer[id] || !this.soundsStreams[id]) {
+        return;
+      }
+
       try {
         this.buffer[id] = await this.context.decodeAudioData(
           this.soundsStreams[id]
         );
       } catch {
-        console.error(`Error in Audio:Failed decode ${id}`);
+        console.error(`Error in Audio:Failed decode audio:${id}`);
       }
     } else {
       console.error('Error in Audio:Context is not created');
@@ -81,6 +94,7 @@ class Audio {
   private createContext() {
     if (!this.context) {
       this.context = new AudioContext();
+      this.context.suspend();
     }
   }
 
@@ -98,14 +112,27 @@ class Audio {
   }
 
   async play(id: Id, options?: PlayOptions) {
-    await this.allResourcesRequests();
+    if (this.context) {
+      await this.allResourcesRequests();
+      // Проверяем, есть ли в буфере декодированый исходник
+      if (!this.buffer[id]) {
+        await this.decodeAudioData(id);
+      }
 
-    await this.decodeAudioData(id);
-    this.createSource(id);
-    if (this.context && this.audioSourсes[id]) {
-      this.audioSourсes[id].start(this.context.currentTime);
-      if (options) {
-        this.audioSourсes[id].loop = options.loop;
+      this.createSource(id);
+      // Проверяем, если контекст приостановлен, то будет стартовать только зацикленное аудио(Без проверки при первом включении звука воспроизведутся все аудио которые были запущены пока контекст был приостановлен)
+      if (this.context.state !== 'suspended') {
+        if (this.audioSourсes[id]) {
+          this.audioSourсes[id].start(this.context.currentTime);
+          if (options) {
+            this.audioSourсes[id].loop = options.loop;
+          }
+        }
+      } else {
+        if (options?.loop) {
+          this.audioSourсes[id].start(this.context.currentTime);
+          this.audioSourсes[id].loop = options.loop;
+        }
       }
     }
   }
@@ -126,6 +153,9 @@ class Audio {
     if (this.gainNode && this.context) {
       this.isSoundOn = true;
       this.gainNode.gain.setValueAtTime(1, this.context.currentTime);
+      if (this.context.state === 'suspended') {
+        this.context.resume();
+      }
     }
   }
 

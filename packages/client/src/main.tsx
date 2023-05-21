@@ -4,9 +4,9 @@ import App from './App';
 import { audioBootstrap } from './features/Audio';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  // <React.StrictMode>
-  <App />
-  // </React.StrictMode>
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
 
 audioBootstrap();

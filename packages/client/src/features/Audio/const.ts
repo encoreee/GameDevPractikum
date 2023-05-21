@@ -10,4 +10,4 @@ export const AUDIO_IDS = {
   Ready1: 'ready-1',
   mainTheme: 'main-theme',
   gameTheme: 'game-theme',
-};
+} as const;

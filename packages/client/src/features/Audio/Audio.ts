@@ -1,17 +1,20 @@
+import { AUDIO_IDS } from './const';
+
 type Src = string;
-type Id = string;
-type SoundsPathsCollection = Record<Id, ArrayBuffer>;
-type Buffer = Record<Id, AudioBuffer>;
+type Id = typeof AUDIO_IDS[keyof typeof AUDIO_IDS] | string;
+type SoundsStreams = Record<Id | string, ArrayBuffer>;
+type AudioSourses = Record<Id | string, AudioBufferSourceNode>;
+type Buffer = Record<Id | string, AudioBuffer>;
 interface PlayOptions {
   loop: boolean;
 }
 
 class Audio {
   private context?: AudioContext;
-  private soundsStreams: SoundsPathsCollection = {};
+  private soundsStreams: SoundsStreams = {};
   private buffer: Buffer = {};
   private gainNode?: GainNode;
-  private audioSourses: Record<Id, AudioBufferSourceNode> = {};
+  private audioSourses: AudioSourses = {};
   private cache?: Cache;
   private requests: Promise<unknown>[] = [];
   public isSoundOn = false;

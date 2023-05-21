@@ -23,9 +23,12 @@ class Audio {
     }
     if (this.cache) {
       try {
-        this.requests.push(this.cache.add(src));
-        await this.allResoursesRequests();
-        const response = await this.cache.match(src);
+        let response = await this.cache.match(src);
+        if (!response) {
+          this.requests.push(this.cache.add(src));
+          await this.allResoursesRequests();
+        }
+        response = await this.cache.match(src);
         if (response) {
           this.soundsStreams[id] = await response.arrayBuffer();
         } else {

@@ -6,4 +6,5 @@ export const DATA_FIELD_VARIANTS: Record<
 > = {
   LABEL_LEFT: 'label-left',
   LABEL_TOP: 'label-top',
+  LABEL_TOP_RHF: 'label-top-rhf',
 };

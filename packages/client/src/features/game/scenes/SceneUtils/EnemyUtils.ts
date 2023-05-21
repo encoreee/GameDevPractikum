@@ -6,13 +6,87 @@ import { Vector2 } from '../../utils/Vector2';
 import { GameObjectCollection } from './../../utils/GameObjectCollection';
 import { EnemyCreateConfigType } from '../../Config';
 import { createBullet } from './BulletUtils';
-import { SceneTimeMetrics } from '../SceneInterface';
+import { SceneEnemyMetrics, SceneTimeMetrics } from '../SceneInterface';
 import { WarriorEnemyObjectPhysics } from '../../game-object/components/Physics/WarriorEnemyObjectPhysics';
 import { OrdinaryEnemyObjectPhysics } from '../../game-object/components/Physics/OrdinaryEnemyObjectPhysics';
 import {
   EnemyType,
   EnemyObjectGraphics,
 } from '../../game-object/components/Graphics/EnemyObjectGraphics';
+import { enemyConfig, playerConfig, canvasSize } from '../../Config';
+
+/**
+ *
+ * @param index
+ * @param enemyMetrics
+ * @param timeMetrics
+ * @param enemyCollection
+ * @returns
+ */
+export function tryCreateEnemy(
+  index: number,
+  enemyMetrics: SceneEnemyMetrics,
+  timeMetrics: SceneTimeMetrics,
+  enemyCollection: GameObjectCollection
+) {
+  return (lastEnemyCreateTime: number, lastEnemyKillTime: number) => {
+    const currentEnemyCreateTime = performance.now();
+    const squadRow = Math.floor(index / enemyConfig.numberPerRow) + 1;
+    if (enemyMetrics.enemiesWaveCount === enemyMetrics.currentEnemiesWave) {
+      if (enemyMetrics.currentRow === squadRow) {
+        if (
+          currentEnemyCreateTime >
+          lastEnemyCreateTime + enemyConfig.ENEMY_CREATE_DELAY
+        ) {
+          createEnemy(
+            enemyCollection,
+            enemyConfig,
+            enemyMetrics.startX,
+            enemyMetrics.startY,
+            300,
+            index
+          );
+          timeMetrics.lastEnemyCreateTime = currentEnemyCreateTime;
+          enemyMetrics.enemiesSquadCount++;
+        }
+      } else {
+        if (
+          currentEnemyCreateTime >
+          lastEnemyCreateTime + enemyConfig.ENEMY_ROW_CREATE_DELAY
+        ) {
+          createEnemy(
+            enemyCollection,
+            enemyConfig,
+            enemyMetrics.startX,
+            enemyMetrics.startY,
+            400,
+            index
+          );
+          timeMetrics.lastEnemyCreateTime = currentEnemyCreateTime;
+          enemyMetrics.enemiesSquadCount++;
+          enemyMetrics.currentRow = squadRow;
+        }
+      }
+    } else {
+      if (
+        currentEnemyCreateTime >
+        lastEnemyKillTime + enemyConfig.ENEMY_WAVE_CREATE_DELAY
+      ) {
+        createEnemy(
+          enemyCollection,
+          enemyConfig,
+          enemyMetrics.startX,
+          enemyMetrics.startY,
+          300,
+          index
+        );
+        timeMetrics.lastEnemyCreateTime = currentEnemyCreateTime;
+        enemyMetrics.enemiesSquadCount++;
+        enemyMetrics.currentEnemiesWave = enemyMetrics.enemiesWaveCount;
+      }
+    }
+  };
+}
 
 export function createEnemy(
   enemyCollection: GameObjectCollection,

@@ -33,6 +33,7 @@ export type EnemyCreateConfigType = {
   ENEMY_ROW_CREATE_DELAY: number;
   ENEMY_WAVE_CREATE_DELAY: number;
   enemyPhisicsConfig: EnemyPhysicsConfigType;
+  enemyPoints: EnemyPointsConfigType;
 };
 
 export type EnemyPhysicsConfigType = {
@@ -44,6 +45,10 @@ export type EnemyPhysicsConfigType = {
   POSITION_EXIT_SPEED_BARRIER: number;
   //Скорость выхода на позицию в матрице расположения
   DEFAULT_POSIOTION_EXIT_SPEED: number;
+};
+
+export type EnemyPointsConfigType = {
+  defaultPointsValue: number;
 };
 
 export const canvasSize: Size = {
@@ -109,4 +114,5 @@ export const enemyConfig: EnemyCreateConfigType = {
     POSITION_EXIT_SPEED_BARRIER: 250,
     DEFAULT_POSIOTION_EXIT_SPEED: 200,
   },
+  enemyPoints: { defaultPointsValue: 100 },
 };

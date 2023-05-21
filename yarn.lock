@@ -2438,6 +2438,11 @@
     "@types/mime" "*"
     "@types/node" "*"
 
+"@types/serviceworker@^0.0.67":
+  version "0.0.67"
+  resolved "https://registry.yarnpkg.com/@types/serviceworker/-/serviceworker-0.0.67.tgz#6fe7a9e4d61e7927784c401fcac41a66aac7ebf0"
+  integrity sha512-7TCH7iNsCSNb+aUD9M/36TekrWFSLCjNK8zw/3n5kOtRjbLtDfGYMXTrDnGhSfqXNwpqmt9Vd90w5C/ad1tX6Q==
+
 "@types/stack-utils@^2.0.0":
   version "2.0.1"
   resolved "https://registry.npmjs.org/@types/stack-utils/-/stack-utils-2.0.1.tgz"

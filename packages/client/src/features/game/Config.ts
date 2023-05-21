@@ -26,6 +26,8 @@ export type SceneEnemyCreateConfigType = {
   numberPerRow: number;
   numberEnemy: number;
   gap: number;
+  enemyShotDeceleration: number;
+  levelLabel: string;
 };
 
 export type EnemyCreateConfigType = {
@@ -35,7 +37,6 @@ export type EnemyCreateConfigType = {
   canvasSize: Size;
   paddingTop: number;
   bulletSize: Size;
-  shotDeceleration: number;
   BULLET_CREATE_DELAY: number;
   ENEMY_CREATE_DELAY: number;
   ENEMY_ROW_CREATE_DELAY: number;
@@ -103,7 +104,6 @@ export const enemyConfig: EnemyCreateConfigType = {
     size: { width: 40, height: 35 },
     moveRadius: 300,
   },
-  shotDeceleration: 3,
   BULLET_CREATE_DELAY: 800,
   ENEMY_CREATE_DELAY: 300,
   ENEMY_ROW_CREATE_DELAY: 1500,

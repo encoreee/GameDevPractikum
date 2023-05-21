@@ -14,16 +14,22 @@ const sceneCollection: SceneEnemyCreateConfigType[] = [
     numberPerRow: 6,
     numberEnemy: 18,
     gap: 50,
+    enemyShotDeceleration: 3,
+    levelLabel: 'Level 1',
   },
   {
     numberPerRow: 8,
     numberEnemy: 24,
     gap: 30,
+    enemyShotDeceleration: 2.5,
+    levelLabel: 'Level 2',
   },
   {
     numberPerRow: 10,
     numberEnemy: 30,
     gap: 15,
+    enemyShotDeceleration: 2,
+    levelLabel: 'Level 3',
   },
 ];
 
@@ -58,7 +64,9 @@ export class SceneManager {
   private static endCallBack(): void {
     SceneManager.end = true;
   }
-
+  public static getCurrentSceneEnemyCreateConfig(): SceneEnemyCreateConfigType {
+    return sceneCollection[this.currentSceneIndex - 1];
+  }
   private static selectNextSceneCallBack(): void {
     const nextScene = ++SceneManager.currentSceneIndex;
 

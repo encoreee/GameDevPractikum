@@ -1,5 +1,5 @@
 import { KeyboardController } from '../core/KeyboardController';
-import { SceneInterface, SceneReferenceMetrics } from './SceneInterface';
+import { SceneInterface } from './SceneInterface';
 import { SceneEnemyCreateConfigType, enemyConfig } from '../Config';
 import { PlayerProfile } from '../GamePage';
 import { GameSceneBase } from './GameSceneBase';
@@ -7,9 +7,6 @@ import { enemyFireAction, tryCreateEnemy } from './SceneUtils/EnemyUtils';
 import { getRandomInt } from '../utils/Math';
 
 export class SimpleSquadScene extends GameSceneBase implements SceneInterface {
-  public referenceMetrics: SceneReferenceMetrics = {
-    levelLabel: 'Level 1',
-  };
   constructor(
     keyboard: KeyboardController,
     endGameCallback: () => void,
@@ -18,6 +15,7 @@ export class SimpleSquadScene extends GameSceneBase implements SceneInterface {
     private sceneEnemyConfig: SceneEnemyCreateConfigType
   ) {
     super(keyboard, endGameCallback, selectNextSceneCallBack, profile);
+    this.referenceMetrics.levelLabel = sceneEnemyConfig.levelLabel;
   }
 
   protected metricsInit() {

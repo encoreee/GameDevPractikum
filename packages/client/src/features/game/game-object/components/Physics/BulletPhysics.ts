@@ -2,6 +2,7 @@ import { Vector2 } from '../../../utils/Vector2';
 import { GameObjectComponent } from '../Graphics/Components';
 import { GameObject, EnemyBulletObject } from '../Objects/GameObject';
 import { playerConfig, enemyConfig } from '../../../Config';
+import { SceneManager } from '@/features/game/scenes/SceneManager';
 
 export class PlayerBulletPhysics implements GameObjectComponent {
   public update(playerBulletObject: GameObject, dt: number): void {
@@ -19,12 +20,13 @@ export class EnemyBulletPhysics implements GameObjectComponent {
     _: number,
     playerObject: GameObject
   ): void {
+    const sceneEnemyConfig = SceneManager.getCurrentSceneEnemyCreateConfig();
     //Если снаряд не выстрелен, вычисляется направление, и сохраняется
     if (!enemyBulletObject.shooted) {
       // Вычисление вектора разницы игрока и врага, для определение направления выстрела, и замедление
       enemyBulletObject.defaultAttackDirection = playerObject.position
         .substract(enemyBulletObject.position)
-        .divide(enemyConfig.shotDeceleration);
+        .divide(sceneEnemyConfig.enemyShotDeceleration);
 
       enemyBulletObject.shooted = true;
     }

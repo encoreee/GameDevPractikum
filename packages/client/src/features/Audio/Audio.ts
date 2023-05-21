@@ -14,7 +14,7 @@ class Audio {
   private audioSourses: Record<Id, AudioBufferSourceNode> = {};
   private cache?: Cache;
   private requests: Promise<unknown>[] = [];
-  public isSoundOn = true;
+  public isSoundOn = false;
 
   async add(src: Src, id: Id) {
     if (this.soundsStreams[id]) return;
@@ -80,7 +80,7 @@ class Audio {
     this.cache = await caches.open('audio');
   }
 
-  private createSourse(id: Id) {
+  private createSource(id: Id) {
     if (this.context && this.gainNode) {
       this.audioSourses[id] = this.context.createBufferSource();
       this.audioSourses[id].buffer = this.buffer[id];
@@ -93,7 +93,7 @@ class Audio {
     await this.allResoursesRequests();
 
     await this.decodeAudioData(id);
-    this.createSourse(id);
+    this.createSource(id);
     if (this.context && this.audioSourses[id]) {
       this.audioSourses[id].start(this.context.currentTime);
       if (options) {
@@ -115,14 +115,14 @@ class Audio {
   }
 
   soundOn() {
-    if (this.gainNode && this.context && !this.isSoundOn) {
+    if (this.gainNode && this.context) {
       this.isSoundOn = true;
       this.gainNode.gain.setValueAtTime(1, this.context.currentTime);
     }
   }
 
   mute() {
-    if (this.gainNode && this.context && this.isSoundOn) {
+    if (this.gainNode && this.context) {
       this.isSoundOn = false;
       this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
     }

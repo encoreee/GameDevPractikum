@@ -16,7 +16,7 @@ import {
   EnemyType,
   EnemyObjectGraphics,
 } from '../../game-object/components/Graphics/EnemyObjectGraphics';
-import { enemyConfig, playerConfig, canvasSize } from '../../Config';
+import { enemyConfig } from '../../Config';
 
 export type EnemyCreateParams = {
   squadPosition: Vector2;

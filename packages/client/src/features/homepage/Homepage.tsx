@@ -43,7 +43,7 @@ const HomePage: FC = () => {
     return () => {
       Audio.stopAll();
     };
-  });
+  }, []);
   return (
     <MainPageTemplate>
       <List sx={styles.listContainer}>

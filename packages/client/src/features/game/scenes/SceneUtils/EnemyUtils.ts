@@ -10,13 +10,17 @@ import {
 } from '../../Config';
 import { createBullet } from './BulletUtils';
 import { SceneEnemyMetrics, SceneTimeMetrics } from '../SceneInterface';
-import { WarriorEnemyObjectPhysics } from '../../game-object/components/Physics/WarriorEnemyObjectPhysics';
-import { OrdinaryEnemyObjectPhysics } from '../../game-object/components/Physics/OrdinaryEnemyObjectPhysics';
 import {
   EnemyType,
   EnemyObjectGraphics,
 } from '../../game-object/components/Graphics/EnemyObjectGraphics';
-import { enemyConfig } from '../../Config';
+import {
+  enemyConfig,
+  ordinaryEnemyMovementArr,
+  warriorEnemyMovementArr,
+  interseptorEnemyMovementArr,
+} from '../../Config';
+import { EnemyObjectPhysics } from '../../game-object/components/Physics/EnemyObjectPhysics';
 
 export type EnemyCreateParams = {
   squadPosition: Vector2;
@@ -128,7 +132,11 @@ export function createNewEnemy(
           0,
           enemyConfig.warriorEnemyConfig.moveRadius,
           squadPosition,
-          new WarriorEnemyObjectPhysics(performance.now(), enemyConfig),
+          new EnemyObjectPhysics(
+            performance.now(),
+            enemyConfig,
+            warriorEnemyMovementArr
+          ),
           new EnemyObjectGraphics(EnemyType.WARRIOR)
         );
         enemyCollection.push(enemy);
@@ -143,7 +151,11 @@ export function createNewEnemy(
           0,
           enemyConfig.ordinaryEnemyConfig.moveRadius,
           squadPosition,
-          new OrdinaryEnemyObjectPhysics(performance.now(), enemyConfig),
+          new EnemyObjectPhysics(
+            performance.now(),
+            enemyConfig,
+            ordinaryEnemyMovementArr
+          ),
           new EnemyObjectGraphics(EnemyType.ORDINARY)
         );
         enemyCollection.push(enemy);
@@ -155,7 +167,11 @@ export function createNewEnemy(
           0,
           enemyConfig.warriorEnemyConfig.moveRadius,
           squadPosition,
-          new WarriorEnemyObjectPhysics(performance.now(), enemyConfig),
+          new EnemyObjectPhysics(
+            performance.now(),
+            enemyConfig,
+            interseptorEnemyMovementArr
+          ),
           new EnemyObjectGraphics(EnemyType.WARRIOR)
         );
         enemyCollection.push(enemy);

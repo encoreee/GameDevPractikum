@@ -1,4 +1,10 @@
 import { Size } from './game-object/components/Graphics/Components';
+import {
+  EnemyMovement,
+  MovementTypes,
+  PI,
+} from './game-object/components/Physics/EnemyPhysicsTypes';
+import { Vector2 } from './utils/Vector2';
 
 export type PlayerCreateConfigType = {
   size: Size;
@@ -47,13 +53,14 @@ export type EnemyCreateConfigType = {
 
 export type EnemyPhysicsConfigType = {
   // Скорости движения по умолчанию для направлений
-  DEFAULT_X_SPEED: number;
-  DEFAULT_Y_SPEED: number;
+
+  DEFAULT_SPEED: number;
   DEFAULT_ANGLE_INCREMENT: number;
   //Eсли расстояние меньше указанного то, скорость устанавливается в DEFAULT_POSIOTION_EXIT_SPEED
   POSITION_EXIT_SPEED_BARRIER: number;
   //Скорость выхода на позицию в матрице расположения
   DEFAULT_POSIOTION_EXIT_SPEED: number;
+  DISTANCE_PRESICION: number;
 };
 
 export type EnemyPointsConfigType = {
@@ -113,11 +120,164 @@ export const enemyConfig: EnemyCreateConfigType = {
     height: 50,
   },
   enemyPhisicsConfig: {
-    DEFAULT_X_SPEED: 400,
-    DEFAULT_Y_SPEED: 100,
+    DEFAULT_SPEED: 200,
     DEFAULT_ANGLE_INCREMENT: 0.1,
     POSITION_EXIT_SPEED_BARRIER: 250,
     DEFAULT_POSIOTION_EXIT_SPEED: 200,
+    DISTANCE_PRESICION: 10,
   },
   enemyPoints: { defaultPointsValue: 100 },
 };
+
+export const ordinaryEnemyMovementArr: EnemyMovement[] = [
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(100, 500),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: (PI / 4) * 5,
+    roundsCount: 0.4,
+    direction: 'negative',
+  },
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(enemyConfig.canvasSize.width - 200, 600),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 0.8,
+    direction: 'positive',
+  },
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(100, 100),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 0.75,
+    direction: 'negative',
+  },
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(
+      enemyConfig.canvasSize.width / 2,
+      enemyConfig.canvasSize.height / 2 - 200
+    ),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 1,
+    direction: 'positive',
+  },
+  {
+    type: MovementTypes.RETURNING,
+  },
+  {
+    type: MovementTypes.STOP,
+  },
+];
+
+export const warriorEnemyMovementArr: EnemyMovement[] = [
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(enemyConfig.canvasSize.width - 200, 500),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 0.5,
+    direction: 'negative',
+  },
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(enemyConfig.canvasSize.width - 200, 100),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 0.8,
+    direction: 'negative',
+  },
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(100, 600),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 0.75,
+    direction: 'positive',
+  },
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(100, 250),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 1,
+    direction: 'positive',
+  },
+  {
+    type: MovementTypes.RETURNING,
+  },
+  {
+    type: MovementTypes.STOP,
+  },
+];
+
+export const interseptorEnemyMovementArr: EnemyMovement[] = [
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(200, 500),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 0.5,
+    direction: 'negative',
+  },
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(
+      enemyConfig.canvasSize.width / 2,
+      enemyConfig.canvasSize.height / 2
+    ),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 0.8,
+    direction: 'negative',
+  },
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(100, 600),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 0.75,
+    direction: 'positive',
+  },
+  {
+    type: MovementTypes.LINEAR,
+    targetPosition: new Vector2(enemyConfig.canvasSize.width - 150, 150),
+  },
+  {
+    type: MovementTypes.CIRCLE,
+    startAngle: 0,
+    roundsCount: 1,
+    direction: 'positive',
+  },
+  {
+    type: MovementTypes.RETURNING,
+  },
+  {
+    type: MovementTypes.STOP,
+  },
+];

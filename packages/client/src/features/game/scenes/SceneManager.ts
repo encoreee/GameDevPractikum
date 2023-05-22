@@ -9,24 +9,25 @@ export enum SceneName {
   LEVEL2 = 'level2',
   LEVEL3 = 'level3',
 }
+
 const sceneCollection: SceneEnemyCreateConfigType[] = [
   {
-    numberPerRow: 6,
-    numberEnemy: 18,
+    numberPerRow: 1,
+    numberEnemy: 3,
     gap: 50,
     enemyShotDeceleration: 3,
     levelLabel: 'Level 1',
   },
   {
-    numberPerRow: 8,
-    numberEnemy: 24,
+    numberPerRow: 1,
+    numberEnemy: 3,
     gap: 30,
     enemyShotDeceleration: 2.5,
     levelLabel: 'Level 2',
   },
   {
-    numberPerRow: 10,
-    numberEnemy: 30,
+    numberPerRow: 1,
+    numberEnemy: 3,
     gap: 15,
     enemyShotDeceleration: 2,
     levelLabel: 'Level 3',
@@ -52,6 +53,7 @@ export class SceneManager {
     level2: SimpleSquadScene,
     level3: SimpleSquadScene,
   };
+
   private static sceneOrder: SceneName[] = Object.values(SceneName);
   private static end: boolean;
   private static currentSceneIndex = 1;
@@ -143,7 +145,7 @@ export class SceneManager {
     if (!SceneManager.keyboard) {
       throw new Error('Keyboard is undefined. Set keyboard');
     }
-    const name = SceneManager.sceneOrder[index];
+    const name = SceneManager.sceneOrder[index - 1];
     SceneManager.init(name, SceneManager.profile, sceneEnemyConfig);
   }
 

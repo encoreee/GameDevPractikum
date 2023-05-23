@@ -44,7 +44,13 @@ const HomePage: FC = () => {
           </NavLink>
         </ListItem>
         <ListItem sx={styles.listItem}>
-          <Typography>leader board</Typography>
+          <NavLink
+            href="/leaderboard"
+            sx={styles.link}
+            underline="none"
+            variant="h1">
+            <Typography>leader board</Typography>
+          </NavLink>
         </ListItem>
         <ListItem sx={styles.listItem}>
           <NavLink

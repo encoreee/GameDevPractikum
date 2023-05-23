@@ -7,7 +7,7 @@ export default {
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
   moduleNameMapper: {
-    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg)$':
+    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg|mp3|wav)$':
       'identity-obj-proxy',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@app/(.*)$': '<rootDir>/src/app/$1',

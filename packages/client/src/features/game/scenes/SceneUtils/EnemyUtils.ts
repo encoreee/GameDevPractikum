@@ -4,80 +4,190 @@ import {
 } from '../../game-object/components/Objects/GameObject';
 import { Vector2 } from '../../utils/Vector2';
 import { GameObjectCollection } from './../../utils/GameObjectCollection';
-import { EnemyCreateConfigType } from '../../Config';
+import {
+  EnemyCreateConfigType,
+  SceneEnemyCreateConfigType,
+} from '../../Config';
 import { createBullet } from './BulletUtils';
-import { SceneTimeMetrics } from '../SceneInterface';
-import { WarriorEnemyObjectPhysics } from '../../game-object/components/Physics/WarriorEnemyObjectPhysics';
-import { OrdinaryEnemyObjectPhysics } from '../../game-object/components/Physics/OrdinaryEnemyObjectPhysics';
+import { SceneEnemyMetrics, SceneTimeMetrics } from '../SceneInterface';
 import {
   EnemyType,
   EnemyObjectGraphics,
 } from '../../game-object/components/Graphics/EnemyObjectGraphics';
 import Audio from '@/features/Audio/Audio';
 import { AUDIO_IDS } from '@/features/Audio';
+import {
+  enemyConfig,
+  ordinaryEnemyMovementArr,
+  warriorEnemyMovementArr,
+  interseptorEnemyMovementArr,
+} from '../../Config';
+import { EnemyObjectPhysics } from '../../game-object/components/Physics/EnemyObjectPhysics';
 
-export function createEnemy(
+export type EnemyCreateParams = {
+  squadPosition: Vector2;
+  squadRow: number;
+  enemyCollection: GameObjectCollection;
+};
+
+/**
+ *
+ * @param index
+ * @param enemyMetrics
+ * @param timeMetrics
+ * @param enemyCollection
+ * @returns
+ */
+export function tryCreateEnemy(
+  index: number,
+  enemyMetrics: SceneEnemyMetrics,
+  timeMetrics: SceneTimeMetrics,
   enemyCollection: GameObjectCollection,
-  enemyConfig: EnemyCreateConfigType,
-  xSquadPositionConst: number,
-  ySquadPositionConst: number,
-  movementRadius: number,
-  enemyNumber: number
-): void {
-  {
-    const squadRow = Math.floor(enemyNumber / enemyConfig.numberPerRow) + 1;
-    let enemyNumberRest = enemyNumber;
-    while (!(enemyNumberRest < enemyConfig.numberPerRow)) {
-      enemyNumberRest -= enemyConfig.numberPerRow;
+  sceneEnemyConfig: SceneEnemyCreateConfigType
+) {
+  return (lastEnemyCreateTime: number, lastEnemyKillTime: number) => {
+    let enemyNumberRest = index;
+    while (!(enemyNumberRest < sceneEnemyConfig.numberPerRow)) {
+      enemyNumberRest -= sceneEnemyConfig.numberPerRow;
     }
-    const enemyVector = new Vector2(
-      xSquadPositionConst +
-        (enemyConfig.size.width + enemyConfig.gap) * enemyNumberRest,
-      ySquadPositionConst * squadRow * 2
+    const squadRow = Math.floor(index / sceneEnemyConfig.numberPerRow) + 1;
+    const squadPosition = new Vector2(
+      enemyMetrics.startX +
+        (enemyConfig.size.width + sceneEnemyConfig.gap) * enemyNumberRest,
+      enemyMetrics.startY * squadRow * 2
     );
 
-    if (squadRow === 1) {
-      const enemy = new SquadPositionedObject(
-        new Vector2(0, enemyConfig.canvasSize.height / 8),
-        enemyConfig.warriorEnemySize,
-        0,
-        movementRadius,
-        enemyVector,
-        new WarriorEnemyObjectPhysics(performance.now(), enemyConfig),
-        new EnemyObjectGraphics(EnemyType.WARRIOR)
+    const enemyParams: EnemyCreateParams = {
+      squadPosition,
+      squadRow,
+      enemyCollection,
+    };
+
+    if (enemyMetrics.enemiesWaveCount === enemyMetrics.currentEnemiesWave) {
+      if (enemyMetrics.currentRow === squadRow) {
+        timeDelayConditionCreate(
+          lastEnemyCreateTime,
+          sceneEnemyConfig.ENEMY_CREATE_DELAY,
+          timeMetrics,
+          enemyMetrics,
+          enemyParams
+        );
+      } else {
+        timeDelayConditionCreate(
+          lastEnemyCreateTime,
+          sceneEnemyConfig.ENEMY_ROW_CREATE_DELAY,
+          timeMetrics,
+          enemyMetrics,
+          enemyParams
+        );
+        enemyMetrics.currentRow = squadRow;
+      }
+    } else {
+      timeDelayConditionCreate(
+        lastEnemyKillTime,
+        sceneEnemyConfig.ENEMY_WAVE_CREATE_DELAY,
+        timeMetrics,
+        enemyMetrics,
+        enemyParams
       );
-      enemyCollection.push(enemy);
-    } else if (squadRow === 2) {
-      const enemy = new SquadPositionedObject(
-        new Vector2(
-          enemyConfig.canvasSize.width,
-          enemyConfig.canvasSize.height / 8
-        ),
-        enemyConfig.ordinaryEnemySize,
-        0,
-        movementRadius,
-        enemyVector,
-        new OrdinaryEnemyObjectPhysics(performance.now(), enemyConfig),
-        new EnemyObjectGraphics(EnemyType.ORDINARY)
-      );
-      enemyCollection.push(enemy);
-    } else if (squadRow === 3) {
-      const enemy = new SquadPositionedObject(
-        new Vector2(0, enemyConfig.canvasSize.height / 6),
-        enemyConfig.warriorEnemySize,
-        0,
-        movementRadius,
-        enemyVector,
-        new WarriorEnemyObjectPhysics(performance.now(), enemyConfig),
-        new EnemyObjectGraphics(EnemyType.WARRIOR)
-      );
-      enemyCollection.push(enemy);
+      enemyMetrics.currentEnemiesWave = enemyMetrics.enemiesWaveCount;
+    }
+  };
+}
+
+function timeDelayConditionCreate(
+  enemyTimeLabel: number,
+  createDelay: number,
+  timeMetrics: SceneTimeMetrics,
+  enemyMetrics: SceneEnemyMetrics,
+  enemyParams: EnemyCreateParams
+) {
+  if (timeExpired(enemyTimeLabel, createDelay)) {
+    createNewEnemy(
+      enemyParams.enemyCollection,
+      enemyConfig,
+      enemyParams.squadPosition,
+      enemyParams.squadRow
+    );
+    timeMetrics.lastEnemyCreateTime = performance.now();
+    enemyMetrics.enemiesSquadCount++;
+  }
+}
+
+function timeExpired(lastTime: number, delay: number): boolean {
+  return performance.now() > lastTime + delay;
+}
+
+export function createNewEnemy(
+  enemyCollection: GameObjectCollection,
+  enemyConfig: EnemyCreateConfigType,
+  squadPosition: Vector2,
+  row: number
+): void {
+  {
+    let enemy: SquadPositionedObject;
+    switch (row) {
+      case 1:
+        enemy = enemy = new SquadPositionedObject(
+          new Vector2(0, enemyConfig.canvasSize.height / 8),
+          enemyConfig.warriorEnemyConfig.size,
+          0,
+          enemyConfig.warriorEnemyConfig.moveRadius,
+          squadPosition,
+          new EnemyObjectPhysics(
+            performance.now(),
+            enemyConfig,
+            warriorEnemyMovementArr
+          ),
+          new EnemyObjectGraphics(EnemyType.WARRIOR)
+        );
+        enemyCollection.push(enemy);
+        break;
+      case 2:
+        enemy = new SquadPositionedObject(
+          new Vector2(
+            enemyConfig.canvasSize.width,
+            enemyConfig.canvasSize.height / 8
+          ),
+          enemyConfig.ordinaryEnemyConfig.size,
+          0,
+          enemyConfig.ordinaryEnemyConfig.moveRadius,
+          squadPosition,
+          new EnemyObjectPhysics(
+            performance.now(),
+            enemyConfig,
+            ordinaryEnemyMovementArr
+          ),
+          new EnemyObjectGraphics(EnemyType.ORDINARY)
+        );
+        enemyCollection.push(enemy);
+        break;
+      case 3:
+        enemy = new SquadPositionedObject(
+          new Vector2(0, enemyConfig.canvasSize.height / 6),
+          enemyConfig.warriorEnemyConfig.size,
+          0,
+          enemyConfig.warriorEnemyConfig.moveRadius,
+          squadPosition,
+          new EnemyObjectPhysics(
+            performance.now(),
+            enemyConfig,
+            interseptorEnemyMovementArr
+          ),
+          new EnemyObjectGraphics(EnemyType.WARRIOR)
+        );
+        enemyCollection.push(enemy);
+        break;
+
+      default:
+        break;
     }
   }
 }
 
 export function enemyFireAction(
   config: EnemyCreateConfigType,
+  sceneEnemyConfig: SceneEnemyCreateConfigType,
   timeMetrics: SceneTimeMetrics,
   enemyBulletCollection: GameObjectCollection
 ) {
@@ -85,7 +195,7 @@ export function enemyFireAction(
     const currentBulletCreateTime = performance.now();
     if (
       currentBulletCreateTime >
-      lastBulletCreateTime + config.bulletCreateDelay
+      lastBulletCreateTime + sceneEnemyConfig.BULLET_CREATE_DELAY
     ) {
       const bullet = createBullet(
         object.position,

@@ -25,7 +25,7 @@ export class Player extends GameObject {
     super.update(dt);
   }
 
-  public setShutAbility(ability: boolean) {
-    this.input.setShutAbility(ability);
+  public setShootAbility(ability: boolean) {
+    this.input.setShootAbility(ability);
   }
 }

@@ -25,12 +25,22 @@ export class Vector2 {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
+  public static distance(vec1: Vector2, vec2: Vector2): number {
+    return Math.sqrt((vec2.x - vec1.x) ** 2 + (vec2.y - vec1.y) ** 2);
+  }
+
   public normalize(): Vector2 {
     const lenght = this.lenght();
     if (lenght === 0) {
       return new Vector2(0, 0);
     }
     return this.divide(lenght);
+  }
+
+  public normalizeToScalarValue(value: number): Vector2 {
+    const max = Math.max(Math.abs(this.x), Math.abs(this.y));
+    const normalizedVector = this.divide(max);
+    return normalizedVector.multiply(value);
   }
 
   /**

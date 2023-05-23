@@ -1,5 +1,6 @@
-import { Fragment, FC } from 'react';
+import { Fragment, FC, useEffect } from 'react';
 import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
+import { startServiceWorker } from './utils/serviceWorkersRegistration';
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
@@ -17,6 +18,10 @@ import ForumPages from './features/forum/pages';
 import GameOver from './features/gameOver/GameOver';
 
 const App: FC = () => {
+  useEffect(() => {
+    startServiceWorker();
+  }, []);
+
   return (
     <Fragment>
       <Provider store={store}>

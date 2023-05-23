@@ -8,7 +8,7 @@ import NavLink from '../../components/NavLink';
 const SignUpPage: FC = () => {
   return (
     <MainPageTemplate>
-      <DataBox width={900} height={650}>
+      <DataBox width={900} height={670}>
         <SignUpForm />
         <NavLink variant="body2" color="white" href="/signin">
           I already have an account

@@ -1,11 +1,14 @@
 import { Vector2 } from '../../../utils/Vector2';
 import { GameObjectComponent } from '../Graphics/Components';
 import { GameObject, EnemyBulletObject } from '../Objects/GameObject';
+import { playerConfig, enemyConfig } from '../../../Config';
+import { SceneManager } from '@/features/game/scenes/SceneManager';
 
 export class PlayerBulletPhysics implements GameObjectComponent {
   public update(playerBulletObject: GameObject, dt: number): void {
     playerBulletObject.position = playerBulletObject.position.add(
-      new Vector2(0, -1000).multiply(dt)
+      // Игрок стреляет вертикально вверх
+      new Vector2(0, -playerConfig.bulletSpeed).multiply(dt)
     );
   }
 }
@@ -17,14 +20,18 @@ export class EnemyBulletPhysics implements GameObjectComponent {
     _: number,
     playerObject: GameObject
   ): void {
-    if (!enemyBulletObject.shuted) {
+    const sceneEnemyConfig = SceneManager.getCurrentSceneEnemyCreateConfig();
+    //Если снаряд не выстрелен, вычисляется направление, и сохраняется
+    if (!enemyBulletObject.shooted) {
+      // Вычисление вектора разницы игрока и врага, для определение направления выстрела, и замедление
       enemyBulletObject.defaultAttackDirection = playerObject.position
         .substract(enemyBulletObject.position)
-        .divide(3);
+        .divide(sceneEnemyConfig.enemyShotDeceleration);
 
-      enemyBulletObject.shuted = true;
+      enemyBulletObject.shooted = true;
     }
 
+    //Если снаряд выстрелен, то обновление происхождит по сохраненному направлению
     enemyBulletObject.position = enemyBulletObject.position.add(
       enemyBulletObject.defaultAttackDirection.multiply(dt)
     );

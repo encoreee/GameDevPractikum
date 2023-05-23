@@ -6,11 +6,13 @@ import { Grid } from '@mui/material';
 import { ValidationScheme } from './SignUpValidationScheme';
 import { omit } from 'lodash';
 
-import FormErrorMessage from '../../components/FormErrorMessage';
+import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '../../components/MainButton';
-import DataFieldLT from '../../components/DataFieldLabelOnTop';
+import FormNotification, {
+  FORM_NOTIFICATION_TYPE,
+} from '../../components/FormNotification';
 
-export const defaultValues = {
+const defaultValues = {
   first_name: '',
   second_name: '',
   email: '',
@@ -21,7 +23,8 @@ export const defaultValues = {
 };
 
 const SignUpForm: FC = () => {
-  const formContext = useForm<typeof defaultValues>();
+  const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
+  const formContext = useForm<typeof defaultValues>({ defaultValues });
   const passwordValue = useWatch<typeof defaultValues>({
     name: 'password',
     control: formContext.control,
@@ -54,51 +57,61 @@ const SignUpForm: FC = () => {
         rowSpacing={1}
         width="860px">
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="name"
             name="first_name"
-            autofocus
+            autoFocus
+            variant={variant}
             validation={ValidationScheme.name}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="surname"
             name="second_name"
+            variant={variant}
             validation={ValidationScheme.surname}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="email"
             type="email"
+            variant={variant}
             validation={{
               required: true,
             }}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="phone number"
             name="phone"
+            variant={variant}
             validation={ValidationScheme.phoneNumber}
           />
         </Grid>
         <Grid item xs={12}>
-          <DataFieldLT label="login" validation={ValidationScheme.login} />
+          <DataField
+            label="login"
+            variant={variant}
+            validation={ValidationScheme.login}
+          />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="password"
             type="password"
+            variant={variant}
             validation={ValidationScheme.password}
           />
         </Grid>
         <Grid item xs={6}>
-          <DataFieldLT
+          <DataField
             label="repeat password"
             type="password"
             name="repeatPassword"
+            variant={variant}
             validation={{
               required: true,
               validate: {
@@ -109,7 +122,11 @@ const SignUpForm: FC = () => {
           />
         </Grid>
       </Grid>
-      <FormErrorMessage maxWidth="830px" errorMessage={signUpError} />
+      <FormNotification
+        maxWidth="830px"
+        text={signUpError}
+        type={FORM_NOTIFICATION_TYPE.ERROR}
+      />
       <MainButton label="Sign up" type="submit" />
     </FormContainer>
   );

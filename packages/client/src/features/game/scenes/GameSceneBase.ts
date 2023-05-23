@@ -6,12 +6,14 @@ import {
   SceneReferenceMetrics,
   SceneTimeMetrics,
 } from './SceneInterface';
-import { enemyConfig, playerConfig, canvasSize } from '../Config';
-import { getRandomInt } from '../utils/Math';
+import {
+  SceneEnemyCreateConfigType,
+  enemyConfig,
+  playerConfig,
+} from '../Config';
 import { PlayerProfile } from '../GamePage';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { createPlayer, createPlayerLives } from './SceneUtils/PlayerUtils';
-import { createEnemy, enemyFireAction } from './SceneUtils/EnemyUtils';
 import { delay } from './SceneUtils/TimeUtils';
 import {
   ExplosionObjectType,
@@ -23,18 +25,26 @@ import { Player } from '../game-object/components/Objects/Player';
 import { ReferenceObject } from '../game-object/components/Objects/ReferenceObject';
 import { Vector2 } from '../utils/Vector2';
 import { ExplosionObject } from '../game-object/components/Objects/GameObject';
+import Audio, { AUDIO_IDS } from '@/features/Audio';
 
-export class GameSceneLevel2 implements SceneInterface {
+export class GameSceneBase implements SceneInterface {
   private readonly player: Player;
   private readonly playerBulletCollection = new GameObjectCollection();
-  private readonly enemyBulletCollection = new GameObjectCollection();
-  private readonly enemyCollection = new GameObjectCollection();
   private readonly playerLivesCollection = new GameObjectCollection();
-  private readonly explosionCollection =
-    new GameObjectCollection<ExplosionObject>();
   private readonly playerPoints: ReferenceObject;
   private levelLabel?: ReferenceObject;
-  private timeMetrics: SceneTimeMetrics = {
+
+  private readonly explosionCollection =
+    new GameObjectCollection<ExplosionObject>();
+
+  // необходимо переопределить
+  public referenceMetrics: SceneReferenceMetrics = {
+    levelLabel: 'Base label',
+  };
+
+  public readonly enemyBulletCollection = new GameObjectCollection();
+  public readonly enemyCollection = new GameObjectCollection();
+  public timeMetrics: SceneTimeMetrics = {
     startDelay: 0,
     canStart: false,
     absoluteTime: 0,
@@ -42,24 +52,22 @@ export class GameSceneLevel2 implements SceneInterface {
     lastEnemyCreateTime: 0,
     lastEnemyKillTime: 0,
   };
-  private enemyMetrics: SceneEnemyMetrics = {
-    currentRow: 0,
+  public enemyMetrics: SceneEnemyMetrics = {
+    currentRow: 1,
     startX: 0,
     startY: 0,
     enemiesSquadCount: 0,
     enemiesWaveCount: 0,
     currentEnemiesWave: 0,
-  };
-
-  private referenceMetrics: SceneReferenceMetrics = {
-    levelLabel: 'Level 2',
+    enemiesKilled: 0,
   };
 
   constructor(
     private readonly keyboard: KeyboardController,
     private endGameCallback: () => void,
     private selectNextSceneCallBack: () => void,
-    private readonly profile: PlayerProfile
+    private readonly profile: PlayerProfile,
+    public sceneEnemyConfig: SceneEnemyCreateConfigType
   ) {
     this.profile = profile;
     this.player = createPlayer(
@@ -68,26 +76,40 @@ export class GameSceneLevel2 implements SceneInterface {
       this.playerBulletCollection
     );
     this.playerPoints = createPlayerPoint(this.profile);
-    this.levelLabel = createLabel(this.referenceMetrics.levelLabel, canvasSize);
+    this.levelLabel = createLabel(this.referenceMetrics.levelLabel);
   }
+  /**
+   * Метод отвечающий за инициализацию начальных метрик уровня, таких как расположение врагов
+   * @returns
+   */
+  protected metricsInit() {
+    //К имплементированию в уровнях
+    return;
+  }
+
+  /**
+   * Метод создания врагов в процессе игры и определение логики их выстрелов
+   * @returns
+   */
+  protected sceneEnemyAction() {
+    //К имплементированию в уровнях
+    return;
+  }
+
+  //Метод инициализации сцены, вызывается снаружи, не подледжит изменению
   public init(): void {
-    this.enemyMetrics.startX =
-      (enemyConfig.canvasSize.width +
-        enemyConfig.size.width / 2 -
-        enemyConfig.size.width * enemyConfig.numberPerRow -
-        enemyConfig.gap * enemyConfig.numberPerRow -
-        1) /
-      2;
-    this.enemyMetrics.startY = enemyConfig.paddingTop;
-    this.timeMetrics.startDelay = performance.now();
+    this.metricsInit();
 
     createPlayerLives(
       this.playerLivesCollection,
       playerConfig,
       this.profile.lives
     );
+    Audio.stopAll();
+    Audio.play(AUDIO_IDS.gameTheme, { loop: true });
   }
 
+  //Метод обновления сцены, вызывается снаружи, не подледжит изменению
   public update(dt: number): void {
     this.player.update(dt);
     if (this.levelLabel) {
@@ -101,27 +123,11 @@ export class GameSceneLevel2 implements SceneInterface {
 
     if (this.timeMetrics.canStart && this.levelLabel) {
       this.levelLabel = undefined;
-      this.player.setShutAbility(true);
+      this.player.setShootAbility(true);
     }
 
     this.timeMetrics.absoluteTime = performance.now();
-
-    if (this.enemyMetrics.enemiesSquadCount < enemyConfig.numberEnemy) {
-      this.tryCreateEnemy(this.enemyMetrics.enemiesSquadCount)(
-        this.timeMetrics.lastEnemyCreateTime,
-        this.timeMetrics.lastEnemyKillTime
-      );
-    }
-
-    const selectEnemyToAttack = getRandomInt(this.enemyCollection.count());
-    const enemyToAttack = this.enemyCollection.getObject(selectEnemyToAttack);
-    if (enemyToAttack) {
-      enemyFireAction(
-        enemyConfig,
-        this.timeMetrics,
-        this.enemyBulletCollection
-      )(enemyToAttack, this.timeMetrics.lastAttackCreateTime);
-    }
+    this.sceneEnemyAction();
 
     this.enemyBulletCollection.forEachFromEnd((bullet, index) => {
       if (bullet.collideWithWall(Canvas.size())) {
@@ -175,21 +181,9 @@ export class GameSceneLevel2 implements SceneInterface {
           );
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);
-
-          this.profile.points += 100;
+          this.profile.points += enemyConfig.enemyPoints.defaultPointsValue;
+          this.enemyMetrics.enemiesKilled++;
           this.playerPoints.update(dt, this.profile.points.toString());
-          if (this.enemyCollection.count() === 0) {
-            if (this.enemyMetrics.enemiesWaveCount < 2) {
-              this.enemyMetrics.enemiesSquadCount = 0;
-              this.enemyMetrics.currentRow = 1;
-              this.enemyMetrics.enemiesWaveCount++;
-              this.timeMetrics.lastEnemyKillTime = performance.now();
-            } else {
-              this.enemyBulletCollection.erase();
-              this.playerBulletCollection.erase();
-              this.selectNextSceneCallBack();
-            }
-          }
         }
       });
 
@@ -201,8 +195,30 @@ export class GameSceneLevel2 implements SceneInterface {
         this.explosionCollection.delete(index);
       }
     });
+
+    if (
+      this.enemyCollection.count() === 0 &&
+      this.enemyMetrics.enemiesKilled === this.sceneEnemyConfig.numberEnemy
+    ) {
+      // обработка окончания сцены, сброс метрик
+      if (
+        this.enemyMetrics.enemiesWaveCount <
+        this.sceneEnemyConfig.enemiesWaveCount - 1
+      ) {
+        this.enemyMetrics.enemiesSquadCount = 0;
+        this.enemyMetrics.currentRow = 1;
+        this.enemyMetrics.enemiesWaveCount++;
+        this.enemyMetrics.enemiesKilled = 0;
+        this.timeMetrics.lastEnemyKillTime = performance.now();
+      } else {
+        this.enemyBulletCollection.erase();
+        this.playerBulletCollection.erase();
+        this.selectNextSceneCallBack();
+      }
+    }
   }
 
+  //Метод рендеринга сцены, вызывается снаружи, не подледжит изменению
   public render(dt: number): void {
     if (this.levelLabel) {
       this.levelLabel.render(dt);
@@ -222,69 +238,5 @@ export class GameSceneLevel2 implements SceneInterface {
     this.playerLivesCollection.forEachFromEnd((live) => {
       live.render(dt);
     });
-  }
-
-  public tryCreateEnemy(index: number) {
-    return (lastEnemyCreateTime: number, lastEnemyKillTime: number) => {
-      const currentEnemyCreateTime = performance.now();
-      const squadRow = Math.floor(index / enemyConfig.numberPerRow) + 1;
-      if (
-        this.enemyMetrics.enemiesWaveCount ===
-        this.enemyMetrics.currentEnemiesWave
-      ) {
-        if (this.enemyMetrics.currentRow === squadRow) {
-          if (
-            currentEnemyCreateTime >
-            lastEnemyCreateTime + enemyConfig.enemyCreateDelay
-          ) {
-            createEnemy(
-              this.enemyCollection,
-              enemyConfig,
-              this.enemyMetrics.startX,
-              this.enemyMetrics.startY,
-              300,
-              index
-            );
-            this.timeMetrics.lastEnemyCreateTime = currentEnemyCreateTime;
-            this.enemyMetrics.enemiesSquadCount++;
-          }
-        } else {
-          if (
-            currentEnemyCreateTime >
-            lastEnemyCreateTime + enemyConfig.enemyRowCreateDelay
-          ) {
-            createEnemy(
-              this.enemyCollection,
-              enemyConfig,
-              this.enemyMetrics.startX,
-              this.enemyMetrics.startY,
-              400,
-              index
-            );
-            this.timeMetrics.lastEnemyCreateTime = currentEnemyCreateTime;
-            this.enemyMetrics.enemiesSquadCount++;
-            this.enemyMetrics.currentRow = squadRow;
-          }
-        }
-      } else {
-        if (
-          currentEnemyCreateTime >
-          lastEnemyKillTime + enemyConfig.enemyWaveCreateDelay
-        ) {
-          createEnemy(
-            this.enemyCollection,
-            enemyConfig,
-            this.enemyMetrics.startX,
-            this.enemyMetrics.startY,
-            300,
-            index
-          );
-          this.timeMetrics.lastEnemyCreateTime = currentEnemyCreateTime;
-          this.enemyMetrics.enemiesSquadCount++;
-          this.enemyMetrics.currentEnemiesWave =
-            this.enemyMetrics.enemiesWaveCount;
-        }
-      }
-    };
   }
 }

@@ -63,7 +63,7 @@ export class ExplosionObject extends GameObject {
 }
 
 export class EnemyBulletObject extends GameObject {
-  public shuted = false;
+  public shooted = false;
   public defaultAttackDirection = new Vector2(0, 250);
   constructor(
     public position: Vector2,
@@ -76,6 +76,7 @@ export class EnemyBulletObject extends GameObject {
 }
 
 export class CircleMovementObject extends GameObject {
+  public endAngle: number;
   constructor(
     public position: Vector2,
     public readonly size: Size,
@@ -86,6 +87,7 @@ export class CircleMovementObject extends GameObject {
   ) {
     super(position, size, physics, graphics);
     this.currentAngle = currentAngle;
+    this.endAngle = currentAngle;
     this.radius = radius;
   }
 }
@@ -95,6 +97,7 @@ export class SquadPositionedObject extends CircleMovementObject {
     public position: Vector2,
     public readonly size: Size,
     public currentAngle: number,
+
     public radius: number,
     public squadPosition: Vector2,
     protected readonly physics: GameObjectComponent,

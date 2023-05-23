@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'url';
+
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import stylelint from 'vite-plugin-stylelint';
@@ -30,6 +31,22 @@ export default defineConfig(() => ({
   },
   define: {
     __SERVER_PORT__: process.env.SERVER_PORT,
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        app: './index.html',
+        networkCacheServiceWorker:
+          './src/infrastructure/networkCacheServiceWorker.ts',
+      },
+      output: {
+        // 2️⃣
+        entryFileNames: '[name].js',
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`,
+      },
+    },
+    chunkSizeWarningLimit: 1000,
   },
   plugins: [
     svgr(),

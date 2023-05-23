@@ -1,4 +1,3 @@
-import { PlayerProfile } from '../../GamePage';
 import { ReferenceObjectAction } from '../../game-object/components/Physics/ReferenceObjectAction';
 import { ReferenceObjectGraphics } from '../../game-object/components/Graphics/ReferenceObjectGraphics';
 import { Vector2 } from '../../utils/Vector2';
@@ -10,6 +9,7 @@ import { PlayerExplosionObjectGraphics } from '../../game-object/components/Grap
 import Audio, { AUDIO_IDS } from '@/features/Audio';
 import { enemyExplosionConfig } from '../../Config';
 import { labelsConfig } from '../../Config';
+import { PlayerProfile } from './PlayerUtils';
 
 export function createPlayerPoint(profile: PlayerProfile): ReferenceObject {
   return new ReferenceObject(

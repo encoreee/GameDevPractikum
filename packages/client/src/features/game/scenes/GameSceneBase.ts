@@ -11,7 +11,7 @@ import {
   enemyConfig,
   playerConfig,
 } from '../Config';
-import { PlayerProfile } from '../GamePage';
+import { PlayerProfile } from '../scenes/SceneUtils/PlayerUtils';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { createPlayer, createPlayerLives } from './SceneUtils/PlayerUtils';
 import { delay } from './SceneUtils/TimeUtils';

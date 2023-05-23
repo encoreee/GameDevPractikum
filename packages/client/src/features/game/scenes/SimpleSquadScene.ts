@@ -1,10 +1,10 @@
 import { KeyboardController } from '../core/KeyboardController';
 import { SceneInterface } from './SceneInterface';
 import { SceneEnemyCreateConfigType, enemyConfig } from '../Config';
-import { PlayerProfile } from '../GamePage';
 import { GameSceneBase } from './GameSceneBase';
 import { enemyFireAction, tryCreateEnemy } from './SceneUtils/EnemyUtils';
 import { getRandomInt } from '../utils/Math';
+import { PlayerProfile } from './SceneUtils/PlayerUtils';
 
 export class SimpleSquadScene extends GameSceneBase implements SceneInterface {
   constructor(

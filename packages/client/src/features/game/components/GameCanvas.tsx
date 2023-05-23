@@ -4,6 +4,9 @@ import { canvasSize, KEY_BINDINGS } from '../Config';
 import { GalagaGame } from '../GalagaGame';
 import { useToggleFullScreen } from '../hooks/useToggleFullscreen';
 import { Canvas as EngineCanvas } from '../core/Canvas';
+import { playerConfig } from '../Config';
+import Audio from '@features/Audio';
+import { PlayerProfile } from '../scenes/SceneUtils/PlayerUtils';
 
 const Canvas = styled.canvas`
   border: 1px solid silver;
@@ -17,7 +20,13 @@ const CanvasWrapper = styled.div`
   padding: 2rem;
 `;
 
-const galaga = new GalagaGame();
+const dummy: PlayerProfile = {
+  displayName: 'Alex',
+  points: 0,
+  lives: playerConfig.playerLives.lives,
+};
+
+const galaga = new GalagaGame(dummy);
 
 const GameCanvas: React.FC = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -34,6 +43,7 @@ const GameCanvas: React.FC = () => {
     return () => {
       document.removeEventListener('keydown', onKeyDownHandler);
       document.removeEventListener('keyup', onKeyUpHandler);
+      Audio.stopAll();
     };
   }, [canvas]);
 

@@ -11,6 +11,12 @@ import { GameObjectPhysics } from '../../game-object/components/Physics/GameObje
 import { PlayerObjectGraphics } from '../../game-object/components/Graphics/PlayerObjectGraphics';
 import Audio, { AUDIO_IDS } from '@/features/Audio';
 
+export type PlayerProfile = {
+  displayName: string;
+  points: number;
+  lives: number;
+};
+
 export function createPlayerLives(
   livesCollection: GameObjectCollection,
   config: PlayerCreateConfigType,

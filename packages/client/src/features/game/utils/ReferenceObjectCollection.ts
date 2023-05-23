@@ -1,10 +1,7 @@
-import { GameObject } from '../game-object/components/Objects/GameObject';
+import { ReferenceObject } from '../game-object/components/Objects/ReferenceObject';
 
-export class GameObjectCollection<T extends GameObject = GameObject> {
-  private cancelationToken;
-  constructor(private collection: T[] = []) {
-    this.cancelationToken = false;
-  }
+export class ReferenceObjectCollection<T extends ReferenceObject> {
+  constructor(private collection: T[] = []) {}
 
   public push(...items: T[]) {
     this.collection.push(...items);
@@ -12,10 +9,6 @@ export class GameObjectCollection<T extends GameObject = GameObject> {
 
   public delete(index: number) {
     this.collection.splice(index, 1);
-  }
-
-  public erase() {
-    this.collection.splice(0, this.collection.length);
   }
 
   public getObject(index: number): T {
@@ -31,10 +24,6 @@ export class GameObjectCollection<T extends GameObject = GameObject> {
     return this.collection.length;
   }
 
-  public stopIterate(): void {
-    this.cancelationToken = true;
-  }
-
   /**
    * Iterate over an array of elements from the end
    */
@@ -42,10 +31,6 @@ export class GameObjectCollection<T extends GameObject = GameObject> {
     const lastIndex = this.collection.length - 1;
     for (let i = lastIndex; i >= 0; i--) {
       callback(this.collection[i], i);
-      if (this.cancelationToken) {
-        break;
-      }
     }
-    this.cancelationToken = false;
   }
 }

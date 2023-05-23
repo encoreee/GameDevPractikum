@@ -3,6 +3,7 @@ import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { canvasSize } from './Config';
 import { Canvas } from './core/Canvas';
 import { GalagaGame } from './GalagaGame';
+import { playerConfig } from '../game/Config';
 
 const styles: React.CSSProperties = {
   border: '1px solid silver',
@@ -11,7 +12,19 @@ const styles: React.CSSProperties = {
   marginTop: '2rem',
 };
 
-const galaga = new GalagaGame();
+export type PlayerProfile = {
+  displayName: string;
+  points: number;
+  lives: number;
+};
+
+const dummy: PlayerProfile = {
+  displayName: 'Alex',
+  points: 0,
+  lives: playerConfig.playerLives.lives,
+};
+
+const galaga = new GalagaGame(dummy);
 
 const GamePage: FunctionComponent = () => {
   const canvas = useRef<HTMLCanvasElement>(null);

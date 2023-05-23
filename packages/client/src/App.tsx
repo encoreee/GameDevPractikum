@@ -1,23 +1,21 @@
 import { Fragment, FC, useEffect } from 'react';
 import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
 import { startServiceWorker } from './utils/serviceWorkersRegistration';
-
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
 import { store } from './app/store';
-
+import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
+import GamePage from './features/game/GamePage';
 import Error from './features/errors/Error';
 import PrivateRoute from './components/PrivateRouter';
 import HomePage from './features/homepage/Homepage';
 import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
-import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
-import ForumPages from '@features/forum/pages';
-import GamePage from './features/game/GamePage';
 import GameStartPage from './features/gameStart/GameStartPage';
-import GameOver from '@features/gameOver/GameOver';
+import ForumPages from './features/forum/pages';
+import GameOver from './features/gameOver/GameOver';
 
 const App: FC = () => {
   useEffect(() => {

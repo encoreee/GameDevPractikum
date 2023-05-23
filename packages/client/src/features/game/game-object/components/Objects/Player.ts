@@ -1,18 +1,19 @@
-import { Vector2 } from '../utils/Vector2';
+import { Vector2 } from '@/features/game/utils/Vector2';
 import {
-  GameObject,
   GameObjectComponent,
   GraphicComponent,
   Size,
-} from './GameObject';
+} from '../Graphics/Components';
+import { GameObject } from './GameObject';
+import { PlayerInput } from '../Graphics/PlayerInput';
 
 export class Player extends GameObject {
-  private readonly input: GameObjectComponent;
+  private readonly input: PlayerInput;
 
   constructor(
     position: Vector2,
     size: Size,
-    input: GameObjectComponent,
+    input: PlayerInput,
     physics: GameObjectComponent,
     graphics: GraphicComponent
   ) {
@@ -22,5 +23,9 @@ export class Player extends GameObject {
   public update(dt: number): void {
     this.input.update(this, dt);
     super.update(dt);
+  }
+
+  public setShootAbility(ability: boolean) {
+    this.input.setShootAbility(ability);
   }
 }

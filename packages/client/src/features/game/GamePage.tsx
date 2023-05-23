@@ -4,6 +4,7 @@ import { canvasSize } from './Config';
 import { Canvas } from './core/Canvas';
 import { GalagaGame } from './GalagaGame';
 import { playerConfig } from '../game/Config';
+import { useNavigate } from 'react-router-dom';
 
 const styles: React.CSSProperties = {
   border: '1px solid silver',
@@ -29,6 +30,14 @@ const galaga = new GalagaGame(dummy);
 const GamePage: FunctionComponent = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
 
+  const navigate = useNavigate();
+
+  const onEndGame = () => {
+    navigate('/game-over');
+    // console.log('/game-over');
+  };
+  galaga.onendgame = onEndGame;
+
   useEffect(() => {
     document.addEventListener('keydown', onKeyDownHandler);
     document.addEventListener('keyup', onKeyUpHandler);
@@ -38,8 +47,11 @@ const GamePage: FunctionComponent = () => {
       galaga.init();
     }
 
+    console.log(galaga);
+
     return () => {
       document.removeEventListener('keydown', onKeyDownHandler);
+
       document.removeEventListener('keyup', onKeyUpHandler);
     };
   }, [canvas]);

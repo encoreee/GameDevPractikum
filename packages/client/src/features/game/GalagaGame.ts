@@ -8,8 +8,8 @@ export class GalagaGame {
   public readonly keyboard: KeyboardController = new KeyboardController();
   private readonly gameloop: GameLoop;
   private readonly profile: PlayerProfile;
-
   private readonly sceneManager: SceneManager;
+  public onendgame?: () => void;
 
   constructor(profile: PlayerProfile) {
     this.gameloop = new GameLoop(
@@ -17,7 +17,7 @@ export class GalagaGame {
       this.render.bind(this)
     );
     this.profile = profile;
-    this.sceneManager = new SceneManager(this.profile);
+    this.sceneManager = new SceneManager(this.profile, this.end.bind(this));
   }
 
   public init(): void {
@@ -39,5 +39,11 @@ export class GalagaGame {
     );
 
     this.sceneManager.render(dt);
+  }
+
+  private end(): void {
+    if (this.onendgame) {
+      this.onendgame();
+    }
   }
 }

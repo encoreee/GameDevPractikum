@@ -56,13 +56,16 @@ export class SceneManager {
   private static end: boolean;
   private static currentSceneIndex = 1;
   private static profile: PlayerProfile;
+  private static onEndCallBack: () => void;
 
-  constructor(profile: PlayerProfile) {
+  constructor(profile: PlayerProfile, onEndCallback: () => void) {
     SceneManager.profile = profile;
+    SceneManager.onEndCallBack = onEndCallback;
   }
 
   private static endCallBack(): void {
     SceneManager.end = true;
+    SceneManager.onEndCallBack();
   }
   public static getCurrentSceneEnemyCreateConfig(): SceneEnemyCreateConfigType {
     return sceneCollection[this.currentSceneIndex - 1];

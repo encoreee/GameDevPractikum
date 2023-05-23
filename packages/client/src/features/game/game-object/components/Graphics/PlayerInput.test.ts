@@ -1,6 +1,7 @@
-import { ActionFlagType } from '../../core/KeyboardController';
-import { Vector2 } from '../../utils/Vector2';
-import { GameObject, Size } from '../GameObject';
+import { ActionFlagType } from '@/features/game/core/KeyboardController';
+import { Vector2 } from '@/features/game/utils/Vector2';
+import { GameObject } from '../Objects/GameObject';
+import { Size } from './Components';
 import { PlayerInput } from './PlayerInput';
 
 describe('PlayerInput component', () => {
@@ -49,9 +50,16 @@ describe('PlayerInput component', () => {
     expect(gameObjectMock.position).toStrictEqual(new Vector2(-speed, 0));
   });
 
-  it('player fire action', () => {
+  it('player fire action and canShoot === true', () => {
     actionFlagMock.FIRE = true;
+    input.setShootAbility(true);
     input.update(gameObjectMock as GameObject, 1);
     expect(fireCallbackMock).toBeCalled();
+  });
+
+  it('player fire action, canShoot === false', () => {
+    actionFlagMock.FIRE = true;
+    input.update(gameObjectMock as GameObject, 1);
+    expect(fireCallbackMock).not.toBeCalled();
   });
 });

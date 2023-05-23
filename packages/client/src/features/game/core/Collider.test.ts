@@ -1,4 +1,5 @@
-import { GameObject, Size } from '../game-object/GameObject';
+import { Size } from '../game-object/components/Graphics/Components';
+import { GameObject } from '../game-object/components/Objects/GameObject';
 import { Vector2 } from '../utils/Vector2';
 import { Collider } from './Collider';
 

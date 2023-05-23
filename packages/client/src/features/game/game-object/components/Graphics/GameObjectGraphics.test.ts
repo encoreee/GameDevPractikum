@@ -1,7 +1,7 @@
 import { setupJestCanvasMock } from 'jest-canvas-mock';
-import { Canvas } from '../../core/Canvas';
-import { Vector2 } from '../../utils/Vector2';
-import { GameObject } from '../GameObject';
+import { Canvas } from '../../../core/Canvas';
+import { Vector2 } from '../../../utils/Vector2';
+import { GameObject } from '../Objects/GameObject';
 import { GameObjectGraphics } from './GameObjectGraphics';
 
 describe('GameObjectGraphics component', () => {

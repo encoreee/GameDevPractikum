@@ -3,6 +3,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import { styled } from '@mui/system';
 
 import Background from '../assets/background.png'; // Import using relative path
+import { SoundSwitch } from './SoundSwitch';
 
 const Container = styled('div')({
   height: '100vh',
@@ -28,6 +29,7 @@ const EmptyMainPageTemplate: FunctionComponent<PropsWithChildren> = (props) => {
           {props.children}
         </Stack>
       </Box>
+      <SoundSwitch />
     </Container>
   );
 };

@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Typography, List, ListItem } from '@mui/material';
 
 import MainPageTemplate from '@/components/MainPageTemplate';
 
 import mainShipFullHealth from '../../assets/mainShipFullHealth.svg';
 import NavLink from '../../components/NavLink';
+import Audio, { AUDIO_IDS } from '@/features/Audio';
 
 const styles = {
   listItem: {
@@ -35,10 +36,18 @@ const styles = {
 };
 
 const HomePage: FC = () => {
+  const handleMouseEnter = () => Audio.play(AUDIO_IDS.Jump);
+  useEffect(() => {
+    Audio.stopAll();
+    Audio.play(AUDIO_IDS.mainTheme, { loop: true });
+    return () => {
+      Audio.stopAll();
+    };
+  }, []);
   return (
     <MainPageTemplate>
       <List sx={styles.listContainer}>
-        <ListItem sx={styles.listItem}>
+        <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <NavLink href="/start" sx={styles.link} underline="none" variant="h1">
             <Typography>Start game</Typography>
           </NavLink>
@@ -52,7 +61,7 @@ const HomePage: FC = () => {
             <Typography>leader board</Typography>
           </NavLink>
         </ListItem>
-        <ListItem sx={styles.listItem}>
+        <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <NavLink
             href="/profile"
             sx={styles.link}
@@ -61,12 +70,12 @@ const HomePage: FC = () => {
             <Typography>profile</Typography>
           </NavLink>
         </ListItem>
-        <ListItem sx={styles.listItem}>
+        <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <NavLink href="/forum" sx={styles.link} underline="none" variant="h1">
             <Typography>forums</Typography>
           </NavLink>
         </ListItem>
-        <ListItem sx={styles.listItem}>
+        <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <Typography>log out</Typography>
         </ListItem>
       </List>

@@ -36,9 +36,11 @@ export class GameSceneBase implements SceneInterface {
   private readonly explosionCollection =
     new GameObjectCollection<ExplosionObject>();
 
+  // необходимо переопределить
   public referenceMetrics: SceneReferenceMetrics = {
     levelLabel: 'Base label',
   };
+
   public readonly enemyBulletCollection = new GameObjectCollection();
   public readonly enemyCollection = new GameObjectCollection();
   public timeMetrics: SceneTimeMetrics = {
@@ -195,7 +197,7 @@ export class GameSceneBase implements SceneInterface {
       this.enemyCollection.count() === 0 &&
       this.enemyMetrics.enemiesKilled === this.sceneEnemyConfig.numberEnemy
     ) {
-      // обработка окончания сцены, сброс мет
+      // обработка окончания сцены, сброс метрик
       if (
         this.enemyMetrics.enemiesWaveCount <
         this.sceneEnemyConfig.enemiesWaveCount - 1

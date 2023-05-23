@@ -161,6 +161,10 @@ export const enemyConfig: EnemyCreateConfigType = {
   enemyPoints: { defaultPointsValue: 100 },
 };
 
+export const KEY_BINDINGS = {
+  fullScreen: 'f',
+} as const;
+
 export const ordinaryEnemyMovementArr: EnemyMovement[] = [
   {
     type: MovementTypes.LINEAR,

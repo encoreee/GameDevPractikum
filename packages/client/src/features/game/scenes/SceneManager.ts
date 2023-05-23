@@ -1,8 +1,8 @@
-import { PlayerProfile } from '../GamePage';
 import { KeyboardController } from '../core/KeyboardController';
 import { SimpleSquadScene } from './SimpleSquadScene';
 import { SceneInterface } from './SceneInterface';
 import { SceneEnemyCreateConfigType } from '../Config';
+import { PlayerProfile } from './SceneUtils/PlayerUtils';
 
 export enum SceneName {
   LEVEL1 = 'level1',

@@ -21,15 +21,6 @@ export class AuthController {
       return err instanceof Error ? err.message : AppMessage.UNKNOWN_API_ERROR;
     }
   }
-
-  public async getUserInfo() {
-    try {
-      const user = await AuthAPI.getUserInfo();
-      return user;
-    } catch (err) {
-      return undefined;
-    }
-  }
 }
 
 export default new AuthController();

@@ -1,23 +1,27 @@
-import { Fragment, FC } from 'react';
+import { Fragment, FC, useEffect } from 'react';
 import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
-
+import { startServiceWorker } from './utils/serviceWorkersRegistration';
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import { theme } from './theme/theme';
 import { store } from './app/store';
-
+import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
+import GamePage from './features/game/GamePage';
 import Error from './features/errors/Error';
 import PrivateRoute from './components/PrivateRouter';
 import HomePage from './features/homepage/Homepage';
 import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/SignInPage';
 import SignUpPage from './features/auth/SignUpPage';
-import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
-import ForumPages from '@features/forum/pages';
-import GamePage from './features/game/GamePage';
 import GameStartPage from './features/gameStart/GameStartPage';
+import ForumPages from './features/forum/pages';
+import GameOver from './features/gameOver/GameOver';
 
 const App: FC = () => {
+  useEffect(() => {
+    startServiceWorker();
+  }, []);
+
   return (
     <Fragment>
       <Provider store={store}>
@@ -36,6 +40,7 @@ const App: FC = () => {
                 <Route path="/game" element={<GamePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forum/*" element={<ForumPages />} />
+                <Route path="/game-over" element={<GameOver />} />
                 <Route path="/leaderboard" element={<LeaderBoardPage />} />
                 <Route path="/signin" element={<></>} />
                 <Route path="/signup" element={<SignUpPage />} />

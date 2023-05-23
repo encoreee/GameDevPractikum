@@ -1,16 +1,18 @@
 import { useRef, useEffect } from 'react';
 
 /**
- * FullScreen hook. Toggle full screen `div` element. Must be bound to the `ref` of the required div element
- * @param key `typeof KeyboardEvent.key`
- * @returns HTMLDivElement
+ * FullScreen hook. Toggle full screen `div` element. Retuned value must be bound to the `ref` attribute of the required div element
+ * @param key is `typeof KeyboardEvent.key`
+ * @returns value element must be bound with `ref` attribute div element
  */
 export const useToggleFullScreen = (key: string) => {
   const element = useRef<HTMLDivElement>(null);
 
   const toggleFullScreen = async () => {
     if (element.current === null) {
-      throw new Error('Element is not defined');
+      throw new Error(
+        'Full Screen Element is not defined. Check the returned value is bound with ref'
+      );
     }
     if (!document.fullscreenElement) {
       await element.current.requestFullscreen();

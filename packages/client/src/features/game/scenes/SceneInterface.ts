@@ -14,6 +14,7 @@ export type SceneEnemyMetrics = {
   enemiesSquadCount: number;
   enemiesWaveCount: number;
   currentEnemiesWave: number;
+  enemiesKilled: number;
 };
 export type SceneReferenceMetrics = {
   levelLabel: string;

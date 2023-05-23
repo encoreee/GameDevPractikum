@@ -12,9 +12,15 @@ export class SimpleSquadScene extends GameSceneBase implements SceneInterface {
     endGameCallback: () => void,
     selectNextSceneCallBack: () => void,
     profile: PlayerProfile,
-    private sceneEnemyConfig: SceneEnemyCreateConfigType
+    sceneEnemyConfig: SceneEnemyCreateConfigType
   ) {
-    super(keyboard, endGameCallback, selectNextSceneCallBack, profile);
+    super(
+      keyboard,
+      endGameCallback,
+      selectNextSceneCallBack,
+      profile,
+      sceneEnemyConfig
+    );
     this.referenceMetrics.levelLabel = sceneEnemyConfig.levelLabel;
   }
 
@@ -51,6 +57,7 @@ export class SimpleSquadScene extends GameSceneBase implements SceneInterface {
     if (enemyToAttack) {
       enemyFireAction(
         enemyConfig,
+        this.sceneEnemyConfig,
         this.timeMetrics,
         this.enemyBulletCollection
       )(enemyToAttack, this.timeMetrics.lastAttackCreateTime);

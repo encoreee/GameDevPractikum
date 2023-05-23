@@ -14,13 +14,22 @@ export type PlayerCreateConfigType = {
   bulletSpeed: number;
   paddingBottom: number;
   speed: number;
-  playerLives: PlayerLivesConfig;
+  playerLives: PlayerLivesConfigType;
 };
 
-export type PlayerLivesConfig = {
+export type PlayerLivesConfigType = {
   lives: number;
   gap: number;
   size: Size;
+};
+
+export type LabelsConfigType = {
+  pointPosition: Vector2;
+  mainLabelPosition: Vector2;
+  pointFontSize: number;
+  mainLabelFontSize: number;
+  pointsLabelColor: string;
+  mainLabelColor: string;
 };
 
 export type EnemyConfigType = {
@@ -31,9 +40,14 @@ export type EnemyConfigType = {
 export type SceneEnemyCreateConfigType = {
   numberPerRow: number;
   numberEnemy: number;
+  enemiesWaveCount: number;
   gap: number;
   enemyShotDeceleration: number;
   levelLabel: string;
+  BULLET_CREATE_DELAY: number;
+  ENEMY_CREATE_DELAY: number;
+  ENEMY_ROW_CREATE_DELAY: number;
+  ENEMY_WAVE_CREATE_DELAY: number;
 };
 
 export type EnemyCreateConfigType = {
@@ -43,28 +57,30 @@ export type EnemyCreateConfigType = {
   canvasSize: Size;
   paddingTop: number;
   bulletSize: Size;
-  BULLET_CREATE_DELAY: number;
-  ENEMY_CREATE_DELAY: number;
-  ENEMY_ROW_CREATE_DELAY: number;
-  ENEMY_WAVE_CREATE_DELAY: number;
   enemyPhisicsConfig: EnemyPhysicsConfigType;
   enemyPoints: EnemyPointsConfigType;
 };
 
 export type EnemyPhysicsConfigType = {
   // Скорости движения по умолчанию для направлений
-
   DEFAULT_SPEED: number;
+  // Приращение угла по умолчанию
   DEFAULT_ANGLE_INCREMENT: number;
   //Eсли расстояние меньше указанного то, скорость устанавливается в DEFAULT_POSIOTION_EXIT_SPEED
   POSITION_EXIT_SPEED_BARRIER: number;
   //Скорость выхода на позицию в матрице расположения
   DEFAULT_POSIOTION_EXIT_SPEED: number;
+  //Точность сближения врага с целевой позицией
   DISTANCE_PRESICION: number;
 };
 
 export type EnemyPointsConfigType = {
   defaultPointsValue: number;
+};
+
+export type enemyExplosionConfigType = {
+  size: Size;
+  exposionDelay: number;
 };
 
 export const canvasSize: Size = {
@@ -96,6 +112,26 @@ export const playerConfig: PlayerCreateConfigType = {
   },
 };
 
+export const enemyExplosionConfig: enemyExplosionConfigType = {
+  size: {
+    width: 60,
+    height: 60,
+  },
+  exposionDelay: 7,
+};
+
+export const labelsConfig = {
+  pointPosition: new Vector2(10, 40),
+  mainLabelPosition: new Vector2(
+    canvasSize.width / 2 - 125,
+    canvasSize.height / 2 - 25
+  ),
+  pointFontSize: 23,
+  mainLabelFontSize: 30,
+  pointsLabelColor: 'blue',
+  mainLabelColor: 'white',
+};
+
 export const enemyConfig: EnemyCreateConfigType = {
   canvasSize,
   paddingTop: 50,
@@ -111,10 +147,6 @@ export const enemyConfig: EnemyCreateConfigType = {
     size: { width: 40, height: 35 },
     moveRadius: 300,
   },
-  BULLET_CREATE_DELAY: 800,
-  ENEMY_CREATE_DELAY: 300,
-  ENEMY_ROW_CREATE_DELAY: 1500,
-  ENEMY_WAVE_CREATE_DELAY: 3500,
   bulletSize: {
     width: 25,
     height: 50,

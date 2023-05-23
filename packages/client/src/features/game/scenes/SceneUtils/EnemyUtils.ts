@@ -65,7 +65,7 @@ export function tryCreateEnemy(
       if (enemyMetrics.currentRow === squadRow) {
         timeDelayConditionCreate(
           lastEnemyCreateTime,
-          enemyConfig.ENEMY_CREATE_DELAY,
+          sceneEnemyConfig.ENEMY_CREATE_DELAY,
           timeMetrics,
           enemyMetrics,
           enemyParams
@@ -73,7 +73,7 @@ export function tryCreateEnemy(
       } else {
         timeDelayConditionCreate(
           lastEnemyCreateTime,
-          enemyConfig.ENEMY_ROW_CREATE_DELAY,
+          sceneEnemyConfig.ENEMY_ROW_CREATE_DELAY,
           timeMetrics,
           enemyMetrics,
           enemyParams
@@ -83,7 +83,7 @@ export function tryCreateEnemy(
     } else {
       timeDelayConditionCreate(
         lastEnemyKillTime,
-        enemyConfig.ENEMY_WAVE_CREATE_DELAY,
+        sceneEnemyConfig.ENEMY_WAVE_CREATE_DELAY,
         timeMetrics,
         enemyMetrics,
         enemyParams
@@ -185,6 +185,7 @@ export function createNewEnemy(
 
 export function enemyFireAction(
   config: EnemyCreateConfigType,
+  sceneEnemyConfig: SceneEnemyCreateConfigType,
   timeMetrics: SceneTimeMetrics,
   enemyBulletCollection: GameObjectCollection
 ) {
@@ -192,7 +193,7 @@ export function enemyFireAction(
     const currentBulletCreateTime = performance.now();
     if (
       currentBulletCreateTime >
-      lastBulletCreateTime + config.BULLET_CREATE_DELAY
+      lastBulletCreateTime + sceneEnemyConfig.BULLET_CREATE_DELAY
     ) {
       const bullet = createBullet(
         object.position,

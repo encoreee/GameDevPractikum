@@ -3,31 +3,34 @@ import { ReferenceObjectAction } from '../../game-object/components/Physics/Refe
 import { ReferenceObjectGraphics } from '../../game-object/components/Graphics/ReferenceObjectGraphics';
 import { Vector2 } from '../../utils/Vector2';
 import { ReferenceObject } from '../../game-object/components/Objects/ReferenceObject';
-import { Size } from '../../game-object/components/Graphics/Components';
-import {
-  ExplosionObject,
-  GameObject,
-} from '../../game-object/components/Objects/GameObject';
+import { ExplosionObject } from '../../game-object/components/Objects/GameObject';
 import { GameObjectPhysics } from '../../game-object/components/Physics/GameObjectPhysics';
 import { ExplosionObjectGraphics } from '../../game-object/components/Graphics/ExplosionObjectGraphics';
-import { Player } from './../../game-object/components/Objects/Player';
 import { PlayerExplosionObjectGraphics } from '../../game-object/components/Graphics/PlayerExplosionObjectGraphics';
+import { enemyExplosionConfig } from '../../Config';
+import { labelsConfig } from '../../Config';
 
 export function createPlayerPoint(profile: PlayerProfile): ReferenceObject {
   return new ReferenceObject(
     profile.points.toString(),
-    new Vector2(10, 40),
+    labelsConfig.pointPosition,
     new ReferenceObjectAction(),
-    new ReferenceObjectGraphics('blue', 23)
+    new ReferenceObjectGraphics(
+      labelsConfig.pointsLabelColor,
+      labelsConfig.pointFontSize
+    )
   );
 }
 
-export function createLabel(text: string, canvasSize: Size): ReferenceObject {
+export function createLabel(text: string): ReferenceObject {
   return new ReferenceObject(
     text,
-    new Vector2(canvasSize.width / 2 - 125, canvasSize.height / 2 - 25),
+    labelsConfig.mainLabelPosition,
     new ReferenceObjectAction(),
-    new ReferenceObjectGraphics('white', 30)
+    new ReferenceObjectGraphics(
+      labelsConfig.mainLabelColor,
+      labelsConfig.mainLabelFontSize
+    )
   );
 }
 
@@ -45,9 +48,9 @@ export function createExplosion(
     case ExplosionObjectType.ENEMY: {
       const exp = new ExplosionObject(
         position,
-        { width: 60, height: 60 },
+        enemyExplosionConfig.size,
         new GameObjectPhysics(),
-        new ExplosionObjectGraphics(7)
+        new ExplosionObjectGraphics(enemyExplosionConfig.exposionDelay)
       );
       exp.render(dt);
       return exp;
@@ -56,9 +59,9 @@ export function createExplosion(
     case ExplosionObjectType.PLAYER: {
       const exp = new ExplosionObject(
         position,
-        { width: 60, height: 60 },
+        enemyExplosionConfig.size,
         new GameObjectPhysics(),
-        new PlayerExplosionObjectGraphics(7)
+        new PlayerExplosionObjectGraphics(enemyExplosionConfig.exposionDelay)
       );
       exp.render(dt);
       return exp;

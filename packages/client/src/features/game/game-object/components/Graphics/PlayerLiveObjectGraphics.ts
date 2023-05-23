@@ -1,10 +1,11 @@
-import { Canvas } from '../../core/Canvas';
-import { GraphicComponent, GameObject } from '../GameObject';
+import { Canvas } from '@/features/game/core/Canvas';
+import { GameObject } from '../Objects/GameObject';
+import { GraphicComponent } from './Components';
 
-export class GameObjectGraphics implements GraphicComponent {
+export class PlayerLiveObjectGraphics implements GraphicComponent {
   private readonly canvas = Canvas;
   public render(gameObject: GameObject, dt: number): void {
-    this.canvas.getContext2D().fillStyle = 'red';
+    this.canvas.getContext2D().fillStyle = 'yellow';
     this.canvas
       .getContext2D()
       .fillRect(

@@ -1,15 +1,22 @@
-import { ActionFlagType } from '../../core/KeyboardController';
-import { Vector2 } from '../../utils/Vector2';
-import { GameObjectComponent, GameObject } from '../GameObject';
+import { ActionFlagType } from '../../../core/KeyboardController';
+import { Vector2 } from '../../../utils/Vector2';
+import { GameObject } from '../Objects/GameObject';
+import { GameObjectComponent } from './Components';
 
 export class PlayerInput implements GameObjectComponent {
   private velocity: Vector2;
+  public canShoot: boolean;
   constructor(
     private actionFlag: ActionFlagType,
     private speed: number,
     private fireCallback: (position: Vector2) => void
   ) {
     this.velocity = new Vector2(0, 0);
+    this.canShoot = false;
+  }
+
+  setShootAbility(ability: boolean) {
+    this.canShoot = ability;
   }
 
   update(gameObject: GameObject, dt: number): void {
@@ -26,13 +33,9 @@ export class PlayerInput implements GameObjectComponent {
     }
 
     if (this.actionFlag.FIRE) {
-      const sizeVector = new Vector2(
-        gameObject.size.width,
-        gameObject.size.height
-      );
-      const position = gameObject.position.substract(sizeVector.divide(2));
-
-      this.fireCallback(position);
+      if (this.canShoot) {
+        this.fireCallback(gameObject.position);
+      }
     }
   }
 }

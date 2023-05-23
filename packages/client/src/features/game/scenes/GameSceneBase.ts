@@ -25,6 +25,7 @@ import { Player } from '../game-object/components/Objects/Player';
 import { ReferenceObject } from '../game-object/components/Objects/ReferenceObject';
 import { Vector2 } from '../utils/Vector2';
 import { ExplosionObject } from '../game-object/components/Objects/GameObject';
+import Audio, { AUDIO_IDS } from '@/features/Audio';
 
 export class GameSceneBase implements SceneInterface {
   private readonly player: Player;
@@ -104,6 +105,8 @@ export class GameSceneBase implements SceneInterface {
       playerConfig,
       this.profile.lives
     );
+    Audio.stopAll();
+    Audio.play(AUDIO_IDS.gameTheme, { loop: true });
   }
 
   //Метод обновления сцены, вызывается снаружи, не подледжит изменению

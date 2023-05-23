@@ -7,6 +7,7 @@ import { ExplosionObject } from '../../game-object/components/Objects/GameObject
 import { GameObjectPhysics } from '../../game-object/components/Physics/GameObjectPhysics';
 import { ExplosionObjectGraphics } from '../../game-object/components/Graphics/ExplosionObjectGraphics';
 import { PlayerExplosionObjectGraphics } from '../../game-object/components/Graphics/PlayerExplosionObjectGraphics';
+import Audio, { AUDIO_IDS } from '@/features/Audio';
 import { enemyExplosionConfig } from '../../Config';
 import { labelsConfig } from '../../Config';
 
@@ -52,6 +53,7 @@ export function createExplosion(
         new GameObjectPhysics(),
         new ExplosionObjectGraphics(enemyExplosionConfig.exposionDelay)
       );
+      Audio.play(AUDIO_IDS.EnemyExplosion);
       exp.render(dt);
       return exp;
     }
@@ -64,6 +66,7 @@ export function createExplosion(
         new PlayerExplosionObjectGraphics(enemyExplosionConfig.exposionDelay)
       );
       exp.render(dt);
+      Audio.play(AUDIO_IDS.PlayerExplosion);
       return exp;
     }
 

@@ -21,6 +21,14 @@ export class AuthController {
       return err instanceof Error ? err.message : AppMessage.UNKNOWN_API_ERROR;
     }
   }
+
+  public async logout() {
+    try {
+      await AuthAPI.logout();
+    } catch (err) {
+      return err instanceof Error ? err.message : AppMessage.UNKNOWN_API_ERROR;
+    }
+  }
 }
 
 export default new AuthController();

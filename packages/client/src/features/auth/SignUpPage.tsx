@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import SignUpForm from './SingUpForm';
+import SignUpForm from './SignUpForm';
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';
 import NavLink from '../../components/NavLink';

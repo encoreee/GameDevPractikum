@@ -10,6 +10,13 @@ import { Player } from '../../game-object/components/Objects/Player';
 import { GameObjectPhysics } from '../../game-object/components/Physics/GameObjectPhysics';
 import { PlayerObjectGraphics } from '../../game-object/components/Graphics/PlayerObjectGraphics';
 import Audio, { AUDIO_IDS } from '@/features/Audio';
+import Stats from '../Stats';
+
+export type PlayerProfile = {
+  displayName: string;
+  points: number;
+  lives: number;
+};
 
 export function createPlayerLives(
   livesCollection: GameObjectCollection,
@@ -82,6 +89,7 @@ export function fireAction(
         config.size,
         true
       );
+      Stats.incrementPlayerShoot();
       Audio.play(AUDIO_IDS.PlayerShoot);
       playerBulletCollection.push(bullet);
       lastBulletCreateTime = currentBulletCreateTime;

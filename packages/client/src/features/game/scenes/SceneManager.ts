@@ -1,8 +1,8 @@
-import { PlayerProfile } from '../GamePage';
 import { KeyboardController } from '../core/KeyboardController';
 import { SimpleSquadScene } from './SimpleSquadScene';
 import { SceneInterface } from './SceneInterface';
 import { SceneEnemyCreateConfigType } from '../Config';
+import { PlayerProfile } from './SceneUtils/PlayerUtils';
 
 export enum SceneName {
   LEVEL1 = 'level1',
@@ -87,14 +87,26 @@ export class SceneManager {
   private static end: boolean;
   private static currentSceneIndex = 1;
   private static profile: PlayerProfile;
+  private static onEndCallBack: () => void;
 
-  constructor(profile: PlayerProfile) {
+  constructor(profile: PlayerProfile, onEndCallback: () => void) {
     SceneManager.profile = profile;
+    SceneManager.onEndCallBack = onEndCallback;
+  }
+
+  public static endGame(): void {
+    SceneManager.end = true;
   }
 
   private static endCallBack(): void {
     SceneManager.end = true;
+    SceneManager.onEndCallBack();
   }
+
+  public static setProfile(profile: PlayerProfile): void {
+    SceneManager.profile = profile;
+  }
+
   public static getCurrentSceneEnemyCreateConfig(): SceneEnemyCreateConfigType {
     return sceneCollection[this.currentSceneIndex - 1];
   }
@@ -152,6 +164,10 @@ export class SceneManager {
     );
   }
 
+  public static setInitialSceneIndex() {
+    SceneManager.currentSceneIndex = 1;
+  }
+
   public static setCurrentSceneByIndex(
     index: number,
     sceneEnemyConfig: SceneEnemyCreateConfigType
@@ -179,6 +195,7 @@ export class SceneManager {
       profile,
       sceneEnemyConfig
     );
+
     SceneManager.end = false;
     SceneManager.currentScene.init();
   }

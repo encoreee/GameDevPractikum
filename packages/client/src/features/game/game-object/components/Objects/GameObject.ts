@@ -30,6 +30,23 @@ export class GameObject {
   public collideWith(other: GameObject): boolean {
     return this.collider.collideWith(other);
   }
+
+  public collideWithLeftWall(): boolean {
+    return this.collider.collideWithLeftWall();
+  }
+
+  public collideWithTopWall(): boolean {
+    return this.collider.collideWithTopWall();
+  }
+
+  public collideWithBottomWall(canvasSize: Size): boolean {
+    return this.collider.collideWithBottomWall(canvasSize);
+  }
+
+  public collideWithRightWall(canvasSize: Size): boolean {
+    return this.collider.collideWithRightWall(canvasSize);
+  }
+
   public collideWithWall(canvasSize: Size): boolean {
     return this.collider.collideWithWall(canvasSize);
   }

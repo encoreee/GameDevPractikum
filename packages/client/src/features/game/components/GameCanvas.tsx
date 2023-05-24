@@ -51,7 +51,6 @@ const GameCanvas: React.FC = () => {
     if (canvas.current !== null) {
       document.addEventListener('keydown', onKeyDownHandler);
       document.addEventListener('keyup', onKeyUpHandler);
-
       EngineCanvas.create(canvas.current);
       galaga.init();
     }

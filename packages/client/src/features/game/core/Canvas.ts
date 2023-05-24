@@ -12,7 +12,7 @@ export class Canvas {
   }
 
   public static create(canvas: HTMLCanvasElement) {
-    if (!Canvas.htmlCanvasInstance) {
+    if (Canvas.htmlCanvasInstance !== canvas) {
       this.htmlCanvasInstance = canvas;
     }
   }

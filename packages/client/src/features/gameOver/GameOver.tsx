@@ -72,9 +72,9 @@ interface ResultProps {
 
 const ResultStep: FC<ResultProps> = ({ gameResult }) => {
   const hitMissRatio =
-    gameResult.shots === 0
+    gameResult.shoot === 0
       ? 0
-      : ((gameResult.hits / gameResult.shots) * 100).toFixed(2);
+      : ((gameResult.hit / gameResult.shoot) * 100).toFixed(2);
   return (
     <Grid container width={'40rem'} rowGap={'1.25rem'}>
       <Grid item xs={12}>
@@ -84,13 +84,13 @@ const ResultStep: FC<ResultProps> = ({ gameResult }) => {
         <Typography sx={statsShots}>SHOTS FIRED</Typography>
       </Grid>
       <Grid item xs={3}>
-        <Typography sx={statsShotsValue}>{gameResult.shots}</Typography>
+        <Typography sx={statsShotsValue}>{gameResult.shoot}</Typography>
       </Grid>
       <Grid item xs={9}>
         <Typography sx={statsHits}>NUMBER OF HITS</Typography>
       </Grid>
       <Grid item xs={3}>
-        <Typography sx={statsHitsValue}>{gameResult.hits}</Typography>
+        <Typography sx={statsHitsValue}>{gameResult.hit}</Typography>
       </Grid>
       <Grid item xs={9}>
         <Typography sx={statsRatio}>HIT-MISS RATIO</Typography>
@@ -117,10 +117,7 @@ const GameOver: FC = () => {
   const [step, setStep] = useState<Steps>(Steps.GameOver);
 
   // TODO: Изменить на редакс
-  const gameResult: GameResult = {
-    shots: Stats.shoot,
-    hits: Stats.hit,
-  };
+  const gameResult: GameResult = Stats.getStats();
 
   useEffect(() => {
     Audio.stopAll();

@@ -164,6 +164,10 @@ export class SceneManager {
     );
   }
 
+  public static setInitialSceneIndex() {
+    SceneManager.currentSceneIndex = 1;
+  }
+
   public static setCurrentSceneByIndex(
     index: number,
     sceneEnemyConfig: SceneEnemyCreateConfigType

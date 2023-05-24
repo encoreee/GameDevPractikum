@@ -1,6 +1,6 @@
 export type GameResult = {
-  shots: number;
-  hits: number;
+  shoot: number;
+  hit: number;
 };
 
 export type ToResult = () => void;

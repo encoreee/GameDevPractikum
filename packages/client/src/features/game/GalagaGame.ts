@@ -5,6 +5,7 @@ import { GameLoop } from './core/GameLoop';
 import { PlayerProfile } from './scenes/SceneUtils/PlayerUtils';
 import Audio from '../Audio/Audio';
 import { cloneDeep } from 'lodash';
+import Stats from './scenes/Stats';
 
 export class GalagaGame {
   public readonly keyboard: KeyboardController = new KeyboardController();
@@ -28,7 +29,8 @@ export class GalagaGame {
   public init(): void {
     SceneManager.setKeyboard(this.keyboard);
     SceneManager.setStartScene();
-    SceneManager.setProfile(cloneDeep(this.profile));
+
+    Stats.resetStats();
     this.gameloop.start();
   }
 
@@ -49,12 +51,18 @@ export class GalagaGame {
 
   private end(): void {
     if (this.onEndGame) {
+      //  TODO  объединить методы по обнулению состояния при ините игры
+      SceneManager.setProfile(cloneDeep(this.profile));
+      SceneManager.setInitialSceneIndex();
       this.onEndGame();
       Audio.stopAll();
     }
   }
 
   public endGame(): void {
+    //  TODO  объединить методы по обнулению состояния при ините игры
+    SceneManager.setProfile(cloneDeep(this.profile));
+    SceneManager.setInitialSceneIndex();
     SceneManager.endGame();
     Audio.stopAll();
   }

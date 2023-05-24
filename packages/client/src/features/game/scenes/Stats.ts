@@ -1,7 +1,7 @@
 class Stats {
-  public score = 0;
-  public shoot = 0;
-  public hit = 0;
+  private score = 0;
+  private shoot = 0;
+  private hit = 0;
   public incrementPlayerShoot() {
     this.shoot++;
   }
@@ -15,6 +15,14 @@ class Stats {
     this.hit = 0;
     this.shoot = 0;
     this.score = 0;
+  }
+
+  public getStats() {
+    return {
+      score: this.score,
+      shoot: this.shoot,
+      hit: this.hit,
+    };
   }
 }
 

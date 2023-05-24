@@ -8,6 +8,7 @@ export class Collider {
     const difference = this.gameObject.position.substract(other.position);
     const absoluteDifX = Math.abs(difference.x);
     const absoluteDifY = Math.abs(difference.y);
+    console.log(difference);
     if (difference.x > 0) {
       // Обработка ситуации когда объект находится справа в момент соприкосновенияю. Деление внутри условий для того что бы снаряды визуально заходили в объект
       if (absoluteDifX < other.size.width / 2) {
@@ -37,14 +38,30 @@ export class Collider {
     }
     return false;
   }
+
+  public collideWithLeftWall(): boolean {
+    return this.gameObject.position.x < 0;
+  }
+  public collideWithRightWall(canvasSize: Size): boolean {
+    return (
+      this.gameObject.position.x + this.gameObject.size.width > canvasSize.width
+    );
+  }
+  public collideWithTopWall(): boolean {
+    return this.gameObject.position.y < 0;
+  }
+  public collideWithBottomWall(canvasSize: Size): boolean {
+    return (
+      this.gameObject.position.y + this.gameObject.size.height >
+      canvasSize.height
+    );
+  }
   public collideWithWall(canvasSize: Size): boolean {
     return (
-      this.gameObject.position.x < 0 ||
-      this.gameObject.position.x + this.gameObject.size.width >
-        canvasSize.width ||
-      this.gameObject.position.y < 0 ||
-      this.gameObject.position.y + this.gameObject.size.height >
-        canvasSize.height
+      this.collideWithLeftWall() ||
+      this.collideWithRightWall(canvasSize) ||
+      this.collideWithTopWall() ||
+      this.collideWithBottomWall(canvasSize)
     );
   }
 }

@@ -77,7 +77,7 @@ describe('PlayerInput component', () => {
     input.update(gameObjectMock as GameObject, 1);
     expect(gameObjectMock.position).toStrictEqual(new Vector2(-speed, 0));
   });
-  
+
   it('player pressed both left and right', () => {
     actionFlagMock.LEFT = true;
     actionFlagMock.RIGHT = true;

@@ -39,7 +39,13 @@ const GameCanvas: React.FC = () => {
     navigate('/game-over');
   };
 
-  galaga.onendgame = onEndGame;
+  galaga.onEndGame = onEndGame;
+  useEffect(
+    () => () => {
+      galaga.endGame();
+    },
+    []
+  );
 
   useEffect(() => {
     if (canvas.current !== null) {

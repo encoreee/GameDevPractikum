@@ -94,10 +94,15 @@ export class SceneManager {
     SceneManager.onEndCallBack = onEndCallback;
   }
 
+  public static endGame(): void {
+    SceneManager.end = true;
+  }
+
   private static endCallBack(): void {
     SceneManager.end = true;
     SceneManager.onEndCallBack();
   }
+
   public static getCurrentSceneEnemyCreateConfig(): SceneEnemyCreateConfigType {
     return sceneCollection[this.currentSceneIndex - 1];
   }

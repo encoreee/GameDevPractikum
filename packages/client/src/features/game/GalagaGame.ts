@@ -3,13 +3,14 @@ import { SceneManager } from './scenes/SceneManager';
 import { Canvas } from './core/Canvas';
 import { GameLoop } from './core/GameLoop';
 import { PlayerProfile } from './scenes/SceneUtils/PlayerUtils';
+import Audio from '../Audio/Audio';
 
 export class GalagaGame {
   public readonly keyboard: KeyboardController = new KeyboardController();
   private readonly gameloop: GameLoop;
   private readonly profile: PlayerProfile;
   private readonly sceneManager: SceneManager;
-  public onendgame?: () => void;
+  public onEndGame?: () => void;
 
   constructor(profile: PlayerProfile) {
     this.gameloop = new GameLoop(
@@ -42,8 +43,14 @@ export class GalagaGame {
   }
 
   private end(): void {
-    if (this.onendgame) {
-      this.onendgame();
+    if (this.onEndGame) {
+      this.onEndGame();
+      Audio.stopAll();
     }
+  }
+
+  public endGame(): void {
+    SceneManager.endGame();
+    Audio.stopAll();
   }
 }

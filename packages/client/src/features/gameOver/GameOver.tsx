@@ -14,11 +14,9 @@ import {
 } from './styles';
 import { Link } from 'react-router-dom';
 import { GameResult, ToResult } from './types';
-
-const GAME_RESULT_MOCK: GameResult = {
-  shots: 755,
-  hits: 322,
-};
+import Audio from '../Audio/Audio';
+import { AUDIO_IDS } from '../Audio';
+import Stats from '../game/scenes/Stats';
 
 export enum Steps {
   GameOver,
@@ -73,7 +71,10 @@ interface ResultProps {
 }
 
 const ResultStep: FC<ResultProps> = ({ gameResult }) => {
-  const hitMissRatio = ((gameResult.hits / gameResult.shots) * 100).toFixed(2);
+  const hitMissRatio =
+    gameResult.shots === 0
+      ? 0
+      : ((gameResult.hits / gameResult.shots) * 100).toFixed(2);
   return (
     <Grid container width={'40rem'} rowGap={'1.25rem'}>
       <Grid item xs={12}>
@@ -98,9 +99,9 @@ const ResultStep: FC<ResultProps> = ({ gameResult }) => {
         <Typography sx={statsRatioValue}>{hitMissRatio}%</Typography>
       </Grid>
       <Grid item xs={5}>
-        <Button href="#try-again" sx={BtnRed}>
-          TRY AGAIN
-        </Button>
+        <Link to="/start">
+          <Button sx={BtnRed}>TRY AGAIN</Button>
+        </Link>
       </Grid>
       <Grid item xs={2}></Grid>
       <Grid item xs={5}>
@@ -115,6 +116,20 @@ const ResultStep: FC<ResultProps> = ({ gameResult }) => {
 const GameOver: FC = () => {
   const [step, setStep] = useState<Steps>(Steps.GameOver);
 
+  // TODO: Изменить на редакс
+  const gameResult: GameResult = {
+    shots: Stats.shoot,
+    hits: Stats.hit,
+  };
+
+  useEffect(() => {
+    Audio.stopAll();
+    Audio.play(AUDIO_IDS.endGameTheme, { loop: true });
+    return () => {
+      Audio.stopAll();
+    };
+  }, []);
+
   const toResult: ToResult = () => {
     setStep(Steps.Result);
   };
@@ -122,7 +137,7 @@ const GameOver: FC = () => {
   return (
     <EmptyMainPageTemplate>
       {step === Steps.Result ? (
-        <ResultStep gameResult={GAME_RESULT_MOCK} />
+        <ResultStep gameResult={gameResult} />
       ) : (
         <GameOverStep toResult={toResult} />
       )}

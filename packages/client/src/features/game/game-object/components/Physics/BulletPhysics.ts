@@ -1,7 +1,7 @@
 import { Vector2 } from '../../../utils/Vector2';
 import { GameObjectComponent } from '../Graphics/Components';
 import { GameObject, EnemyBulletObject } from '../Objects/GameObject';
-import { playerConfig, enemyConfig } from '../../../Config';
+import { playerConfig } from '../../../Config';
 import { SceneManager } from '@/features/game/scenes/SceneManager';
 
 export class PlayerBulletPhysics implements GameObjectComponent {

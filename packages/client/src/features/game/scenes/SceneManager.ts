@@ -103,6 +103,10 @@ export class SceneManager {
     SceneManager.onEndCallBack();
   }
 
+  public static setProfile(profile: PlayerProfile): void {
+    SceneManager.profile = profile;
+  }
+
   public static getCurrentSceneEnemyCreateConfig(): SceneEnemyCreateConfigType {
     return sceneCollection[this.currentSceneIndex - 1];
   }
@@ -187,6 +191,7 @@ export class SceneManager {
       profile,
       sceneEnemyConfig
     );
+
     SceneManager.end = false;
     SceneManager.currentScene.init();
   }

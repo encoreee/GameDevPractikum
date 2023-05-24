@@ -4,11 +4,12 @@ import { Canvas } from './core/Canvas';
 import { GameLoop } from './core/GameLoop';
 import { PlayerProfile } from './scenes/SceneUtils/PlayerUtils';
 import Audio from '../Audio/Audio';
+import { cloneDeep } from 'lodash';
 
 export class GalagaGame {
   public readonly keyboard: KeyboardController = new KeyboardController();
   private readonly gameloop: GameLoop;
-  private readonly profile: PlayerProfile;
+  private profile: PlayerProfile;
   private readonly sceneManager: SceneManager;
   public onEndGame?: () => void;
 
@@ -18,12 +19,16 @@ export class GalagaGame {
       this.render.bind(this)
     );
     this.profile = profile;
-    this.sceneManager = new SceneManager(this.profile, this.end.bind(this));
+    this.sceneManager = new SceneManager(
+      cloneDeep(this.profile),
+      this.end.bind(this)
+    );
   }
 
   public init(): void {
     SceneManager.setKeyboard(this.keyboard);
     SceneManager.setStartScene();
+    SceneManager.setProfile(cloneDeep(this.profile));
     this.gameloop.start();
   }
 

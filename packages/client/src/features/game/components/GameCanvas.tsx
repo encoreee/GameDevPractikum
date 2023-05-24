@@ -7,6 +7,7 @@ import { Canvas as EngineCanvas } from '../core/Canvas';
 import { playerConfig } from '../Config';
 import Audio from '@features/Audio';
 import { PlayerProfile } from '../scenes/SceneUtils/PlayerUtils';
+import { useNavigate } from 'react-router-dom';
 
 const Canvas = styled.canvas`
   border: 1px solid silver;
@@ -31,6 +32,14 @@ const galaga = new GalagaGame(dummy);
 const GameCanvas: React.FC = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
   const fullScreenElement = useToggleFullScreen(KEY_BINDINGS.fullScreen);
+
+  const navigate = useNavigate();
+
+  const onEndGame = () => {
+    navigate('/game-over');
+  };
+
+  galaga.onendgame = onEndGame;
 
   useEffect(() => {
     if (canvas.current !== null) {

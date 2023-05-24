@@ -1,35 +1,64 @@
-import { PlayerProfile } from '../GamePage';
 import { KeyboardController } from '../core/KeyboardController';
 import { SimpleSquadScene } from './SimpleSquadScene';
 import { SceneInterface } from './SceneInterface';
 import { SceneEnemyCreateConfigType } from '../Config';
+import { PlayerProfile } from './SceneUtils/PlayerUtils';
 
 export enum SceneName {
   LEVEL1 = 'level1',
   LEVEL2 = 'level2',
   LEVEL3 = 'level3',
+  LEVEL4 = 'level4',
 }
+
 const sceneCollection: SceneEnemyCreateConfigType[] = [
+  {
+    numberPerRow: 1,
+    numberEnemy: 3,
+    gap: 50,
+    enemyShotDeceleration: 3,
+    enemiesWaveCount: 1,
+    levelLabel: 'Level 1',
+    ENEMY_CREATE_DELAY: 5000,
+    ENEMY_ROW_CREATE_DELAY: 10000,
+    ENEMY_WAVE_CREATE_DELAY: 20000,
+    BULLET_CREATE_DELAY: 2000,
+  },
+  {
+    numberPerRow: 3,
+    numberEnemy: 9,
+    gap: 30,
+    enemyShotDeceleration: 2.5,
+    enemiesWaveCount: 2,
+    levelLabel: 'Level 2',
+    ENEMY_CREATE_DELAY: 800,
+    ENEMY_ROW_CREATE_DELAY: 10000,
+    ENEMY_WAVE_CREATE_DELAY: 20000,
+    BULLET_CREATE_DELAY: 1500,
+  },
+  {
+    numberPerRow: 5,
+    numberEnemy: 15,
+    gap: 15,
+    enemyShotDeceleration: 2,
+    enemiesWaveCount: 3,
+    levelLabel: 'Level 3',
+    ENEMY_CREATE_DELAY: 800,
+    ENEMY_ROW_CREATE_DELAY: 1500,
+    ENEMY_WAVE_CREATE_DELAY: 3000,
+    BULLET_CREATE_DELAY: 1500,
+  },
   {
     numberPerRow: 6,
     numberEnemy: 18,
-    gap: 50,
-    enemyShotDeceleration: 3,
-    levelLabel: 'Level 1',
-  },
-  {
-    numberPerRow: 8,
-    numberEnemy: 24,
-    gap: 30,
-    enemyShotDeceleration: 2.5,
-    levelLabel: 'Level 2',
-  },
-  {
-    numberPerRow: 10,
-    numberEnemy: 30,
     gap: 15,
     enemyShotDeceleration: 2,
-    levelLabel: 'Level 3',
+    enemiesWaveCount: 3,
+    levelLabel: 'Level 4',
+    ENEMY_CREATE_DELAY: 800,
+    ENEMY_ROW_CREATE_DELAY: 1500,
+    ENEMY_WAVE_CREATE_DELAY: 3000,
+    BULLET_CREATE_DELAY: 800,
   },
 ];
 
@@ -51,7 +80,9 @@ export class SceneManager {
     level1: SimpleSquadScene,
     level2: SimpleSquadScene,
     level3: SimpleSquadScene,
+    level4: SimpleSquadScene,
   };
+
   private static sceneOrder: SceneName[] = Object.values(SceneName);
   private static end: boolean;
   private static currentSceneIndex = 1;
@@ -71,30 +102,15 @@ export class SceneManager {
     return sceneCollection[this.currentSceneIndex - 1];
   }
   private static selectNextSceneCallBack(): void {
-    const nextScene = ++SceneManager.currentSceneIndex;
+    const nextSceneIndex = ++SceneManager.currentSceneIndex;
 
-    switch (nextScene) {
-      case 1:
-        SceneManager.setCurrentSceneByIndex(
-          nextScene,
-          sceneCollection[nextScene - 1]
-        );
-        break;
-      case 2:
-        SceneManager.setCurrentSceneByIndex(
-          nextScene,
-          sceneCollection[nextScene - 1]
-        );
-        break;
-      case 3:
-        SceneManager.setCurrentSceneByIndex(
-          nextScene,
-          sceneCollection[nextScene - 1]
-        );
-        break;
-      default:
-        throw new Error('Not implemented');
+    if (nextSceneIndex > sceneCollection.length) {
+      throw new Error('Not implemented');
     }
+    SceneManager.setCurrentSceneByIndex(
+      nextSceneIndex,
+      sceneCollection[nextSceneIndex - 1]
+    );
   }
 
   /**
@@ -146,7 +162,7 @@ export class SceneManager {
     if (!SceneManager.keyboard) {
       throw new Error('Keyboard is undefined. Set keyboard');
     }
-    const name = SceneManager.sceneOrder[index];
+    const name = SceneManager.sceneOrder[index - 1];
     SceneManager.init(name, SceneManager.profile, sceneEnemyConfig);
   }
 

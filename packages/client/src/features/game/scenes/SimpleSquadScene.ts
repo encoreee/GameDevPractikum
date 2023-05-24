@@ -1,10 +1,10 @@
 import { KeyboardController } from '../core/KeyboardController';
 import { SceneInterface } from './SceneInterface';
 import { SceneEnemyCreateConfigType, enemyConfig } from '../Config';
-import { PlayerProfile } from '../GamePage';
 import { GameSceneBase } from './GameSceneBase';
 import { enemyFireAction, tryCreateEnemy } from './SceneUtils/EnemyUtils';
 import { getRandomInt } from '../utils/Math';
+import { PlayerProfile } from './SceneUtils/PlayerUtils';
 
 export class SimpleSquadScene extends GameSceneBase implements SceneInterface {
   constructor(
@@ -12,9 +12,15 @@ export class SimpleSquadScene extends GameSceneBase implements SceneInterface {
     endGameCallback: () => void,
     selectNextSceneCallBack: () => void,
     profile: PlayerProfile,
-    private sceneEnemyConfig: SceneEnemyCreateConfigType
+    sceneEnemyConfig: SceneEnemyCreateConfigType
   ) {
-    super(keyboard, endGameCallback, selectNextSceneCallBack, profile);
+    super(
+      keyboard,
+      endGameCallback,
+      selectNextSceneCallBack,
+      profile,
+      sceneEnemyConfig
+    );
     this.referenceMetrics.levelLabel = sceneEnemyConfig.levelLabel;
   }
 
@@ -51,6 +57,7 @@ export class SimpleSquadScene extends GameSceneBase implements SceneInterface {
     if (enemyToAttack) {
       enemyFireAction(
         enemyConfig,
+        this.sceneEnemyConfig,
         this.timeMetrics,
         this.enemyBulletCollection
       )(enemyToAttack, this.timeMetrics.lastAttackCreateTime);

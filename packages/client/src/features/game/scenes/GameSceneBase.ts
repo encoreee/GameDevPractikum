@@ -6,12 +6,14 @@ import {
   SceneReferenceMetrics,
   SceneTimeMetrics,
 } from './SceneInterface';
-import { enemyConfig, playerConfig, canvasSize } from '../Config';
-import { getRandomInt } from '../utils/Math';
-import { PlayerProfile } from '../GamePage';
+import {
+  SceneEnemyCreateConfigType,
+  enemyConfig,
+  playerConfig,
+} from '../Config';
+import { PlayerProfile } from '../scenes/SceneUtils/PlayerUtils';
 import { GameObjectCollection } from '../utils/GameObjectCollection';
 import { createPlayer, createPlayerLives } from './SceneUtils/PlayerUtils';
-import { enemyFireAction, tryCreateEnemy } from './SceneUtils/EnemyUtils';
 import { delay } from './SceneUtils/TimeUtils';
 import {
   ExplosionObjectType,
@@ -23,6 +25,7 @@ import { Player } from '../game-object/components/Objects/Player';
 import { ReferenceObject } from '../game-object/components/Objects/ReferenceObject';
 import { Vector2 } from '../utils/Vector2';
 import { ExplosionObject } from '../game-object/components/Objects/GameObject';
+import Audio, { AUDIO_IDS } from '@/features/Audio';
 
 export class GameSceneBase implements SceneInterface {
   private readonly player: Player;
@@ -34,9 +37,11 @@ export class GameSceneBase implements SceneInterface {
   private readonly explosionCollection =
     new GameObjectCollection<ExplosionObject>();
 
+  // необходимо переопределить
   public referenceMetrics: SceneReferenceMetrics = {
     levelLabel: 'Base label',
   };
+
   public readonly enemyBulletCollection = new GameObjectCollection();
   public readonly enemyCollection = new GameObjectCollection();
   public timeMetrics: SceneTimeMetrics = {
@@ -48,19 +53,21 @@ export class GameSceneBase implements SceneInterface {
     lastEnemyKillTime: 0,
   };
   public enemyMetrics: SceneEnemyMetrics = {
-    currentRow: 0,
+    currentRow: 1,
     startX: 0,
     startY: 0,
     enemiesSquadCount: 0,
     enemiesWaveCount: 0,
     currentEnemiesWave: 0,
+    enemiesKilled: 0,
   };
 
   constructor(
     private readonly keyboard: KeyboardController,
     private endGameCallback: () => void,
     private selectNextSceneCallBack: () => void,
-    private readonly profile: PlayerProfile
+    private readonly profile: PlayerProfile,
+    public sceneEnemyConfig: SceneEnemyCreateConfigType
   ) {
     this.profile = profile;
     this.player = createPlayer(
@@ -69,7 +76,7 @@ export class GameSceneBase implements SceneInterface {
       this.playerBulletCollection
     );
     this.playerPoints = createPlayerPoint(this.profile);
-    this.levelLabel = createLabel(this.referenceMetrics.levelLabel, canvasSize);
+    this.levelLabel = createLabel(this.referenceMetrics.levelLabel);
   }
   /**
    * Метод отвечающий за инициализацию начальных метрик уровня, таких как расположение врагов
@@ -98,6 +105,8 @@ export class GameSceneBase implements SceneInterface {
       playerConfig,
       this.profile.lives
     );
+    Audio.stopAll();
+    Audio.play(AUDIO_IDS.gameTheme, { loop: true });
   }
 
   //Метод обновления сцены, вызывается снаружи, не подледжит изменению
@@ -114,7 +123,7 @@ export class GameSceneBase implements SceneInterface {
 
     if (this.timeMetrics.canStart && this.levelLabel) {
       this.levelLabel = undefined;
-      this.player.setShutAbility(true);
+      this.player.setShootAbility(true);
     }
 
     this.timeMetrics.absoluteTime = performance.now();
@@ -172,21 +181,9 @@ export class GameSceneBase implements SceneInterface {
           );
           this.playerBulletCollection.delete(bulletIndex);
           this.enemyCollection.delete(enemyIndex);
-
           this.profile.points += enemyConfig.enemyPoints.defaultPointsValue;
+          this.enemyMetrics.enemiesKilled++;
           this.playerPoints.update(dt, this.profile.points.toString());
-          if (this.enemyCollection.count() === 0) {
-            if (this.enemyMetrics.enemiesWaveCount < 2) {
-              this.enemyMetrics.enemiesSquadCount = 0;
-              this.enemyMetrics.currentRow = 1;
-              this.enemyMetrics.enemiesWaveCount++;
-              this.timeMetrics.lastEnemyKillTime = performance.now();
-            } else {
-              this.enemyBulletCollection.erase();
-              this.playerBulletCollection.erase();
-              this.selectNextSceneCallBack();
-            }
-          }
         }
       });
 
@@ -198,6 +195,27 @@ export class GameSceneBase implements SceneInterface {
         this.explosionCollection.delete(index);
       }
     });
+
+    if (
+      this.enemyCollection.count() === 0 &&
+      this.enemyMetrics.enemiesKilled === this.sceneEnemyConfig.numberEnemy
+    ) {
+      // обработка окончания сцены, сброс метрик
+      if (
+        this.enemyMetrics.enemiesWaveCount <
+        this.sceneEnemyConfig.enemiesWaveCount - 1
+      ) {
+        this.enemyMetrics.enemiesSquadCount = 0;
+        this.enemyMetrics.currentRow = 1;
+        this.enemyMetrics.enemiesWaveCount++;
+        this.enemyMetrics.enemiesKilled = 0;
+        this.timeMetrics.lastEnemyKillTime = performance.now();
+      } else {
+        this.enemyBulletCollection.erase();
+        this.playerBulletCollection.erase();
+        this.selectNextSceneCallBack();
+      }
+    }
   }
 
   //Метод рендеринга сцены, вызывается снаружи, не подледжит изменению

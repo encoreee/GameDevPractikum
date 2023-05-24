@@ -2,7 +2,7 @@ import { KeyboardController } from './core/KeyboardController';
 import { SceneManager } from './scenes/SceneManager';
 import { Canvas } from './core/Canvas';
 import { GameLoop } from './core/GameLoop';
-import { PlayerProfile } from './GamePage';
+import { PlayerProfile } from './scenes/SceneUtils/PlayerUtils';
 
 export class GalagaGame {
   public readonly keyboard: KeyboardController = new KeyboardController();

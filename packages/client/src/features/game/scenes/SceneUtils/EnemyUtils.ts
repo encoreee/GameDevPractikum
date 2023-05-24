@@ -10,13 +10,19 @@ import {
 } from '../../Config';
 import { createBullet } from './BulletUtils';
 import { SceneEnemyMetrics, SceneTimeMetrics } from '../SceneInterface';
-import { WarriorEnemyObjectPhysics } from '../../game-object/components/Physics/WarriorEnemyObjectPhysics';
-import { OrdinaryEnemyObjectPhysics } from '../../game-object/components/Physics/OrdinaryEnemyObjectPhysics';
 import {
   EnemyType,
   EnemyObjectGraphics,
 } from '../../game-object/components/Graphics/EnemyObjectGraphics';
-import { enemyConfig } from '../../Config';
+import Audio from '@/features/Audio/Audio';
+import { AUDIO_IDS } from '@/features/Audio';
+import {
+  enemyConfig,
+  ordinaryEnemyMovementArr,
+  warriorEnemyMovementArr,
+  interseptorEnemyMovementArr,
+} from '../../Config';
+import { EnemyObjectPhysics } from '../../game-object/components/Physics/EnemyObjectPhysics';
 
 export type EnemyCreateParams = {
   squadPosition: Vector2;
@@ -61,7 +67,7 @@ export function tryCreateEnemy(
       if (enemyMetrics.currentRow === squadRow) {
         timeDelayConditionCreate(
           lastEnemyCreateTime,
-          enemyConfig.ENEMY_CREATE_DELAY,
+          sceneEnemyConfig.ENEMY_CREATE_DELAY,
           timeMetrics,
           enemyMetrics,
           enemyParams
@@ -69,7 +75,7 @@ export function tryCreateEnemy(
       } else {
         timeDelayConditionCreate(
           lastEnemyCreateTime,
-          enemyConfig.ENEMY_ROW_CREATE_DELAY,
+          sceneEnemyConfig.ENEMY_ROW_CREATE_DELAY,
           timeMetrics,
           enemyMetrics,
           enemyParams
@@ -79,7 +85,7 @@ export function tryCreateEnemy(
     } else {
       timeDelayConditionCreate(
         lastEnemyKillTime,
-        enemyConfig.ENEMY_WAVE_CREATE_DELAY,
+        sceneEnemyConfig.ENEMY_WAVE_CREATE_DELAY,
         timeMetrics,
         enemyMetrics,
         enemyParams
@@ -128,7 +134,11 @@ export function createNewEnemy(
           0,
           enemyConfig.warriorEnemyConfig.moveRadius,
           squadPosition,
-          new WarriorEnemyObjectPhysics(performance.now(), enemyConfig),
+          new EnemyObjectPhysics(
+            performance.now(),
+            enemyConfig,
+            warriorEnemyMovementArr
+          ),
           new EnemyObjectGraphics(EnemyType.WARRIOR)
         );
         enemyCollection.push(enemy);
@@ -143,7 +153,11 @@ export function createNewEnemy(
           0,
           enemyConfig.ordinaryEnemyConfig.moveRadius,
           squadPosition,
-          new OrdinaryEnemyObjectPhysics(performance.now(), enemyConfig),
+          new EnemyObjectPhysics(
+            performance.now(),
+            enemyConfig,
+            ordinaryEnemyMovementArr
+          ),
           new EnemyObjectGraphics(EnemyType.ORDINARY)
         );
         enemyCollection.push(enemy);
@@ -155,7 +169,11 @@ export function createNewEnemy(
           0,
           enemyConfig.warriorEnemyConfig.moveRadius,
           squadPosition,
-          new WarriorEnemyObjectPhysics(performance.now(), enemyConfig),
+          new EnemyObjectPhysics(
+            performance.now(),
+            enemyConfig,
+            interseptorEnemyMovementArr
+          ),
           new EnemyObjectGraphics(EnemyType.WARRIOR)
         );
         enemyCollection.push(enemy);
@@ -169,6 +187,7 @@ export function createNewEnemy(
 
 export function enemyFireAction(
   config: EnemyCreateConfigType,
+  sceneEnemyConfig: SceneEnemyCreateConfigType,
   timeMetrics: SceneTimeMetrics,
   enemyBulletCollection: GameObjectCollection
 ) {
@@ -176,7 +195,7 @@ export function enemyFireAction(
     const currentBulletCreateTime = performance.now();
     if (
       currentBulletCreateTime >
-      lastBulletCreateTime + config.BULLET_CREATE_DELAY
+      lastBulletCreateTime + sceneEnemyConfig.BULLET_CREATE_DELAY
     ) {
       const bullet = createBullet(
         object.position,
@@ -184,6 +203,7 @@ export function enemyFireAction(
         object.size,
         false
       );
+      Audio.play(AUDIO_IDS.EnemyShoot);
       enemyBulletCollection.push(bullet);
       timeMetrics.lastAttackCreateTime = currentBulletCreateTime;
     }

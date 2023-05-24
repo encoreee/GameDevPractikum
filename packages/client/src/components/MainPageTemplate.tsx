@@ -5,6 +5,7 @@ import { styled } from '@mui/system';
 import Background from '../assets/background.png'; // Import using relative path
 
 import MainLabel from './MainLabel';
+import { SoundSwitch } from './SoundSwitch';
 
 const Container = styled('div')({
   height: '100vh',
@@ -31,6 +32,7 @@ const MainPageTemplate: FC<PropsWithChildren> = (props) => {
           {props.children}
         </Stack>
       </Box>
+      <SoundSwitch />
     </Container>
   );
 };

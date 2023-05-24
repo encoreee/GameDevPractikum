@@ -26,6 +26,7 @@ import { ReferenceObject } from '../game-object/components/Objects/ReferenceObje
 import { Vector2 } from '../utils/Vector2';
 import { ExplosionObject } from '../game-object/components/Objects/GameObject';
 import Audio, { AUDIO_IDS } from '@/features/Audio';
+import Stats from './Stats';
 
 export class GameSceneBase implements SceneInterface {
   private readonly player: Player;
@@ -183,6 +184,8 @@ export class GameSceneBase implements SceneInterface {
           this.enemyCollection.delete(enemyIndex);
           this.profile.points += enemyConfig.enemyPoints.defaultPointsValue;
           this.enemyMetrics.enemiesKilled++;
+          Stats.incrementPlayerHit();
+          Stats.updatePlayerScore(this.profile.points);
           this.playerPoints.update(dt, this.profile.points.toString());
         }
       });

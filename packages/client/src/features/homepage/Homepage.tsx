@@ -52,8 +52,14 @@ const HomePage: FC = () => {
             <Typography>Start game</Typography>
           </NavLink>
         </ListItem>
-        <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
-          <Typography>leader board</Typography>
+        <ListItem sx={styles.listItem}>
+          <NavLink
+            href="/leaderboard"
+            sx={styles.link}
+            underline="none"
+            variant="h1">
+            <Typography>leader board</Typography>
+          </NavLink>
         </ListItem>
         <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <NavLink

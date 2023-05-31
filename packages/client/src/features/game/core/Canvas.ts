@@ -1,4 +1,4 @@
-import { Size } from '../game-object/GameObject';
+import { Size } from '../game-object/components/Graphics/Components';
 
 export class Canvas {
   private static htmlCanvasInstance?: HTMLCanvasElement;
@@ -12,7 +12,7 @@ export class Canvas {
   }
 
   public static create(canvas: HTMLCanvasElement) {
-    if (!Canvas.htmlCanvasInstance) {
+    if (Canvas.htmlCanvasInstance !== canvas) {
       this.htmlCanvasInstance = canvas;
     }
   }

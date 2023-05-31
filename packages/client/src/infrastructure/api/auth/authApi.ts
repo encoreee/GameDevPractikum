@@ -1,15 +1,8 @@
 import { apiFetch, API_ADDRESS } from '../../apiFetch';
 import { handleErrors } from '../errorHandler';
-import { SignInRequest, SignUpRequest, UserInfoResponse } from './contracts';
+import { SignInRequest, SignUpRequest } from './contracts';
 
 class AuthApi {
-  getUserInfo = () => {
-    return apiFetch()
-      .get(`${API_ADDRESS}/auth/user`)
-      .then(handleErrors)
-      .then<UserInfoResponse>((res) => res.json());
-  };
-
   signIn = (data: SignInRequest) => {
     return apiFetch()
       .post(`${API_ADDRESS}/auth/signin`, data)

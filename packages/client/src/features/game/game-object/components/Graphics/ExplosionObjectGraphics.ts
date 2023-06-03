@@ -14,8 +14,13 @@ export class ExplosionObjectGraphics implements GraphicComponent {
   private readonly frameWidth;
   private readonly frameHeight;
   constructor(private exposionDelay: number) {
-    this.frameWidth = enemyExplosionImg.width / numColumns;
-    this.frameHeight = enemyExplosionImg.height / numRows;
+    if (enemyExplosionImg) {
+      this.frameWidth = enemyExplosionImg.width / numColumns;
+      this.frameHeight = enemyExplosionImg.height / numRows;
+    } else {
+      this.frameWidth = 0;
+      this.frameHeight = 0;
+    }
   }
   public render(gameObject: GameObject, dt: number): void {
     this.counter++;
@@ -31,18 +36,20 @@ export class ExplosionObjectGraphics implements GraphicComponent {
     const column = this.currentFrame % numColumns;
     const row = Math.floor(this.currentFrame / numColumns);
 
-    this.canvas
-      .getContext2D()
-      .drawImage(
-        enemyExplosionImg,
-        column * this.frameWidth,
-        row * this.frameHeight,
-        this.frameWidth,
-        this.frameHeight,
-        gameObject.position.x + dt,
-        gameObject.position.y + dt,
-        gameObject.size.width + dt,
-        gameObject.size.height + dt
-      );
+    if (enemyExplosionImg) {
+      this.canvas
+        .getContext2D()
+        .drawImage(
+          enemyExplosionImg,
+          column * this.frameWidth,
+          row * this.frameHeight,
+          this.frameWidth,
+          this.frameHeight,
+          gameObject.position.x + dt,
+          gameObject.position.y + dt,
+          gameObject.size.width + dt,
+          gameObject.size.height + dt
+        );
+    }
   }
 }

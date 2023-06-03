@@ -48,16 +48,20 @@ const GameCanvas: React.FC = () => {
   );
 
   useEffect(() => {
-    if (canvas.current !== null) {
-      document.addEventListener('keydown', onKeyDownHandler);
-      document.addEventListener('keyup', onKeyUpHandler);
+    if (typeof document !== 'undefined') {
+      if (canvas.current !== null) {
+        document.addEventListener('keydown', onKeyDownHandler);
+        document.addEventListener('keyup', onKeyUpHandler);
 
-      EngineCanvas.create(canvas.current);
-      galaga.init();
+        EngineCanvas.create(canvas.current);
+        galaga.init();
+      }
     }
     return () => {
-      document.removeEventListener('keydown', onKeyDownHandler);
-      document.removeEventListener('keyup', onKeyUpHandler);
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('keydown', onKeyDownHandler);
+        document.removeEventListener('keyup', onKeyUpHandler);
+      }
       Audio.stopAll();
     };
   }, [canvas]);

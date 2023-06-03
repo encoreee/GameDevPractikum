@@ -92,14 +92,18 @@ class Audio {
   }
 
   private createContext() {
-    if (!this.context) {
-      this.context = new AudioContext();
-      this.context.suspend();
+    if (!import.meta.env.SSR) {
+      if (!this.context) {
+        this.context = new AudioContext();
+        this.context.suspend();
+      }
     }
   }
 
   private async createCache() {
-    this.cache = await caches.open('audio');
+    if (!import.meta.env.SSR) {
+      this.cache = await caches.open('audio');
+    }
   }
 
   private createSource(id: Id) {
@@ -112,26 +116,28 @@ class Audio {
   }
 
   async play(id: Id, options?: PlayOptions) {
-    if (this.context) {
-      await this.allResourcesRequests();
-      // Проверяем, есть ли в буфере декодированый исходник
-      if (!this.buffer[id]) {
-        await this.decodeAudioData(id);
-      }
+    if (!import.meta.env.SSR) {
+      if (this.context) {
+        await this.allResourcesRequests();
+        // Проверяем, есть ли в буфере декодированый исходник
+        if (!this.buffer[id]) {
+          await this.decodeAudioData(id);
+        }
 
-      this.createSource(id);
-      // Проверяем, если контекст приостановлен, то будет стартовать только зацикленное аудио(Без проверки при первом включении звука воспроизведутся все аудио которые были запущены пока контекст был приостановлен)
-      if (this.context.state !== 'suspended') {
-        if (this.audioSourсes[id]) {
-          this.audioSourсes[id].start(this.context.currentTime);
-          if (options) {
+        this.createSource(id);
+        // Проверяем, если контекст приостановлен, то будет стартовать только зацикленное аудио(Без проверки при первом включении звука воспроизведутся все аудио которые были запущены пока контекст был приостановлен)
+        if (this.context.state !== 'suspended') {
+          if (this.audioSourсes[id]) {
+            this.audioSourсes[id].start(this.context.currentTime);
+            if (options) {
+              this.audioSourсes[id].loop = options.loop;
+            }
+          }
+        } else {
+          if (options?.loop) {
+            this.audioSourсes[id].start(this.context.currentTime);
             this.audioSourсes[id].loop = options.loop;
           }
-        }
-      } else {
-        if (options?.loop) {
-          this.audioSourсes[id].start(this.context.currentTime);
-          this.audioSourсes[id].loop = options.loop;
         }
       }
     }

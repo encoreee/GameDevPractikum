@@ -9,14 +9,12 @@ dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
 async function startServer() {
   const app = express();
-  app.use(
-    cors()
-  );
+  app.use(cors());
   const port = Number(process.env.SERVER_PORT) || 3001;
   let vite: ViteDevServer | undefined;
   const distPath = path.dirname(require.resolve('client/dist/index.html'));
   const srcPath = path.dirname(require.resolve('client'));
-  const ssrClientPath = require.resolve('client/ssr-dist/client.cjs');
+  const ssrClientPath = require.resolve('client/dist-ssr/client.cjs');
   if (isDev()) {
     vite = await createViteServer({
       server: { middlewareMode: true },
@@ -51,11 +49,12 @@ async function startServer() {
       if (!isDev()) {
         render = (await import(ssrClientPath)).render;
       } else {
-        render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
-          .render;
+        render = (
+          await vite!.ssrLoadModule(path.resolve(srcPath, 'entry-server.tsx'))
+        ).render;
       }
       const appHtml = await render();
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml);
+      const html = template.replace(`<!-- ssr-outlet -->`, appHtml);
       res.status(200).end(html);
     } catch (e) {
       if (isDev()) {

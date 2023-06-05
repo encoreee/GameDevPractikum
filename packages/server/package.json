@@ -5,9 +5,10 @@
   "scripts": {
     "build": "rimraf ./dist && tsc --p ./tsconfig.prod.json",
     "preview": "node ./dist/index.js",
+    "previewServer": "node ./dist/index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.ts",
-    "devServer": "cross-env nodemon index.ts",
-    "devTest": "cross-env  nodemon index.ts",
+    "devServer": "cross-env NODE_ENV=development nodemon index.ts",
+    "devTest": "cross-env nodemon index.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest ."

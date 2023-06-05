@@ -1,7 +1,7 @@
 import { Canvas } from '../../../core/Canvas';
 import { GameObject } from '../Objects/GameObject';
 import { GraphicComponent } from './Components';
-import enemyExplosionImg from './enemyExplosionImg';
+import { enemyExplosionImg } from './enemyExplosionImg';
 
 const numColumns = 5;
 const numRows = 2;
@@ -14,6 +14,7 @@ export class ExplosionObjectGraphics implements GraphicComponent {
   private frameWidth = 0;
   private frameHeight = 0;
   constructor(private exposionDelay: number) {
+    console.log('constr enemyExplosionImg');
     if (enemyExplosionImg) {
       this.frameWidth = enemyExplosionImg.width / numColumns;
       this.frameHeight = enemyExplosionImg.height / numRows;
@@ -33,7 +34,9 @@ export class ExplosionObjectGraphics implements GraphicComponent {
     const column = this.currentFrame % numColumns;
     const row = Math.floor(this.currentFrame / numColumns);
 
+    console.log(enemyExplosionImg);
     if (enemyExplosionImg) {
+      console.log('render');
       this.canvas
         .getContext2D()
         .drawImage(

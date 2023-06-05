@@ -1,7 +1,7 @@
 import { Canvas } from '../../../core/Canvas';
 import { GameObject } from '../Objects/GameObject';
 import { GraphicComponent } from './Components';
-import playerDamageExplosionImg from './playerDamageExplosionImg';
+import { playerDamageExplosionImg } from './playerDamageExplosionImg';
 
 const numColumns = 3;
 const numRows = 3;

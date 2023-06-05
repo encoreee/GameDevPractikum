@@ -6,7 +6,9 @@ import { isServer } from '@/shared/helpers/serverHelper';
 const GamePage: React.FC = () => {
   return (
     <MainPageTemplate>
-      <ErrorBoundry>{!isServer() && <GameCanvas />}</ErrorBoundry>
+      <ErrorBoundry>
+        <GameCanvas />
+      </ErrorBoundry>
     </MainPageTemplate>
   );
 };

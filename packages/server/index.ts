@@ -27,7 +27,8 @@ async function startServer() {
     res.json('👋 Howdy from the server :)');
   });
   if (!isDev()) {
-    app.use(express.static(path.resolve(distPath, 'assets')));
+    console.log(path.resolve(distPath, 'assets'));
+    app.use(`/assets`, express.static(path.resolve(distPath, 'assets')));
   }
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
@@ -50,7 +51,9 @@ async function startServer() {
         render = (await import(ssrClientPath)).render;
       } else {
         render = (
-          await vite!.ssrLoadModule(path.resolve(srcPath, 'entry-server.tsx'))
+          await vite!.ssrLoadModule(
+            path.resolve(srcPath, 'src/entry-server.tsx')
+          )
         ).render;
       }
       const appHtml = await render();

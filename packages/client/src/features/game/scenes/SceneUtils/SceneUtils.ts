@@ -47,12 +47,19 @@ export function createExplosion(
 ): ExplosionObject {
   switch (exposilonType) {
     case ExplosionObjectType.ENEMY: {
+      const phisics = new GameObjectPhysics();
+      console.log(phisics);
+      const graphics = new ExplosionObjectGraphics(
+        enemyExplosionConfig.exposionDelay
+      );
+      console.log(graphics);
       const exp = new ExplosionObject(
         position,
         enemyExplosionConfig.size,
-        new GameObjectPhysics(),
-        new ExplosionObjectGraphics(enemyExplosionConfig.exposionDelay)
+        phisics,
+        graphics
       );
+      console.log(exp);
       Audio.play(AUDIO_IDS.EnemyExplosion);
       exp.render(dt);
       return exp;

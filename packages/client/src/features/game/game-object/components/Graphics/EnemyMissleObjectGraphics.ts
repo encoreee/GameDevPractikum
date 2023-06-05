@@ -8,7 +8,7 @@ export class EnemyMissleObjectGraphics implements GraphicComponent {
   private readonly canvas = Canvas;
   private img: HTMLImageElement | undefined;
   constructor() {
-    if (isServer()) {
+    if (!isServer()) {
       this.img = new Image();
       this.img.src = source;
       this.img.translate;

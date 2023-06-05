@@ -8,7 +8,6 @@ export class Collider {
     const difference = this.gameObject.position.substract(other.position);
     const absoluteDifX = Math.abs(difference.x);
     const absoluteDifY = Math.abs(difference.y);
-    console.log(difference);
     if (difference.x > 0) {
       // Обработка ситуации когда объект находится справа в момент соприкосновенияю. Деление внутри условий для того что бы снаряды визуально заходили в объект
       if (absoluteDifX < other.size.width / 2) {

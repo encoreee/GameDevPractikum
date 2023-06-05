@@ -5,5 +5,5 @@ export let enemyExplosionImg: HTMLImageElement | undefined;
 if (!isServer()) {
   const enemyExplosionImg = new Image();
   enemyExplosionImg.src = source;
-  console.log('imageClient');
+  enemyExplosionImg.translate;
 }

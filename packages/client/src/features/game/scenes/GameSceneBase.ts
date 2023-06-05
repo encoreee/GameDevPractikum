@@ -144,8 +144,6 @@ export class GameSceneBase implements SceneInterface {
             ExplosionObjectType.PLAYER,
             dt
           );
-          console.log(exp);
-          console.log('colid');
           this.explosionCollection.push(exp);
           this.enemyBulletCollection.delete(index);
           createPlayerLives(

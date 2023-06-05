@@ -26,34 +26,30 @@ const App: FC = () => {
     <Fragment>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/signin" element={<SignInPage />} />
+          <Routes>
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route
+              element={
+                <PrivateRoute>
+                  <Outlet />
+                </PrivateRoute>
+              }>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/game" element={<GamePage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/forum/*" element={<ForumPages />} />
+              <Route path="/game-over" element={<GameOver />} />
+              <Route path="/leaderboard" element={<LeaderBoardPage />} />
+              <Route path="/signin" element={<></>} />
               <Route path="/signup" element={<SignUpPage />} />
-              <Route
-                element={
-                  <PrivateRoute>
-                    <Outlet />
-                  </PrivateRoute>
-                }>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/game" element={<GamePage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/forum/*" element={<ForumPages />} />
-                <Route path="/game-over" element={<GameOver />} />
-                <Route path="/leaderboard" element={<LeaderBoardPage />} />
-                <Route path="/signin" element={<></>} />
-                <Route path="/signup" element={<SignUpPage />} />
-                <Route path="/start" element={<GameStartPage />} />
-              </Route>
-              <Route
-                path="*"
-                element={
-                  <Error errorType="404" errorMessage="Page Not Found." />
-                }
-              />
-            </Routes>
-          </BrowserRouter>
+              <Route path="/start" element={<GameStartPage />} />
+            </Route>
+            <Route
+              path="*"
+              element={<Error errorType="404" errorMessage="Page Not Found." />}
+            />
+          </Routes>
         </ThemeProvider>
       </Provider>
     </Fragment>

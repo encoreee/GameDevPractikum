@@ -26,8 +26,7 @@ const dummy: PlayerProfile = {
   points: 0,
   lives: playerConfig.playerLives.lives,
 };
-
-const galaga = new GalagaGame(dummy);
+let galaga: GalagaGame | undefined;
 
 const GameCanvas: React.FC = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -39,15 +38,18 @@ const GameCanvas: React.FC = () => {
     navigate('/game-over');
   };
 
-  galaga.onEndGame = onEndGame;
   useEffect(
     () => () => {
-      galaga.endGame();
+      if (galaga) {
+        galaga.endGame();
+      }
     },
     []
   );
 
   useEffect(() => {
+    const galaga: GalagaGame | undefined = new GalagaGame(dummy);
+    galaga.onEndGame = onEndGame;
     if (canvas.current !== null) {
       document.addEventListener('keydown', onKeyDownHandler);
       document.addEventListener('keyup', onKeyUpHandler);
@@ -64,14 +66,17 @@ const GameCanvas: React.FC = () => {
 
   const onKeyDownHandler = (event: KeyboardEvent) => {
     // Сhecking for a modifier to avoid unexpected behavior
-    if (event.altKey || event.ctrlKey) return;
 
-    galaga.keyboard.keyDownHandler(event.key);
+    if (galaga) {
+      if (event.altKey || event.ctrlKey) return;
+      galaga.keyboard.keyDownHandler(event.key);
+    }
   };
   const onKeyUpHandler = (event: KeyboardEvent) => {
-    if (event.altKey || event.ctrlKey) return;
-
-    galaga.keyboard.keyUpHandler(event.key);
+    if (galaga) {
+      if (event.altKey || event.ctrlKey) return;
+      galaga.keyboard.keyUpHandler(event.key);
+    }
   };
 
   return (

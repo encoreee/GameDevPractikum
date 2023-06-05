@@ -1,5 +1,4 @@
 import { canvasSize } from '@/features/game/Config';
-import { Canvas } from '@/features/game/core/Canvas';
 import { ActionFlagType } from '../../../core/KeyboardController';
 import { Vector2 } from '../../../utils/Vector2';
 import { GameObject } from '../Objects/GameObject';

@@ -31,6 +31,7 @@ export class GalagaGame {
     SceneManager.setStartScene();
 
     Stats.resetStats();
+    this.gameloop.stop = false;
     this.gameloop.start();
   }
 
@@ -54,6 +55,8 @@ export class GalagaGame {
       //  TODO  объединить методы по обнулению состояния при ините игры
       SceneManager.setProfile(cloneDeep(this.profile));
       SceneManager.setInitialSceneIndex();
+      this.gameloop.stop = true;
+
       this.onEndGame();
       Audio.stopAll();
     }

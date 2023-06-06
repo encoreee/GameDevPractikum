@@ -27,7 +27,6 @@ async function startServer() {
     res.json('👋 Howdy from the server :)');
   });
   if (!isDev()) {
-    console.log(path.resolve(distPath, 'assets'));
     app.use(`/assets`, express.static(path.resolve(distPath, 'assets')));
   }
   app.use('*', async (req, res, next) => {

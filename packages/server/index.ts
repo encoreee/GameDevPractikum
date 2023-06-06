@@ -5,8 +5,10 @@ import type { ViteDevServer } from 'vite';
 import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
+
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
+
 async function startServer() {
   const app = express();
   app.use(cors());
@@ -46,17 +48,27 @@ async function startServer() {
         template = await vite!.transformIndexHtml(url, template);
       }
       let render: () => Promise<string>;
+      let preloadedStatePromise!: () => Promise<any>;
       if (!isDev()) {
         render = (await import(ssrClientPath)).render;
+        preloadedStatePromise = (await import(ssrClientPath)).getPreloadedState;
       } else {
-        render = (
-          await vite!.ssrLoadModule(
-            path.resolve(srcPath, 'src/entry-server.tsx')
-          )
-        ).render;
+        const ssrLoadModule = await vite!.ssrLoadModule(
+          path.resolve(srcPath, 'src/entry-server.tsx')
+        );
+        render = ssrLoadModule.render;
+        preloadedStatePromise = ssrLoadModule.getPreloadedState;
       }
+
       const appHtml = await render();
-      const html = template.replace(`<!-- ssr-outlet -->`, appHtml);
+      const preloadedState = await preloadedStatePromise();
+      const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
+        preloadedState
+      )}</script>`;
+      const html = template.replace(
+        `<!-- ssr-outlet -->`,
+        stateMarkup + appHtml
+      );
       res.status(200).end(html);
     } catch (e) {
       if (isDev()) {
@@ -69,4 +81,5 @@ async function startServer() {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
   });
 }
+
 startServer();

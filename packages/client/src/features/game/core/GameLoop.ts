@@ -4,7 +4,7 @@ export class GameLoop {
   private previous = performance.now();
   private step = 1 / 60; //amount of time per frame
   private dt = 0; // delta time
-  public stop = false;
+  private stop = false;
 
   constructor(
     private update: GameLoopCallback,
@@ -16,8 +16,6 @@ export class GameLoop {
     this.dt = this.dt + Math.min(1, (current - this.previous) / 1000);
 
     while (this.dt > this.step && !this.stop) {
-      console.log('game');
-
       this.dt = this.dt - this.step;
       this.update(this.step);
     }
@@ -30,5 +28,9 @@ export class GameLoop {
 
   public start() {
     this.frame();
+  }
+
+  public continue(value: boolean) {
+    this.stop = value;
   }
 }

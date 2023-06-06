@@ -1,4 +1,3 @@
-Нет утечки памяти
+утечек памяти не было
 
-![Memory report](./packages/client/src/assets/memReport1.png)
 ![Memory report](./packages/client/src/assets/memReport2.png)

@@ -8,7 +8,7 @@
     "build:client": "tsc && vite build --config vite.config.ts",
     "build:ssr": "tsc && vite build --config vite.ssr.config.ts",
     "preview": "vite preview",
-    "lint": "eslint .",
+    "lint": "rimraf ./dist && rimraf ./dist-ssr && eslint .",
     "typings": "tsc --noEmit",
     "format": "prettier --write .",
     "test": "jest ./"

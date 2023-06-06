@@ -9,7 +9,7 @@ import path from 'node:path';
 
 dotenv.config();
 
-const isDev = () => process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
 const port = Number(process.env.SERVER_PORT) || 3001;
 
@@ -28,14 +28,14 @@ async function startServer() {
   let distPath: string;
   let ssrClientPath: string;
 
-  if (!isDev()) {
+  if (!isDev) {
     distPath = path.dirname(require.resolve('client/dist/index.html'));
     ssrClientPath = require.resolve('client/dist-ssr/entry-server.cjs');
   }
   const srcPath = path.dirname(require.resolve('client'));
 
   // vite milleware if dev mode
-  if (isDev()) {
+  if (isDev) {
     vite = await createViteServer({
       server: { middlewareMode: true },
       root: srcPath,
@@ -50,7 +50,7 @@ async function startServer() {
   });
 
   // static
-  if (!isDev()) {
+  if (!isDev) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     app.use('/assets', express.static(path.resolve(distPath!, 'assets')));
   }
@@ -60,7 +60,7 @@ async function startServer() {
     const url = req.originalUrl;
     try {
       let template: string;
-      if (!isDev()) {
+      if (!isDev) {
         template = fs.readFileSync(
           path.resolve(distPath, 'index.html'),
           'utf-8'
@@ -73,7 +73,7 @@ async function startServer() {
         template = await vite!.transformIndexHtml(url, template);
       }
       let render: () => Promise<string>;
-      if (!isDev()) {
+      if (!isDev) {
         render = (await import(ssrClientPath)).render;
       } else {
         render = (
@@ -88,7 +88,7 @@ async function startServer() {
 
       res.status(200).end(html);
     } catch (e) {
-      if (isDev()) {
+      if (isDev) {
         vite!.ssrFixStacktrace(e as Error);
       }
       next(e);

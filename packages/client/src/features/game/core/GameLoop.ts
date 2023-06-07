@@ -23,7 +23,10 @@ export class GameLoop {
     this.previous = current;
 
     this.render(this.dt);
-    requestAnimationFrame(this.frame.bind(this));
+
+    if (!this.stop) {
+      requestAnimationFrame(this.frame.bind(this));
+    }
   }
 
   public start() {

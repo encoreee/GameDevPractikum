@@ -58,8 +58,10 @@ const GameCanvas: React.FC = () => {
       galaga.init();
     }
     return () => {
-      document.removeEventListener('keydown', onKeyDownHandler);
-      document.removeEventListener('keyup', onKeyUpHandler);
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('keydown', onKeyDownHandler);
+        document.removeEventListener('keyup', onKeyUpHandler);
+      }
       Audio.stopAll();
     };
   }, [canvas]);

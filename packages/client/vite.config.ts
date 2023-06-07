@@ -40,8 +40,9 @@ export default defineConfig(() => ({
           './src/infrastructure/networkCacheServiceWorker.ts',
       },
       output: {
+        // 2️⃣
         entryFileNames: 'assets/[name].js',
-        chunkFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/[name]-chunk.js`,
         assetFileNames: `assets/[name].[ext]`,
       },
     },

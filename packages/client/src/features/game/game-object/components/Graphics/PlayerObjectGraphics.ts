@@ -7,8 +7,10 @@ export class PlayerObjectGraphics implements GraphicComponent {
   private readonly canvas = Canvas;
   private img?: HTMLImageElement;
   constructor() {
-    this.img = new Image();
-    this.img.src = source;
+    if (typeof document !== 'undefined') {
+      this.img = document.createElement('img');
+      this.img.src = source;
+    }
   }
   public render(gameObject: GameObject, dt: number): void {
     if (this.img) {

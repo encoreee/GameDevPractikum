@@ -7,17 +7,34 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 dotenv.config();
-const isDev = () => process.env.NODE_ENV === 'development';
+
+const port = Number(process.env.SERVER_PORT) || 3001;
+
+const isDev = process.env.NODE_ENV === 'development';
 
 async function startServer() {
   const app = express();
+
   app.use(cors());
-  const port = Number(process.env.SERVER_PORT) || 3001;
+
   let vite: ViteDevServer | undefined;
-  const distPath = path.dirname(require.resolve('client/dist/index.html'));
+  /**
+   * path to link `client` in `node_modules`
+   * if `client` is not defined try remake link.
+   * cd ./packages/client && yarn link
+   * cd ../server && yarn link client
+   */
+  let distPath: string | undefined;
+  let ssrClientPath: string | undefined;
+
+  if (!isDev) {
+    distPath = path.dirname(require.resolve('client/dist/index.html'));
+    ssrClientPath = require.resolve('client/dist-ssr/entry-server.cjs');
+  }
   const srcPath = path.dirname(require.resolve('client'));
-  const ssrClientPath = require.resolve('client/dist-ssr/client.cjs');
-  if (isDev()) {
+
+  // vite milleware if dev mode
+  if (isDev) {
     vite = await createViteServer({
       server: { middlewareMode: true },
       root: srcPath,
@@ -25,17 +42,22 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   }
+  // api route
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)');
   });
-  if (!isDev()) {
+
+  // static
+  if (!isDev && !!distPath) {
     app.use(`/assets`, express.static(path.resolve(distPath, 'assets')));
   }
+
+  // ssr
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
     try {
       let template: string;
-      if (!isDev()) {
+      if (!isDev && !!distPath) {
         template = fs.readFileSync(
           path.resolve(distPath, 'index.html'),
           'utf-8'
@@ -45,19 +67,25 @@ async function startServer() {
           path.resolve(srcPath, 'index.html'),
           'utf-8'
         );
-        template = await vite!.transformIndexHtml(url, template);
+        if (vite) {
+          template = await vite.transformIndexHtml(url, template);
+        }
       }
       let render: () => Promise<string>;
       let preloadedStatePromise!: () => Promise<any>;
-      if (!isDev()) {
+      if (!isDev && !!ssrClientPath) {
         render = (await import(ssrClientPath)).render;
         preloadedStatePromise = (await import(ssrClientPath)).getPreloadedState;
-      } else {
-        const ssrLoadModule = await vite!.ssrLoadModule(
+      } else if (vite) {
+        const ssrLoadModule = await vite.ssrLoadModule(
           path.resolve(srcPath, 'src/entry-server.tsx')
         );
         render = ssrLoadModule.render;
         preloadedStatePromise = ssrLoadModule.getPreloadedState;
+      } else {
+        throw new Error(
+          'render() cant be defined. SSR module couldnt be loaded'
+        );
       }
 
       const appHtml = await render();
@@ -71,8 +99,8 @@ async function startServer() {
       );
       res.status(200).end(html);
     } catch (e) {
-      if (isDev()) {
-        vite!.ssrFixStacktrace(e as Error);
+      if (isDev && vite) {
+        vite.ssrFixStacktrace(e as Error);
       }
       next(e);
     }

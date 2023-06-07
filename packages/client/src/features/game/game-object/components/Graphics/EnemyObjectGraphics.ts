@@ -13,18 +13,20 @@ export class EnemyObjectGraphics implements GraphicComponent {
   private readonly canvas = Canvas;
   private img: HTMLImageElement | undefined;
   constructor(enemyType: EnemyType) {
-    this.img = new Image();
-    switch (enemyType) {
-      case EnemyType.ORDINARY:
-        this.img.src = ordinarySrc;
-        break;
-      case EnemyType.WARRIOR:
-        this.img.src = warriorSrc;
-        break;
-      default:
-        throw new Error('Not impemented');
+    if (typeof document !== 'undefined') {
+      this.img = document.createElement('img');
+      switch (enemyType) {
+        case EnemyType.ORDINARY:
+          this.img.src = ordinarySrc;
+          break;
+        case EnemyType.WARRIOR:
+          this.img.src = warriorSrc;
+          break;
+        default:
+          throw new Error('Not impemented');
+      }
+      this.img.translate;
     }
-    this.img.translate;
   }
   public render(gameObject: GameObject, dt: number): void {
     if (this.img) {

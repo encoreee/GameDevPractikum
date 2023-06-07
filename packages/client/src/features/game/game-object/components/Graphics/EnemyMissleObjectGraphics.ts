@@ -7,9 +7,11 @@ export class EnemyMissleObjectGraphics implements GraphicComponent {
   private readonly canvas = Canvas;
   private img: HTMLImageElement | undefined;
   constructor() {
-    this.img = new Image();
-    this.img.src = source;
-    this.img.translate;
+    if (typeof document !== 'undefined') {
+      this.img = document.createElement('img');
+      this.img.src = source;
+      this.img.translate;
+    }
   }
   public render(gameObject: GameObject, dt: number): void {
     if (this.img) {

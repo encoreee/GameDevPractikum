@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { createServer as createViteServer } from 'vite';
@@ -25,8 +24,8 @@ async function startServer() {
    * cd ./packages/client && yarn link
    * cd ../server && yarn link client
    */
-  let distPath: string;
-  let ssrClientPath: string;
+  let distPath: string | undefined;
+  let ssrClientPath: string | undefined;
 
   if (!isDev) {
     distPath = path.dirname(require.resolve('client/dist/index.html'));
@@ -50,9 +49,8 @@ async function startServer() {
   });
 
   // static
-  if (!isDev) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    app.use('/assets', express.static(path.resolve(distPath!, 'assets')));
+  if (!isDev && !!distPath) {
+    app.use('/assets', express.static(path.resolve(distPath, 'assets')));
   }
 
   // ssr
@@ -60,7 +58,7 @@ async function startServer() {
     const url = req.originalUrl;
     try {
       let template: string;
-      if (!isDev) {
+      if (!isDev && !!distPath) {
         template = fs.readFileSync(
           path.resolve(distPath, 'index.html'),
           'utf-8'
@@ -70,17 +68,23 @@ async function startServer() {
           path.resolve(srcPath, 'index.html'),
           'utf-8'
         );
-        template = await vite!.transformIndexHtml(url, template);
+        if (vite) {
+          template = await vite.transformIndexHtml(url, template);
+        }
       }
       let render: () => Promise<string>;
-      if (!isDev) {
+      if (!isDev && !!ssrClientPath) {
         render = (await import(ssrClientPath)).render;
-      } else {
+      } else if (vite) {
         render = (
-          await vite!.ssrLoadModule(
+          await vite.ssrLoadModule(
             path.resolve(srcPath, '/src/entry-server.tsx')
           )
         ).render;
+      } else {
+        throw new Error(
+          'render() cant be defined. SSR module couldnt be loaded'
+        );
       }
 
       const appHtml = await render();
@@ -88,8 +92,8 @@ async function startServer() {
 
       res.status(200).end(html);
     } catch (e) {
-      if (isDev) {
-        vite!.ssrFixStacktrace(e as Error);
+      if (isDev && vite) {
+        vite.ssrFixStacktrace(e as Error);
       }
       next(e);
     }

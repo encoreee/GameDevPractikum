@@ -14,8 +14,13 @@ export class PlayerExplosionObjectGraphics implements GraphicComponent {
   private readonly frameWidth;
   private readonly frameHeight;
   constructor(private exposionDelay: number) {
-    this.frameWidth = playerDamageExplosionImg.width / numColumns;
-    this.frameHeight = playerDamageExplosionImg.height / numRows;
+    if (playerDamageExplosionImg) {
+      this.frameWidth = playerDamageExplosionImg.width / numColumns;
+      this.frameHeight = playerDamageExplosionImg.height / numRows;
+    } else {
+      this.frameWidth = 0;
+      this.frameHeight = 0;
+    }
   }
   public render(gameObject: GameObject, dt: number): void {
     this.counter++;
@@ -31,18 +36,20 @@ export class PlayerExplosionObjectGraphics implements GraphicComponent {
     const column = this.currentFrame % numColumns;
     const row = Math.floor(this.currentFrame / numColumns);
 
-    this.canvas
-      .getContext2D()
-      .drawImage(
-        playerDamageExplosionImg,
-        column * this.frameWidth,
-        row * this.frameHeight,
-        this.frameWidth,
-        this.frameHeight,
-        gameObject.position.x + dt,
-        gameObject.position.y + dt,
-        gameObject.size.width + dt,
-        gameObject.size.height + dt
-      );
+    if (playerDamageExplosionImg) {
+      this.canvas
+        .getContext2D()
+        .drawImage(
+          playerDamageExplosionImg,
+          column * this.frameWidth,
+          row * this.frameHeight,
+          this.frameWidth,
+          this.frameHeight,
+          gameObject.position.x + dt,
+          gameObject.position.y + dt,
+          gameObject.size.width + dt,
+          gameObject.size.height + dt
+        );
+    }
   }
 }

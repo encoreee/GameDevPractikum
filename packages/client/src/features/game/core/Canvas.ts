@@ -4,7 +4,7 @@ export class Canvas {
   private static htmlCanvasInstance?: HTMLCanvasElement;
 
   public static getInstaice(): HTMLCanvasElement {
-    if (!Canvas.htmlCanvasInstance) {
+    if (Canvas.htmlCanvasInstance === undefined) {
       throw new Error('HTMLCanvasElement is not defined');
     }
 
@@ -14,6 +14,13 @@ export class Canvas {
   public static create(canvas: HTMLCanvasElement) {
     if (Canvas.htmlCanvasInstance !== canvas) {
       this.htmlCanvasInstance = canvas;
+    }
+  }
+
+  public static remove() {
+    // this.htmlCanvasInstance = undefined;
+    if (Canvas.htmlCanvasInstance) {
+      delete Canvas.htmlCanvasInstance;
     }
   }
 

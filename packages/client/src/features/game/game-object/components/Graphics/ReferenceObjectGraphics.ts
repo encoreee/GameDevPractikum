@@ -1,4 +1,3 @@
-import { isServer } from '@/shared/helpers/serverHelper';
 import { Canvas } from '../../../core/Canvas';
 import { ReferenceObject } from '../Objects/ReferenceObject';
 import { GraphicReferenceComponent } from './Components';
@@ -8,16 +7,14 @@ export class ReferenceObjectGraphics implements GraphicReferenceComponent {
 
   constructor(private color: string, private size: number) {}
   public render(referenceObject: ReferenceObject, dt: number): void {
-    if (!isServer()) {
-      this.canvas.getContext2D().fillStyle = `${this.color}`;
-      this.canvas.getContext2D().font = `${this.size}pt "Press Start 2P"`;
-      this.canvas
-        .getContext2D()
-        .fillText(
-          referenceObject.text,
-          referenceObject.position.x + dt,
-          referenceObject.position.y + dt
-        );
-    }
+    this.canvas.getContext2D().fillStyle = `${this.color}`;
+    this.canvas.getContext2D().font = `${this.size}pt "Press Start 2P"`;
+    this.canvas
+      .getContext2D()
+      .fillText(
+        referenceObject.text,
+        referenceObject.position.x + dt,
+        referenceObject.position.y + dt
+      );
   }
 }

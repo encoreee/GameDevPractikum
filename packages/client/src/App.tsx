@@ -17,7 +17,7 @@ import GameOver from './features/gameOver/GameOver';
 
 const App: FC = () => {
   useEffect(() => {
-    // startServiceWorker();
+    startServiceWorker();
   }, []);
 
   return (

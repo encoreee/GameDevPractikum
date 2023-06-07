@@ -1,4 +1,3 @@
-import { isServer } from '@/shared/helpers/serverHelper';
 import { Canvas } from '../../../core/Canvas';
 import { GameObject } from '../Objects/GameObject';
 import { GraphicComponent } from './Components';
@@ -16,11 +15,9 @@ export class ExplosionObjectGraphics implements GraphicComponent {
   private frameHeight = 0;
   private img: HTMLImageElement | undefined;
   constructor(private exposionDelay: number) {
-    if (!isServer()) {
-      this.img = new Image();
-      this.img.src = source;
-      this.img.translate;
-    }
+    this.img = new Image();
+    this.img.src = source;
+    this.img.translate;
   }
   public render(gameObject: GameObject, dt: number): void {
     if (this.img) {

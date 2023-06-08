@@ -139,13 +139,12 @@ export class GameSceneBase implements SceneInterface {
       if (this.player.collideWith(bullet)) {
         if (this.profile.lives > 0) {
           this.profile.lives--;
-          this.explosionCollection.push(
-            createExplosion(
-              Vector2.copy(bullet.position),
-              ExplosionObjectType.PLAYER,
-              dt
-            )
+          const exp = createExplosion(
+            Vector2.copy(bullet.position),
+            ExplosionObjectType.PLAYER,
+            dt
           );
+          this.explosionCollection.push(exp);
           this.enemyBulletCollection.delete(index);
           createPlayerLives(
             this.playerLivesCollection,

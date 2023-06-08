@@ -5,12 +5,10 @@ import source from '../../../../../assets/mainship/MainShipFullHealth.png';
 
 export class PlayerObjectGraphics implements GraphicComponent {
   private readonly canvas = Canvas;
-  private img: HTMLImageElement | undefined;
+  private img?: HTMLImageElement;
   constructor() {
-    if (typeof document !== 'undefined') {
-      this.img = document.createElement('img');
-      this.img.src = source;
-    }
+    this.img = new Image();
+    this.img.src = source;
   }
   public render(gameObject: GameObject, dt: number): void {
     if (this.img) {

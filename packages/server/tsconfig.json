@@ -19,7 +19,7 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["DOM", "es2019", "esnext.asynciterable"],
     "types": ["node", "jest"],
-    "baseUrl": ".",
+    "baseUrl": "../",
     "paths": {
       "*": ["types/*"]
     },

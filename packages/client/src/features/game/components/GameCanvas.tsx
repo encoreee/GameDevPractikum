@@ -48,7 +48,7 @@ const GameCanvas: React.FC = () => {
   );
 
   useEffect(() => {
-    if (canvas.current !== null) {
+    if (typeof document !== 'undefined' && canvas.current !== null) {
       document.addEventListener('keydown', onKeyDownHandler);
       document.addEventListener('keyup', onKeyUpHandler);
 
@@ -56,10 +56,12 @@ const GameCanvas: React.FC = () => {
       galaga.init();
     }
     return () => {
-      document.removeEventListener('keydown', onKeyDownHandler);
-      document.removeEventListener('keyup', onKeyUpHandler);
-      EngineCanvas.remove();
-      galaga.endGame();
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('keydown', onKeyDownHandler);
+        document.removeEventListener('keyup', onKeyUpHandler);
+        EngineCanvas.remove();
+        galaga.endGame();
+      }
       Audio.stopAll();
     };
   }, [canvas]);

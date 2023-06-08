@@ -14,18 +14,24 @@ export const useToggleFullScreen = (key: string) => {
         'Full Screen Element is not defined. Check the returned value is bound with ref'
       );
     }
-    if (!document.fullscreenElement) {
-      await element.current.requestFullscreen();
-    } else if (document.exitFullscreen) {
-      document.exitFullscreen();
+    if (typeof document !== 'undefined') {
+      if (!document.fullscreenElement) {
+        await element.current.requestFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
     }
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', onKeyDownHandler);
+    if (typeof document !== 'undefined') {
+      document.addEventListener('keydown', onKeyDownHandler);
+    }
 
     return () => {
-      document.removeEventListener('keydown', onKeyDownHandler);
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('keydown', onKeyDownHandler);
+      }
     };
   }, [element]);
 

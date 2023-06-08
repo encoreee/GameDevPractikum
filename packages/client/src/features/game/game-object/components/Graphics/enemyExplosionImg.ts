@@ -1,4 +1,10 @@
 import source from '../../../../../assets/explosion/explosion-sprite.png';
-const enemyExplosionImg = new Image();
-enemyExplosionImg.src = source;
+
+let enemyExplosionImg: HTMLImageElement | undefined;
+
+if (typeof document !== 'undefined') {
+  enemyExplosionImg = document?.createElement('img');
+  enemyExplosionImg.src = source;
+}
+
 export default enemyExplosionImg;

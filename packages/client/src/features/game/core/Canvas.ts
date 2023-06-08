@@ -18,7 +18,6 @@ export class Canvas {
   }
 
   public static remove() {
-    // this.htmlCanvasInstance = undefined;
     if (Canvas.htmlCanvasInstance) {
       delete Canvas.htmlCanvasInstance;
     }

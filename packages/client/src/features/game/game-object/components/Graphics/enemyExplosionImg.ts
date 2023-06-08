@@ -1,10 +1,9 @@
 import source from '../../../../../assets/explosion/explosion-sprite.png';
+import { isServer } from '@/shared/helpers/serverHelper';
 
-let enemyExplosionImg: HTMLImageElement | undefined;
-
-if (typeof document !== 'undefined') {
-  enemyExplosionImg = document?.createElement('img');
+export let enemyExplosionImg: HTMLImageElement | undefined;
+if (!isServer()) {
+  const enemyExplosionImg = new Image();
   enemyExplosionImg.src = source;
+  enemyExplosionImg.translate;
 }
-
-export default enemyExplosionImg;

@@ -96,6 +96,7 @@ export class SceneManager {
 
   public static endGame(): void {
     SceneManager.end = true;
+    SceneManager.onEndCallBack();
   }
 
   private static endCallBack(): void {

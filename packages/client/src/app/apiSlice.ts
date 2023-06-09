@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { User } from '../infrastructure/api/auth/contracts';
+import { User, OauthRequest } from '../infrastructure/api/auth/contracts';
 import { API_ADDRESS } from '@/infrastructure/apiFetch';
 
 export const apiSlice = createApi({
@@ -12,6 +12,10 @@ export const apiSlice = createApi({
     getUserInfo: build.query<User, void>({
       query: () => `/auth/user`,
       keepUnusedDataFor: 600,
+    }),
+    postOauth: build.query<void, OauthRequest>({
+      query: (body) => ({ url: `/oauth/yandex`, method: 'POST', body }),
+      keepUnusedDataFor: 100,
     }),
     updateUserInfo: build.mutation<User, Omit<User, 'id' | 'avatar'>>({
       query: (body) => ({
@@ -37,4 +41,8 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useGetUserInfoQuery, useUpdateUserInfoMutation } = apiSlice;
+export const {
+  useGetUserInfoQuery,
+  useUpdateUserInfoMutation,
+  usePostOauthQuery,
+} = apiSlice;

@@ -28,6 +28,11 @@ const SignInPage: FC = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const accessToken = searchParams.get('code');
+    const error = searchParams.get('error');
+
+    if (error) {
+      setSignInError(error);
+    }
 
     if (!accessToken) {
       return;

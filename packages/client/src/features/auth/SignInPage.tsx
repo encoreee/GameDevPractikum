@@ -2,10 +2,10 @@ import AuthController from '../../controllers/authController';
 import { FC } from 'react';
 import { Stack } from '@mui/material';
 import { FormContainer } from 'react-hook-form-mui';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SignInRequest } from '../../infrastructure/api/auth/contracts';
-import { useGetUserInfoQuery } from '@/app/apiSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { AppMessage } from '@/utils/const';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainPageTemplate from '../../components/MainPageTemplate';
@@ -16,16 +16,31 @@ import FormNotification, {
   FORM_NOTIFICATION_TYPE,
 } from '../../components/FormNotification';
 
+const REDIRECT_URI = 'http://localhost:3000';
+
 const SignInPage: FC = () => {
-  const { data } = useGetUserInfoQuery();
-  const navigate = useNavigate();
-
-  if (data) {
-    navigate('/');
-  }
-
   const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
+  const redirectUriEncoded = encodeURIComponent(REDIRECT_URI);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [signInError, setSignInError] = useState<string>(' ');
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const accessToken = searchParams.get('code');
+
+    if (!accessToken) {
+      return;
+    }
+
+    (async () => {
+      const error = await AuthController.Oauth({
+        code: accessToken,
+        redirect_uri: redirectUriEncoded,
+      });
+      error ? setSignInError(error) : navigate('/');
+    })();
+  }, [location.search]);
 
   const onSubmit = async (data: SignInRequest) => {
     const error = await AuthController.signIn(data);
@@ -38,8 +53,17 @@ const SignInPage: FC = () => {
     navigate('/');
   };
 
-  const onOAuth = async () => {
-    console.log(1);
+  const onOauth = async () => {
+    const res = await AuthController.getServiceId(redirectUriEncoded);
+
+    if (!res) {
+      setSignInError(AppMessage.OAUTH_ERROR);
+      return;
+    }
+
+    window.location.assign(
+      `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.service_id}&redirect_uri=${redirectUriEncoded}`
+    );
   };
 
   return (
@@ -68,7 +92,7 @@ const SignInPage: FC = () => {
             <MainButton label="Sign in" type="submit" />
             <MainButton
               label="Continue with Yandex"
-              onClick={onOAuth}
+              onClick={onOauth}
               color="#161616"
               fontSize={14}
             />

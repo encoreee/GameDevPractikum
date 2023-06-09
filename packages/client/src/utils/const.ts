@@ -20,4 +20,5 @@ export const ValidationAssertions = {
 
 export const AppMessage = {
   UNKNOWN_API_ERROR: 'Unknown API error',
+  OAUTH_ERROR: `Couldn't complete oauth. Please, try login/password.`,
 };

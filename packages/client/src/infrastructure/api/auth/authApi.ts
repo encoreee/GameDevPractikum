@@ -1,6 +1,6 @@
 import { apiFetch, API_ADDRESS } from '../../apiFetch';
 import { handleErrors } from '../errorHandler';
-import { SignInRequest, SignUpRequest } from './contracts';
+import { SignInRequest, SignUpRequest, OauthRequest } from './contracts';
 
 class AuthApi {
   signIn = (data: SignInRequest) => {
@@ -16,6 +16,18 @@ class AuthApi {
 
   logout = () => {
     return apiFetch().post(`${API_ADDRESS}/auth/logout`).then(handleErrors);
+  };
+
+  getServiceId = (redirectUri: string) => {
+    return apiFetch()
+      .get(`${API_ADDRESS}/oauth/yandex/service-id?redirect_uri=${redirectUri}`)
+      .then(handleErrors);
+  };
+
+  postOauthCode = (data: OauthRequest) => {
+    return apiFetch()
+      .post(`${API_ADDRESS}/oauth/yandex`, data)
+      .then(handleErrors);
   };
 }
 

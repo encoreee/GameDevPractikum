@@ -1,7 +1,7 @@
 import { Canvas } from '../../../core/Canvas';
 import { GameObject } from '../Objects/GameObject';
 import { GraphicComponent } from './Components';
-import playerDamageExplosionImg from './playerDamageExplosionImg';
+import source from '../../../../../assets/explosion/playerDamageExplosion.png';
 
 const numColumns = 3;
 const numRows = 3;
@@ -11,18 +11,19 @@ export class PlayerExplosionObjectGraphics implements GraphicComponent {
   private currentFrame = 0;
   private counter = 0;
   public finished = false;
-  private readonly frameWidth;
-  private readonly frameHeight;
+  private frameWidth = 0;
+  private frameHeight = 0;
+  private img: HTMLImageElement | undefined;
   constructor(private exposionDelay: number) {
-    if (playerDamageExplosionImg) {
-      this.frameWidth = playerDamageExplosionImg.width / numColumns;
-      this.frameHeight = playerDamageExplosionImg.height / numRows;
-    } else {
-      this.frameWidth = 0;
-      this.frameHeight = 0;
-    }
+    this.img = new Image();
+    this.img.src = source;
+    this.img.translate;
   }
   public render(gameObject: GameObject, dt: number): void {
+    if (this.img) {
+      this.frameWidth = this.img.width / numColumns;
+      this.frameHeight = this.img.height / numRows;
+    }
     this.counter++;
     const maxFrame = numColumns * numRows - 1;
     if (this.currentFrame > maxFrame) {
@@ -36,11 +37,11 @@ export class PlayerExplosionObjectGraphics implements GraphicComponent {
     const column = this.currentFrame % numColumns;
     const row = Math.floor(this.currentFrame / numColumns);
 
-    if (playerDamageExplosionImg) {
+    if (this.img) {
       this.canvas
         .getContext2D()
         .drawImage(
-          playerDamageExplosionImg,
+          this.img,
           column * this.frameWidth,
           row * this.frameHeight,
           this.frameWidth,

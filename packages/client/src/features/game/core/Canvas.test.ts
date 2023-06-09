@@ -8,7 +8,7 @@ describe('Canvas', () => {
     Canvas.create(canvas);
   });
   it('get HTMLCanvasElement', () => {
-    expect(Canvas.getInstaice() instanceof HTMLCanvasElement).toBe(true);
+    expect(Canvas.getInstance() instanceof HTMLCanvasElement).toBe(true);
   });
 
   it('get CanvasRenderingContext2D', () => {

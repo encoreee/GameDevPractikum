@@ -3,8 +3,8 @@ import { Size } from '../game-object/components/Graphics/Components';
 export class Canvas {
   private static htmlCanvasInstance?: HTMLCanvasElement;
 
-  public static getInstaice(): HTMLCanvasElement {
-    if (Canvas.htmlCanvasInstance === undefined) {
+  public static getInstance(): HTMLCanvasElement {
+    if (!Canvas.htmlCanvasInstance) {
       throw new Error('HTMLCanvasElement is not defined');
     }
 
@@ -24,7 +24,7 @@ export class Canvas {
   }
 
   public static getContext2D(): CanvasRenderingContext2D {
-    const context = Canvas.getInstaice().getContext('2d');
+    const context = Canvas.getInstance().getContext('2d');
     if (!context) {
       throw new Error('Rendering context 2D is not defined');
     }
@@ -33,8 +33,8 @@ export class Canvas {
 
   public static size(): Size {
     return {
-      width: Canvas.getInstaice().width,
-      height: Canvas.getInstaice().height,
+      width: Canvas.getInstance().width,
+      height: Canvas.getInstance().height,
     };
   }
 }

@@ -6,8 +6,6 @@ const requestOptions = {
   credentials: 'include',
 };
 
-requestOptions.credentials = 'include';
-
 export async function fetchAsync(callback: (arg0: any) => any) {
   try {
     const res = await fetch(`${API_ADDRESS}/auth/user`, requestOptions);

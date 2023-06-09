@@ -11,7 +11,7 @@ export enum EnemyType {
 
 export class EnemyObjectGraphics implements GraphicComponent {
   private readonly canvas = Canvas;
-  private img: HTMLImageElement;
+  private img: HTMLImageElement | undefined;
   constructor(enemyType: EnemyType) {
     this.img = new Image();
     switch (enemyType) {
@@ -27,14 +27,16 @@ export class EnemyObjectGraphics implements GraphicComponent {
     this.img.translate;
   }
   public render(gameObject: GameObject, dt: number): void {
-    this.canvas
-      .getContext2D()
-      .drawImage(
-        this.img,
-        gameObject.position.x + dt,
-        gameObject.position.y + dt,
-        gameObject.size.width + dt,
-        gameObject.size.height + dt
-      );
+    if (this.img) {
+      this.canvas
+        .getContext2D()
+        .drawImage(
+          this.img,
+          gameObject.position.x + dt,
+          gameObject.position.y + dt,
+          gameObject.size.width + dt,
+          gameObject.size.height + dt
+        );
+    }
   }
 }

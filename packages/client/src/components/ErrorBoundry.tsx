@@ -21,7 +21,6 @@ class ErrorBoundry extends Component<ErrorBoundryProps, ErrorBoundryState> {
   }
 
   componentDidCatch(error: unknown, errorInfo: ErrorInfo) {
-    console.log(import.meta.env.DEV);
     if (import.meta.env.DEV) {
       console.error(error);
       console.error(errorInfo);

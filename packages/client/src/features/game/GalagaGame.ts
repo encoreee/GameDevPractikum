@@ -3,13 +3,16 @@ import { SceneManager } from './scenes/SceneManager';
 import { Canvas } from './core/Canvas';
 import { GameLoop } from './core/GameLoop';
 import { PlayerProfile } from './scenes/SceneUtils/PlayerUtils';
+import Audio from '../Audio/Audio';
+import { cloneDeep } from 'lodash';
+import Stats from './scenes/Stats';
 
 export class GalagaGame {
   public readonly keyboard: KeyboardController = new KeyboardController();
   private readonly gameloop: GameLoop;
-  private readonly profile: PlayerProfile;
-
+  private profile: PlayerProfile;
   private readonly sceneManager: SceneManager;
+  public onEndGame?: () => void;
 
   constructor(profile: PlayerProfile) {
     this.gameloop = new GameLoop(
@@ -17,12 +20,17 @@ export class GalagaGame {
       this.render.bind(this)
     );
     this.profile = profile;
-    this.sceneManager = new SceneManager(this.profile);
+    this.sceneManager = new SceneManager(
+      cloneDeep(this.profile),
+      this.end.bind(this)
+    );
   }
 
   public init(): void {
     SceneManager.setKeyboard(this.keyboard);
     SceneManager.setStartScene();
+
+    Stats.resetStats();
     this.gameloop.start();
   }
 
@@ -39,5 +47,23 @@ export class GalagaGame {
     );
 
     this.sceneManager.render(dt);
+  }
+
+  private end(): void {
+    if (this.onEndGame) {
+      //  TODO  объединить методы по обнулению состояния при ините игры
+      SceneManager.setProfile(cloneDeep(this.profile));
+      SceneManager.setInitialSceneIndex();
+      this.onEndGame();
+      Audio.stopAll();
+    }
+  }
+
+  public endGame(): void {
+    //  TODO  объединить методы по обнулению состояния при ините игры
+    SceneManager.setProfile(cloneDeep(this.profile));
+    SceneManager.setInitialSceneIndex();
+    SceneManager.endGame();
+    Audio.stopAll();
   }
 }

@@ -1,3 +1,4 @@
+import { canvasSize } from '@/features/game/Config';
 import { ActionFlagType } from '../../../core/KeyboardController';
 import { Vector2 } from '../../../utils/Vector2';
 import { GameObject } from '../Objects/GameObject';
@@ -20,9 +21,11 @@ export class PlayerInput implements GameObjectComponent {
   }
 
   update(gameObject: GameObject, dt: number): void {
-    if (this.actionFlag.LEFT) {
+    const isLeftWallCollide = gameObject.collideWithLeftWall();
+    const isRightWallCollide = gameObject.collideWithRightWall(canvasSize);
+    if (this.actionFlag.LEFT && !isLeftWallCollide) {
       this.velocity = new Vector2(-this.speed, 0);
-    } else if (this.actionFlag.RIGHT) {
+    } else if (this.actionFlag.RIGHT && !isRightWallCollide) {
       this.velocity = new Vector2(this.speed, 0);
     } else {
       this.velocity = new Vector2(0, 0);

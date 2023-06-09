@@ -5,6 +5,7 @@ dotenv.config();
 export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  setupFiles: ['jest-canvas-mock'],
   testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
   moduleNameMapper: {
     '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg|mp3|wav)$':
@@ -18,5 +19,9 @@ export default {
   },
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,
+    'ts-jest': {
+      tsconfig: './tsconfig.json',
+      useESM: true,
+    },
   },
 };

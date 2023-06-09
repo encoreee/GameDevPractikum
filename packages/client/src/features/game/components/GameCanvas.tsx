@@ -7,6 +7,7 @@ import { Canvas as EngineCanvas } from '../core/Canvas';
 import { playerConfig } from '../Config';
 import Audio from '@features/Audio';
 import { PlayerProfile } from '../scenes/SceneUtils/PlayerUtils';
+import { useNavigate } from 'react-router-dom';
 
 const Canvas = styled.canvas`
   border: 1px solid silver;
@@ -25,14 +26,30 @@ const dummy: PlayerProfile = {
   points: 0,
   lives: playerConfig.playerLives.lives,
 };
-
-const galaga = new GalagaGame(dummy);
+let galaga: GalagaGame;
 
 const GameCanvas: React.FC = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
   const fullScreenElement = useToggleFullScreen(KEY_BINDINGS.fullScreen);
 
+  const navigate = useNavigate();
+
+  const onEndGame = () => {
+    navigate('/game-over');
+  };
+
+  useEffect(
+    () => () => {
+      if (galaga) {
+        galaga.endGame();
+      }
+    },
+    []
+  );
+
   useEffect(() => {
+    galaga = new GalagaGame(dummy);
+    galaga.onEndGame = onEndGame;
     if (canvas.current !== null) {
       document.addEventListener('keydown', onKeyDownHandler);
       document.addEventListener('keyup', onKeyUpHandler);
@@ -41,8 +58,10 @@ const GameCanvas: React.FC = () => {
       galaga.init();
     }
     return () => {
-      document.removeEventListener('keydown', onKeyDownHandler);
-      document.removeEventListener('keyup', onKeyUpHandler);
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('keydown', onKeyDownHandler);
+        document.removeEventListener('keyup', onKeyUpHandler);
+      }
       Audio.stopAll();
     };
   }, [canvas]);
@@ -50,12 +69,10 @@ const GameCanvas: React.FC = () => {
   const onKeyDownHandler = (event: KeyboardEvent) => {
     // Сhecking for a modifier to avoid unexpected behavior
     if (event.altKey || event.ctrlKey) return;
-
     galaga.keyboard.keyDownHandler(event.key);
   };
   const onKeyUpHandler = (event: KeyboardEvent) => {
     if (event.altKey || event.ctrlKey) return;
-
     galaga.keyboard.keyUpHandler(event.key);
   };
 

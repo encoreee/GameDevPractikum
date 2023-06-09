@@ -92,14 +92,20 @@ class Audio {
   }
 
   private createContext() {
+    // TODO: Если возникнут ошибки с aудио раскомментировать условие
+    // if (!import.meta.env.SSR) {
     if (!this.context) {
       this.context = new AudioContext();
       this.context.suspend();
     }
+    // }
   }
 
   private async createCache() {
+    // TODO: Если возникнут ошибки с aудио раскомментировать условие
+    // if (!import.meta.env.SSR) {
     this.cache = await caches.open('audio');
+    // }
   }
 
   private createSource(id: Id) {
@@ -112,6 +118,8 @@ class Audio {
   }
 
   async play(id: Id, options?: PlayOptions) {
+    // TODO: Если возникнут ошибки с aудио раскомментировать условие
+    // if (!import.meta.env.SSR) {
     if (this.context) {
       await this.allResourcesRequests();
       // Проверяем, есть ли в буфере декодированый исходник
@@ -135,6 +143,7 @@ class Audio {
         }
       }
     }
+    // }
   }
 
   stop(id: Id) {

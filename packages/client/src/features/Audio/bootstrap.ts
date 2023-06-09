@@ -10,6 +10,7 @@ import explosionPlayer from '@/assets/sounds/explosionPlayer.wav';
 import explosionEnemy from '@/assets/sounds/explosionEnemy.wav';
 import mainTheme from '@/assets/sounds/mainTheme.mp3';
 import gameTheme from '@/assets/sounds/gameTheme.mp3';
+import endGameTheme from '@/assets/sounds/endGameTheme.mp3';
 import { AUDIO_IDS } from './const';
 
 export const audioBootstrap = () => {
@@ -24,5 +25,6 @@ export const audioBootstrap = () => {
   Audio.add(ready2, AUDIO_IDS.Ready2);
   Audio.add(ready3, AUDIO_IDS.Ready3);
   Audio.add(ready4, AUDIO_IDS.Ready4);
+  Audio.add(endGameTheme, AUDIO_IDS.endGameTheme);
   Audio.init();
 };

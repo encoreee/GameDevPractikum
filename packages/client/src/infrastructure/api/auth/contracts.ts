@@ -4,7 +4,7 @@ export interface SignInRequest {
 }
 
 export interface User {
-  id: number;
+  id: number | string;
   first_name: string;
   second_name: string;
   display_name: string;

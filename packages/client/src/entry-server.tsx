@@ -8,9 +8,13 @@ import forum, { threadMessagesAdapter } from './app/forum/forumSlice';
 import { EntityAdapterInitalState } from './app/forum/types';
 import { ThreadMessage } from './infrastructure/api/forum/types';
 import { ForumState } from './app/forum/types';
+import profile from './features/profile/profileSlice';
+import { ProfileState } from './features/profile/types';
+import { fetchAsync } from './fetchAsync';
 
 export interface PreloadedState {
   forum: ForumState;
+  profile: ProfileState;
 }
 
 const preloadedState = {
@@ -21,11 +25,15 @@ const preloadedState = {
       error: '',
     }) as EntityAdapterInitalState<ThreadMessage[]>,
   },
+  profile: {
+    status: { profileStatus: '' },
+  },
 };
 
 export const store = configureStore({
   reducer: {
     forum,
+    profile,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -35,13 +43,16 @@ export const store = configureStore({
 });
 
 export function render(url: string | Partial<Location>) {
-  return renderToString(
-    <Provider store={store}>
-      <StaticRouter location={url}>
-        <App />
-      </StaticRouter>
-    </Provider>
-  );
+  return fetchAsync((res) => {
+    console.log(res, 'response');
+    return renderToString(
+      <Provider store={store}>
+        <StaticRouter location={url}>
+          <App />
+        </StaticRouter>
+      </Provider>
+    );
+  });
 }
 
 export function getPreloadedState(): PreloadedState {

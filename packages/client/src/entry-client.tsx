@@ -6,10 +6,12 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from './app/apiSlice';
 import forum from './app/forum/forumSlice';
+import profile from './features/profile/profileSlice';
 
 export const store = configureStore({
   reducer: {
     forum,
+    profile,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -17,6 +19,8 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
   preloadedState: window.__PRELOADED_STATE__,
 });
+
+console.log(window.__PRELOADED_STATE__);
 
 delete window.__PRELOADED_STATE__;
 

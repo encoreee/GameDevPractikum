@@ -4,6 +4,7 @@ import { Stack } from '@mui/material';
 import { FormContainer } from 'react-hook-form-mui';
 import { useState } from 'react';
 import { SignInRequest } from '../../infrastructure/api/auth/contracts';
+import { useGetUserInfoQuery } from '@/app/apiSlice';
 import { useNavigate } from 'react-router-dom';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
@@ -16,9 +17,15 @@ import FormNotification, {
 } from '../../components/FormNotification';
 
 const SignInPage: FC = () => {
+  const { data } = useGetUserInfoQuery();
+  const navigate = useNavigate();
+
+  if (data) {
+    navigate('/');
+  }
+
   const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
   const [signInError, setSignInError] = useState<string>(' ');
-  const navigate = useNavigate();
 
   const onSubmit = async (data: SignInRequest) => {
     const error = await AuthController.signIn(data);

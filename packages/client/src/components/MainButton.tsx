@@ -6,18 +6,31 @@ interface MainButtonProps {
   disabled?: boolean;
   type?: 'submit' | 'button';
   onClick?: ReactEventHandler;
+  color?: string;
+  fontSize?: number;
 }
 
 const MainButton: FC<MainButtonProps> = (props) => {
+  const sx = {
+    width: '100%',
+    height: 60,
+    marginTop: 2,
+    fontSize: 24,
+    borderRadius: '0px',
+    backgroundColor: '',
+  };
+
+  if (props.fontSize) {
+    sx.fontSize = props.fontSize;
+  }
+
+  if (props.color) {
+    sx.backgroundColor = props.color;
+  }
+
   return (
     <Button
-      sx={{
-        width: '100%',
-        height: 60,
-        marginTop: 2,
-        fontSize: 24,
-        borderRadius: '0px',
-      }}
+      sx={sx}
       variant="contained"
       onClick={props.onClick}
       disabled={props.disabled}

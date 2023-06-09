@@ -31,9 +31,13 @@ const SignInPage: FC = () => {
     navigate('/');
   };
 
+  const onOAuth = async () => {
+    console.log(1);
+  };
+
   return (
     <MainPageTemplate>
-      <DataBox width={400} height={400}>
+      <DataBox width={400} height={460}>
         <FormContainer
           defaultValues={{ login: '', password: '' }}
           onSuccess={onSubmit}>
@@ -55,6 +59,12 @@ const SignInPage: FC = () => {
               type={FORM_NOTIFICATION_TYPE.ERROR}
             />
             <MainButton label="Sign in" type="submit" />
+            <MainButton
+              label="Continue with Yandex"
+              onClick={onOAuth}
+              color="#161616"
+              fontSize={14}
+            />
           </Stack>
         </FormContainer>
         <NavLink variant="body2" color="white" href="/signup">

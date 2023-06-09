@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { Typography, List, ListItem } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/app/store';
 import { apiSlice } from '@/app/apiSlice';
@@ -43,11 +43,6 @@ const styles = {
 
 const HomePage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { code } = useParams();
-
-  if (code) {
-    console.log(code);
-  }
 
   const handleMouseEnter = () => Audio.play(AUDIO_IDS.Jump);
   const navigate = useNavigate();

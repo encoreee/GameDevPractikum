@@ -47,8 +47,6 @@ const App: FC = () => {
             <Route path="/forum/*" element={<ForumPages />} />
             <Route path="/game-over" element={<GameOver />} />
             <Route path="/leaderboard" element={<LeaderBoardPage />} />
-            <Route path="/signin" element={<></>} />
-            <Route path="/signup" element={<SignUpPage />} />
             <Route path="/start" element={<GameStartPage />} />
           </Route>
           <Route

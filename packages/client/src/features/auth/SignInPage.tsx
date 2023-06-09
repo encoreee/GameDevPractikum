@@ -27,24 +27,11 @@ const SignInPage: FC = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const accessToken = searchParams.get('code');
     const error = searchParams.get('error');
 
     if (error) {
-      setSignInError(error);
+      setSignInError(decodeURI(error));
     }
-
-    if (!accessToken) {
-      return;
-    }
-
-    (async () => {
-      const error = await AuthController.Oauth({
-        code: accessToken,
-        redirect_uri: redirectUriEncoded,
-      });
-      error ? setSignInError(error) : navigate('/');
-    })();
   }, [location.search]);
 
   const onSubmit = async (data: SignInRequest) => {

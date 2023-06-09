@@ -5,22 +5,6 @@ import { Outlet, Navigate, useLocation } from 'react-router-dom';
 const REDIRECT_URI = 'http://localhost:3000';
 
 const PrivateRoute: FC<PropsWithChildren> = () => {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const accessToken = searchParams.get('code');
-
-  if (accessToken) {
-    const { isError } = usePostOauthQuery({
-      code: accessToken,
-      redirect_uri: REDIRECT_URI,
-    });
-
-    // if (isError) {
-    //   return <Navigate to="/signin?error=Oauth$20error" replace />;
-    // }
-    console.log(isError);
-  }
-
   const { data, isLoading } = useGetUserInfoQuery();
 
   if (isLoading) {
@@ -30,4 +14,25 @@ const PrivateRoute: FC<PropsWithChildren> = () => {
   return data ? <Outlet /> : <Navigate to="/signin" replace />;
 };
 
-export default PrivateRoute;
+const PrivateRouteWithOauth: FC<PropsWithChildren> = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const accessToken = searchParams.get('code');
+  let isError = false;
+
+  if (accessToken) {
+    const result = usePostOauthQuery({
+      code: accessToken,
+      redirect_uri: REDIRECT_URI,
+    });
+    isError = result.isError;
+  }
+
+  return isError ? (
+    <Navigate to="/signin?error=Oauth$20error" replace />
+  ) : (
+    <PrivateRoute />
+  );
+};
+
+export default PrivateRouteWithOauth;

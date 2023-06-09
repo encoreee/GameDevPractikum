@@ -33,6 +33,12 @@ async function startServer() {
   }
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
+    console.log(
+      'incoming request this is from the server',
+      req?.headers,
+      req.originalUrl,
+      req
+    );
     try {
       let template: string;
       if (!isDev()) {

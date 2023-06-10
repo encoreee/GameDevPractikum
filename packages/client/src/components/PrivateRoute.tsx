@@ -3,6 +3,8 @@ import { useGetUserInfoQuery, usePostOauthQuery } from '@/app/apiSlice';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 
+import LoadingScreen from './LoadingScreen';
+
 const REDIRECT_URI = 'http://localhost:3000';
 
 const PrivateRoute: FC<PropsWithChildren> = () => {
@@ -41,7 +43,7 @@ const PrivateRoute: FC<PropsWithChildren> = () => {
     return <Outlet />;
   }
 
-  return <>Loading...</>;
+  return <LoadingScreen />;
 };
 
 export default PrivateRoute;

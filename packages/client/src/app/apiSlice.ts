@@ -20,7 +20,7 @@ export const apiSlice = createApi({
         body,
         responseHandler: 'text',
       }),
-      keepUnusedDataFor: 100,
+      keepUnusedDataFor: 1,
     }),
     updateUserInfo: build.mutation<User, Omit<User, 'id' | 'avatar'>>({
       query: (body) => ({

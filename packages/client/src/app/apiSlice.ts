@@ -14,7 +14,12 @@ export const apiSlice = createApi({
       keepUnusedDataFor: 600,
     }),
     postOauth: build.query<void, OauthRequest>({
-      query: (body) => ({ url: `/oauth/yandex`, method: 'POST', body }),
+      query: (body) => ({
+        url: `/oauth/yandex`,
+        method: 'POST',
+        body,
+        responseHandler: 'text',
+      }),
       keepUnusedDataFor: 100,
     }),
     updateUserInfo: build.mutation<User, Omit<User, 'id' | 'avatar'>>({

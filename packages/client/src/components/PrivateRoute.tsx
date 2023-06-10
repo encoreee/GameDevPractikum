@@ -9,11 +9,12 @@ const PrivateRoute: FC<PropsWithChildren> = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const accessToken = searchParams.get('code');
+  const isOauthRequired = !!accessToken;
 
   const {
-    isError,
-    isSuccess,
-    isLoading: isOauthLoading,
+    isError: isOauthError,
+    isSuccess: isOauthSuccess,
+    error,
   } = usePostOauthQuery(
     accessToken
       ? {
@@ -23,24 +24,24 @@ const PrivateRoute: FC<PropsWithChildren> = () => {
       : skipToken
   );
 
-  if (isError) {
+  const { data } = useGetUserInfoQuery(
+    isOauthRequired && !isOauthSuccess ? skipToken : undefined
+  );
+
+  if (isOauthError) {
+    console.error('OauthError: ', error);
     return <Navigate to="/signin?error=Oauth$20error" replace />;
   }
 
-  // if (isSuccess) {
-  //   return <Navigate to="/" replace />;
-  // }
-
-  console.log(isOauthLoading);
-  const { data, isLoading: isUserInfoLoading } = useGetUserInfoQuery(
-    isOauthLoading ? skipToken : undefined
-  );
-
-  if (isUserInfoLoading) {
-    return null;
+  if (isOauthRequired && isOauthSuccess) {
+    return <Navigate to="/" replace />;
   }
 
-  return data ? <Outlet /> : <Navigate to="/signin" replace />;
+  if (!isOauthRequired && data) {
+    return <Outlet />;
+  }
+
+  return <>Loading...</>;
 };
 
 export default PrivateRoute;

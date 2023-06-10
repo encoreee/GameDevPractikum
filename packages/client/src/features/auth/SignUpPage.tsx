@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import SignUpForm from './SignUpForm';
 import MainPageTemplate from '../../components/MainPageTemplate';
 import DataBox from '../../components/DataBox';

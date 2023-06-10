@@ -41,16 +41,6 @@ export class AuthController {
       return null;
     }
   }
-
-  public async Oauth(data: OauthRequest) {
-    try {
-      await AuthAPI.postOauthCode(data);
-    } catch (err) {
-      console.log(err);
-
-      return err instanceof Error ? err.message : AppMessage.OAUTH_ERROR;
-    }
-  }
 }
 
 export default new AuthController();

@@ -23,12 +23,6 @@ class AuthApi {
       .get(`${API_ADDRESS}/oauth/yandex/service-id?redirect_uri=${redirectUri}`)
       .then(handleErrors);
   };
-
-  postOauthCode = (data: OauthRequest) => {
-    return apiFetch()
-      .post(`${API_ADDRESS}/oauth/yandex`, data)
-      .then(handleErrors);
-  };
 }
 
 export default new AuthApi();

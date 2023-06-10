@@ -47,9 +47,10 @@ const HomePage: FC = () => {
   const handleMouseEnter = () => Audio.play(AUDIO_IDS.Jump);
   const navigate = useNavigate();
 
-  const onLogout = () => {
-    AuthController.logout();
+  const onLogout = async () => {
+    await AuthController.logout();
     dispatch(apiSlice.util.resetApiState());
+    await new Promise((resolve) => setTimeout(resolve, 200));
     navigate('/signin');
   };
 

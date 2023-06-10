@@ -9,7 +9,7 @@ export const apiSlice = createApi({
     credentials: 'include',
   }),
   endpoints: (build) => ({
-    getUserInfo: build.query<User, void>({
+    getUserInfo: build.query<User, void | undefined>({
       query: () => `/auth/user`,
       keepUnusedDataFor: 600,
     }),

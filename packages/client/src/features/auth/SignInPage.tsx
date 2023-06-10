@@ -5,7 +5,7 @@ import { FormContainer } from 'react-hook-form-mui';
 import { useState, useEffect } from 'react';
 import { SignInRequest } from '../../infrastructure/api/auth/contracts';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppMessage } from '@/utils/const';
+import { AppMessage, REDIRECT_URI } from '@/utils/const';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainPageTemplate from '../../components/MainPageTemplate';
@@ -15,8 +15,6 @@ import NavLink from '../../components/NavLink';
 import FormNotification, {
   FORM_NOTIFICATION_TYPE,
 } from '../../components/FormNotification';
-
-const REDIRECT_URI = 'http://localhost:3000';
 
 const SignInPage: FC = () => {
   const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;

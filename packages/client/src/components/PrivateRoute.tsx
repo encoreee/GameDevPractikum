@@ -2,10 +2,9 @@ import { FC, PropsWithChildren } from 'react';
 import { useGetUserInfoQuery, usePostOauthQuery } from '@/app/apiSlice';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/query/react';
+import { REDIRECT_URI } from '@/utils/const';
 
 import LoadingScreen from './LoadingScreen';
-
-const REDIRECT_URI = 'http://localhost:3000';
 
 const PrivateRoute: FC<PropsWithChildren> = () => {
   const location = useLocation();

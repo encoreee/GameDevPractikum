@@ -22,3 +22,5 @@ export const AppMessage = {
   UNKNOWN_API_ERROR: 'Unknown API error',
   OAUTH_ERROR: `Couldn't complete oauth. Please, try login/password.`,
 };
+
+export const REDIRECT_URI = 'http://localhost:3000';

@@ -35,7 +35,7 @@ export const store = configureStore({
   preloadedState,
 });
 
-export function render(url: string | Partial<Location>) {
+export function render(url: string | Partial<Location>, cookie: string) {
   return fetchAsync((res) => {
     console.log(res, 'response');
     return renderToString(
@@ -45,8 +45,18 @@ export function render(url: string | Partial<Location>) {
         </StaticRouter>
       </Provider>
     );
-  });
+  }, cookie);
 }
+
+// export function render(url: string | Partial<Location>) {
+//   return renderToString(
+//     <Provider store={store}>
+//       <StaticRouter location={url}>
+//         <App />
+//       </StaticRouter>
+//     </Provider>
+//   );
+// }
 
 export function getPreloadedState(): PreloadedState {
   return preloadedState;

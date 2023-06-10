@@ -6,9 +6,15 @@ const requestOptions = {
   credentials: 'include',
 };
 
-export async function fetchAsync(callback: (arg0: any) => any) {
+export async function fetchAsync(
+  callback: (arg0: any) => any,
+  cookies: string
+) {
   try {
-    const res = await fetch(`${API_ADDRESS}/auth/user`, requestOptions);
+    const res = await fetch(`${API_ADDRESS}/auth/user`, {
+      ...requestOptions,
+      headers: { cookie: cookies },
+    });
 
     const data = await res.json();
 

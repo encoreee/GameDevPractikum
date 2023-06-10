@@ -1,5 +1,5 @@
 // export const API_ADDRESS = 'https://ya-praktikum.tech/api/v2';
-export const API_ADDRESS = 'https://localhost:3000/api/v2';
+export const API_ADDRESS = 'http://localhost:3000/api/v2';
 
 export function apiFetch() {
   const request = (method: string) => {

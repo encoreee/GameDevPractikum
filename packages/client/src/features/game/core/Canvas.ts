@@ -17,6 +17,12 @@ export class Canvas {
     }
   }
 
+  public static remove() {
+    if (Canvas.htmlCanvasInstance) {
+      delete Canvas.htmlCanvasInstance;
+    }
+  }
+
   public static getContext2D(): CanvasRenderingContext2D {
     const context = Canvas.getInstance().getContext('2d');
     if (!context) {

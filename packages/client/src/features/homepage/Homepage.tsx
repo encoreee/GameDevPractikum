@@ -50,7 +50,6 @@ const HomePage: FC = () => {
   const onLogout = async () => {
     await AuthController.logout();
     dispatch(apiSlice.util.resetApiState());
-    await new Promise((resolve) => setTimeout(resolve, 200));
     navigate('/signin');
   };
 

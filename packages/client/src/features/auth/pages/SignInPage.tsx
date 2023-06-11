@@ -1,20 +1,25 @@
-import AuthController from '../../controllers/authController';
+import AuthController from '../../../controllers/authController';
 import { FC } from 'react';
 import { Stack } from '@mui/material';
 import { FormContainer } from 'react-hook-form-mui';
 import { useState, useEffect } from 'react';
-import { SignInRequest } from '../../infrastructure/api/auth/contracts';
+import { SignInRequest } from '../../../infrastructure/api/auth/contracts';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AppMessage, REDIRECT_URI } from '@/utils/const';
+import {
+  signInBoxStyles,
+  dataBoxStackStyles,
+  yandexOauthButtonStyles,
+} from '../styles';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
-import MainPageTemplate from '../../components/MainPageTemplate';
-import DataBox from '../../components/DataBox';
-import MainButton from '../../components/MainButton';
-import NavLink from '../../components/NavLink';
+import MainPageTemplate from '../../../components/MainPageTemplate';
+import DataBox from '../../../components/DataBox';
+import MainButton from '../../../components/MainButton';
+import NavLink from '../../../components/NavLink';
 import FormNotification, {
   FORM_NOTIFICATION_TYPE,
-} from '../../components/FormNotification';
+} from '../../../components/FormNotification';
 
 const SignInPage: FC = () => {
   const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
@@ -58,11 +63,11 @@ const SignInPage: FC = () => {
 
   return (
     <MainPageTemplate>
-      <DataBox width={400} height={460}>
+      <DataBox sx={signInBoxStyles}>
         <FormContainer
           defaultValues={{ login: '', password: '' }}
           onSuccess={onSubmit}>
-          <Stack direction={'column'} width="350px">
+          <Stack direction={'column'} sx={dataBoxStackStyles}>
             <DataField
               label="login"
               autoFocus
@@ -83,8 +88,7 @@ const SignInPage: FC = () => {
             <MainButton
               label="Continue with Yandex"
               onClick={onOauth}
-              color="#161616"
-              fontSize={14}
+              sx={yandexOauthButtonStyles}
             />
           </Stack>
         </FormContainer>

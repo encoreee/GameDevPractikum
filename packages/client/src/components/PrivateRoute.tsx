@@ -15,6 +15,7 @@ const PrivateRoute: FC<PropsWithChildren> = () => {
   const {
     isError: isOauthError,
     isSuccess: isOauthSuccess,
+    isLoading: isOauthLoading,
     error,
   } = usePostOauthQuery(
     accessToken
@@ -25,13 +26,21 @@ const PrivateRoute: FC<PropsWithChildren> = () => {
       : skipToken
   );
 
-  const { data } = useGetUserInfoQuery(
+  const { data, isLoading: isDataLoading } = useGetUserInfoQuery(
     isOauthRequired && !isOauthSuccess ? skipToken : undefined
   );
 
+  if (isDataLoading || isOauthLoading) {
+    return <LoadingScreen />;
+  }
+
   if (isOauthError) {
     console.error('OauthError: ', error);
-    return <Navigate to="/signin?error=Oauth$20error" replace />;
+    return <Navigate to="/signin?error=Oauth%20error" replace />;
+  }
+
+  if (!isOauthRequired && !data) {
+    return <Navigate to="/signin" replace />;
   }
 
   if (isOauthRequired && isOauthSuccess) {

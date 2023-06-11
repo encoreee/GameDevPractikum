@@ -1,16 +1,16 @@
-import AuthController from '../../controllers/authController';
+import AuthController from '../../../controllers/authController';
 import { FC, useState } from 'react';
 import { useWatch, useForm, FormContainer } from 'react-hook-form-mui';
 import { useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
-import { ValidationScheme } from './SignUpValidationScheme';
+import { ValidationScheme } from '../helpers/SignUpValidationScheme';
 import { omit } from 'lodash';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
-import MainButton from '../../components/MainButton';
+import MainButton from '../../../components/MainButton';
 import FormNotification, {
   FORM_NOTIFICATION_TYPE,
-} from '../../components/FormNotification';
+} from '../../../components/FormNotification';
 
 const defaultValues = {
   first_name: '',

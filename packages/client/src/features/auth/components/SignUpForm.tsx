@@ -10,7 +10,7 @@ import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '../../../components/MainButton';
 import FormNotification, {
   FORM_NOTIFICATION_TYPE,
-} from '../../../components/FormNotification';
+} from '../../../components/Notification';
 
 const defaultValues = {
   first_name: '',

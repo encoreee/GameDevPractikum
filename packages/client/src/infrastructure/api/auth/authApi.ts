@@ -1,6 +1,6 @@
 import { apiFetch, API_ADDRESS } from '../../apiFetch';
 import { handleErrors } from '../errorHandler';
-import { SignInRequest, SignUpRequest, OauthRequest } from './contracts';
+import { SignInRequest, SignUpRequest } from './contracts';
 
 class AuthApi {
   signIn = (data: SignInRequest) => {

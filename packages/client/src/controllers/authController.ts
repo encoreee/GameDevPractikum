@@ -3,7 +3,6 @@ import {
   ServiceIdResponse,
   SignInRequest,
   SignUpRequest,
-  OauthRequest,
 } from '../infrastructure/api/auth/contracts';
 import { AppMessage } from '../utils/const';
 
@@ -28,7 +27,7 @@ export class AuthController {
     try {
       await AuthAPI.logout();
     } catch (err) {
-      return err instanceof Error ? err.message : AppMessage.UNKNOWN_API_ERROR;
+      return `${AppMessage.LOGOUT_ERROR}`;
     }
   }
 

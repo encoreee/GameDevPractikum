@@ -9,18 +9,19 @@ const Container = styled('div')({
   height: '100vh',
 });
 
-const styles = {
-  box: {
-    width: '100%',
-    minHeight: '100%',
-    backgroundImage: `url(${Background})`,
-  },
+const boxStyles = {
+  width: '100%',
+  minHeight: '100%',
+  backgroundImage: `url(${Background})`,
+  display: 'flex',
+  margin: 0,
+  padding: 0,
 };
 
 const LoadingScreen: FC<PropsWithChildren> = () => {
   return (
     <Container>
-      <Box sx={{ display: 'flex', margin: 0, padding: 0 }} style={styles.box}>
+      <Box sx={boxStyles}>
         <Stack
           sx={{ margin: 'auto' }}
           direction="column"

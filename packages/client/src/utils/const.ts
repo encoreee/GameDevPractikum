@@ -20,7 +20,8 @@ export const ValidationAssertions = {
 
 export const AppMessage = {
   UNKNOWN_API_ERROR: 'Unknown API error',
-  OAUTH_ERROR: `Couldn't complete oauth. Please, try login/password.`,
+  OAUTH_ERROR: `Couldn't complete oauth. Please, try login/password method.`,
+  LOGOUT_ERROR: `Couldn't complete logout. Please, try later.`,
 };
 
 export const REDIRECT_URI = 'http://localhost:3000';

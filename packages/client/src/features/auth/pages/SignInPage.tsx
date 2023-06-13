@@ -11,6 +11,7 @@ import {
   dataBoxStackStyles,
   yandexOauthButtonStyles,
 } from '../styles';
+import { getOauthLink } from '../helpers/utils';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainPageTemplate from '../../../components/MainPageTemplate';
@@ -19,7 +20,7 @@ import MainButton from '../../../components/MainButton';
 import NavLink from '../../../components/NavLink';
 import FormNotification, {
   FORM_NOTIFICATION_TYPE,
-} from '../../../components/FormNotification';
+} from '../../../components/Notification';
 
 const SignInPage: FC = () => {
   const variant = DATA_FIELD_VARIANTS.LABEL_TOP_RHF;
@@ -56,9 +57,7 @@ const SignInPage: FC = () => {
       return;
     }
 
-    window.location.assign(
-      `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.service_id}&redirect_uri=${redirectUriEncoded}`
-    );
+    window.location.assign(getOauthLink(res.service_id, redirectUriEncoded));
   };
 
   return (

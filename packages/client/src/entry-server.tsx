@@ -8,56 +8,47 @@ import forum, { threadMessagesAdapter } from './app/forum/forumSlice';
 import { EntityAdapterInitalState } from './app/forum/types';
 import { ThreadMessage } from './infrastructure/api/forum/types';
 import { ForumState } from './app/forum/types';
-import { fetchAsync } from './fetchAsync';
+import { fetchAsync } from './fetchProfile';
+import { initialState as emptyProfile } from './features/profile/profileSlice';
 
 export interface PreloadedState {
   forum: ForumState;
 }
 
-const preloadedState = {
-  forum: {
-    status: { threadList: null, createThread: null },
-    threadMessages: threadMessagesAdapter.getInitialState({
-      status: null,
-      error: '',
-    }) as EntityAdapterInitalState<ThreadMessage[]>,
-  },
-};
-
-export const store = configureStore({
-  reducer: {
-    forum,
-    [apiSlice.reducerPath]: apiSlice.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
-  devTools: process.env.NODE_ENV !== 'production',
-  preloadedState,
-});
-
 export function render(url: string | Partial<Location>, cookie: string) {
   return fetchAsync((res) => {
-    console.log(res, 'response');
-    return renderToString(
+    const profile = res || emptyProfile;
+
+    const preloadedState = {
+      forum: {
+        status: { threadList: null, createThread: null },
+        threadMessages: threadMessagesAdapter.getInitialState({
+          status: null,
+          error: '',
+        }) as EntityAdapterInitalState<ThreadMessage[]>,
+      },
+      profile: { ...profile },
+    };
+
+    const store = configureStore({
+      reducer: {
+        forum,
+        profile,
+        [apiSlice.reducerPath]: apiSlice.reducer,
+      },
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(apiSlice.middleware),
+      devTools: process.env.NODE_ENV !== 'production',
+      preloadedState,
+    });
+
+    const appHTML = renderToString(
       <Provider store={store}>
         <StaticRouter location={url}>
           <App />
         </StaticRouter>
       </Provider>
     );
+    return [appHTML, preloadedState];
   }, cookie);
-}
-
-// export function render(url: string | Partial<Location>) {
-//   return renderToString(
-//     <Provider store={store}>
-//       <StaticRouter location={url}>
-//         <App />
-//       </StaticRouter>
-//     </Provider>
-//   );
-// }
-
-export function getPreloadedState(): PreloadedState {
-  return preloadedState;
 }

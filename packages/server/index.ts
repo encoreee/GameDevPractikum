@@ -6,14 +6,13 @@ import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 import cookieParser from 'cookie-parser';
-import { startApp } from './localHTTPS';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { appRoutes } from './ssrRoutes';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
 const root = 'https://ya-praktikum.tech';
-const base = 'api/v2';
+const base = '/api/v2';
 
 async function startServer() {
   const app = express();
@@ -34,7 +33,7 @@ async function startServer() {
 
   app.use(apiRouter);
 
-  // const port = Number(process.env.SERVER_PORT) || 3001;
+  const port = Number(process.env.SERVER_PORT) || 3001;
   let vite: ViteDevServer | undefined;
   const distPath = path.dirname(require.resolve('client/dist/index.html'));
   const srcPath = path.dirname(require.resolve('client'));
@@ -47,18 +46,12 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   }
-  app.get('/api', (_, res) => {
-    res.json('👋 Howdy from the server :)');
-  });
   if (!isDev()) {
     app.use(`/assets`, express.static(path.resolve(distPath, 'assets')));
   }
   app.use(appRoutes, async (req, res, next) => {
     const url = req.originalUrl;
-    console.log(
-      'incoming request this is from the server',
-      req.headers?.cookie
-    );
+
     try {
       let template: string;
       if (!isDev()) {
@@ -74,20 +67,20 @@ async function startServer() {
         template = await vite!.transformIndexHtml(url, template);
       }
       let render: (url: string, cookie?: string) => Promise<string>;
-      let preloadedStatePromise!: () => Promise<any>;
+      // let preloadedStatePromise!: () => Promise<any>;
       if (!isDev()) {
         render = (await import(ssrClientPath)).render;
-        preloadedStatePromise = (await import(ssrClientPath)).getPreloadedState;
+        // preloadedStatePromise = (await import(ssrClientPath)).getPreloadedState;
       } else {
         const ssrLoadModule = await vite!.ssrLoadModule(
           path.resolve(srcPath, 'src/entry-server.tsx')
         );
         render = ssrLoadModule.render;
-        preloadedStatePromise = ssrLoadModule.getPreloadedState;
+        // preloadedStatePromise = ssrLoadModule.getPreloadedState;
       }
 
-      const appHtml = await render(url, req.headers.cookie);
-      const preloadedState = await preloadedStatePromise();
+      const [appHtml, preloadedState] = await render(url, req.headers.cookie);
+
       const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         preloadedState
       )}</script>`;
@@ -103,10 +96,9 @@ async function startServer() {
       next(e);
     }
   });
-  // app.listen(port, () => {
-  //   console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
-  // });
-  startApp({ server: app });
+  app.listen(port, () => {
+    console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
+  });
 }
 
 startServer();

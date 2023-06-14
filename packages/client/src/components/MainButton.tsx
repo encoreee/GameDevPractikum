@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, SxProps } from '@mui/material';
 import { FC, ReactEventHandler } from 'react';
 
 interface MainButtonProps {
@@ -6,18 +6,25 @@ interface MainButtonProps {
   disabled?: boolean;
   type?: 'submit' | 'button';
   onClick?: ReactEventHandler;
+  sx?: SxProps;
 }
 
 const MainButton: FC<MainButtonProps> = (props) => {
+  const sx: SxProps = {
+    width: '100%',
+    height: 60,
+    marginTop: 2,
+    fontSize: 24,
+    borderRadius: '0px',
+  };
+
+  if (props.sx) {
+    Object.assign(sx, props.sx);
+  }
+
   return (
     <Button
-      sx={{
-        width: '100%',
-        height: 60,
-        marginTop: 2,
-        fontSize: 24,
-        borderRadius: '0px',
-      }}
+      sx={sx}
       variant="contained"
       onClick={props.onClick}
       disabled={props.disabled}

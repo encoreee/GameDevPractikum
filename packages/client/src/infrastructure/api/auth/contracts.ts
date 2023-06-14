@@ -35,3 +35,12 @@ export interface SignUpRequest {
 export interface ErrorData {
   reason: string;
 }
+
+export interface ServiceIdResponse {
+  service_id: string;
+}
+
+export interface OauthRequest {
+  code: string;
+  redirect_uri: string;
+}

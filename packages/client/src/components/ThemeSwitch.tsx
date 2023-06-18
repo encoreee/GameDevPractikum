@@ -32,7 +32,7 @@ const ThemeSwitch: FC = () => {
       <img
         src={theme === ThemeMode.DARK ? Moon : Sun}
         alt="theme switcher"
-        width={29}
+        width={30}
         height={26}
       />
     </Box>

@@ -1,6 +1,6 @@
 import { ThemeMode } from '@/app/themeSlice';
 import { themeBaseline } from './themeBaseline';
-import BackgroundLight from '../assets/background_light.png'; // Import using relative path
+import BackgroundLight from '../assets/background_light2.png'; // Import using relative path
 
 export const lightTheme = {
   palette: {
@@ -18,8 +18,8 @@ export const lightTheme = {
       paper: 'white',
     },
     text: {
-      primary: '#fff',
-      secondary: '#fff',
+      primary: '#232222',
+      secondary: '#545050',
     },
   },
   components: {

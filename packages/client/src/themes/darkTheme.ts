@@ -18,8 +18,8 @@ export const darkTheme = {
       paper: 'white',
     },
     text: {
-      primary: '#fff',
-      secondary: '#fff',
+      primary: '#f6f6f6',
+      secondary: '#c3c3c3',
     },
   },
   components: {

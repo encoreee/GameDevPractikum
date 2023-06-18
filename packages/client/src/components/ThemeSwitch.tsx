@@ -12,7 +12,7 @@ const styles: SxProps = {
   top: '0.8rem',
   width: '1rem',
   height: '1rem',
-  opacity: '0.5',
+  opacity: '0.7',
   cursor: 'pointer',
   '&:hover': {
     opacity: '1',
@@ -29,14 +29,12 @@ const ThemeSwitch: FC = () => {
 
   return (
     <Box sx={styles} onClick={handleClick}>
-      {/* {theme === ThemeMode.DARK ? <Brightness7Icon /> : <Brightness4Icon />} */}
       <img
         src={theme === ThemeMode.DARK ? Moon : Sun}
         alt="theme switcher"
-        width={26}
+        width={29}
         height={26}
       />
-      {/* <MaterialUISwitch sx={{ m: 1 }} defaultChecked /> */}
     </Box>
   );
 };

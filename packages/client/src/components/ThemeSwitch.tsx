@@ -8,8 +8,8 @@ import Sun from '@/assets/sun.png'; // Import using relative path
 
 const styles: SxProps = {
   position: 'fixed',
-  right: '3.2rem',
-  top: '0.8rem',
+  right: '3.5rem',
+  top: '1.2rem',
   width: '1rem',
   height: '1rem',
   opacity: '0.7',

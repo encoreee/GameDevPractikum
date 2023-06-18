@@ -8,9 +8,11 @@ import forum, { threadMessagesAdapter } from './app/forum/forumSlice';
 import { EntityAdapterInitalState } from './app/forum/types';
 import { ThreadMessage } from './infrastructure/api/forum/types';
 import { ForumState } from './app/forum/types';
+import theme, { ThemeState, ThemeMode } from './app/themeSlice';
 
 export interface PreloadedState {
   forum: ForumState;
+  theme: ThemeState;
 }
 
 const preloadedState = {
@@ -21,11 +23,15 @@ const preloadedState = {
       error: '',
     }) as EntityAdapterInitalState<ThreadMessage[]>,
   },
+  theme: {
+    mode: ThemeMode.DARK,
+  },
 };
 
 export const store = configureStore({
   reducer: {
     forum,
+    theme,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

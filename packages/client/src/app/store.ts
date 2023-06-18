@@ -1,10 +1,12 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import forum from './forum/forumSlice';
 import { apiSlice } from './apiSlice';
+import forum from './forum/forumSlice';
+import theme from './themeSlice';
 
 export const store = configureStore({
   reducer: {
     forum,
+    theme,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

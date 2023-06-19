@@ -24,7 +24,7 @@ export const getThreadMessages = createAsyncThunk(
   async (id: string) => await ForumApi.getThreadMessagesById(id)
 );
 
-const threadMessagesAdapter = createEntityAdapter<ThreadMessage[]>({
+export const threadMessagesAdapter = createEntityAdapter<ThreadMessage[]>({
   selectId: (message) => {
     return message?.[0].threadId;
   },
@@ -87,6 +87,10 @@ export const selectThreadListStatus = (state: RootState) =>
 
 export const selectThreadById = (id: string) => (state: RootState) => {
   return state.forum.threadList?.find((thread) => +thread.id === +id);
+};
+
+export const selectForumState = () => (state: RootState) => {
+  return state.forum;
 };
 
 const threadMessagesSelectors = threadMessagesAdapter.getSelectors();

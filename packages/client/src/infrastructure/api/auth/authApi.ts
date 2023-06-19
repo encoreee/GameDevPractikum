@@ -17,6 +17,12 @@ class AuthApi {
   logout = () => {
     return apiFetch().post(`${API_ADDRESS}/auth/logout`).then(handleErrors);
   };
+
+  getServiceId = (redirectUri: string) => {
+    return apiFetch()
+      .get(`${API_ADDRESS}/oauth/yandex/service-id?redirect_uri=${redirectUri}`)
+      .then(handleErrors);
+  };
 }
 
 export default new AuthApi();

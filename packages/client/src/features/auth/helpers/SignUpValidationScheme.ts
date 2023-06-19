@@ -1,4 +1,4 @@
-import { ValidationAssertions } from '../../utils/const';
+import { ValidationAssertions } from '../../../utils/const';
 
 const {
   onlyCyrillicLatinAndDash,

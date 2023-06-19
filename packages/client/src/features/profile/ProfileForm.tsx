@@ -4,14 +4,14 @@ import { User, ErrorData } from '../../infrastructure/api/auth/contracts';
 import { useUpdateUserInfoMutation } from '@/app/apiSlice';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { Grid } from '@mui/material';
-import { ValidationScheme } from '../auth/SignUpValidationScheme';
+import { ValidationScheme } from '../auth/helpers/SignUpValidationScheme';
 import { AppMessage } from '@/utils/const';
 
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '@/components/MainButton';
 import FormNotification, {
   FORM_NOTIFICATION_TYPE,
-} from '../../components/FormNotification';
+} from '../../components/Notification';
 
 type ProfileFormProps = { user?: User };
 

@@ -37,11 +37,15 @@ const GameOverStep: FC<GameOverProps> = ({ toResult }) => {
   };
 
   const addListener = () => {
-    window.addEventListener('keydown', listener);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', listener);
+    }
   };
 
   const removeListener = () => {
-    window.removeEventListener('keydown', listener);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', listener);
+    }
   };
 
   useEffect(() => {

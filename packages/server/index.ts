@@ -5,6 +5,8 @@ import type { ViteDevServer } from 'vite';
 import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
+import sequelize from './app/sequelize';
+import router from './app/router';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
@@ -77,6 +79,21 @@ async function startServer() {
       next(e);
     }
   });
+  app.use(router);
+
+  (async () => {
+    try {
+      await sequelize.authenticate();
+      console.log('Connection has been established successfully.');
+
+      await sequelize.sync({ force: true });
+
+      console.log('Tables created successfully.');
+    } catch (error) {
+      console.error('Unable to connect to the database:', error);
+    }
+  })();
+
   app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
   });

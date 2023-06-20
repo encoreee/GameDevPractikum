@@ -1,31 +1,38 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
+import fetch from 'cross-fetch';
 
 // middleware для проверки авторизации
-async function requireAuth(req: Request, res: Response, next: NextFunction) {
+export const requireAuth: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   // выполнение запроса для получения данных о пользователе
   try {
-    const user = await getUser();
-    if (!user) {
-      return res.sendStatus(403);
+    console.log(req);
+    const id = await getUser();
+    if (id) {
+      next();
+    } else {
+      res.sendStatus(403);
     }
-
-    next();
   } catch (err) {
-    res.sendStatus(403);
+    res.sendStatus(500);
   }
-}
+};
 
 interface User {
   id: number;
 }
 
 async function getUser(): Promise<number | undefined> {
-  const url = `https://ya-praktikum.tech/api/v2/auth/user`;
-  const response = await fetch(url);
-  const data = (await response.json()) as User;
-  if (data) {
-    return data.id;
-  }
+  try {
+    const res = await fetch('https://ya-praktikum.tech/api/v2/auth/user');
 
-  return undefined;
+    const user = (await res.json()) as User;
+    return user.id;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
 }

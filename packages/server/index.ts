@@ -8,6 +8,7 @@ import path from 'node:path';
 import cookieParser from 'cookie-parser';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { appRoutes } from './ssrRoutes';
+import { requireAuth } from './app/requireAuth';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
@@ -30,6 +31,11 @@ async function startServer() {
   const apiRouter = express.Router();
 
   apiRouter.all(`${base}/*`, apiProxy);
+
+  // Роутер для пользователей
+  app.get('/api/users', requireAuth, async (_, res) => {
+    res.status(200);
+  });
 
   app.use(apiRouter);
 

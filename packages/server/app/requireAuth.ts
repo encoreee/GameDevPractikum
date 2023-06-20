@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import fetch from 'cross-fetch';
 
-interface Cookies {
+export interface Cookies {
   authCookie: string;
   uuid: string;
 }

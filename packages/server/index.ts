@@ -5,21 +5,189 @@ import type { ViteDevServer } from 'vite';
 import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
-import sequelize from './app/sequelize';
-import { Message, Topic, User } from './models';
-import { requireAuth } from './app/requireAuth';
 import cookieParser from 'cookie-parser';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import { appRoutes } from './ssrRoutes';
+//import { requireAuth } from './app/requireAuth';
+//import { Message, Topic, User } from './models';
+import sequelize from './app/sequelize';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
+const port = Number(process.env.SERVER_PORT) || 3001;
+const root = 'https://ya-praktikum.tech';
+const base = '/api/v2';
 
 async function startServer() {
   const app = express();
-  app.use(express.json());
-  //@ts-ignore ошибка типов
-  app.use(cookieParser());
+
   app.use(cors());
-  const port = Number(process.env.SERVER_PORT) || 3001;
+  //@ts-ignore
+  app.use(cookieParser());
+
+  const apiProxy = createProxyMiddleware(base, {
+    target: root,
+    changeOrigin: true,
+    cookieDomainRewrite: 'localhost',
+  });
+
+  const apiRouter = express.Router();
+
+  apiRouter.all(`${base}/*`, apiProxy);
+
+  // Роутер для пользователей
+  // app.get('/api/users', requireAuth, async (_, res) => {
+  //   const users = await User.findAll();
+  //   res.json(users);
+  // });
+
+  // app.post('/api/users', async (req, res) => {
+  //   try {
+  //     const user = await User.create(req.body);
+  //     res.json(user);
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.sendStatus(500);
+  //   }
+  // });
+
+  // app.get('/api/users/:id', async (req, res) => {
+  //   const user = await User.findByPk(req.params.id);
+  //   res.json(user);
+  // });
+
+  // app.put('/api/users/:id', async (req, res) => {
+  //   try {
+  //     const user = await User.findByPk(req.params.id);
+  //     if (user) {
+  //       await user.update(req.body);
+  //       res.json(user);
+  //     } else {
+  //       res.sendStatus(404);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.sendStatus(500);
+  //   }
+  // });
+
+  // app.delete('/api/users/:id', async (req, res) => {
+  //   try {
+  //     const user = await User.findByPk(req.params.id);
+  //     if (user) {
+  //       await user.destroy();
+  //       res.sendStatus(204);
+  //     } else {
+  //       res.sendStatus(404);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.sendStatus(500);
+  //   }
+  // });
+
+  // // Роутер для тем форума
+  // app.get('/api/topics', async (_, res) => {
+  //   const topics = await Topic.findAll();
+  //   res.json(topics);
+  // });
+
+  // app.post('/api/topics', async (req, res) => {
+  //   try {
+  //     const topic = await Topic.create(req.body);
+  //     res.json(topic);
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.sendStatus(500);
+  //   }
+  // });
+
+  // app.get('/api/topics/:id', async (req, res) => {
+  //   const topic = await Topic.findByPk(req.params.id, {
+  //     include: [User, Message],
+  //   });
+  //   res.json(topic);
+  // });
+
+  // app.put('/api/topics/:id', async (req, res) => {
+  //   try {
+  //     const topic = await Topic.findByPk(req.params.id);
+  //     if (topic) {
+  //       await topic.update(req.body);
+  //       res.json(topic);
+  //     } else {
+  //       res.sendStatus(404);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.sendStatus(500);
+  //   }
+  // });
+
+  // app.delete('/api/topics/:id', async (req, res) => {
+  //   const topic = await Topic.findByPk(req.params.id);
+  //   if (topic) {
+  //     await topic.destroy();
+  //     res.sendStatus(204);
+  //   } else {
+  //     res.sendStatus(404);
+  //   }
+  // });
+
+  // // Роутер для сообщений на форуме
+  // app.get('/api/messages', async (_, res) => {
+  //   const messages = await Message.findAll();
+  //   res.json(messages);
+  // });
+
+  // app.post('/api/messages', async (req, res) => {
+  //   try {
+  //     const message = await Message.create(req.body);
+  //     res.json(message);
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.sendStatus(500);
+  //   }
+  // });
+
+  // app.get('/api/messages/:id', async (req, res) => {
+  //   const message = await Message.findByPk(req.params.id, {
+  //     include: [User, Topic],
+  //   });
+  //   res.json(message);
+  // });
+
+  // app.put('/api/messages/:id', async (req, res) => {
+  //   try {
+  //     const message = await Message.findByPk(req.params.id);
+  //     if (message) {
+  //       await message.update(req.body);
+  //       res.json(message);
+  //     } else {
+  //       res.sendStatus(404);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.sendStatus(500);
+  //   }
+  // });
+
+  // app.delete('/messages/:id', async (req, res) => {
+  //   try {
+  //     const message = await Message.findByPk(req.params.id);
+  //     if (message) {
+  //       await message.destroy();
+  //       res.sendStatus(204);
+  //     } else {
+  //       res.sendStatus(404);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.sendStatus(500);
+  //   }
+  // });
+  app.use(apiRouter);
+
   let vite: ViteDevServer | undefined;
   const distPath = path.dirname(require.resolve('client/dist/index.html'));
   const srcPath = path.dirname(require.resolve('client'));
@@ -32,165 +200,12 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   }
-
-  // Роутер для пользователей
-  app.get('/api/users', requireAuth, async (_, res) => {
-    const users = await User.findAll();
-    res.json(users);
-  });
-
-  app.post('/api/users', async (req, res) => {
-    try {
-      const user = await User.create(req.body);
-      res.json(user);
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-    }
-  });
-
-  app.get('/api/users/:id', async (req, res) => {
-    const user = await User.findByPk(req.params.id);
-    res.json(user);
-  });
-
-  app.put('/api/users/:id', async (req, res) => {
-    try {
-      const user = await User.findByPk(req.params.id);
-      if (user) {
-        await user.update(req.body);
-        res.json(user);
-      } else {
-        res.sendStatus(404);
-      }
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-    }
-  });
-
-  app.delete('/api/users/:id', async (req, res) => {
-    try {
-      const user = await User.findByPk(req.params.id);
-      if (user) {
-        await user.destroy();
-        res.sendStatus(204);
-      } else {
-        res.sendStatus(404);
-      }
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-    }
-  });
-
-  // Роутер для тем форума
-  app.get('/api/topics', async (_, res) => {
-    const topics = await Topic.findAll();
-    res.json(topics);
-  });
-
-  app.post('/api/topics', async (req, res) => {
-    try {
-      const topic = await Topic.create(req.body);
-      res.json(topic);
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-    }
-  });
-
-  app.get('/api/topics/:id', async (req, res) => {
-    const topic = await Topic.findByPk(req.params.id, {
-      include: [User, Message],
-    });
-    res.json(topic);
-  });
-
-  app.put('/api/topics/:id', async (req, res) => {
-    try {
-      const topic = await Topic.findByPk(req.params.id);
-      if (topic) {
-        await topic.update(req.body);
-        res.json(topic);
-      } else {
-        res.sendStatus(404);
-      }
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-    }
-  });
-
-  app.delete('/api/topics/:id', async (req, res) => {
-    const topic = await Topic.findByPk(req.params.id);
-    if (topic) {
-      await topic.destroy();
-      res.sendStatus(204);
-    } else {
-      res.sendStatus(404);
-    }
-  });
-
-  // Роутер для сообщений на форуме
-  app.get('/api/messages', async (_, res) => {
-    const messages = await Message.findAll();
-    res.json(messages);
-  });
-
-  app.post('/api/messages', async (req, res) => {
-    try {
-      const message = await Message.create(req.body);
-      res.json(message);
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-    }
-  });
-
-  app.get('/api/messages/:id', async (req, res) => {
-    const message = await Message.findByPk(req.params.id, {
-      include: [User, Topic],
-    });
-    res.json(message);
-  });
-
-  app.put('/api/messages/:id', async (req, res) => {
-    try {
-      const message = await Message.findByPk(req.params.id);
-      if (message) {
-        await message.update(req.body);
-        res.json(message);
-      } else {
-        res.sendStatus(404);
-      }
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-    }
-  });
-
-  app.delete('/messages/:id', async (req, res) => {
-    try {
-      const message = await Message.findByPk(req.params.id);
-      if (message) {
-        await message.destroy();
-        res.sendStatus(204);
-      } else {
-        res.sendStatus(404);
-      }
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-    }
-  });
-
   if (!isDev()) {
     app.use(`/assets`, express.static(path.resolve(distPath, 'assets')));
   }
-
-  app.use('*', async (req, res, next) => {
+  app.use(appRoutes, async (req, res, next) => {
     const url = req.originalUrl;
+
     try {
       let template: string;
       if (!isDev()) {
@@ -205,21 +220,21 @@ async function startServer() {
         );
         template = await vite!.transformIndexHtml(url, template);
       }
-      let render: () => Promise<string>;
-      let preloadedStatePromise!: () => Promise<any>;
+      let render: (url: string, cookie?: string) => Promise<string>;
+      // let preloadedStatePromise!: () => Promise<any>;
       if (!isDev()) {
         render = (await import(ssrClientPath)).render;
-        preloadedStatePromise = (await import(ssrClientPath)).getPreloadedState;
+        // preloadedStatePromise = (await import(ssrClientPath)).getPreloadedState;
       } else {
         const ssrLoadModule = await vite!.ssrLoadModule(
           path.resolve(srcPath, 'src/entry-server.tsx')
         );
         render = ssrLoadModule.render;
-        preloadedStatePromise = ssrLoadModule.getPreloadedState;
+        // preloadedStatePromise = ssrLoadModule.getPreloadedState;
       }
 
-      const appHtml = await render();
-      const preloadedState = await preloadedStatePromise();
+      const [appHtml, preloadedState] = await render(url, req.headers.cookie);
+
       const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         preloadedState
       )}</script>`;

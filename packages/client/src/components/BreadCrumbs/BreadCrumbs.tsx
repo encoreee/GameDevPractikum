@@ -10,12 +10,12 @@ const BreadCrumb: FC<BreadCrumbProps> = ({ items = [] }) => {
         item === BC_PENDING_SYMBOL ? (
           <Skeleton
             key={index}
-            sx={{ backgroundColor: '#ffffff70', fontSize: '1.5rem' }}
+            sx={{ backgroundColor: 'primary.dark', fontSize: '1.5rem' }}
             width={'12rem'}
             variant="rounded"
           />
         ) : (
-          <Typography color={'#fff'} fontSize={'1.5rem'} key={index}>
+          <Typography color={'text.primary'} fontSize={'1.5rem'} key={index}>
             {item}
           </Typography>
         )

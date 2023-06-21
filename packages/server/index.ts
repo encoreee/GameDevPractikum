@@ -21,7 +21,6 @@ const base = '/api/v2';
 async function startServer() {
   const app = express();
 
-
   app.use(cors());
   //@ts-ignore
   app.use(cookieParser());
@@ -204,7 +203,6 @@ async function startServer() {
     app.use(`/assets`, express.static(path.resolve(distPath, 'assets')));
   }
   app.use(appRoutes, async (req, res, next) => {
-  app.use(appRoutes, async (req, res, next) => {
     const url = req.originalUrl;
 
     try {
@@ -222,26 +220,18 @@ async function startServer() {
         template = await vite!.transformIndexHtml(url, template);
       }
       let render: (url: string, cookie?: string) => Promise<string>;
-      // let preloadedStatePromise!: () => Promise<any>;
-      let render: (url: string, cookie?: string) => Promise<string>;
-      // let preloadedStatePromise!: () => Promise<any>;
+
       if (!isDev()) {
         render = (await import(ssrClientPath)).render;
-        // preloadedStatePromise = (await import(ssrClientPath)).getPreloadedState;
-        // preloadedStatePromise = (await import(ssrClientPath)).getPreloadedState;
       } else {
         const ssrLoadModule = await vite!.ssrLoadModule(
           path.resolve(srcPath, 'src/entry-server.tsx')
         );
         render = ssrLoadModule.render;
-        // preloadedStatePromise = ssrLoadModule.getPreloadedState;
-        // preloadedStatePromise = ssrLoadModule.getPreloadedState;
       }
       const cookie = req.headers?.cookie ?? undefined;
       const [appHtml, preloadedState] = await render(url, cookie);
 
-      const appHtml = await render();
-      const preloadedState = await preloadedStatePromise();
       const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         preloadedState
       )}</script>`;

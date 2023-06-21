@@ -6,13 +6,10 @@ import ProfileForm from './ProfileForm';
 import DataBox from '../../components/DataBox';
 import NavLink from '../../components/NavLink';
 import BreadCrumbs from '@/components/BreadCrumbs';
-import { useSelector } from 'react-redux';
-
-import { RootState } from '@/app/store';
 
 const ProjectsPage: FC = () => {
   const { data } = useGetUserInfoQuery();
-  const { profile } = useSelector((state: RootState) => state);
+
   const breadCrumbItems = ['Profile'];
 
   return (
@@ -26,7 +23,7 @@ const ProjectsPage: FC = () => {
             justifyContent="center"
             alignItems="center">
             {data ? (
-              <ProfileForm user={profile}></ProfileForm>
+              <ProfileForm user={data}></ProfileForm>
             ) : (
               <Typography>
                 User data loading failed. Try again later.

@@ -7,11 +7,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from './app/apiSlice';
 import forum from './app/forum/forumSlice';
 import leaderboard from './app/leaderboardSlice/leaderboardSlice';
+import profile from './features/profile/profileSlice';
 
 export const store = configureStore({
   reducer: {
     forum,
     leaderboard,
+    profile,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

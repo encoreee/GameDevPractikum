@@ -6,6 +6,7 @@ import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { appRoutes } from './ssrRoutes';
 import { requireAuth } from './app/requireAuth';
@@ -24,6 +25,8 @@ async function startServer() {
   app.use(cors());
   //@ts-ignore
   app.use(cookieParser());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   const apiProxy = createProxyMiddleware(base, {
     target: root,

@@ -1,5 +1,5 @@
 import { Fragment, FC, useEffect } from 'react';
-import { Outlet, Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import { startServiceWorker } from './utils/serviceWorkersRegistration';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './theme/theme';

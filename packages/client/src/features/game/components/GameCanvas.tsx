@@ -8,6 +8,11 @@ import { playerConfig } from '../Config';
 import Audio from '@features/Audio';
 import { PlayerProfile } from '../scenes/SceneUtils/PlayerUtils';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserInfoQuery } from '@/app/apiSlice';
+import type { GameStats } from '../scenes/Stats';
+import { useAppDispatch } from '@/app/hooks';
+import { postUserToLeaderBoard } from '@/app/leaderboardSlice/leaderboardSlice';
+import { GameResult } from '@/infrastructure/api/leaderboard/types';
 
 const Canvas = styled.canvas`
   border: 1px solid silver;
@@ -21,48 +26,58 @@ const CanvasWrapper = styled.div`
   padding: 2rem;
 `;
 
-const dummy: PlayerProfile = {
-  displayName: 'Alex',
-  points: 0,
-  lives: playerConfig.playerLives.lives,
-};
-let galaga: GalagaGame;
-
 const GameCanvas: React.FC = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
   const fullScreenElement = useToggleFullScreen(KEY_BINDINGS.fullScreen);
-
+  const { data } = useGetUserInfoQuery();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onEndGame = () => {
+  const galagaInstance = new GalagaGame();
+  const displayName =
+    data?.display_name || `${data?.first_name} ${data?.second_name}`;
+
+  const onEndGame = (gameStats: GameStats) => {
     navigate('/game-over');
+    const result: GameResult = {
+      score: gameStats.score,
+      hitRatio: +((gameStats.hit / gameStats.shoot) * 100).toFixed(2),
+      displayName,
+    };
+    dispatch(postUserToLeaderBoard(result));
   };
 
   useEffect(
     () => () => {
-      if (galaga) {
-        galaga.endGame();
+      if (galagaInstance) {
+        galagaInstance.endGame();
       }
     },
     []
   );
 
   useEffect(() => {
-    galaga = new GalagaGame(dummy);
-    galaga.onEndGame = onEndGame;
+    galagaInstance.onEndGame = onEndGame;
     if (canvas.current !== null) {
       document.addEventListener('keydown', onKeyDownHandler);
       document.addEventListener('keyup', onKeyUpHandler);
 
+      const profile: PlayerProfile = {
+        displayName,
+        points: 0,
+        lives: playerConfig.playerLives.lives,
+      };
+
       EngineCanvas.create(canvas.current);
-      galaga.init();
+
+      galagaInstance.init(profile);
     }
     return () => {
       if (typeof document !== 'undefined') {
         document.removeEventListener('keydown', onKeyDownHandler);
         document.removeEventListener('keyup', onKeyUpHandler);
         EngineCanvas.remove();
-        galaga.endGame();
+        galagaInstance.endGame();
       }
       Audio.stopAll();
     };
@@ -71,11 +86,11 @@ const GameCanvas: React.FC = () => {
   const onKeyDownHandler = (event: KeyboardEvent) => {
     // Сhecking for a modifier to avoid unexpected behavior
     if (event.altKey || event.ctrlKey) return;
-    galaga.keyboard.keyDownHandler(event.key);
+    galagaInstance.keyboard.keyDownHandler(event.key);
   };
   const onKeyUpHandler = (event: KeyboardEvent) => {
     if (event.altKey || event.ctrlKey) return;
-    galaga.keyboard.keyUpHandler(event.key);
+    galagaInstance.keyboard.keyUpHandler(event.key);
   };
 
   return (

@@ -6,6 +6,7 @@ import MainPageTemplate from '@/components/MainPageTemplate';
 import mainShipFullHealth from '../../assets/mainShipFullHealth.svg';
 import NavLink from '../../components/NavLink';
 import Audio, { AUDIO_IDS } from '@/features/Audio';
+import authApi from '@/infrastructure/api/auth/authApi';
 
 const styles = {
   listItem: {
@@ -75,7 +76,10 @@ const HomePage: FC = () => {
             <Typography>forums</Typography>
           </NavLink>
         </ListItem>
-        <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
+        <ListItem
+          sx={styles.listItem}
+          onMouseEnter={handleMouseEnter}
+          onClick={authApi.logout}>
           <Typography>log out</Typography>
         </ListItem>
       </List>

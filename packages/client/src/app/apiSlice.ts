@@ -26,6 +26,7 @@ export const apiSlice = createApi({
       query: () => `/auth/user`,
       keepUnusedDataFor: 600,
     }),
+
     postOauth: build.query<void, OauthRequest>({
       query: (body) => ({
         url: `/oauth/yandex`,

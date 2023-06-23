@@ -1,4 +1,7 @@
-import { ForumApi } from '@/infrastructure/api/forum/ForumApi';
+import {
+  ForumApi,
+  // , apiFetch
+} from '@/infrastructure/api/forum/ForumApi';
 import {
   createAsyncThunk,
   createEntityAdapter,
@@ -7,28 +10,68 @@ import {
 import { EntityAdapterInitalState, ForumState } from './types';
 import { RootState } from '../store';
 import { STATE_STATUSES } from '@/shared/const/store/stateStatuses';
-import { ThreadMessage } from '@/infrastructure/api/forum/types';
+import { ForumThread, ThreadMessage } from '@/infrastructure/api/forum/types';
+
+import { apiFetch } from '@/infrastructure/apiFetch';
+
+const LOCAL_ADDRESS = 'http://localhost:3001';
 
 export const getThreadsList = createAsyncThunk(
   'forum/getThreadList',
-  async () => await ForumApi.getThreadList()
+  async () => {
+    const res = await apiFetch().get(`${LOCAL_ADDRESS}/api/topics`);
+    const data = await res.json();
+
+    return data;
+  }
 );
 
 export const createNewThread = createAsyncThunk(
   'forum/createNewThread',
-  async (threadName: string) => await ForumApi.createThread({ threadName })
+  async (data: ForumThread) => {
+    const body = { ...data };
+
+    await apiFetch().post(`${LOCAL_ADDRESS}/api/topics`, body);
+
+    return body;
+  }
 );
 
 export const getThreadMessages = createAsyncThunk(
   'forum/getThreadMessages',
-  async (id: string) => await ForumApi.getThreadMessagesById(id)
+  async (id: string) => {
+    const res = await apiFetch().get(`${LOCAL_ADDRESS}/api/messages`);
+    const data = await res.json();
+
+    console.log(data);
+
+    return data;
+  }
+);
+
+export const createThreadMessages = createAsyncThunk(
+  'forum/createThreadMessages',
+  async (val: { TopicId: string; content: string }) => {
+    const { TopicId, content } = val;
+
+    const res = await apiFetch().post(`${LOCAL_ADDRESS}/api/messages`, {
+      TopicId,
+      content,
+    });
+    const data = await res.json();
+
+    return data;
+  }
 );
 
 export const threadMessagesAdapter = createEntityAdapter<ThreadMessage[]>({
   selectId: (message) => {
-    return message?.[0].threadId;
+    console.log(message);
+    return message[0].id;
   },
 });
+
+// console.log(threadMessagesAdapter);
 
 const initialState: ForumState = {
   status: { threadList: null, createThread: null },
@@ -64,7 +107,6 @@ export const forumSlice = createSlice({
     build.addCase(createNewThread.fulfilled, (state, action) => {
       state.threadList?.unshift({
         ...action.payload,
-        id: state.threadList.length.toString(),
       });
     });
     build.addCase(getThreadMessages.pending, (state) => {
@@ -77,6 +119,20 @@ export const forumSlice = createSlice({
       state.threadMessages.status = STATE_STATUSES.IDLE;
       threadMessagesAdapter.addOne(state.threadMessages, action.payload);
     });
+
+    build.addCase(createThreadMessages.pending, (state) => {
+      console.log('pending');
+      state.threadMessages.status = STATE_STATUSES.LOADING;
+    });
+    build.addCase(createThreadMessages.rejected, (state) => {
+      console.log('rejected');
+      state.threadMessages.status = STATE_STATUSES.FAILED;
+    });
+    build.addCase(createThreadMessages.fulfilled, (state, action) => {
+      console.log('fulfilled');
+      state.threadMessages.status = STATE_STATUSES.IDLE;
+      threadMessagesAdapter.addOne(state.threadMessages, action.payload);
+    });
   },
 });
 
@@ -86,7 +142,11 @@ export const selectThreadListStatus = (state: RootState) =>
   state.forum.status.threadList;
 
 export const selectThreadById = (id: string) => (state: RootState) => {
-  return state.forum.threadList?.find((thread) => +thread.id === +id);
+  return state.forum.threadList?.find((thread) => {
+    if (thread.id) {
+      return +thread.id === +id;
+    }
+  });
 };
 
 export const selectForumState = () => (state: RootState) => {

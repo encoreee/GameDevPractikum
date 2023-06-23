@@ -11,6 +11,7 @@ import { appRoutes } from './ssrRoutes';
 import { requireAuth } from './app/requireAuth';
 import { Message, Topic, User } from './models';
 import sequelize from './app/sequelize';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
@@ -24,6 +25,9 @@ async function startServer() {
   app.use(cors());
   //@ts-ignore
   app.use(cookieParser());
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   const apiProxy = createProxyMiddleware(base, {
     target: root,
@@ -141,6 +145,7 @@ async function startServer() {
   });
 
   app.post('/api/messages', requireAuth, async (req, res) => {
+    console.log(req);
     try {
       const message = await Message.create(req.body);
       res.json(message);

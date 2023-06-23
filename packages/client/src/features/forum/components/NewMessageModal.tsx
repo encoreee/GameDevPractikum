@@ -1,19 +1,15 @@
-import {
-  createNewThread,
-  createThreadMessages,
-  getThreadsList,
-} from '@/app/forum/forumSlice';
+import { createThreadMessages } from '@/app/forum/forumSlice';
 import { AppDispatch } from '@/app/store';
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '@/components/MainButton';
 import ModalWindow, { ModalProps } from '@/components/ModalWindow';
-import { ForumThread } from '@/infrastructure/api/forum/types';
+// import { ForumThread } from '@/infrastructure/api/forum/types';
 import { Stack } from '@mui/material';
 import { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
-export const NewThreadModal: FunctionComponent<ModalProps> = ({
+export const NewMessageModal: FunctionComponent<ModalProps> = ({
   open,
   handleClose,
   handleOpen,
@@ -21,23 +17,19 @@ export const NewThreadModal: FunctionComponent<ModalProps> = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [, setSearchParams] = useSearchParams();
-  const [theme, setTheme] = useState<ForumThread>({
-    title: '',
-    content: '',
-  });
+  const [message, setMessage] = useState<string>('');
+  const { id } = useParams();
 
   const onCreate = async () => {
-    if (!theme) {
+    if (!message) {
       return;
     }
     try {
-      await dispatch(createNewThread(theme));
-
       //@ts-ignore
-      await dispatch(createThreadMessages(2, theme.content));
+      await dispatch(createThreadMessages({ TopicId: id, content: message }));
 
-      await dispatch(getThreadsList());
-      console.log(theme);
+      console.log(message, id);
+
       handleClose();
       // setTheme();
       setSearchParams({ page: '1' });
@@ -52,22 +44,15 @@ export const NewThreadModal: FunctionComponent<ModalProps> = ({
         {open && (
           <>
             <DataField
-              label="title"
+              label="Message"
               variant={DATA_FIELD_VARIANTS.LABEL_TOP}
               autoFocus
-              onChange={(value) => setTheme({ ...theme, title: value })}
-              value={theme.title}
-            />
-            <DataField
-              label="Content"
-              variant={DATA_FIELD_VARIANTS.LABEL_TOP}
-              autoFocus
-              onChange={(value) => setTheme({ ...theme, content: value })}
-              value={theme.content}
+              onChange={(value) => setMessage(value)}
+              value={message}
             />
           </>
         )}
-        <MainButton label="Create" onClick={onCreate} disabled={!theme} />
+        <MainButton label="Create" onClick={onCreate} disabled={!message} />
       </Stack>
     </ModalWindow>
   );

@@ -1,9 +1,11 @@
-import { createThreadMessages } from '@/app/forum/forumSlice';
+import {
+  createThreadMessages,
+  getThreadMessages,
+} from '@/app/forum/forumSlice';
 import { AppDispatch } from '@/app/store';
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '@/components/MainButton';
 import ModalWindow, { ModalProps } from '@/components/ModalWindow';
-// import { ForumThread } from '@/infrastructure/api/forum/types';
 import { Stack } from '@mui/material';
 import { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -18,7 +20,7 @@ export const NewMessageModal: FunctionComponent<ModalProps> = ({
   const dispatch = useDispatch<AppDispatch>();
   const [, setSearchParams] = useSearchParams();
   const [message, setMessage] = useState<string>('');
-  const { id } = useParams();
+  const { id = '' } = useParams();
 
   const onCreate = async () => {
     if (!message) {
@@ -28,10 +30,10 @@ export const NewMessageModal: FunctionComponent<ModalProps> = ({
       //@ts-ignore
       await dispatch(createThreadMessages({ TopicId: id, content: message }));
 
-      console.log(message, id);
-
       handleClose();
-      // setTheme();
+
+      await dispatch(getThreadMessages(id));
+
       setSearchParams({ page: '1' });
     } catch (error) {
       console.error(error);

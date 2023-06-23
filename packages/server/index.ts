@@ -236,6 +236,7 @@ async function startServer() {
       }
       const cookie = req.headers?.cookie ?? undefined;
       const [appHtml, preloadedState] = await render(url, cookie);
+      console.log(preloadedState);
 
       const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         preloadedState

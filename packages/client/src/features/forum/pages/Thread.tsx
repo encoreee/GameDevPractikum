@@ -7,7 +7,7 @@ import {
   getThreadsList,
   selectThreadById,
   selectThreadListStatus,
-  selectThreadMessagesById,
+  selectThreadMessages,
 } from '@/app/forum/forumSlice';
 import { useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -32,6 +32,7 @@ const ForumThread = () => {
   const { id = '' } = useParams();
   const threadById = useSelector(selectThreadById(id));
   const threadListStatus = useSelector(selectThreadListStatus);
+  const threadMessages = useSelector(selectThreadMessages);
   const dispatch = useAppDispatch();
   const newMessage = useModalWindow('New Message');
 
@@ -59,23 +60,16 @@ const ForumThread = () => {
     navigate('/forum');
   };
 
-  const threadMessages = useSelector(selectThreadMessagesById(id));
-
-  console.log(threadMessages);
-
-  const handleNewMessageClick = () => {
-    newMessage.handleOpen;
-    console.log('new message clicked');
-  };
-
   return (
     <>
       <Stack alignItems={'start'} width={'100%'}>
         <BreadCrumbs items={BreadCrumbItems} />
         <Box sx={{ ...mainBoxStyles }}>
-          {[]?.map((item: JSX.IntrinsicAttributes & ThreadMessage) => (
-            <Message key={item.id} {...item} />
-          ))}
+          {threadMessages?.map(
+            (item: JSX.IntrinsicAttributes & ThreadMessage) => (
+              <Message key={item.id} {...item} />
+            )
+          )}
         </Box>
         <Stack sx={bottomNavStyles}>
           <Button variant="text" sx={purpleButtonStyles} onClick={onBack}>

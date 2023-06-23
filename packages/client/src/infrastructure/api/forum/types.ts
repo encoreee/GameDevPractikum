@@ -21,9 +21,9 @@ export type ThreadMessage = {
   TopicId?: number | string;
   UserId?: number | string;
 
-  time: string;
-  userName: string;
-  userAvatar: string;
-  message: string;
-  threadId: string;
+  time?: string;
+  userName?: string;
+  userAvatar?: string;
+  message?: string;
+  threadId?: string;
 };

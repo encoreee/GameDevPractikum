@@ -1,16 +1,8 @@
-import {
-  ForumApi,
-  // , apiFetch
-} from '@/infrastructure/api/forum/ForumApi';
-import {
-  createAsyncThunk,
-  createEntityAdapter,
-  createSlice,
-} from '@reduxjs/toolkit';
-import { EntityAdapterInitalState, ForumState } from './types';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { ForumState } from './types';
 import { RootState } from '../store';
 import { STATE_STATUSES } from '@/shared/const/store/stateStatuses';
-import { ForumThread, ThreadMessage } from '@/infrastructure/api/forum/types';
+import { ForumThread } from '@/infrastructure/api/forum/types';
 
 import { apiFetch } from '@/infrastructure/apiFetch';
 
@@ -42,10 +34,9 @@ export const getThreadMessages = createAsyncThunk(
   async (id: string) => {
     const res = await apiFetch().get(`${LOCAL_ADDRESS}/api/messages`);
     const data = await res.json();
+    const filteredById = data.filter((message: any) => message.TopicId === +id);
 
-    console.log(data);
-
-    return data;
+    return [...filteredById];
   }
 );
 
@@ -64,21 +55,16 @@ export const createThreadMessages = createAsyncThunk(
   }
 );
 
-export const threadMessagesAdapter = createEntityAdapter<ThreadMessage[]>({
-  selectId: (message) => {
-    console.log(message);
-    return message[0].id;
-  },
-});
-
-// console.log(threadMessagesAdapter);
+export const deleteThreadMessage = createAsyncThunk(
+  'forum/deleteThreadMessage',
+  async (messageId: string) => {
+    await apiFetch().delete(`${LOCAL_ADDRESS}/messages/${messageId}`);
+  }
+);
 
 const initialState: ForumState = {
-  status: { threadList: null, createThread: null },
-  threadMessages: threadMessagesAdapter.getInitialState({
-    status: null,
-    error: '',
-  }) as EntityAdapterInitalState<ThreadMessage[]>,
+  status: { threadList: null, createThread: null, threadMessages: null },
+  threadMessages: [],
 };
 
 export const forumSlice = createSlice({
@@ -110,28 +96,37 @@ export const forumSlice = createSlice({
       });
     });
     build.addCase(getThreadMessages.pending, (state) => {
-      state.threadMessages.status = STATE_STATUSES.LOADING;
+      state.status.threadMessages = STATE_STATUSES.LOADING;
     });
     build.addCase(getThreadMessages.rejected, (state) => {
-      state.threadMessages.status = STATE_STATUSES.FAILED;
+      state.status.threadMessages = STATE_STATUSES.FAILED;
     });
     build.addCase(getThreadMessages.fulfilled, (state, action) => {
-      state.threadMessages.status = STATE_STATUSES.IDLE;
-      threadMessagesAdapter.addOne(state.threadMessages, action.payload);
+      state.status.threadMessages = STATE_STATUSES.IDLE;
+      state.threadMessages = [...action.payload];
     });
 
     build.addCase(createThreadMessages.pending, (state) => {
       console.log('pending');
-      state.threadMessages.status = STATE_STATUSES.LOADING;
+      state.status.threadMessages = STATE_STATUSES.LOADING;
     });
     build.addCase(createThreadMessages.rejected, (state) => {
       console.log('rejected');
-      state.threadMessages.status = STATE_STATUSES.FAILED;
+      state.status.threadMessages = STATE_STATUSES.FAILED;
     });
     build.addCase(createThreadMessages.fulfilled, (state, action) => {
       console.log('fulfilled');
-      state.threadMessages.status = STATE_STATUSES.IDLE;
-      threadMessagesAdapter.addOne(state.threadMessages, action.payload);
+      state.status.threadMessages = STATE_STATUSES.IDLE;
+    });
+
+    build.addCase(deleteThreadMessage.pending, (state) => {
+      console.log('pending');
+    });
+    build.addCase(deleteThreadMessage.rejected, (state) => {
+      console.log('rejected');
+    });
+    build.addCase(deleteThreadMessage.fulfilled, (state, action) => {
+      console.log('fulfilled');
     });
   },
 });
@@ -153,9 +148,8 @@ export const selectForumState = () => (state: RootState) => {
   return state.forum;
 };
 
-const threadMessagesSelectors = threadMessagesAdapter.getSelectors();
-
-export const selectThreadMessagesById = (id: string) => (state: RootState) =>
-  threadMessagesSelectors.selectById(state?.forum.threadMessages, id) || [];
+export const selectThreadMessages = (state: RootState) => {
+  return state.forum.threadMessages || [];
+};
 
 export default forumSlice.reducer;

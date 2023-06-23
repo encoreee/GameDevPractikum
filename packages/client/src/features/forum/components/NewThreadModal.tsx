@@ -1,8 +1,4 @@
-import {
-  createNewThread,
-  createThreadMessages,
-  getThreadsList,
-} from '@/app/forum/forumSlice';
+import { createNewThread, getThreadsList } from '@/app/forum/forumSlice';
 import { AppDispatch } from '@/app/store';
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '@/components/MainButton';
@@ -33,13 +29,10 @@ export const NewThreadModal: FunctionComponent<ModalProps> = ({
     try {
       await dispatch(createNewThread(theme));
 
-      //@ts-ignore
-      await dispatch(createThreadMessages(2, theme.content));
-
       await dispatch(getThreadsList());
-      console.log(theme);
+
       handleClose();
-      // setTheme();
+
       setSearchParams({ page: '1' });
     } catch (error) {
       console.error(error);
@@ -57,13 +50,6 @@ export const NewThreadModal: FunctionComponent<ModalProps> = ({
               autoFocus
               onChange={(value) => setTheme({ ...theme, title: value })}
               value={theme.title}
-            />
-            <DataField
-              label="Content"
-              variant={DATA_FIELD_VARIANTS.LABEL_TOP}
-              autoFocus
-              onChange={(value) => setTheme({ ...theme, content: value })}
-              value={theme.content}
             />
           </>
         )}

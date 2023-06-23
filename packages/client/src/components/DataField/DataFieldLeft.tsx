@@ -16,7 +16,7 @@ const DataFieldLeft: FC<DataFieldProps> = ({
   return (
     <Grid alignItems="center" margin={1} container spacing={1}>
       <Grid item xs={5}>
-        <Typography variant="h6" color="primary.main">
+        <Typography variant="h6" color="text.primary">
           {label}
         </Typography>
       </Grid>
@@ -25,11 +25,11 @@ const DataFieldLeft: FC<DataFieldProps> = ({
           inputRef={inputRef}
           autoFocus={autoFocus}
           style={{
-            backgroundColor: 'black',
+            backgroundColor: 'primary.dark',
           }}
           inputProps={{
             style: {
-              color: 'white',
+              color: 'text.primary',
             },
           }}
           defaultValue={value}

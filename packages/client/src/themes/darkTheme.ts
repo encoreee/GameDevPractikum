@@ -6,12 +6,15 @@ export const darkTheme = {
   palette: {
     mode: ThemeMode.DARK,
     primary: {
-      main: '#8F90A6',
-      dark: '#28293D',
+      main: '#28293D',
+      dark: '#111111',
     },
     secondary: {
-      main: '#AC5DD9',
-      dark: '#DF4344',
+      main: '#CB5DD9',
+      dark: '#004FC4',
+    },
+    error: {
+      main: '#DF4344',
     },
     background: {
       default: 'black',

@@ -17,7 +17,7 @@ const NavLink: FC<LinkProps> = (props) => {
 
 NavLink.defaultProps = {
   variant: 'h6',
-  color: 'secondary.dark',
+  color: 'text.primary',
   underline: 'hover',
 };
 

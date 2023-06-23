@@ -6,12 +6,15 @@ export const lightTheme = {
   palette: {
     mode: ThemeMode.LIGHT,
     primary: {
-      main: '#8F90A6',
-      dark: '#28293D',
+      main: '#d5d5d5',
+      dark: '#c9c8c8',
     },
     secondary: {
       main: '#AC5DD9',
-      dark: '#DF4344',
+      dark: '#004FC4',
+    },
+    error: {
+      main: '#DF4344',
     },
     background: {
       default: 'black',

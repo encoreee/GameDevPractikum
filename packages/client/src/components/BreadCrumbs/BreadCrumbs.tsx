@@ -5,12 +5,12 @@ import { BreadCrumbProps } from './types';
 
 const BreadCrumb: FC<BreadCrumbProps> = ({ items = [] }) => {
   return (
-    <Breadcrumbs separator="->" sx={{ color: 'white' }}>
+    <Breadcrumbs separator="->" sx={{ color: 'text.primary' }}>
       {items.map((item, index) =>
         item === BC_PENDING_SYMBOL ? (
           <Skeleton
             key={index}
-            sx={{ backgroundColor: 'primary.dark', fontSize: '1.5rem' }}
+            sx={{ backgroundColor: 'primary.main', fontSize: '1.5rem' }}
             width={'12rem'}
             variant="rounded"
           />

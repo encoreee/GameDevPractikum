@@ -1,13 +1,16 @@
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Container, Grid, Typography } from '@mui/material';
 
 import MainPageTemplate from '../../components/MainPageTemplate';
 import defaultAvatar from '../../assets/defaultAvatar.svg';
+import BreadCrumbs from '@components/BreadCrumbs';
 
-import { Box, Container, Grid, Typography } from '@mui/material';
+import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const styles = {
   content: {
-    color: 'white',
+    color: 'text.primary',
     fontSize: '12px',
     display: 'flex',
     alignItems: 'center',
@@ -15,31 +18,23 @@ const styles = {
     width: '700px',
     padding: '0px',
   },
-  mainText: {
-    fontSize: '24px',
-  },
   text: {
+    color: 'text.primary',
+    fontSize: 14,
+    cursor: 'default',
     span: {
       position: 'relative',
       cursor: 'pointer',
       padding: '10px',
-
       '&:hover': {
         textDecorationLine: 'underline',
       },
     },
   },
-  backText: {
-    cursor: 'pointer',
-    fontSize: '12px',
-    background: 'linear-gradient(145.51deg, #AC5DD9 7.21%, #004FC4 94.47%)',
-    textFillColor: 'transparent',
-    backgroundClip: 'text',
-  },
   gridStyle: { width: '680px' },
   gridContainer: {
-    backgroundColor: 'primary.dark',
-    color: 'white',
+    backgroundColor: 'primary.main',
+    color: 'text.primary',
     width: 700,
     height: 400,
   },
@@ -52,16 +47,21 @@ const data = [
 ];
 
 const LeaderBoardPage: FC = () => {
+  const navigate = useNavigate();
+  const breadCrumbItems = ['Leaders'];
+
+  const onBack = () => {
+    navigate('/');
+  };
+
   return (
     <MainPageTemplate>
       <Container style={styles.content}>
-        <Typography sx={styles.mainText}>Leaders</Typography>
-
+        <BreadCrumbs items={breadCrumbItems} />
         <Typography sx={styles.text}>
           Sort by: <span>score</span>|<span>name</span>
         </Typography>
       </Container>
-
       <Box sx={styles.gridContainer}>
         {data.map((person, index) => {
           return (
@@ -90,10 +90,17 @@ const LeaderBoardPage: FC = () => {
       </Box>
 
       <Container style={styles.content}>
-        <Typography sx={styles.backText}> &#9664; Back</Typography>
-        <Typography sx={styles.text}>
-          <span>&lt; Previous page</span> <span>Next page &gt;</span>
-        </Typography>
+        <TextButton
+          label="&lt;- Back"
+          onClick={onBack}
+          variant={TextButtonVariant.SECONDARY}
+        />
+        <TextButton
+          label="&lt;Prev Page"
+          variant={TextButtonVariant.CLEAN}
+          disabled={true}
+        />
+        <TextButton label="Next Page&gt;" variant={TextButtonVariant.CLEAN} />
       </Container>
     </MainPageTemplate>
   );

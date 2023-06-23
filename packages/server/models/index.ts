@@ -7,6 +7,7 @@ class User extends Model {
   public name!: string;
   public email!: string;
   public password!: string;
+  public theme!: string;
 }
 
 User.init(
@@ -89,6 +90,30 @@ Message.init(
   }
 );
 
+// Модель для тем
+class Theme extends Model {
+  public id!: number;
+  public name!: string;
+}
+
+Theme.init(
+  {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: 'themes',
+    sequelize,
+  }
+);
+
 // Связи между моделями
 User.hasMany(Topic);
 Topic.belongsTo(User);
@@ -98,6 +123,8 @@ Message.belongsTo(User);
 
 Topic.hasMany(Message);
 Message.belongsTo(Topic);
+
+User.hasOne(Theme);
 
 // Экспорт моделей
 export { User, Topic, Message };

@@ -96,6 +96,6 @@ export const selectForumState = () => (state: RootState) => {
 const threadMessagesSelectors = threadMessagesAdapter.getSelectors();
 
 export const selectThreadMessagesById = (id: string) => (state: RootState) =>
-  threadMessagesSelectors.selectById(state.forum.threadMessages, id) || [];
+  threadMessagesSelectors.selectById(state?.forum.threadMessages, id) || [];
 
 export default forumSlice.reducer;

@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { useGetUserInfoQuery } from '@/app/apiSlice';
 import { Stack, Typography } from '@mui/material';
-
 import MainPageTemplate from '../../components/MainPageTemplate';
 import ProfileForm from './ProfileForm';
 import DataBox from '../../components/DataBox';
@@ -10,6 +9,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 
 const ProjectsPage: FC = () => {
   const { data } = useGetUserInfoQuery();
+
   const breadCrumbItems = ['Profile'];
 
   return (

@@ -57,8 +57,9 @@ const SignInPage: FC = () => {
       return;
     }
 
-    window.location.assign(getOauthLink(res.service_id, redirectUriEncoded));
-  };
+    if (typeof window !== 'undefined') {
+      window.location.assign(getOauthLink(res.service_id, redirectUriEncoded));
+    }
 
   return (
     <MainPageTemplate>

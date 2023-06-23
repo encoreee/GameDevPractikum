@@ -1,7 +1,6 @@
 import { Fragment, FC, useEffect } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import { startServiceWorker } from './utils/serviceWorkersRegistration';
-
 import ThemeProvider from './components/ThemeProvider';
 import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
 import GamePage from './features/game/GamePage';

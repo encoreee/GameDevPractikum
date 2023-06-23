@@ -60,6 +60,7 @@ const SignInPage: FC = () => {
     if (typeof window !== 'undefined') {
       window.location.assign(getOauthLink(res.service_id, redirectUriEncoded));
     }
+  };
 
   return (
     <MainPageTemplate>

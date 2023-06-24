@@ -13,7 +13,7 @@ import { requireAuth } from './app/requireAuth';
 import { Message, Topic, User } from './models';
 import sequelize from './app/sequelize';
 
-dotenv.config();
+dotenv.config({ path: '.env.development' });
 const isDev = () => process.env.NODE_ENV === 'development';
 const port = Number(process.env.SERVER_PORT) || 3001;
 const root = 'https://ya-praktikum.tech';
@@ -25,7 +25,6 @@ async function startServer() {
   app.use(cors());
   //@ts-ignore
   app.use(cookieParser());
-  app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
   const apiProxy = createProxyMiddleware(base, {

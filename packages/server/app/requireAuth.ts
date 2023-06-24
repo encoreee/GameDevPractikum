@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import fetch from 'cross-fetch';
+import fetch from 'isomorphic-fetch';
 
 export interface Cookies {
   authCookie: string;

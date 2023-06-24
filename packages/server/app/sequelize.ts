@@ -1,4 +1,7 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
   process.env;
@@ -11,6 +14,8 @@ const sequelizeOptions: SequelizeOptions = {
   database: POSTGRES_DB,
   dialect: 'postgres',
 };
+
+console.log(sequelizeOptions);
 
 const sequelize = new Sequelize(sequelizeOptions);
 

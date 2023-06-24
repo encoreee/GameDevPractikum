@@ -107,26 +107,23 @@ export const forumSlice = createSlice({
     });
 
     build.addCase(createThreadMessages.pending, (state) => {
-      console.log('pending');
       state.status.threadMessages = STATE_STATUSES.LOADING;
     });
     build.addCase(createThreadMessages.rejected, (state) => {
-      console.log('rejected');
       state.status.threadMessages = STATE_STATUSES.FAILED;
     });
-    build.addCase(createThreadMessages.fulfilled, (state, action) => {
-      console.log('fulfilled');
+    build.addCase(createThreadMessages.fulfilled, (state) => {
       state.status.threadMessages = STATE_STATUSES.IDLE;
     });
 
     build.addCase(deleteThreadMessage.pending, (state) => {
-      console.log('pending');
+      state;
     });
     build.addCase(deleteThreadMessage.rejected, (state) => {
-      console.log('rejected');
+      state;
     });
-    build.addCase(deleteThreadMessage.fulfilled, (state, action) => {
-      console.log('fulfilled');
+    build.addCase(deleteThreadMessage.fulfilled, (state) => {
+      state;
     });
   },
 });

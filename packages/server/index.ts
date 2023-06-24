@@ -6,6 +6,7 @@ import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { appRoutes } from './ssrRoutes';
 import { requireAuth } from './app/requireAuth';
@@ -13,7 +14,7 @@ import { Message, Topic, User } from './models';
 import sequelize from './app/sequelize';
 import bodyParser from 'body-parser';
 
-dotenv.config();
+dotenv.config({ path: '.env.development' });
 const isDev = () => process.env.NODE_ENV === 'development';
 const port = Number(process.env.SERVER_PORT) || 3001;
 const root = 'https://ya-praktikum.tech';
@@ -25,6 +26,7 @@ async function startServer() {
   app.use(cors());
   //@ts-ignore
   app.use(cookieParser());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));

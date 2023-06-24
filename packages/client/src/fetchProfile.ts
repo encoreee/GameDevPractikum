@@ -1,5 +1,5 @@
 import { API_ADDRESS } from '@infrastructure/apiFetch';
-import fetch from 'cross-fetch';
+import fetch from 'isomorphic-fetch';
 
 export async function fetchAsync(
   callback: (arg0: any) => any,

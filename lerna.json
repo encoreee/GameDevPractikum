@@ -3,5 +3,32 @@
   "useNx": true,
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "packages": ["packages/*"],
+  "command": {
+    "bootstrap:dev": {
+      "environment": {
+        "NODE_ENV": "development",
+        "CLIENT_PORT": "${env.CLIENT_PORT}",
+        "SERVER_PORT": "${env.SERVER_PORT}",
+        "POSTGRES_USER": "${env.POSTGRES_USER}",
+        "POSTGRES_PASSWORD": "${env.POSTGRES_PASSWORD}",
+        "POSTGRES_DB": "${env.POSTGRES_DB}",
+        "POSTGRES_PORT": "${env.POSTGRES_PORT}",
+        "API_ADDRESS": "${env.API_ADDRESS}"
+      }
+    },
+    "bootstrap:prod": {
+      "environment": {
+        "NODE_ENV": "production",
+        "CLIENT_PORT": "${env.CLIENT_PORT}",
+        "SERVER_PORT": "${env.SERVER_PORT}",
+        "POSTGRES_USER": "${env.POSTGRES_USER}",
+        "POSTGRES_PASSWORD": "${env.POSTGRES_PASSWORD}",
+        "POSTGRES_DB": "${env.POSTGRES_DB}",
+        "POSTGRES_PORT": "${env.POSTGRES_PORT}",
+        "API_ADDRESS": "${env.API_ADDRESS}"
+      }
+    }
+  }
 }

@@ -2,6 +2,7 @@ import { Box, Stack } from '@mui/material';
 import { FunctionComponent, PropsWithChildren } from 'react';
 import { styled } from '@mui/system';
 
+import ThemeSwitch from './ThemeSwitch';
 import { SoundSwitch } from './SoundSwitch';
 
 const Container = styled('div')({
@@ -28,6 +29,7 @@ const EmptyMainPageTemplate: FunctionComponent<PropsWithChildren> = (props) => {
         </Stack>
       </Box>
       <SoundSwitch />
+      <ThemeSwitch />
     </Container>
   );
 };

@@ -16,6 +16,6 @@ describe('Home page', () => {
       </Provider>
     );
 
-    expect(getByText('Start game')).toBeInTheDocument();
+    expect(getByText('start game')).toBeInTheDocument();
   });
 });

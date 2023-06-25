@@ -2,13 +2,13 @@ import { SxProps } from '@mui/material';
 
 export const statsTitle: SxProps = {
   textAlign: 'center',
-  color: '#fff',
+  color: 'text.primary',
   marginBottom: '4.5rem',
 };
 
 export const statsShots: SxProps = { color: '#92B1E4' };
 
-export const statsHits: SxProps = { color: '#fff' };
+export const statsHits: SxProps = { color: '#43af48' };
 
 export const statsRatio: SxProps = { color: '#B2B902' };
 
@@ -29,11 +29,18 @@ export const Btn: SxProps = {
 
 export const BtnRed: SxProps = {
   ...Btn,
-  background:
-    'linear-gradient(180deg, rgba(255, 128, 128, 0.94) 0%, rgba(229, 53, 53, 0.94) 100%);',
+  background: 'linear-gradient(145.51deg, #AC5DD9 7.21%, #004FC4 94.47%);',
+  opacity: 0.8,
+  '&:hover': {
+    opacity: 1,
+  },
 };
 
 export const BtnBlue: SxProps = {
   ...Btn,
-  background: 'linear-gradient(145.51deg, #AC5DD9 7.21%, #004FC4 94.47%);',
+  background: 'linear-gradient(180deg, #00D0DE 6.95%, #05A660 93.05%);',
+  opacity: 0.8,
+  '&:hover': {
+    opacity: 1,
+  },
 };

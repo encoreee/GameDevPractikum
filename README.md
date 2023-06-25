@@ -78,9 +78,9 @@
 
 `docker compose up` - запустит три сервиса
 
-1. app - Приложение в ssr
-2. pgadmin - клиент для базы данных
-3. galaga-db, вашу базу данных (postgres)
+1. app - Приложение в ssr (Порт 3000)
+2. pgadmin - клиент для базы данных (Порт 8080 Почта:admin@admin.com Пароль:admin)
+3. galaga-db, вашу базу данных (postgres Порт 5432)
 
 Если вам понадобится только один сервис, просто уточните какой в команде
 `docker compose up {sevice_name}`, например `docker compose up app`

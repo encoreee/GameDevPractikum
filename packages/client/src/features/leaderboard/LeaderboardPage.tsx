@@ -1,18 +1,11 @@
 import { FC, useEffect, useMemo, useState } from 'react';
-
 import MainPageTemplate from '../../components/MainPageTemplate';
+import BreadCrumbs from '@components/BreadCrumbs';
+import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import { Box, Container, Grid, Skeleton, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '@/app/hooks';
-import { cleanButtonStyles, purpleButtonStyles } from '../forum/styles';
 import { useNavigate } from 'react-router-dom';
 import {
   getLeaderboard,
@@ -26,7 +19,7 @@ import {
 
 const styles = {
   content: {
-    color: 'white',
+    color: 'text.primary',
     fontSize: '12px',
     display: 'flex',
     alignItems: 'center',
@@ -34,11 +27,10 @@ const styles = {
     width: '700px',
     padding: '0px',
   },
-  mainText: {
-    fontSize: '24px',
-  },
   text: {
-    fontSize: '16px',
+    color: 'text.primary',
+    fontSize: 14,
+    cursor: 'default',
     span: {
       position: 'relative',
       cursor: 'pointer',
@@ -49,17 +41,10 @@ const styles = {
       },
     },
   },
-  backText: {
-    cursor: 'pointer',
-    fontSize: '12px',
-    background: 'linear-gradient(145.51deg, #AC5DD9 7.21%, #004FC4 94.47%)',
-    textFillColor: 'transparent',
-    backgroundClip: 'text',
-  },
   gridStyle: { width: '680px', height: '69px' },
   gridContainer: {
-    backgroundColor: 'primary.dark',
-    color: 'white',
+    backgroundColor: 'primary.main',
+    color: 'text.primary',
     width: 700,
     height: 400,
   },
@@ -67,17 +52,15 @@ const styles = {
 
 const LeaderBoardPage: FC = () => {
   const navigate = useNavigate();
+  const breadCrumbItems = ['Leaders'];
   const dispatch = useAppDispatch();
-
   const [page, setPage] = useState(0);
 
   const onBack = () => {
     navigate('/');
   };
   const leadersByPage = useSelector(leaderboardListByPage(page));
-
   const isEmpty = useSelector(isLeaderboardEmpty);
-
   const isPending = useSelector(isLeaderboardPending);
 
   const onNextPage = () => {
@@ -92,9 +75,7 @@ const LeaderBoardPage: FC = () => {
     }
   };
   const isLastPage = useSelector(isLastLeaderboardPage(page));
-
   const isFirstPage = useMemo(() => page === 0, [page]);
-
   const isNeedToDispatch = useSelector(isNeedToDispatchGetLeaderboard(page));
 
   useEffect(() => {
@@ -185,30 +166,35 @@ const LeaderBoardPage: FC = () => {
   return (
     <MainPageTemplate>
       <Container style={styles.content}>
-        <Typography sx={styles.mainText}>Leaders</Typography>
+        <BreadCrumbs items={breadCrumbItems} />
+        <Typography sx={styles.text}>
+          Sort by: <span>score</span>|<span>name</span>
+        </Typography>
       </Container>
-
       <Box sx={styles.gridContainer}>
         <Leaderboard />
       </Box>
 
       <Container style={styles.content}>
-        <Button variant="text" sx={purpleButtonStyles} onClick={onBack}>
-          &lt;- Back
-        </Button>
+        <TextButton
+          label="&lt;- Back"
+          onClick={onBack}
+          variant={TextButtonVariant.SECONDARY}
+        />
+
         <Box display={'flex'} gap={'1rem'}>
-          <Button
-            sx={cleanButtonStyles}
+          <TextButton
+            label="&lt;Prev Page"
+            variant={TextButtonVariant.CLEAN}
             onClick={onPrevPage}
-            disabled={isFirstPage}>
-            &lt; Previous page
-          </Button>
-          <Button
-            sx={cleanButtonStyles}
+            disabled={isFirstPage}
+          />
+          <TextButton
+            label="Next Page&gt;"
+            variant={TextButtonVariant.CLEAN}
             onClick={onNextPage}
-            disabled={isLastPage}>
-            Next page &gt;
-          </Button>
+            disabled={isLastPage}
+          />
         </Box>
       </Container>
     </MainPageTemplate>

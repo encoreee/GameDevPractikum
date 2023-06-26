@@ -14,7 +14,7 @@ const DataBox: FC<DataBoxProps> = (props) => {
     marginLeft: 'auto',
     marginRight: 'auto',
     display: 'flex',
-    backgroundColor: 'primary.dark',
+    backgroundColor: 'primary.main',
     width: props.width,
     height: props.height,
   };

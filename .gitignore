@@ -9,3 +9,5 @@ lerna-debug.log
 TODO.md
 .stylelintcache
 dev-dist
+.env.development
+.env.sample

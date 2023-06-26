@@ -43,7 +43,7 @@ const ModalWindow: FunctionComponent<ModalPropsWithChildren> = ({
                 </Typography>
               </IconButton>
             </Stack>
-            <Box sx={{ backgroundColor: 'primary.dark', borderRadius: '0' }}>
+            <Box sx={{ backgroundColor: 'primary.main', borderRadius: '0' }}>
               {children}
             </Box>
           </Box>

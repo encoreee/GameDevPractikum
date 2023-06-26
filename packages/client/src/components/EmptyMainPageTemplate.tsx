@@ -2,7 +2,7 @@ import { Box, Stack } from '@mui/material';
 import { FunctionComponent, PropsWithChildren } from 'react';
 import { styled } from '@mui/system';
 
-import Background from '../assets/background.png'; // Import using relative path
+import ThemeSwitch from './ThemeSwitch';
 import { SoundSwitch } from './SoundSwitch';
 
 const Container = styled('div')({
@@ -13,7 +13,6 @@ const styles = {
   box: {
     width: '100%',
     minHeight: '100%',
-    backgroundImage: `url(${Background})`,
   },
 };
 
@@ -30,6 +29,7 @@ const EmptyMainPageTemplate: FunctionComponent<PropsWithChildren> = (props) => {
         </Stack>
       </Box>
       <SoundSwitch />
+      <ThemeSwitch />
     </Container>
   );
 };

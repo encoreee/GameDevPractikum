@@ -1,14 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import forum from './forum/forumSlice';
 import leaderboard from './leaderboardSlice/leaderboardSlice';
-import profile from '../features/profile/profileSlice';
 import { apiSlice } from './apiSlice';
+import theme from './themeSlice';
 
 export const store = configureStore({
   reducer: {
     forum,
+    theme,
     leaderboard,
-    profile,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

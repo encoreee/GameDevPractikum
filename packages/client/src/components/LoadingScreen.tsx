@@ -2,7 +2,6 @@ import { Box, Stack, Typography } from '@mui/material';
 import { FC, PropsWithChildren } from 'react';
 import { styled } from '@mui/system';
 
-import Background from '../assets/background.png'; // Import using relative path
 import loader from '../assets/loader.gif';
 
 const Container = styled('div')({
@@ -12,7 +11,6 @@ const Container = styled('div')({
 const boxStyles = {
   width: '100%',
   minHeight: '100%',
-  backgroundImage: `url(${Background})`,
   display: 'flex',
   margin: 0,
   padding: 0,

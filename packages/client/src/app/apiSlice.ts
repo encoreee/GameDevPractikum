@@ -1,12 +1,25 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User, OauthRequest } from '../infrastructure/api/auth/contracts';
 import { API_ADDRESS } from '@/infrastructure/apiFetch';
+import fetch from 'isomorphic-fetch';
+
+export const initialState: User = {
+  avatar: undefined,
+  display_name: undefined,
+  email: '',
+  first_name: '',
+  id: '',
+  login: '',
+  phone: '',
+  second_name: '',
+};
 
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: API_ADDRESS,
     credentials: 'include',
+    fetchFn: fetch,
   }),
   endpoints: (build) => ({
     getUserInfo: build.query<User, void | undefined>({

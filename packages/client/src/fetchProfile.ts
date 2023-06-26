@@ -1,10 +1,5 @@
-import { apiFetch, API_ADDRESS } from '@infrastructure/apiFetch';
-import fetch from 'node-fetch';
-
-const requestOptions = {
-  method: 'GET',
-  credentials: 'include',
-};
+import { API_ADDRESS } from '@infrastructure/apiFetch';
+import fetch from 'isomorphic-fetch';
 
 export async function fetchAsync(
   callback: (arg0: any) => any,
@@ -12,7 +7,8 @@ export async function fetchAsync(
 ) {
   try {
     const res = await fetch(`${API_ADDRESS}/auth/user`, {
-      ...requestOptions,
+      method: 'GET',
+      credentials: 'include',
       headers: { cookie: cookies },
     });
 

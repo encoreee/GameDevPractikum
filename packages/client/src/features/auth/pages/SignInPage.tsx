@@ -57,7 +57,9 @@ const SignInPage: FC = () => {
       return;
     }
 
-    window.location.assign(getOauthLink(res.service_id, redirectUriEncoded));
+    if (typeof window !== 'undefined') {
+      window.location.assign(getOauthLink(res.service_id, redirectUriEncoded));
+    }
   };
 
   return (
@@ -91,7 +93,7 @@ const SignInPage: FC = () => {
             />
           </Stack>
         </FormContainer>
-        <NavLink variant="body2" color="white" href="/signup">
+        <NavLink variant="body2" href="/signup">
           I don’t have an account
         </NavLink>
       </DataBox>

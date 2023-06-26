@@ -11,7 +11,6 @@ import { ForumState } from './app/forum/types';
 import theme, { ThemeState, ThemeMode } from './app/themeSlice';
 import { fetchAsync } from './fetchProfile';
 import { User } from './infrastructure/api/auth/contracts';
-import { User } from './infrastructure/api/auth/contracts';
 
 export interface PreloadedState {
   forum: ForumState;
@@ -20,13 +19,6 @@ export interface PreloadedState {
 
 export function render(url: string | Partial<Location>, cookie: string) {
   return fetchAsync((res) => {
-    let profile: User | undefined;
-
-    try {
-      profile = res as User;
-    } catch (error) {
-      console.log(error);
-    }
     let profile: User | undefined;
 
     try {

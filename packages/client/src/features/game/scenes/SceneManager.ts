@@ -3,6 +3,7 @@ import { SimpleSquadScene } from './SimpleSquadScene';
 import { SceneInterface } from './SceneInterface';
 import { SceneEnemyCreateConfigType } from '../Config';
 import { PlayerProfile } from './SceneUtils/PlayerUtils';
+import Stats, { GameStats } from './Stats';
 
 export enum SceneName {
   LEVEL1 = 'level1',
@@ -87,21 +88,24 @@ export class SceneManager {
   private static end: boolean;
   private static currentSceneIndex = 1;
   private static profile: PlayerProfile;
-  private static onEndCallBack: () => void;
+  private static onEndCallback: (gameStats: GameStats) => void;
 
-  constructor(profile: PlayerProfile, onEndCallback: () => void) {
-    SceneManager.profile = profile;
-    SceneManager.onEndCallBack = onEndCallback;
+  constructor(onEndCallback: (gameStats: GameStats) => void) {
+    SceneManager.onEndCallback = onEndCallback;
   }
 
   public static endGame(): void {
-    SceneManager.end = true;
-    SceneManager.onEndCallBack();
+    if (SceneManager.end === false) {
+      SceneManager.onEndCallback(Stats.getStats());
+      SceneManager.end = true;
+    }
   }
 
   private static endCallBack(): void {
-    SceneManager.end = true;
-    SceneManager.onEndCallBack();
+    if (SceneManager.end === false) {
+      SceneManager.onEndCallback(Stats.getStats());
+      SceneManager.end = true;
+    }
   }
 
   public static setProfile(profile: PlayerProfile): void {

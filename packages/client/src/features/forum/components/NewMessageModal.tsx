@@ -27,7 +27,6 @@ export const NewMessageModal: FunctionComponent<ModalProps> = ({
       return;
     }
     try {
-      //@ts-ignore
       await dispatch(createThreadMessages({ TopicId: id, content: message }));
 
       handleClose();
@@ -41,7 +40,11 @@ export const NewMessageModal: FunctionComponent<ModalProps> = ({
   };
 
   return (
-    <ModalWindow {...{ open, handleClose, handleOpen, title }}>
+    <ModalWindow
+      open={open}
+      handleClose={handleClose}
+      handleOpen={handleOpen}
+      title={title}>
       <Stack sx={{ padding: '1rem 4rem' }}>
         {open && (
           <>
@@ -49,7 +52,7 @@ export const NewMessageModal: FunctionComponent<ModalProps> = ({
               label="Message"
               variant={DATA_FIELD_VARIANTS.LABEL_TOP}
               autoFocus
-              onChange={(value) => setMessage(value)}
+              onChange={setMessage}
               value={message}
             />
           </>

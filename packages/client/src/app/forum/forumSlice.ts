@@ -4,9 +4,7 @@ import { RootState } from '../store';
 import { STATE_STATUSES } from '@/shared/const/store/stateStatuses';
 import { ForumThread } from '@/infrastructure/api/forum/types';
 
-import { apiFetch } from '@/infrastructure/apiFetch';
-
-const LOCAL_ADDRESS = 'http://localhost:3001';
+import { apiFetch, LOCAL_ADDRESS } from '@/infrastructure/apiFetch';
 
 export const getThreadsList = createAsyncThunk(
   'forum/getThreadList',

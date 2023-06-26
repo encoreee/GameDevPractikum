@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from '@/app/hooks';
 import { useEffect, useMemo } from 'react';
@@ -14,15 +14,13 @@ import Message from '../components/Message';
 import {
   bottomNavStyles,
   changePageBtnsStyles,
-  cleanButtonStyles,
-  greenButtonStyles,
   mainBoxStyles,
-  purpleButtonStyles,
 } from '../styles';
 import BreadCrumbs, {
   BreadCrumbItem,
   BC_PENDING_SYMBOL,
 } from '@/components/BreadCrumbs';
+import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const ForumThread = () => {
   const navigate = useNavigate();
@@ -66,20 +64,16 @@ const ForumThread = () => {
         ))}
       </Box>
       <Stack sx={bottomNavStyles}>
-        <Button variant="text" sx={purpleButtonStyles} onClick={onBack}>
-          &lt;- Back
-        </Button>
+        <TextButton
+          label="&lt;- Back"
+          onClick={onBack}
+          variant={TextButtonVariant.SECONDARY}
+        />
         <Stack sx={changePageBtnsStyles}>
-          <Button variant="text" sx={cleanButtonStyles}>
-            &lt;Prev Page
-          </Button>
-          <Button variant="text" sx={cleanButtonStyles}>
-            Next Page&gt;
-          </Button>
+          <TextButton label="&lt;Prev Page" variant={TextButtonVariant.CLEAN} />
+          <TextButton label="Next Page&gt;" variant={TextButtonVariant.CLEAN} />
         </Stack>
-        <Button variant="text" sx={greenButtonStyles}>
-          New Message
-        </Button>
+        <TextButton label="New Message" variant={TextButtonVariant.PRIMARY} />
       </Stack>
     </Stack>
   );

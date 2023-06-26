@@ -82,7 +82,9 @@ const ResultStep: FC<ResultProps> = ({ gameResult }) => {
   return (
     <Grid container width={'40rem'} rowGap={'1.25rem'}>
       <Grid item xs={12}>
-        <Typography sx={statsTitle}>- RESULT -</Typography>
+        <Typography sx={statsTitle} variant="h2">
+          - RESULT -
+        </Typography>
       </Grid>
       <Grid item xs={9}>
         <Typography sx={statsShots}>SHOTS FIRED</Typography>

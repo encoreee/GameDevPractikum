@@ -93,7 +93,7 @@ const SignInPage: FC = () => {
             />
           </Stack>
         </FormContainer>
-        <NavLink variant="body2" color="white" href="/signup">
+        <NavLink variant="body2" href="/signup">
           I don’t have an account
         </NavLink>
       </DataBox>

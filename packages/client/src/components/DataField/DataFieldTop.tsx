@@ -19,7 +19,7 @@ const DataFieldTop: FC<DataFieldProps> = ({
     <Stack spacing={2}>
       <Typography
         variant="h6"
-        color="primary.main"
+        color="text.primary"
         style={{
           marginBottom: '0px',
         }}>
@@ -29,13 +29,13 @@ const DataFieldTop: FC<DataFieldProps> = ({
         autoFocus={autoFocus}
         inputRef={inputRef}
         style={{
-          backgroundColor: 'black',
+          backgroundColor: 'primary.dark',
           marginBottom: '30px',
           marginTop: '0px',
         }}
         inputProps={{
           style: {
-            color: 'white',
+            color: 'text.primary',
           },
         }}
         onChange={handleChange}

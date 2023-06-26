@@ -8,15 +8,25 @@ import forum, { threadMessagesAdapter } from './app/forum/forumSlice';
 import { EntityAdapterInitalState } from './app/forum/types';
 import { ThreadMessage } from './infrastructure/api/forum/types';
 import { ForumState } from './app/forum/types';
+import theme, { ThemeState, ThemeMode } from './app/themeSlice';
 import { fetchAsync } from './fetchProfile';
+import { User } from './infrastructure/api/auth/contracts';
 import { User } from './infrastructure/api/auth/contracts';
 
 export interface PreloadedState {
   forum: ForumState;
+  theme: ThemeState;
 }
 
 export function render(url: string | Partial<Location>, cookie: string) {
   return fetchAsync((res) => {
+    let profile: User | undefined;
+
+    try {
+      profile = res as User;
+    } catch (error) {
+      console.log(error);
+    }
     let profile: User | undefined;
 
     try {
@@ -33,11 +43,15 @@ export function render(url: string | Partial<Location>, cookie: string) {
           error: '',
         }) as EntityAdapterInitalState<ThreadMessage[]>,
       },
+      theme: {
+        mode: ThemeMode.DARK,
+      },
     };
 
     const store = configureStore({
       reducer: {
         forum,
+        theme,
         [apiSlice.reducerPath]: apiSlice.reducer,
       },
       middleware: (getDefaultMiddleware) =>
@@ -45,6 +59,12 @@ export function render(url: string | Partial<Location>, cookie: string) {
       devTools: process.env.NODE_ENV !== 'production',
       preloadedState,
     });
+
+    store.dispatch(apiSlice.endpoints.getUserInfo.initiate());
+
+    (async () => {
+      await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
+    })();
 
     store.dispatch(apiSlice.endpoints.getUserInfo.initiate());
 

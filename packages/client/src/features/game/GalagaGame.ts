@@ -4,29 +4,24 @@ import { Canvas } from './core/Canvas';
 import { GameLoop } from './core/GameLoop';
 import { PlayerProfile } from './scenes/SceneUtils/PlayerUtils';
 import Audio from '../Audio/Audio';
-import { cloneDeep } from 'lodash';
-import Stats from './scenes/Stats';
+import Stats, { GameStats } from './scenes/Stats';
 
 export class GalagaGame {
   public readonly keyboard: KeyboardController = new KeyboardController();
   private readonly gameloop: GameLoop;
-  private profile: PlayerProfile;
   private readonly sceneManager: SceneManager;
-  public onEndGame?: () => void;
+  public onEndGame?: (gameStats: GameStats) => void;
 
-  constructor(profile: PlayerProfile) {
+  constructor() {
     this.gameloop = new GameLoop(
       this.update.bind(this),
       this.render.bind(this)
     );
-    this.profile = profile;
-    this.sceneManager = new SceneManager(
-      cloneDeep(this.profile),
-      this.end.bind(this)
-    );
+    this.sceneManager = new SceneManager(this.end.bind(this));
   }
 
-  public init(): void {
+  public init(profile: PlayerProfile): void {
+    SceneManager.setProfile(profile);
     SceneManager.setKeyboard(this.keyboard);
     SceneManager.setStartScene();
 
@@ -50,21 +45,16 @@ export class GalagaGame {
     this.sceneManager.render(dt);
   }
 
-  private end(): void {
-    if (this.onEndGame) {
-      //  TODO  объединить методы по обнулению состояния при ините игры
-      SceneManager.setProfile(cloneDeep(this.profile));
-      SceneManager.setInitialSceneIndex();
-      this.gameloop.continue(true);
+  private end(gameStats: GameStats): void {
+    SceneManager.setInitialSceneIndex();
 
-      this.onEndGame();
-      Audio.stopAll();
+    Audio.stopAll();
+    if (this.onEndGame) {
+      this.onEndGame(gameStats);
     }
   }
 
   public endGame(): void {
-    //  TODO  объединить методы по обнулению состояния при ините игры
-    SceneManager.setProfile(cloneDeep(this.profile));
     SceneManager.setInitialSceneIndex();
     SceneManager.endGame();
     Audio.stopAll();

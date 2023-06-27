@@ -76,7 +76,11 @@ const ForumThread = () => {
           <TextButton label="&lt;Prev Page" variant={TextButtonVariant.CLEAN} />
           <TextButton label="Next Page&gt;" variant={TextButtonVariant.CLEAN} />
         </Stack>
-        <TextButton label="New Message" variant={TextButtonVariant.PRIMARY} />
+        <TextButton
+          label="New Message"
+          variant={TextButtonVariant.PRIMARY}
+          onClick={newMessage.handleOpen}
+        />
       </Stack>
     </Stack>
   );

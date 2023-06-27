@@ -14,7 +14,6 @@ User.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
       primaryKey: true,
     },
     first_name: {
@@ -25,9 +24,21 @@ User.init(
       type: DataTypes.STRING(128),
       allowNull: false,
     },
+    display_name: {
+      type: DataTypes.STRING(128),
+      allowNull: true,
+    },
     login: {
       type: DataTypes.STRING(128),
       allowNull: false,
+    },
+    phone: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
+    avatar: {
+      type: DataTypes.STRING(256),
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING(128),

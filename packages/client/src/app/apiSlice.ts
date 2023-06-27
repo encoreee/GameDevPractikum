@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User, OauthRequest } from '../infrastructure/api/auth/contracts';
-import { API_ADDRESS } from '@/infrastructure/apiFetch';
+import { API_ADDRESS, LOCAL_ADDRESS } from '@/infrastructure/apiFetch';
+import { setLightTheme } from './themeSlice';
 import fetch from 'isomorphic-fetch';
 
 export const initialState: User = {
@@ -25,6 +26,30 @@ export const apiSlice = createApi({
     getUserInfo: build.query<User, void | undefined>({
       query: () => `/auth/user`,
       keepUnusedDataFor: 600,
+      onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
+        try {
+          const user = (await queryFulfilled).data;
+          const userInDb = await fetch(
+            `${LOCAL_ADDRESS}/api/users/${user.id}`
+          ).then((res) => res.json());
+
+          if (!userInDb) {
+            fetch(`${LOCAL_ADDRESS}/api/users`, {
+              method: 'post',
+              body: JSON.stringify(user),
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+            });
+            return;
+          }
+
+          dispatch(setLightTheme());
+        } catch (error) {
+          console.error('Failed to update user info');
+        }
+      },
     }),
 
     postOauth: build.query<void, OauthRequest>({

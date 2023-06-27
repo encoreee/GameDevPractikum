@@ -23,10 +23,6 @@ async function startServer() {
   app.use(cors());
   //@ts-ignore
   app.use(cookieParser());
-  app.use(bodyParser.urlencoded({ extended: false }));
-
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
 
   const apiProxy = createProxyMiddleware(base, {
     target: root,
@@ -38,6 +34,9 @@ async function startServer() {
 
   apiRouter.all(`${base}/*`, apiProxy);
   app.use(apiRouter);
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+
   //Роутер для пользователей
   app.get('/api/users', requireAuth, async (_, res) => {
     const users = await User.findAll();
@@ -46,11 +45,7 @@ async function startServer() {
 
   app.post('/api/users', requireAuth, async (req, res) => {
     try {
-      console.log(1, req.body);
-
       const user = await User.create(req.body);
-      console.log(user);
-
       res.json(user);
     } catch (error) {
       console.log(error);
@@ -59,11 +54,7 @@ async function startServer() {
   });
 
   app.get('/api/users/:id', requireAuth, async (req, res) => {
-    const user = await User.findOne({
-      where: {
-        email: `%${req.params.email}%`,
-      },
-    });
+    const user = await User.findByPk(req.params.id);
     res.json(user);
   });
 
@@ -243,7 +234,6 @@ async function startServer() {
       }
       const cookie = req.headers?.cookie ?? undefined;
       const [appHtml, preloadedState] = await render(url, cookie);
-      console.log(preloadedState);
 
       const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         preloadedState

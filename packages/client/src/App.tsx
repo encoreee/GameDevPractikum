@@ -7,7 +7,7 @@ import GamePage from './features/game/GamePage';
 import Error from './features/errors/Error';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
-import HomePage from './features/homepage/Homepage';
+import HomePage from './features/homepage/HomePage';
 import ProfilePage from './features/profile/ProfilePage';
 import SignInPage from './features/auth/pages/SignInPage';
 import SignUpPage from './features/auth/pages/SignUpPage';

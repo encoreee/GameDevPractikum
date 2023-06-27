@@ -8,8 +8,9 @@ export default {
   setupFiles: ['jest-canvas-mock'],
   testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
   moduleNameMapper: {
-    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg|mp3|wav)$':
+    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|mp3|wav)$':
       'identity-obj-proxy',
+    '.+\\.svg$': '<rootDir>/src/assets/__mocks__/svgr.ts',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@app/(.*)$': '<rootDir>/src/app/$1',
     '^@assets/(.*)$': '<rootDir>/src/assets/$1',

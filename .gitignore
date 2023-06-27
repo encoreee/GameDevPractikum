@@ -4,10 +4,14 @@ node_modules/
 .idea
 .vscode
 dist
-tmp
 lerna-debug.log
 TODO.md
 .stylelintcache
 dev-dist
 .env.development
-.env.sample
+*.log
+
+tmp
+ssr-dist
+
+*/**/vite-config.ts.timestamp-**.mjs

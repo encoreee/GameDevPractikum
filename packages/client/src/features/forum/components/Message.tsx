@@ -1,9 +1,10 @@
 import Avatar from '@/components/Avatar';
-import { Button, Grid, Stack, Typography } from '@mui/material';
-import { greenButtonStyles, smallTextStyles, userInfoStyles } from '../styles';
+import { Grid, Stack, Typography } from '@mui/material';
+import { smallTextStyles, userInfoStyles } from '../styles';
 import { ThreadMessage } from '@/infrastructure/api/forum/types';
 import { FC } from 'react';
 import { formatDateFromUTCString } from '@/shared';
+import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const Message: FC<ThreadMessage> = ({
   time,
@@ -23,10 +24,12 @@ const Message: FC<ThreadMessage> = ({
         <Stack>
           <Typography sx={smallTextStyles}>{message}</Typography>
           <Stack direction={'row'} alignItems={'center'} gap={'0.5rem'}>
-            <Button sx={{ ...greenButtonStyles, fontSize: '0.5rem' }}>
-              Reply
-            </Button>
-            <Typography color={'primary.main'} fontSize={'0.5rem'}>
+            <TextButton
+              label="Reply"
+              variant={TextButtonVariant.PRIMARY}
+              fontSize={10}
+            />
+            <Typography color={'text.primary'} fontSize={'0.5rem'}>
               {formatDateFromUTCString(time)}
             </Typography>
           </Stack>

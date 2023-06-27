@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { TextFieldElement } from 'react-hook-form-mui';
 import { styled } from '@mui/material/styles';
 import { DataFieldProps } from './types';
+import { useTheme } from '@mui/material/styles';
 
 const TextFieldStyled = styled(TextFieldElement)({
   '& input:-internal-autofill-previewed': {
@@ -16,13 +17,15 @@ const TextFieldStyled = styled(TextFieldElement)({
 });
 
 const DataField: FC<DataFieldProps> = (props) => {
+  const theme = useTheme();
+
   return (
     <>
       <InputLabel
         htmlFor={props.name || props.label}
         size="normal"
         sx={{
-          color: 'primary.main',
+          color: 'text.primary',
           marginBottom: '4px',
           fontSize: 18,
         }}>
@@ -38,8 +41,8 @@ const DataField: FC<DataFieldProps> = (props) => {
         }}
         InputProps={{
           sx: {
-            color: 'white',
-            background: 'black',
+            color: theme.palette.text.primary,
+            background: theme.palette.primary.dark,
             borderRadius: '0px',
           },
         }}

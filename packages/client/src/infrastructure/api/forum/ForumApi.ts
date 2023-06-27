@@ -4,6 +4,7 @@ import type { CreateNewThread, ForumThread, ThreadMessage } from './types';
 const getThreadList = (): Promise<ForumThread[]> => {
   return new Promise((res) => getData(res, 'FORUM_TREADS_MOCK'));
 };
+
 const createThread: CreateNewThread = ({ threadName }) => {
   return new Promise((res) =>
     setTimeout(

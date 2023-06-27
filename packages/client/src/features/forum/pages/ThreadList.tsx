@@ -4,7 +4,6 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  Button,
   Box,
 } from '@mui/material';
 import BreadCrumbs from '@components/BreadCrumbs';
@@ -24,14 +23,12 @@ import { STATE_STATUSES } from '@/shared/const';
 import {
   bottomNavStyles,
   changePageBtnsStyles,
-  cleanButtonStyles,
-  greenButtonStyles,
   mainBoxStyles,
-  purpleButtonStyles,
   tableHeadCellStyles,
 } from '../styles';
 import TBThreads from '../components/TBThreads';
 import type { ForumThread } from '@/infrastructure/api/forum/types';
+import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const THREADS_PER_PAGE = 9;
 
@@ -121,31 +118,30 @@ const ForumThreadList: FC = () => {
           </Table>
         </Box>
         <Stack sx={bottomNavStyles}>
-          <Button variant="text" sx={purpleButtonStyles} onClick={onBack}>
-            &lt;- Back
-          </Button>
+          <TextButton
+            label="&lt;- Back"
+            onClick={onBack}
+            variant={TextButtonVariant.SECONDARY}
+          />
           <Stack sx={changePageBtnsStyles}>
-            <Button
-              variant="text"
-              disabled={!isPrevPageBtnVisible}
+            <TextButton
+              label="&lt;Prev Page"
               onClick={onPrevPage}
-              sx={cleanButtonStyles}>
-              &lt;Prev Page
-            </Button>
-            <Button
-              variant="text"
+              variant={TextButtonVariant.CLEAN}
+              disabled={!isPrevPageBtnVisible}
+            />
+            <TextButton
+              label="Next Page&gt;"
+              onClick={onNextPage}
+              variant={TextButtonVariant.CLEAN}
               disabled={!isNextPageBtnVisible}
-              sx={cleanButtonStyles}
-              onClick={onNextPage}>
-              Next Page&gt;
-            </Button>
+            />
           </Stack>
-          <Button
-            variant="text"
-            sx={greenButtonStyles}
-            onClick={modalProps.handleOpen}>
-            New Theme
-          </Button>
+          <TextButton
+            label="New Theme"
+            variant={TextButtonVariant.PRIMARY}
+            onClick={modalProps.handleOpen}
+          />
         </Stack>
       </Stack>
       <NewThreadModal {...modalProps} />

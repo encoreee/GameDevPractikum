@@ -6,10 +6,14 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from './app/apiSlice';
 import forum from './app/forum/forumSlice';
+import theme from './app/themeSlice';
+import leaderboard from './app/leaderboardSlice/leaderboardSlice';
 
 export const store = configureStore({
   reducer: {
     forum,
+    theme,
+    leaderboard,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

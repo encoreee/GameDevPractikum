@@ -139,7 +139,7 @@ Message.belongsTo(User);
 Topic.hasMany(Message);
 Message.belongsTo(Topic);
 
-// User.hasOne(Theme);
+User.hasOne(Theme);
 
 // Экспорт моделей
-export { User, Topic, Message };
+export { User, Topic, Message, Theme };

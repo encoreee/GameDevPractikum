@@ -9,9 +9,10 @@ import bodyParser from 'body-parser';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { appRoutes } from './ssrRoutes';
 import { requireAuth } from './app/requireAuth';
-import { Message, Topic, User } from './models';
+import { Message, Topic, User, Theme } from './models';
 import sequelize from './app/sequelize';
 import { SERVER_PORT, isDev } from './const/env';
+import { ThemeMode } from './const/themes';
 
 const port = Number(SERVER_PORT) || 3001;
 
@@ -257,6 +258,9 @@ async function startServer() {
       console.log('Connection has been established successfully.');
 
       await sequelize.sync({ force: true });
+      Object.values(ThemeMode).forEach(
+        async (value) => await Theme.create({ name: value })
+      );
 
       console.log('Tables created successfully.');
     } catch (error) {

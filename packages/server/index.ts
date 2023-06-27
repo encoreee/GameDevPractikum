@@ -23,10 +23,6 @@ async function startServer() {
   app.use(cors());
   //@ts-ignore
   app.use(cookieParser());
-  app.use(bodyParser.urlencoded({ extended: false }));
-
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
 
   const apiProxy = createProxyMiddleware(base, {
     target: root,
@@ -38,6 +34,8 @@ async function startServer() {
 
   apiRouter.all(`${base}/*`, apiProxy);
   app.use(apiRouter);
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
   //Роутер для пользователей
   app.get('/api/users', requireAuth, async (_, res) => {
     const users = await User.findAll();

@@ -1,7 +1,7 @@
 import { renderEl } from '@/utils/test-render';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
-import HomePage from './Homepage';
+import HomePage from './HomePage';
 import { store } from '../../app/store';
 
 describe('Home page', () => {

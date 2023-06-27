@@ -3,11 +3,11 @@ import sequelize from '../app/sequelize';
 
 // Модель для пользователей
 class User extends Model {
-  public id!: number;
-  public name!: string;
+  public first_name!: string;
+  public second_name!: string;
+  public login!: string;
   public email!: string;
-  public password!: string;
-  public theme!: string;
+  // public theme!: string;
 }
 
 User.init(
@@ -17,7 +17,15 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    first_name: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
+    second_name: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
+    login: {
       type: DataTypes.STRING(128),
       allowNull: false,
     },
@@ -25,10 +33,6 @@ User.init(
       type: DataTypes.STRING(128),
       allowNull: false,
       unique: true,
-    },
-    password: {
-      type: DataTypes.STRING(128),
-      allowNull: false,
     },
   },
   {
@@ -124,7 +128,7 @@ Message.belongsTo(User);
 Topic.hasMany(Message);
 Message.belongsTo(Topic);
 
-User.hasOne(Theme);
+// User.hasOne(Theme);
 
 // Экспорт моделей
 export { User, Topic, Message };

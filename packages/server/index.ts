@@ -45,7 +45,11 @@ async function startServer() {
 
   app.post('/api/users', requireAuth, async (req, res) => {
     try {
+      console.log(1, req.body);
+
       const user = await User.create(req.body);
+      console.log(user);
+
       res.json(user);
     } catch (error) {
       console.log(error);
@@ -54,7 +58,11 @@ async function startServer() {
   });
 
   app.get('/api/users/:id', requireAuth, async (req, res) => {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findOne({
+      where: {
+        email: `%${req.params.email}%`,
+      },
+    });
     res.json(user);
   });
 

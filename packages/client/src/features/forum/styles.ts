@@ -1,12 +1,34 @@
 import { SxProps } from '@mui/material';
 
 export const mainBoxStyles: SxProps = {
-  backgroundColor: 'primary.main',
+  backgroundColor: 'primary.dark',
   height: '24rem',
   borderRadius: 0,
   padding: '0.875rem 3rem 0.875rem',
   overflow: 'auto',
   width: '960px',
+};
+
+export const cleanButtonStyles: SxProps = {
+  color: '#fff',
+  textTransform: 'none',
+  '&:hover': {
+    textDecoration: 'underline',
+  },
+};
+
+export const purpleButtonStyles: SxProps = {
+  ...cleanButtonStyles,
+  background: 'linear-gradient(145.51deg, #AC5DD9 7.21%, #004FC4 94.47%)',
+  backgroundClip: 'text',
+  textFillColor: 'transparent',
+};
+
+export const greenButtonStyles: SxProps = {
+  ...cleanButtonStyles,
+  background: 'linear-gradient(147.14deg, #00D0DE 6.95%, #05A660 93.05%)',
+  backgroundClip: 'text',
+  textFillColor: 'transparent',
 };
 
 export const bottomNavStyles: SxProps = {
@@ -25,13 +47,13 @@ export const changePageBtnsStyles: SxProps = {
 export const tableBodyRowStyles: SxProps = {
   border: '0px',
   '& .forum__table-cell': {
-    color: 'text.primary',
+    color: '#fff',
     transition: '0.1s ease-in color',
   },
   '&:hover': {
     border: '0px',
     '& .forum__table-cell': {
-      textDecoration: 'underline',
+      color: 'primary.main',
       cursor: 'pointer',
     },
   },
@@ -46,8 +68,7 @@ export const tableCellStyles: SxProps = {
 
 export const tableHeadCellStyles: SxProps = {
   ...tableCellStyles,
-  color: 'text.secondary',
-  cursor: 'default',
+  color: 'primary.main',
 };
 
 export const tableBodyCellStyles: SxProps = {
@@ -62,5 +83,3 @@ export const userInfoStyles: SxProps = {
 };
 
 export const smallTextStyles: SxProps = { fontSize: '0.5rem', color: '#fff' };
-
-export const greenButtonStyles = {};

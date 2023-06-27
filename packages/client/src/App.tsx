@@ -2,7 +2,7 @@ import { Fragment, FC, useEffect } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import { startServiceWorker } from './utils/serviceWorkersRegistration';
 import ThemeProvider from './components/ThemeProvider';
-import LeaderBoardPage from './features/leaderboard/LeaderboardPage';
+import LeaderboardPage from './features/leaderboard/LeaderboardPage';
 import GamePage from './features/game/GamePage';
 import Error from './features/errors/Error';
 import PrivateRoute from './components/PrivateRoute';
@@ -44,7 +44,7 @@ const App: FC = () => {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/forum/*" element={<ForumPages />} />
             <Route path="/game-over" element={<GameOver />} />
-            <Route path="/leaderboard" element={<LeaderBoardPage />} />
+            <Route path="/leaderboard" element={<LeaderboardPage />} />
             <Route path="/start" element={<GameStartPage />} />
           </Route>
           <Route

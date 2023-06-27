@@ -50,7 +50,7 @@ const styles = {
   },
 };
 
-const LeaderBoardPage: FC = () => {
+const LeaderboardPage: FC = () => {
   const navigate = useNavigate();
   const breadCrumbItems = ['Leaders'];
   const dispatch = useAppDispatch();
@@ -201,4 +201,4 @@ const LeaderBoardPage: FC = () => {
   );
 };
 
-export default LeaderBoardPage;
+export default LeaderboardPage;

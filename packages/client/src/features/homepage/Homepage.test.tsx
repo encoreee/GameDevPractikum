@@ -1,7 +1,7 @@
 import { renderEl } from '@/utils/test-render';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
-import Homepage from './Homepage';
+import HomePage from './Homepage';
 import { store } from '../../app/store';
 
 describe('Home page', () => {
@@ -11,7 +11,7 @@ describe('Home page', () => {
     const { getByText } = renderEl(
       <Provider store={sampleStore}>
         <Router>
-          <Homepage />
+          <HomePage />
         </Router>
       </Provider>
     );

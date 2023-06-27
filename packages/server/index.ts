@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import cors from 'cors';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
@@ -12,16 +11,15 @@ import { appRoutes } from './ssrRoutes';
 import { requireAuth } from './app/requireAuth';
 import { Message, Topic, User } from './models';
 import sequelize from './app/sequelize';
+import { SERVER_PORT, isDev } from './const/env';
 
-dotenv.config({ path: '.env.development' });
-const isDev = () => process.env.NODE_ENV === 'development';
-const port = Number(process.env.SERVER_PORT) || 3001;
+const port = Number(SERVER_PORT) || 3001;
+
 const root = 'https://ya-praktikum.tech';
 const base = '/api/v2';
 
 async function startServer() {
   const app = express();
-
   app.use(cors());
   //@ts-ignore
   app.use(cookieParser());

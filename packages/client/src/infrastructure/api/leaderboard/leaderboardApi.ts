@@ -52,6 +52,6 @@ export const apiGetLeaderboard = async (
 
     return res;
   } catch (e) {
-    console.error(e);
+    // console.error(e);
   }
 };

@@ -1,8 +1,10 @@
 export type ForumThread = {
-  id: string;
-  theme: string;
-  lastUpdate: Nullable<string>;
-  messagesCount: Nullable<number>;
+  id?: string | number;
+  title: string;
+  content: string;
+  createdAt?: Nullable<string>;
+  updatedAt?: Nullable<string>;
+  messagesCount?: Nullable<number>;
 };
 
 export type threadData = {
@@ -12,10 +14,16 @@ export type threadData = {
 export type CreateNewThread = (threadData: threadData) => Promise<ForumThread>;
 
 export type ThreadMessage = {
-  id: string;
-  time: string;
-  userName: string;
-  userAvatar: string;
-  message: string;
-  threadId: string;
+  id: number | string;
+  content: string;
+  createdAt?: string;
+  updatedAt?: string;
+  TopicId?: number | string;
+  UserId?: number | string;
+
+  time?: string;
+  userName?: string;
+  userAvatar?: string;
+  message?: string;
+  threadId?: string;
 };

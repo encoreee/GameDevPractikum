@@ -4,9 +4,8 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from './app/apiSlice';
-import forum, { threadMessagesAdapter } from './app/forum/forumSlice';
-import { EntityAdapterInitalState } from './app/forum/types';
-import { ThreadMessage } from './infrastructure/api/forum/types';
+import forum from './app/forum/forumSlice';
+
 import { ForumState } from './app/forum/types';
 import theme, { ThemeState, ThemeMode } from './app/themeSlice';
 import { fetchAsync } from './fetchProfile';
@@ -29,11 +28,8 @@ export function render(url: string | Partial<Location>, cookie: string) {
 
     const preloadedState = {
       forum: {
-        status: { threadList: null, createThread: null },
-        threadMessages: threadMessagesAdapter.getInitialState({
-          status: null,
-          error: '',
-        }) as EntityAdapterInitalState<ThreadMessage[]>,
+        status: { threadList: null, createThread: null, threadMessages: null },
+        threadMessages: [],
       },
       theme: {
         mode: ThemeMode.DARK,

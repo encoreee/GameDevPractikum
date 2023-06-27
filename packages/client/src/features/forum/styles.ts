@@ -62,3 +62,5 @@ export const userInfoStyles: SxProps = {
 };
 
 export const smallTextStyles: SxProps = { fontSize: '0.5rem', color: '#fff' };
+
+export const greenButtonStyles = {};

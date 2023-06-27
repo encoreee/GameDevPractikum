@@ -25,6 +25,9 @@ async function startServer() {
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({ extended: false }));
 
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+
   const apiProxy = createProxyMiddleware(base, {
     target: root,
     changeOrigin: true,
@@ -149,6 +152,7 @@ async function startServer() {
   });
 
   app.post('/api/messages', requireAuth, async (req, res) => {
+    console.log(req);
     try {
       const message = await Message.create(req.body);
       res.json(message);
@@ -239,6 +243,7 @@ async function startServer() {
       }
       const cookie = req.headers?.cookie ?? undefined;
       const [appHtml, preloadedState] = await render(url, cookie);
+      console.log(preloadedState);
 
       const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         preloadedState

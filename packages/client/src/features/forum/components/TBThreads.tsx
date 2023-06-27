@@ -32,8 +32,11 @@ const TBThreadsList: FC<Pick<FTableBodyProps, 'threadList'>> = ({
 }) => {
   const navigate = useNavigate();
 
-  const toThread = ({ id }: ForumThread) => {
-    navigate(id);
+  const toThread = (thread: ForumThread) => {
+    const { id } = thread;
+    if (id) {
+      navigate(`${id}`);
+    }
   };
   return (
     <TableBody>
@@ -46,7 +49,7 @@ const TBThreadsList: FC<Pick<FTableBodyProps, 'threadList'>> = ({
             className={'forum__table-cell'}
             sx={tableBodyCellStyles}
             width={'100%'}>
-            {thread.theme}
+            {thread.title}
           </TableCell>
           <TableCell
             className={'forum__table-cell'}
@@ -56,7 +59,7 @@ const TBThreadsList: FC<Pick<FTableBodyProps, 'threadList'>> = ({
           <TableCell
             className={'forum__table-cell'}
             sx={{ ...tableBodyCellStyles, textAlign: 'center' }}>
-            {formatDateFromUTCString(thread.lastUpdate)}
+            {formatDateFromUTCString(thread.updatedAt)}
           </TableCell>
         </TableRow>
       ))}

@@ -18,15 +18,15 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     cursor: 'pointer',
-    color: 'white',
+    color: 'text.primary',
     padding: '10px',
     borderBottom: '5px',
-
+    opacity: '0.85',
     '&:hover': {
+      opacity: '1',
       '&:before': {
         content: `url(${mainShipFullHealth})`,
         left: -35,
-        color: 'white',
         position: 'absolute',
       },
     },
@@ -35,7 +35,7 @@ const styles = {
     marginTop: '30px',
   },
   link: {
-    color: 'white',
+    color: 'text.primary',
     textDecoration: 'none',
   },
 };
@@ -72,7 +72,7 @@ const HomePage: FC = () => {
       <List sx={styles.listContainer}>
         <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <NavLink href="/start" sx={styles.link} underline="none" variant="h1">
-            <Typography>Start game</Typography>
+            <Typography>start game</Typography>
           </NavLink>
         </ListItem>
         <ListItem sx={styles.listItem}>

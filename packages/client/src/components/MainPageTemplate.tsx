@@ -2,9 +2,8 @@ import { Box, Stack } from '@mui/material';
 import { FC, PropsWithChildren } from 'react';
 import { styled } from '@mui/system';
 
-import Background from '../assets/background.png'; // Import using relative path
-
 import MainLabel from './MainLabel';
+import ThemeSwitch from './ThemeSwitch';
 import { SoundSwitch } from './SoundSwitch';
 
 const Container = styled('div')({
@@ -15,7 +14,6 @@ const styles = {
   box: {
     width: '100%',
     minHeight: '100%',
-    backgroundImage: `url(${Background})`,
   },
 };
 
@@ -33,6 +31,7 @@ const MainPageTemplate: FC<PropsWithChildren> = (props) => {
         </Stack>
       </Box>
       <SoundSwitch />
+      <ThemeSwitch />
     </Container>
   );
 };

@@ -27,3 +27,9 @@ class Stats {
 }
 
 export default new Stats();
+
+export type GameStats = {
+  score: number;
+  shoot: number;
+  hit: number;
+};

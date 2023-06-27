@@ -7,11 +7,13 @@ import { apiSlice } from './app/apiSlice';
 import forum from './app/forum/forumSlice';
 
 import { ForumState } from './app/forum/types';
+import theme, { ThemeState, ThemeMode } from './app/themeSlice';
 import { fetchAsync } from './fetchProfile';
 import { User } from './infrastructure/api/auth/contracts';
 
 export interface PreloadedState {
   forum: ForumState;
+  theme: ThemeState;
 }
 
 export function render(url: string | Partial<Location>, cookie: string) {
@@ -29,11 +31,15 @@ export function render(url: string | Partial<Location>, cookie: string) {
         status: { threadList: null, createThread: null, threadMessages: null },
         threadMessages: [],
       },
+      theme: {
+        mode: ThemeMode.DARK,
+      },
     };
 
     const store = configureStore({
       reducer: {
         forum,
+        theme,
         [apiSlice.reducerPath]: apiSlice.reducer,
       },
       middleware: (getDefaultMiddleware) =>
@@ -41,6 +47,12 @@ export function render(url: string | Partial<Location>, cookie: string) {
       devTools: process.env.NODE_ENV !== 'production',
       preloadedState,
     });
+
+    store.dispatch(apiSlice.endpoints.getUserInfo.initiate());
+
+    (async () => {
+      await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
+    })();
 
     store.dispatch(apiSlice.endpoints.getUserInfo.initiate());
 

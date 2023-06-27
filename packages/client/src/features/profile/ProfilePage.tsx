@@ -29,7 +29,9 @@ const ProjectsPage: FC = () => {
                 User data loading failed. Try again later.
               </Typography>
             )}
-            <NavLink href="/">cancel</NavLink>
+            <NavLink color={'error.main'} href="/">
+              cancel
+            </NavLink>
           </Stack>
         </DataBox>
       </Stack>

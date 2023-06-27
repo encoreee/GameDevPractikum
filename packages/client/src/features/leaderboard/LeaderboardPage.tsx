@@ -1,13 +1,25 @@
-import { FC } from 'react';
-
+import { FC, useEffect, useMemo, useState } from 'react';
 import MainPageTemplate from '../../components/MainPageTemplate';
-import defaultAvatar from '../../assets/defaultAvatar.svg';
+import BreadCrumbs from '@components/BreadCrumbs';
+import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Grid, Skeleton, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '@/app/hooks';
+import { useNavigate } from 'react-router-dom';
+import {
+  getLeaderboard,
+  isLeaderboardEmpty,
+  isLastLeaderboardPage,
+  isNeedToDispatchGetLeaderboard,
+  isLeaderboardPending,
+  leaderboardListByPage,
+  leaderboardToInitialState,
+} from '@/app/leaderboardSlice/leaderboardSlice';
 
 const styles = {
   content: {
-    color: 'white',
+    color: 'text.primary',
     fontSize: '12px',
     display: 'flex',
     alignItems: 'center',
@@ -15,88 +27,178 @@ const styles = {
     width: '700px',
     padding: '0px',
   },
-  mainText: {
-    fontSize: '24px',
-  },
   text: {
+    color: 'text.primary',
+    fontSize: 14,
+    cursor: 'default',
     span: {
       position: 'relative',
       cursor: 'pointer',
       padding: '10px',
-
+      whiteSpace: 'nowrap',
       '&:hover': {
         textDecorationLine: 'underline',
       },
     },
   },
-  backText: {
-    cursor: 'pointer',
-    fontSize: '12px',
-    background: 'linear-gradient(145.51deg, #AC5DD9 7.21%, #004FC4 94.47%)',
-    textFillColor: 'transparent',
-    backgroundClip: 'text',
-  },
-  gridStyle: { width: '680px' },
+  gridStyle: { width: '680px', height: '69px' },
   gridContainer: {
-    backgroundColor: 'primary.dark',
-    color: 'white',
+    backgroundColor: 'primary.main',
+    color: 'text.primary',
     width: 700,
     height: 400,
   },
 };
 
-const data = [
-  { avatar: defaultAvatar, name: 'Ivan Petrov', score: '3643' },
-  { avatar: defaultAvatar, name: 'Semen Ivanov', score: '2913' },
-  { avatar: defaultAvatar, name: 'Maksim Sinica', score: '2654' },
-];
+const LeaderboardPage: FC = () => {
+  const navigate = useNavigate();
+  const breadCrumbItems = ['Leaders'];
+  const dispatch = useAppDispatch();
+  const [page, setPage] = useState(0);
 
-const LeaderBoardPage: FC = () => {
+  const onBack = () => {
+    navigate('/');
+  };
+  const leadersByPage = useSelector(leaderboardListByPage(page));
+  const isEmpty = useSelector(isLeaderboardEmpty);
+  const isPending = useSelector(isLeaderboardPending);
+
+  const onNextPage = () => {
+    if (!isPending) {
+      setPage(page + 1);
+    }
+  };
+
+  const onPrevPage = () => {
+    if (!isPending) {
+      setPage(page - 1);
+    }
+  };
+  const isLastPage = useSelector(isLastLeaderboardPage(page));
+  const isFirstPage = useMemo(() => page === 0, [page]);
+  const isNeedToDispatch = useSelector(isNeedToDispatchGetLeaderboard(page));
+
+  useEffect(() => {
+    if (isNeedToDispatch && !isLastPage) {
+      dispatch(getLeaderboard(page));
+    }
+  }, [page]);
+
+  useEffect(
+    () => () => {
+      dispatch(leaderboardToInitialState());
+    },
+    []
+  );
+
+  const PendingLeaderList = () => (
+    <>
+      {[...Array(5).keys()].map((index) => {
+        return (
+          <Grid
+            container
+            alignItems="center"
+            margin={1}
+            spacing={2}
+            sx={styles.gridStyle}
+            key={index}>
+            <Grid item xs={2}>
+              <Skeleton height={'40px'} />
+            </Grid>
+            <Grid item xs={8}>
+              <Skeleton height={'40px'} />
+            </Grid>
+            <Grid item xs={2}>
+              <Skeleton height={'40px'} />
+            </Grid>
+          </Grid>
+        );
+      })}
+    </>
+  );
+
+  const LeaderList = () => (
+    <>
+      {leadersByPage.map((leader) => {
+        return (
+          <Grid
+            container
+            alignItems="center"
+            margin={1}
+            spacing={2}
+            sx={styles.gridStyle}
+            key={leader.idx + leader?.displayName + leader?.score}>
+            <Grid item xs={2}>
+              <Typography sx={styles.text}>{leader.idx + 1}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography sx={styles.text}>{leader.displayName}</Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography sx={styles.text}>{leader?.score}</Typography>
+            </Grid>
+          </Grid>
+        );
+      })}
+    </>
+  );
+
+  const EmptyList = () => (
+    <Box
+      display={'flex'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      height={'100%'}>
+      <Typography> No leaders yet, be the first</Typography>
+    </Box>
+  );
+
+  const Leaderboard = () => {
+    if (isPending) {
+      return <PendingLeaderList />;
+    } else if (isEmpty) {
+      return <EmptyList />;
+    } else {
+      return <LeaderList />;
+    }
+  };
+
   return (
     <MainPageTemplate>
       <Container style={styles.content}>
-        <Typography sx={styles.mainText}>Leaders</Typography>
-
+        <BreadCrumbs items={breadCrumbItems} />
         <Typography sx={styles.text}>
           Sort by: <span>score</span>|<span>name</span>
         </Typography>
       </Container>
-
       <Box sx={styles.gridContainer}>
-        {data.map((person, index) => {
-          return (
-            <Grid
-              container
-              alignItems="center"
-              margin={1}
-              spacing={2}
-              sx={styles.gridStyle}
-              key={index + person.name + person.score}>
-              <Grid item xs={2}>
-                <Typography>{index + 1}</Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <img src={person.avatar} alt="avatar" />
-              </Grid>
-              <Grid item xs={6}>
-                <Typography>{person.name}</Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography>{person.score}</Typography>
-              </Grid>
-            </Grid>
-          );
-        })}
+        <Leaderboard />
       </Box>
 
       <Container style={styles.content}>
-        <Typography sx={styles.backText}> &#9664; Back</Typography>
-        <Typography sx={styles.text}>
-          <span>&lt; Previous page</span> <span>Next page &gt;</span>
-        </Typography>
+        <TextButton
+          label="&lt;- Back"
+          onClick={onBack}
+          variant={TextButtonVariant.SECONDARY}
+        />
+
+        <Box display={'flex'} gap={'1rem'}>
+          <TextButton
+            label="&lt;Prev Page"
+            variant={TextButtonVariant.CLEAN}
+            onClick={onPrevPage}
+            disabled={isFirstPage}
+          />
+          <TextButton
+            label="Next Page&gt;"
+            variant={TextButtonVariant.CLEAN}
+            onClick={onNextPage}
+            disabled={isLastPage}
+          />
+        </Box>
       </Container>
     </MainPageTemplate>
   );
 };
 
-export default LeaderBoardPage;
+export default LeaderboardPage;

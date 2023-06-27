@@ -16,6 +16,7 @@ import source from '../../../assets/mainship/MainShipFullHealth.png';
 import { deleteThreadMessage, getThreadMessages } from '@/app/forum/forumSlice';
 import { useAppDispatch } from '@/app/hooks';
 import { useParams } from 'react-router-dom';
+import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const Message: FC<ThreadMessage> = ({
   time,
@@ -59,7 +60,12 @@ const Message: FC<ThreadMessage> = ({
               onClick={handleMessageDelete}>
               Delete
             </Button>
-            <Typography color={'primary.main'} fontSize={'0.5rem'}>
+            <TextButton
+              label="Reply"
+              variant={TextButtonVariant.PRIMARY}
+              fontSize={10}
+            />
+            <Typography color={'text.primary'} fontSize={'0.5rem'}>
               {formatDateFromUTCString(time)}
             </Typography>
           </Stack>

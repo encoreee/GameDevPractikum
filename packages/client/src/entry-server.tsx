@@ -58,6 +58,12 @@ export function render(url: string | Partial<Location>, cookie: string) {
       await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
     })();
 
+    store.dispatch(apiSlice.endpoints.getUserInfo.initiate());
+
+    (async () => {
+      await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
+    })();
+
     const appHTML = renderToString(
       <Provider store={store}>
         <StaticRouter location={url}>

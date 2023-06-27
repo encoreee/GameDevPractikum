@@ -7,7 +7,7 @@ import {
   getThreadsList,
   selectThreadById,
   selectThreadListStatus,
-  selectThreadMessagesById,
+  selectThreadMessages,
 } from '@/app/forum/forumSlice';
 import { useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -20,6 +20,9 @@ import BreadCrumbs, {
   BreadCrumbItem,
   BC_PENDING_SYMBOL,
 } from '@/components/BreadCrumbs';
+import { ThreadMessage } from '@/infrastructure/api/forum/types';
+import { useModalWindow } from '@/components/ModalWindow';
+import { NewMessageModal } from '../components/NewMessageModal';
 import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const ForumThread = () => {
@@ -27,7 +30,9 @@ const ForumThread = () => {
   const { id = '' } = useParams();
   const threadById = useSelector(selectThreadById(id));
   const threadListStatus = useSelector(selectThreadListStatus);
+  const threadMessages = useSelector(selectThreadMessages);
   const dispatch = useAppDispatch();
+  const newMessage = useModalWindow('New Message');
 
   useEffect(() => {
     if (!threadListStatus) {
@@ -44,7 +49,7 @@ const ForumThread = () => {
   const BreadCrumbItems = useMemo<BreadCrumbItem[]>(() => {
     const res: BreadCrumbItem[] = [
       'Forums',
-      threadById?.theme || BC_PENDING_SYMBOL,
+      threadById?.title || BC_PENDING_SYMBOL,
     ];
     return res;
   }, [threadById]);
@@ -52,8 +57,6 @@ const ForumThread = () => {
   const onBack = () => {
     navigate('/forum');
   };
-
-  const threadMessages = useSelector(selectThreadMessagesById(id));
 
   return (
     <Stack alignItems={'start'} width={'100%'}>

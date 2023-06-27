@@ -1,94 +1,94 @@
 import { ForumThread, ThreadMessage } from '../types';
 
-const FORUM_TREADS_MOCK: ForumThread[] = [
+const FORUM_TREADS_MOCK = [
   {
     id: '1',
-    theme: 'New games',
+    title: 'New games',
     lastUpdate: 'Tue, 27 Sep 2022 00:00:00 GMT',
     messagesCount: 12,
   },
   {
     id: '2',
-    theme: 'Development',
+    title: 'Development',
     lastUpdate: 'Tue, 21 Jun 2023 00:00:00 GMT',
     messagesCount: null,
   },
   {
     id: '3',
-    theme: 'Lvl 1',
+    title: 'Lvl 1',
     lastUpdate: 'Tue, 27 Sep 2022 00:00:00 GMT',
     messagesCount: 12,
   },
   {
     id: '4',
-    theme: 'Love life',
+    title: 'Love life',
     lastUpdate: 'Tue, 21 Jun 2023 00:00:00 GMT',
     messagesCount: null,
   },
   {
     id: '5',
-    theme: 'Fanat',
+    title: 'Fanat',
     lastUpdate: 'Tue, 27 Sep 2022 00:00:00 GMT',
     messagesCount: 12,
   },
   {
     id: '6',
-    theme: 'Razrabi ya vas naydu!!',
+    title: 'Razrabi ya vas naydu!!',
     lastUpdate: 'Tue, 21 Jun 2023 00:00:00 GMT',
     messagesCount: null,
   },
   {
     id: '7',
-    theme: 'About game',
+    title: 'About game',
     lastUpdate: 'Tue, 27 Sep 2022 00:00:00 GMT',
     messagesCount: 12,
   },
   {
     id: '8',
-    theme: 'Level 2 Boss',
+    title: 'Level 2 Boss',
     lastUpdate: 'Tue, 21 Jun 2023 00:00:00 GMT',
     messagesCount: null,
   },
   {
     id: '9',
-    theme: 'Hmmm',
+    title: 'Hmmm',
     lastUpdate: 'Tue, 27 Sep 2022 00:00:00 GMT',
     messagesCount: 12,
   },
   {
     id: '10',
-    theme: 'Anime forum',
+    title: 'Anime forum',
     lastUpdate: 'Tue, 21 Jun 2023 00:00:00 GMT',
     messagesCount: null,
   },
   {
     id: '11',
-    theme: 'Ribalka',
+    title: 'Ribalka',
     lastUpdate: 'Tue, 27 Sep 2022 00:00:00 GMT',
     messagesCount: 12,
   },
   {
     id: '12',
-    theme: 'Ushla jena iz-za vashey igri',
+    title: 'Ushla jena iz-za vashey igri',
     lastUpdate: 'Tue, 21 Jun 2023 00:00:00 GMT',
     messagesCount: null,
   },
 
   {
     id: '13',
-    theme: 'MIR TRUD MAY',
+    title: 'MIR TRUD MAY',
     lastUpdate: 'Tue, 27 Sep 2022 00:00:00 GMT',
     messagesCount: 12,
   },
   {
     id: '14',
-    theme: 'Samoletiki',
+    title: 'Samoletiki',
     lastUpdate: 'Tue, 21 Jun 2023 00:00:00 GMT',
     messagesCount: null,
   },
 ];
 
-export const THREAD_MESSAGES_MOCK = (id: string): ThreadMessage[] => [
+export const THREAD_MESSAGES_MOCK = (id: string) => [
   {
     id: '1',
     time: 'Tue, 27 Sep 2022 00:00:00 GMT',

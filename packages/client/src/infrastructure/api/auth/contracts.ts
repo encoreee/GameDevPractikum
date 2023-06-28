@@ -12,6 +12,9 @@ export interface User {
   email: string;
   phone: string;
   avatar: string | undefined;
+  theme?: {
+    name: string;
+  };
 }
 
 export interface UserProfileRequest {

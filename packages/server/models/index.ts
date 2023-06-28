@@ -7,7 +7,10 @@ class User extends Model {
   public second_name!: string;
   public login!: string;
   public email!: string;
-  // public theme!: string;
+  public phone!: string;
+  public display_name!: string | null;
+  public avatar!: string | null;
+  public themeId!: number | null;
 }
 
 User.init(
@@ -45,12 +48,27 @@ User.init(
       allowNull: false,
       unique: true,
     },
+    themeId: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
+      references: {
+        model: 'themes',
+        key: 'id',
+      },
+    },
   },
   {
     tableName: 'users',
     sequelize,
   }
 );
+
+User.addHook('beforeCreate', async (user: User) => {
+  if (!user.themeId) {
+    const defaultTheme = await Theme.findOne({ order: [['id', 'ASC']] });
+    user.themeId = defaultTheme?.id || null;
+  }
+});
 
 // Модель для тем форума
 class Topic extends Model {
@@ -139,7 +157,15 @@ Message.belongsTo(User);
 Topic.hasMany(Message);
 Message.belongsTo(Topic);
 
-User.hasOne(Theme);
+User.belongsTo(Theme, {
+  foreignKey: 'themeId',
+  as: 'theme',
+});
+Theme.hasMany(User, {
+  foreignKey: 'themeId',
+  onDelete: 'RESTRICT',
+  onUpdate: 'RESTRICT',
+});
 
 // Экспорт моделей
 export { User, Topic, Message, Theme };

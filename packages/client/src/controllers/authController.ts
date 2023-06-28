@@ -5,7 +5,6 @@ import {
   SignUpRequest,
 } from '../infrastructure/api/auth/contracts';
 import { AppMessage } from '../utils/const';
-import { omit } from 'lodash';
 
 export class AuthController {
   public async signIn(data: SignInRequest) {
@@ -19,8 +18,6 @@ export class AuthController {
   public async signUp(data: SignUpRequest) {
     try {
       await AuthAPI.signUp(data);
-      const finalData = omit(data, ['password', 'phone']);
-      await AuthAPI.registerUserInDb(finalData);
     } catch (err) {
       return err instanceof Error ? err.message : AppMessage.UNKNOWN_API_ERROR;
     }

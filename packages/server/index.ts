@@ -55,7 +55,13 @@ async function startServer() {
   });
 
   app.get('/api/users/:id', requireAuth, async (req, res) => {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findByPk(req.params.id, {
+      include: {
+        model: Theme,
+        as: 'theme',
+        attributes: ['name'],
+      },
+    });
     res.json(user);
   });
 

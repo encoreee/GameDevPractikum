@@ -1,8 +1,6 @@
-import { apiFetch, API_ADDRESS } from '../../apiFetch';
+import { apiFetch, API_ADDRESS, LOCAL_ADDRESS } from '../../apiFetch';
 import { handleErrors } from '../errorHandler';
-import { SignInRequest, SignUpRequest } from './contracts';
-
-const API_ADDRESS_2 = 'http://localhost:3000/';
+import { SignInRequest, SignUpRequest, User } from './contracts';
 
 class AuthApi {
   signIn = (data: SignInRequest) => {
@@ -26,14 +24,15 @@ class AuthApi {
       .then(handleErrors);
   };
 
-  findUserByEmail = (email: string) => {
+  findUserInDb = (id: string | number) => {
     return apiFetch()
-      .get(`${API_ADDRESS_2}/api/users/${email}`)
-      .then(handleErrors);
+      .get(`${LOCAL_ADDRESS}/api/users/${id}`)
+      .then((res) => res.json())
+      .catch((e) => console.error(e));
   };
 
-  registerUserInDb = (data: Omit<SignUpRequest, 'password' | 'phone'>) => {
-    return apiFetch().post(`${API_ADDRESS_2}/api/users`, data);
+  registerUserInDb = (data: User) => {
+    return apiFetch().post(`${LOCAL_ADDRESS}/api/users`, data);
   };
 }
 

@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from '@/app/hooks';
 import { useEffect, useMemo } from 'react';
@@ -14,7 +14,10 @@ import Message from '../components/Message';
 import {
   bottomNavStyles,
   changePageBtnsStyles,
+  cleanButtonStyles,
+  greenButtonStyles,
   mainBoxStyles,
+  purpleButtonStyles,
 } from '../styles';
 import BreadCrumbs, {
   BreadCrumbItem,
@@ -59,26 +62,38 @@ const ForumThread = () => {
   };
 
   return (
-    <Stack alignItems={'start'} width={'100%'}>
-      <BreadCrumbs items={BreadCrumbItems} />
-      <Box sx={{ ...mainBoxStyles }}>
-        {threadMessages.map((item) => (
-          <Message key={item.id} {...item} />
-        ))}
-      </Box>
-      <Stack sx={bottomNavStyles}>
-        <TextButton
-          label="&lt;- Back"
-          onClick={onBack}
-          variant={TextButtonVariant.SECONDARY}
-        />
-        <Stack sx={changePageBtnsStyles}>
-          <TextButton label="&lt;Prev Page" variant={TextButtonVariant.CLEAN} />
-          <TextButton label="Next Page&gt;" variant={TextButtonVariant.CLEAN} />
+    <>
+      <Stack alignItems={'start'} width={'100%'}>
+        <BreadCrumbs items={BreadCrumbItems} />
+        <Box sx={{ ...mainBoxStyles }}>
+          {threadMessages?.map(
+            (item: JSX.IntrinsicAttributes & ThreadMessage) => (
+              <Message key={item.id} {...item} />
+            )
+          )}
+        </Box>
+        <Stack sx={bottomNavStyles}>
+          <Button variant="text" sx={purpleButtonStyles} onClick={onBack}>
+            &lt;- Back
+          </Button>
+          <Stack sx={changePageBtnsStyles}>
+            <Button variant="text" sx={cleanButtonStyles}>
+              &lt;Prev Page
+            </Button>
+            <Button variant="text" sx={cleanButtonStyles}>
+              Next Page&gt;
+            </Button>
+          </Stack>
+          <Button
+            variant="text"
+            sx={greenButtonStyles}
+            onClick={newMessage.handleOpen}>
+            New Message
+          </Button>
         </Stack>
-        <TextButton label="New Message" variant={TextButtonVariant.PRIMARY} />
+        <NewMessageModal {...newMessage} />
       </Stack>
-    </Stack>
+    </>
   );
 };
 

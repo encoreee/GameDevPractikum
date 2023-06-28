@@ -95,6 +95,22 @@ async function startServer() {
     }
   });
 
+  app.put('/api/theme/', requireAuth, async (req, res) => {
+    const user = await User.findByPk(res.locals.user_id);
+    const theme = await Theme.findOne({
+      where: {
+        name: req.body.mode,
+      },
+    });
+
+    if (user && theme) {
+      user.themeId = theme.id || null;
+      await user.save();
+    }
+
+    res.json({ result: 'OK' });
+  });
+
   // Роутер для тем форума
   app.get('/api/topics', requireAuth, async (_, res) => {
     const topics = await Topic.findAll();

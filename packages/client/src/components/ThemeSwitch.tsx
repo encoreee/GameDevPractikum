@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Box, SxProps } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '@/app/store';
-import { toggleTheme, ThemeMode } from '@/app/themeSlice';
+import { toggleThemeAsync, ThemeMode } from '@/app/themeSlice';
 import Moon from '@/assets/moon.png'; // Import using relative path
 import Sun from '@/assets/sun.png'; // Import using relative path
 
@@ -24,7 +24,7 @@ const ThemeSwitch: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleClick = () => {
-    dispatch(toggleTheme());
+    dispatch(toggleThemeAsync());
   };
 
   return (

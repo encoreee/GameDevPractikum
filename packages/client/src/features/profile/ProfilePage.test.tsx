@@ -5,7 +5,7 @@ import ProjectsPage from './ProfilePage';
 import { store } from '../../app/store';
 
 describe('Profile page', () => {
-  test('page should be correctly rendered', () => {
+  test('page should be correctly rendered', async () => {
     const sampleStore = store;
 
     const { getByText } = renderEl(

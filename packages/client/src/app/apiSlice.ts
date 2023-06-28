@@ -38,7 +38,7 @@ export const apiSlice = createApi({
           }
           dispatch(setTheme({ theme: userInDb.theme?.name }));
         } catch (error) {
-          console.error('Failed to update user info');
+          // continue regardless of error
         }
       },
     }),

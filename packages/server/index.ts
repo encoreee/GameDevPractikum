@@ -65,9 +65,9 @@ async function startServer() {
     res.json(user);
   });
 
-  app.put('/api/users/:id', requireAuth, async (req, res) => {
+  app.put('/api/users', requireAuth, async (req, res) => {
     try {
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(res.locals.user_id);
       if (user) {
         await user.update(req.body);
         res.json(user);

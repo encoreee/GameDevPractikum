@@ -61,6 +61,7 @@ export const apiSlice = createApi({
       onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
         try {
           const result = await queryFulfilled;
+          await AuthApi.updateUserInDb(result.data);
           dispatch(
             apiSlice.util.updateQueryData(
               'getUserInfo',

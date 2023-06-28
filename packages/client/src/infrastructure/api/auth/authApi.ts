@@ -34,6 +34,10 @@ class AuthApi {
   registerUserInDb = (data: User) => {
     return apiFetch().post(`${LOCAL_ADDRESS}/api/users`, data);
   };
+
+  updateUserInDb = (data: User) => {
+    return apiFetch().put(`${LOCAL_ADDRESS}/api/users`, data);
+  };
 }
 
 export default new AuthApi();

@@ -190,9 +190,13 @@ async function startServer() {
   });
 
   let vite: ViteDevServer | undefined;
-  const distPath = path.dirname(require.resolve('client/dist/index.html'));
+  let distPath: string | undefined;
+  let ssrClientPath: string | undefined;
+  if (!isDev()) {
+    distPath = path.dirname(require.resolve('client/dist/index.html'));
+    ssrClientPath = require.resolve('client/dist-ssr/client.cjs');
+  }
   const srcPath = path.dirname(require.resolve('client'));
-  const ssrClientPath = require.resolve('client/dist-ssr/client.cjs');
   if (isDev()) {
     vite = await createViteServer({
       server: { middlewareMode: true },
@@ -201,7 +205,7 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   }
-  if (!isDev()) {
+  if (!isDev() && distPath) {
     app.use(`/assets`, express.static(path.resolve(distPath, 'assets')));
   }
   app.use(appRoutes, async (req, res, next) => {
@@ -209,7 +213,7 @@ async function startServer() {
 
     try {
       let template: string;
-      if (!isDev()) {
+      if (!isDev() && distPath) {
         template = fs.readFileSync(
           path.resolve(distPath, 'index.html'),
           'utf-8'
@@ -223,7 +227,7 @@ async function startServer() {
       }
       let render: (url: string, cookie?: string) => Promise<string>;
 
-      if (!isDev()) {
+      if (!isDev() && ssrClientPath) {
         render = (await import(ssrClientPath)).render;
       } else {
         const ssrLoadModule = await vite!.ssrLoadModule(

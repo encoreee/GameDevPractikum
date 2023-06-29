@@ -12,6 +12,7 @@ import { requireAuth } from './app/requireAuth';
 import { Message, Topic, User } from './models';
 import sequelize from './app/sequelize';
 import { SERVER_PORT, isDev } from './const/env';
+import { EMOJI } from './const/emoji';
 
 const port = Number(SERVER_PORT) || 3001;
 
@@ -135,6 +136,60 @@ async function startServer() {
     }
   });
 
+  /**
+   * Add topic reaction
+   */
+  app.put('/api/topics/:id/emoji/:emojiId', requireAuth, async (req, res) => {
+    try {
+      const topic = await Topic.findByPk(req.params.id);
+      const emoji = EMOJI.find((emoji) => emoji.id === req.params.emojiId);
+
+      if (topic && emoji) {
+        await topic.update({
+          emojiId: emoji.id,
+          emojiName: emoji.name,
+          emojiImg: emoji.img,
+        });
+
+        res.json(topic);
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+  });
+
+  /**
+   * Remove reaction from topic
+   */
+  app.delete(
+    '/api/topics/:id/emoji/:emojiId',
+    requireAuth,
+    async (req, res) => {
+      try {
+        const topic = await Topic.findByPk(req.params.id);
+        const emoji = EMOJI.find((emoji) => emoji.id === req.params.emojiId);
+
+        if (topic && emoji) {
+          await topic.update({
+            emojiId: null,
+            emojiName: null,
+            emojiImg: null,
+          });
+
+          res.json(topic);
+        } else {
+          res.sendStatus(404);
+        }
+      } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+      }
+    }
+  );
+
   // Роутер для сообщений на форуме
   app.get('/api/messages', requireAuth, async (_, res) => {
     const messages = await Message.findAll();
@@ -142,7 +197,6 @@ async function startServer() {
   });
 
   app.post('/api/messages', requireAuth, async (req, res) => {
-    console.log(req);
     try {
       const message = await Message.create(req.body);
       res.json(message);

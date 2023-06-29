@@ -30,6 +30,9 @@ export type ForumThread = {
   theme: string;
   lastUpdate: Nullable<string>;
   messagesCount: Nullable<number>;
+  emojiId: Nullable<number>;
+  emojiName: Nullable<string>;
+  emojiImg: Nullable<string>;
 };
 
 export type threadData = {

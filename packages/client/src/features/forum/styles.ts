@@ -7,6 +7,8 @@ export const mainBoxStyles: SxProps = {
   padding: '0.875rem 3rem 0.875rem',
   overflow: 'auto',
   width: '960px',
+  display: 'flex',
+  flexDirection: 'column',
 };
 
 export const cleanButtonStyles: SxProps = {

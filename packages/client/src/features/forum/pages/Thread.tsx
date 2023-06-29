@@ -26,7 +26,6 @@ import BreadCrumbs, {
 import { ThreadMessage } from '@/infrastructure/api/forum/types';
 import { useModalWindow } from '@/components/ModalWindow';
 import { NewMessageModal } from '../components/NewMessageModal';
-import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const ForumThread = () => {
   const navigate = useNavigate();

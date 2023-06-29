@@ -16,6 +16,8 @@ const sequelizeOptions: SequelizeOptions = {
   dialect: 'postgres',
 };
 
+console.log(sequelizeOptions);
+
 const sequelize = new Sequelize(sequelizeOptions);
 
 export default sequelize;

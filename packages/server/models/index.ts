@@ -69,6 +69,7 @@ Topic.init(
 class Message extends Model {
   public id!: number;
   public content!: string;
+  public replyId!: number | null;
 }
 
 Message.init(
@@ -81,6 +82,11 @@ Message.init(
     content: {
       type: DataTypes.TEXT,
       allowNull: false,
+    },
+    replyId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      defaultValue: null,
+      allowNull: true,
     },
   },
   {

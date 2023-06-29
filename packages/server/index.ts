@@ -142,9 +142,8 @@ async function startServer() {
   });
 
   app.post('/api/messages', requireAuth, async (req, res) => {
-    console.log(req);
     try {
-      const message = await Message.create(req.body);
+      const message = await Message.create({ ...req.body });
       res.json(message);
     } catch (error) {
       console.log(error);
@@ -173,6 +172,22 @@ async function startServer() {
       res.sendStatus(500);
     }
   });
+
+  // app.post('/api/messagesReply', requireAuth, async (req, res) => {
+  //   try {
+  //     console.log(req.body);
+  //     const replyedMessage = await Message.findByPk(req.body.replyId);
+  //     if (replyedMessage) {
+  //       const message = await Message.create(req.body);
+  //       res.json(message);
+  //     } else {
+  //       res.send(404);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.sendStatus(500);
+  //   }
+  // });
 
   app.delete('/messages/:id', requireAuth, async (req, res) => {
     try {
@@ -256,7 +271,7 @@ async function startServer() {
       await sequelize.authenticate();
       console.log('Connection has been established successfully.');
 
-      await sequelize.sync({ force: true });
+      // await sequelize.sync({ force: true });
 
       console.log('Tables created successfully.');
     } catch (error) {

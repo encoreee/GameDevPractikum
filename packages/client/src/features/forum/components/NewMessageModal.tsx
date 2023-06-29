@@ -11,12 +11,9 @@ import { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 
-export const NewMessageModal: FunctionComponent<ModalProps> = ({
-  open,
-  handleClose,
-  handleOpen,
-  title,
-}) => {
+export const NewMessageModal: FunctionComponent<
+  ModalProps & { replyId?: string }
+> = ({ open, handleClose, handleOpen, title, replyId }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [, setSearchParams] = useSearchParams();
   const [message, setMessage] = useState<string>('');
@@ -27,7 +24,9 @@ export const NewMessageModal: FunctionComponent<ModalProps> = ({
       return;
     }
     try {
-      await dispatch(createThreadMessages({ TopicId: id, content: message }));
+      await dispatch(
+        createThreadMessages({ TopicId: id, content: message, replyId })
+      );
 
       handleClose();
 

@@ -5,6 +5,7 @@ import { STATE_STATUSES } from '@/shared/const/store/stateStatuses';
 import { ForumThread } from '@/infrastructure/api/forum/types';
 
 import { apiFetch, LOCAL_ADDRESS } from '@/infrastructure/apiFetch';
+import { isNil } from 'lodash';
 
 export const getThreadsList = createAsyncThunk(
   'forum/getThreadList',
@@ -40,13 +41,15 @@ export const getThreadMessages = createAsyncThunk(
 
 export const createThreadMessages = createAsyncThunk(
   'forum/createThreadMessages',
-  async (val: { TopicId: string; content: string }) => {
-    const { TopicId, content } = val;
+  async (val: { TopicId: string; content: string; replyId?: string }) => {
+    const { replyId, TopicId, content } = val;
 
     const res = await apiFetch().post(`${LOCAL_ADDRESS}/api/messages`, {
       TopicId,
       content,
+      replyId,
     });
+
     const data = await res.json();
 
     return data;
@@ -144,7 +147,20 @@ export const selectForumState = () => (state: RootState) => {
 };
 
 export const selectThreadMessages = (state: RootState) => {
-  return state.forum.threadMessages || [];
+  return (
+    state.forum.threadMessages.filter((message) => isNil(message.replyId)) || []
+  );
 };
+
+export const selectReplyedMessages =
+  (replyId: number | string) => (state: RootState) => {
+    return (
+      state.forum.threadMessages.filter((message) => {
+        if (message.replyId) {
+          return +message.replyId === +replyId;
+        }
+      }) || []
+    );
+  };
 
 export default forumSlice.reducer;

@@ -197,22 +197,6 @@ async function startServer() {
     }
   });
 
-  // app.post('/api/messagesReply', requireAuth, async (req, res) => {
-  //   try {
-  //     console.log(req.body);
-  //     const replyedMessage = await Message.findByPk(req.body.replyId);
-  //     if (replyedMessage) {
-  //       const message = await Message.create(req.body);
-  //       res.json(message);
-  //     } else {
-  //       res.send(404);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.sendStatus(500);
-  //   }
-  // });
-
   app.delete('/messages/:id', requireAuth, async (req, res) => {
     try {
       const message = await Message.findByPk(req.params.id);

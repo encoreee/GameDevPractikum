@@ -23,7 +23,7 @@ import { useParams } from 'react-router-dom';
 import { NewMessageModal } from './NewMessageModal';
 import { useModalWindow } from '@/components/ModalWindow';
 import { useSelector } from 'react-redux';
-import TextButton from '@/components/TextButton';
+import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
   time,
@@ -71,13 +71,13 @@ const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
             <Typography sx={smallTextStyles}>{content}</Typography>
             <Stack direction={'row'} alignItems={'center'} gap={'0.5rem'}>
               <TextButton
-                variant={'primary'}
+                variant={TextButtonVariant.PRIMARY}
                 fontSize={8}
                 onClick={handleMessageReply}
                 label="Reply"
               />
               <TextButton
-                variant={'primary'}
+                variant={TextButtonVariant.PRIMARY}
                 fontSize={8}
                 onClick={handleMessageDelete}
                 label="Delete"
@@ -103,13 +103,13 @@ const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
               <Box sx={{ width: 'fit-content' }}>
                 <TextButton
                   fontSize={32}
-                  variant="primary"
+                  variant={TextButtonVariant.PRIMARY}
                   label={'Yes'}
                   onClick={handleConfirmDelete}
                 />
                 <TextButton
                   fontSize={32}
-                  variant="primary"
+                  variant={TextButtonVariant.PRIMARY}
                   label={'No'}
                   onClick={() => setOpen(false)}
                 />

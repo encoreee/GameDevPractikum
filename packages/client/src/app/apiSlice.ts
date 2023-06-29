@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User, OauthRequest } from '../infrastructure/api/auth/contracts';
 import { API_ADDRESS } from '@/infrastructure/apiFetch';
+import { setTheme } from './themeSlice';
+import AuthApi from '@/infrastructure/api/auth/authApi';
 import fetch from 'isomorphic-fetch';
 
 export const initialState: User = {
@@ -25,6 +27,20 @@ export const apiSlice = createApi({
     getUserInfo: build.query<User, void | undefined>({
       query: () => `/auth/user`,
       keepUnusedDataFor: 600,
+      onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
+        try {
+          const user = (await queryFulfilled).data;
+          const userInDb = await AuthApi.findUserInDb(user.id);
+
+          if (!userInDb) {
+            AuthApi.registerUserInDb(user);
+            return;
+          }
+          dispatch(setTheme({ theme: userInDb.theme?.name }));
+        } catch (error) {
+          // continue regardless of error
+        }
+      },
     }),
 
     postOauth: build.query<void, OauthRequest>({
@@ -45,6 +61,7 @@ export const apiSlice = createApi({
       onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
         try {
           const result = await queryFulfilled;
+          await AuthApi.updateUserInDb(result.data);
           dispatch(
             apiSlice.util.updateQueryData(
               'getUserInfo',

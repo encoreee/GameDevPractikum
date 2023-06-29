@@ -1,4 +1,7 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
+import dotenv from 'dotenv';
+dotenv.config();
+
 import {
   POSTGRES_USER,
   POSTGRES_PASSWORD,

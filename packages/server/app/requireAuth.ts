@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import fetch from 'isomorphic-fetch';
-import { isDev } from 'server/const/env';
 
 export interface Cookies {
   authCookie: string;
@@ -16,7 +15,10 @@ export const requireAuth: RequestHandler = async (
   // выполнение запроса для получения данных о пользователе
   try {
     const id = await getUser(req.cookies);
-    if (id || isDev()) {
+    if (id) {
+      res.locals.user_id = id;
+      console.log(id);
+
       next();
     } else {
       res.sendStatus(403);

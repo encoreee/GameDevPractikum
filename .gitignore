@@ -8,6 +8,7 @@ lerna-debug.log
 TODO.md
 .stylelintcache
 dev-dist
+.env.development
 *.log
 
 tmp

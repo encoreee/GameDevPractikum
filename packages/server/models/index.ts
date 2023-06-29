@@ -3,31 +3,58 @@ import sequelize from '../app/sequelize';
 
 // Модель для пользователей
 class User extends Model {
-  public id!: number;
-  public name!: string;
+  public first_name!: string;
+  public second_name!: string;
+  public login!: string;
   public email!: string;
-  public password!: string;
+  public phone!: string;
+  public display_name!: string | null;
+  public avatar!: string | null;
+  public themeId!: number | null;
 }
 
 User.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    first_name: {
       type: DataTypes.STRING(128),
       allowNull: false,
+    },
+    second_name: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
+    display_name: {
+      type: DataTypes.STRING(128),
+      allowNull: true,
+    },
+    login: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
+    phone: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
+    avatar: {
+      type: DataTypes.STRING(256),
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING(128),
       allowNull: false,
       unique: true,
     },
-    password: {
-      type: DataTypes.STRING(128),
-      allowNull: false,
+    themeId: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
+      references: {
+        model: 'themes',
+        key: 'id',
+      },
     },
   },
   {
@@ -35,6 +62,13 @@ User.init(
     sequelize,
   }
 );
+
+User.addHook('beforeCreate', async (user: User) => {
+  if (!user.themeId) {
+    const defaultTheme = await Theme.findOne({ order: [['id', 'ASC']] });
+    user.themeId = defaultTheme?.id || null;
+  }
+});
 
 // Модель для тем форума
 class Topic extends Model {
@@ -95,6 +129,30 @@ Message.init(
   }
 );
 
+// Модель для тем
+class Theme extends Model {
+  public id!: number;
+  public name!: string;
+}
+
+Theme.init(
+  {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: 'themes',
+    sequelize,
+  }
+);
+
 // Связи между моделями
 User.hasMany(Topic);
 Topic.belongsTo(User);
@@ -105,5 +163,15 @@ Message.belongsTo(User);
 Topic.hasMany(Message);
 Message.belongsTo(Topic);
 
+User.belongsTo(Theme, {
+  foreignKey: 'themeId',
+  as: 'theme',
+});
+Theme.hasMany(User, {
+  foreignKey: 'themeId',
+  onDelete: 'RESTRICT',
+  onUpdate: 'RESTRICT',
+});
+
 // Экспорт моделей
-export { User, Topic, Message };
+export { User, Topic, Message, Theme };

@@ -5,13 +5,14 @@ export const mainBoxStyles: SxProps = {
   height: '24rem',
   borderRadius: 0,
   padding: '0.875rem 3rem 0.875rem',
-  overflow: 'auto',
+  overflow: 'hidden',
   width: '960px',
 };
 
 export const bottomNavStyles: SxProps = {
   flexDirection: 'row',
   width: '100%',
+  justifyContent: 'space-between',
   marginTop: '0.25rem',
 };
 

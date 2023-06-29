@@ -54,15 +54,16 @@ export const leaderboardSlice = createSlice({
         if (leaderboardList.length < LIMIT_BY_PAGE + 1) {
           state.leaderboard.isFullfield = true;
         }
-
-        leaderboardList.pop();
+        if (leaderboardList.length > 5) {
+          leaderboardList.pop();
+        }
         if (action.payload.page === 0) {
           state.leaderboard.list = leaderboardList;
           return;
         }
         state.leaderboard.list = [
           ...state.leaderboard.list,
-          ...action.payload.leaderboard.map((leaderboard) => leaderboard.data),
+          ...leaderboardList,
         ];
       }
     });

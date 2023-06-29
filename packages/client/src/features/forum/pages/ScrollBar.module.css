@@ -1,0 +1,26 @@
+.scrollbar {
+  overflow-y: scroll;
+  scrollbar-color: rgb(0 0 0 / 20%) transparent;
+  scrollbar-width: 5px;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background-color: rgb(0 0 0 / 20%);
+  cursor: pointer;
+  border: 7px solid transparent;
+}

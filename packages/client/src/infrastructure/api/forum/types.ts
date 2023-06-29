@@ -20,7 +20,7 @@ export type ThreadMessage = {
   updatedAt?: string;
   TopicId?: number | string;
   UserId?: number | string;
-
+  replyId?: Nullable<number>;
   time?: string;
   userName?: string;
   userAvatar?: string;

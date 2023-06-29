@@ -167,9 +167,6 @@ const LeaderboardPage: FC = () => {
     <MainPageTemplate>
       <Container style={styles.content}>
         <BreadCrumbs items={breadCrumbItems} />
-        <Typography sx={styles.text}>
-          Sort by: <span>score</span>|<span>name</span>
-        </Typography>
       </Container>
       <Box sx={styles.gridContainer}>
         <Leaderboard />

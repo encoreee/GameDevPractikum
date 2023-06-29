@@ -222,7 +222,7 @@ async function startServer() {
 
   app.post('/api/messages', requireAuth, async (req, res) => {
     try {
-      const message = await Message.create(req.body);
+      const message = await Message.create({ ...req.body });
       res.json(message);
     } catch (error) {
       console.log(error);

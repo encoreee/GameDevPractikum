@@ -1,6 +1,6 @@
 import { ChangeEvent, FC } from 'react';
 import { DataFieldProps } from './types';
-import { Stack, TextField, Typography } from '@mui/material';
+import { Stack, TextField, Typography, useTheme } from '@mui/material';
 
 const DataFieldTop: FC<DataFieldProps> = ({
   label,
@@ -14,6 +14,7 @@ const DataFieldTop: FC<DataFieldProps> = ({
       onChange(event.target?.value);
     }
   };
+  const theme = useTheme();
 
   return (
     <Stack spacing={2}>
@@ -29,7 +30,8 @@ const DataFieldTop: FC<DataFieldProps> = ({
         autoFocus={autoFocus}
         inputRef={inputRef}
         style={{
-          backgroundColor: 'primary.dark',
+          color: theme.palette.text.primary,
+          background: theme.palette.primary.dark,
           marginBottom: '30px',
           marginTop: '0px',
         }}

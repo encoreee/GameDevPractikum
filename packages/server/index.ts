@@ -15,7 +15,6 @@ import { SERVER_PORT, isDev } from './const/env';
 import { EMOJI } from './const/emoji';
 import { ThemeMode } from './const/themes';
 
-
 const port = Number(SERVER_PORT) || 3001;
 
 const root = 'https://ya-praktikum.tech';

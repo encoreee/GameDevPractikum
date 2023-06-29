@@ -29,6 +29,7 @@ export const NewMessageModal: FunctionComponent<
       );
 
       handleClose();
+      setMessage('');
 
       await dispatch(getThreadMessages(id));
 

@@ -11,19 +11,15 @@ import {
 } from '@/app/forum/forumSlice';
 import { useSelector } from 'react-redux';
 import Message from '../components/Message';
-import {
-  bottomNavStyles,
-  changePageBtnsStyles,
-  mainBoxStyles,
-} from '../styles';
+import { bottomNavStyles, mainBoxStyles } from '../styles';
 import BreadCrumbs, {
   BreadCrumbItem,
   BC_PENDING_SYMBOL,
 } from '@/components/BreadCrumbs';
-import { ThreadMessage } from '@/infrastructure/api/forum/types';
 import { useModalWindow } from '@/components/ModalWindow';
 import { NewMessageModal } from '../components/NewMessageModal';
 import TextButton, { TextButtonVariant } from '@/components/TextButton';
+import style from './ScrollBar.module.css';
 
 const ForumThread = () => {
   const navigate = useNavigate();
@@ -61,7 +57,7 @@ const ForumThread = () => {
   return (
     <Stack alignItems={'start'} width={'100%'}>
       <BreadCrumbs items={BreadCrumbItems} />
-      <Box sx={{ ...mainBoxStyles }}>
+      <Box sx={{ ...mainBoxStyles }} className={style.scrollbar}>
         {threadMessages.map((item) => (
           <Message key={item.id} {...item} />
         ))}
@@ -72,12 +68,13 @@ const ForumThread = () => {
           onClick={onBack}
           variant={TextButtonVariant.SECONDARY}
         />
-        <Stack sx={changePageBtnsStyles}>
-          <TextButton label="&lt;Prev Page" variant={TextButtonVariant.CLEAN} />
-          <TextButton label="Next Page&gt;" variant={TextButtonVariant.CLEAN} />
-        </Stack>
-        <TextButton label="New Message" variant={TextButtonVariant.PRIMARY} />
+        <TextButton
+          label="New Message"
+          variant={TextButtonVariant.PRIMARY}
+          onClick={newMessage.handleOpen}
+        />
       </Stack>
+      <NewMessageModal {...newMessage} />
     </Stack>
   );
 };

@@ -23,6 +23,7 @@ import { useParams } from 'react-router-dom';
 import { NewMessageModal } from './NewMessageModal';
 import { useModalWindow } from '@/components/ModalWindow';
 import { useSelector } from 'react-redux';
+import TextButton from '@/components/TextButton';
 
 const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
   time,
@@ -53,7 +54,6 @@ const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
   const handleMessageReply = () => {
     modalProps.handleOpen();
   };
-  console.log(`${nestingLevel * 20}px`);
 
   return (
     <>
@@ -70,16 +70,18 @@ const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
           <Stack>
             <Typography sx={smallTextStyles}>{content}</Typography>
             <Stack direction={'row'} alignItems={'center'} gap={'0.5rem'}>
-              <Button
-                sx={{ ...greenButtonStyles, fontSize: '0.5rem' }}
-                onClick={handleMessageReply}>
-                Reply
-              </Button>
-              <Button
-                sx={{ ...greenButtonStyles, fontSize: '0.5rem' }}
-                onClick={handleMessageDelete}>
-                Delete
-              </Button>
+              <TextButton
+                variant={'primary'}
+                fontSize={8}
+                onClick={handleMessageReply}
+                label="Reply"
+              />
+              <TextButton
+                variant={'primary'}
+                fontSize={8}
+                onClick={handleMessageDelete}
+                label="Delete"
+              />
               <Typography color={'text.primary'} fontSize={'0.5rem'}>
                 {formatDateFromUTCString(time)}
               </Typography>
@@ -99,20 +101,18 @@ const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
                 Confirm Delete
               </Typography>
               <Box sx={{ width: 'fit-content' }}>
-                <Button
-                  sx={{
-                    ...greenButtonStyles,
-                    fontSize: '2rem',
-                    marginRight: '30px',
-                  }}
-                  onClick={handleConfirmDelete}>
-                  Yes
-                </Button>
-                <Button
-                  sx={{ ...greenButtonStyles, fontSize: '2rem' }}
-                  onClick={() => setOpen(false)}>
-                  No
-                </Button>
+                <TextButton
+                  fontSize={32}
+                  variant="primary"
+                  label={'Yes'}
+                  onClick={handleConfirmDelete}
+                />
+                <TextButton
+                  fontSize={32}
+                  variant="primary"
+                  label={'No'}
+                  onClick={() => setOpen(false)}
+                />
               </Box>
             </Stack>
           </Container>

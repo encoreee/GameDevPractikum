@@ -9,9 +9,10 @@ import bodyParser from 'body-parser';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { appRoutes } from './ssrRoutes';
 import { requireAuth } from './app/requireAuth';
-import { Message, Topic, User } from './models';
+import { Message, Topic, User, Theme } from './models';
 import sequelize from './app/sequelize';
 import { SERVER_PORT, isDev } from './const/env';
+import { ThemeMode } from './const/themes';
 
 const port = Number(SERVER_PORT) || 3001;
 
@@ -34,8 +35,9 @@ async function startServer() {
 
   apiRouter.all(`${base}/*`, apiProxy);
   app.use(apiRouter);
-  app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+
   //Роутер для пользователей
   app.get('/api/users', requireAuth, async (_, res) => {
     const users = await User.findAll();
@@ -53,13 +55,19 @@ async function startServer() {
   });
 
   app.get('/api/users/:id', requireAuth, async (req, res) => {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findByPk(req.params.id, {
+      include: {
+        model: Theme,
+        as: 'theme',
+        attributes: ['name'],
+      },
+    });
     res.json(user);
   });
 
-  app.put('/api/users/:id', requireAuth, async (req, res) => {
+  app.put('/api/users', requireAuth, async (req, res) => {
     try {
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(res.locals.user_id);
       if (user) {
         await user.update(req.body);
         res.json(user);
@@ -85,6 +93,22 @@ async function startServer() {
       console.log(error);
       res.sendStatus(500);
     }
+  });
+
+  app.put('/api/theme/', requireAuth, async (req, res) => {
+    const user = await User.findByPk(res.locals.user_id);
+    const theme = await Theme.findOne({
+      where: {
+        name: req.body.mode,
+      },
+    });
+
+    if (user && theme) {
+      user.themeId = theme.id || null;
+      await user.save();
+    }
+
+    res.json({ result: 'OK' });
   });
 
   // Роутер для тем форума
@@ -233,7 +257,6 @@ async function startServer() {
       }
       const cookie = req.headers?.cookie ?? undefined;
       const [appHtml, preloadedState] = await render(url, cookie);
-      console.log(preloadedState);
 
       const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         preloadedState
@@ -257,6 +280,9 @@ async function startServer() {
       console.log('Connection has been established successfully.');
 
       await sequelize.sync({ force: true });
+      Object.values(ThemeMode).forEach(
+        async (value) => await Theme.create({ name: value })
+      );
 
       console.log('Tables created successfully.');
     } catch (error) {

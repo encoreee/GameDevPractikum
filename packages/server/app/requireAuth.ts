@@ -16,6 +16,9 @@ export const requireAuth: RequestHandler = async (
   try {
     const id = await getUser(req.cookies);
     if (id) {
+      res.locals.user_id = id;
+      console.log(id);
+
       next();
     } else {
       res.sendStatus(403);

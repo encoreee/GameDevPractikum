@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { apiSlice } from './apiSlice';
 import forum from './forum/forumSlice';
 import leaderboard from './leaderboardSlice/leaderboardSlice';
-import { apiSlice } from './apiSlice';
 import theme from './themeSlice';
 
 export const store = configureStore({

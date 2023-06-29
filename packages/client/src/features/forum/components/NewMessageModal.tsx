@@ -1,6 +1,7 @@
 import {
   createThreadMessages,
   getThreadMessages,
+  getThreadsList,
 } from '@/app/forum/forumSlice';
 import { AppDispatch } from '@/app/store';
 import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
@@ -32,6 +33,7 @@ export const NewMessageModal: FunctionComponent<
       setMessage('');
 
       await dispatch(getThreadMessages(id));
+      await dispatch(getThreadsList());
 
       setSearchParams({ page: '1' });
     } catch (error) {

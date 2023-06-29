@@ -92,6 +92,18 @@ Topic.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    emojiId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    emojiName: {
+      type: DataTypes.STRING(128),
+      allowNull: true,
+    },
+    emojiImg: {
+      type: DataTypes.STRING(128),
+      allowNull: true,
+    },
   },
   {
     tableName: 'topics',

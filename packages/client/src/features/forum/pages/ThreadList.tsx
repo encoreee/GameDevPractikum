@@ -56,7 +56,7 @@ const ForumThreadList: FC = () => {
     return [];
   }, [threadList]);
 
-  const lastPageIdx = chankedThreadList.length;
+  const lastPageIdx = chankedThreadList.length || 1;
 
   useEffect(() => {
     if (threadListStatus === STATE_STATUSES.IDLE) {

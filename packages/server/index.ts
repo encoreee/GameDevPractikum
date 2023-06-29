@@ -114,7 +114,24 @@ async function startServer() {
 
   // Роутер для тем форума
   app.get('/api/topics', requireAuth, async (_, res) => {
-    const topics = await Topic.findAll();
+    const topics = await Topic.findAll({
+      include: [
+        {
+          model: Message,
+          attributes: [],
+        },
+      ],
+      attributes: {
+        include: [
+          [
+            sequelize.fn('COUNT', sequelize.col('Messages.id')),
+            'messagesCount',
+          ],
+        ],
+      },
+      group: ['Topic.id'],
+      raw: true,
+    });
     res.json(topics);
   });
 

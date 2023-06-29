@@ -104,6 +104,9 @@ Topic.init(
       type: DataTypes.STRING(128),
       allowNull: true,
     },
+    messagesCount: {
+      type: DataTypes.VIRTUAL,
+    },
   },
   {
     tableName: 'topics',

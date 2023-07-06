@@ -1,18 +1,60 @@
-import { useEffect } from 'react'
-import './App.css'
+import { Fragment, FC, useEffect } from 'react';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import { startServiceWorker } from './utils/serviceWorkersRegistration';
+import ThemeProvider from './components/ThemeProvider';
+import LeaderboardPage from './features/leaderboard/LeaderboardPage';
+import GamePage from './features/game/GamePage';
+import Error from './features/errors/Error';
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
+import HomePage from './features/homepage/Homepage';
+import ProfilePage from './features/profile/ProfilePage';
+import SignInPage from './features/auth/pages/SignInPage';
+import SignUpPage from './features/auth/pages/SignUpPage';
+import GameStartPage from './features/gameStart/GameStartPage';
+import ForumPages from './features/forum/pages';
+import GameOver from './features/gameOver/GameOver';
 
-function App() {
+const App: FC = () => {
   useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}`
-      const response = await fetch(url)
-      const data = await response.json()
-      console.log(data)
-    }
+    startServiceWorker();
+  }, []);
 
-    fetchServerData()
-  }, [])
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>
-}
+  return (
+    <Fragment>
+      <ThemeProvider>
+        <Routes>
+          <Route
+            element={
+              <PublicRoute>
+                <Outlet />
+              </PublicRoute>
+            }>
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+          </Route>
+          <Route
+            element={
+              <PrivateRoute>
+                <Outlet />
+              </PrivateRoute>
+            }>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/game" element={<GamePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/forum/*" element={<ForumPages />} />
+            <Route path="/game-over" element={<GameOver />} />
+            <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/start" element={<GameStartPage />} />
+          </Route>
+          <Route
+            path="*"
+            element={<Error errorType="404" errorMessage="Page Not Found." />}
+          />
+        </Routes>
+      </ThemeProvider>
+    </Fragment>
+  );
+};
 
-export default App
+export default App;

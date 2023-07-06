@@ -1,6 +1,17 @@
+.DS_Store
 node_modules/
 .env
 .idea
 .vscode
 dist
+lerna-debug.log
+TODO.md
+.stylelintcache
+dev-dist
+.env.development
+*.log
+
 tmp
+ssr-dist
+
+*/**/vite-config.ts.timestamp-**.mjs

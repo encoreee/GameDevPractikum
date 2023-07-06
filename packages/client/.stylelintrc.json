@@ -1,0 +1,11 @@
+{
+  "plugins": ["stylelint-prettier"],
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "prettier/prettier": true,
+    "selector-class-pattern": null,
+    "declaration-colon-newline-after": null,
+    "no-empty-source": null
+  },
+  "ignoreFiles": ["node_modules/*"]
+}

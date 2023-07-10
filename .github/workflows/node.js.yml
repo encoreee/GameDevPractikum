@@ -41,7 +41,7 @@ jobs:
         with:
           yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }}
           folder-id: b1gp461vtc5b867uco3d
-          vm-name: front-main
+          vm-name: front-01
           vm-service-account-id: aje5ambrallm95kaaevf
           vm-cores: 2
           vm-memory: 2Gb

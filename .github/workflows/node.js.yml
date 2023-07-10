@@ -12,11 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v2
@@ -36,10 +31,21 @@ jobs:
           docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG .
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
       
-      - uses: actions/setup-node@v3
+      - name: Deploy COI VM
+        id: deploy-coi
+        uses: yc-actions/yc-coi-deploy@v2
+        env:
+          CR_REGISTRY: crp7mrj2ebt9tskfom26
+          CR_REPOSITORY: registry
+          IMAGE_TAG: ${{ github.sha }}
         with:
-          node-version: 16 
-      - name: Install main deps
-        run: yarn
-      - name: Initialize
-        run: yarn build
+          yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }}
+          folder-id: b1gp461vtc5b867uco3d
+          vm-name: front-main
+          vm-service-account-id: aje5ambrallm95kaaevf
+          vm-cores: 2
+          vm-memory: 2Gb
+          vm-core-fraction: 100
+          vm-subnet-id: e2lvfatmnkdm3aiehqo4
+          docker-compose-path: './docker-compose.yaml'
+        

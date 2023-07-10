@@ -1,8 +1,11 @@
 #cloud-config
+datasource:
+ Ec2:
+  strict_id: false
+ssh_pwauth: no
 users:
   - name: admin
-    groups: sudo
+    sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
-    sudo: [ 'ALL=(ALL) NOPASSWD:ALL' ]
     ssh_authorized_keys:
-      - {{ secrets.SERVER_SHH_KEY }}
+     - {{ secrets.SERVER_SHH_KEY }}

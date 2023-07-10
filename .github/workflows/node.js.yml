@@ -23,7 +23,7 @@ jobs:
       
       - name: Login (Yandex Cloud)
         id: login-cr
-        uses: yc-actions/ys-cr-login@v1
+        uses: yc-actions/yc-cr-login@v1
         with:
           yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }} 
       

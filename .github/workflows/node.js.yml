@@ -5,20 +5,20 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Login (Yandex Cloud)
         id: login-cr
         uses: yc-actions/yc-cr-login@v1
         with:
-          yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }} 
-      
+          yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }}
+
       - name: Build, tag, and push image to Yandex Cloud Container Registry
         env:
           CR_REGISTRY: crp7mrj2ebt9tskfom26
@@ -27,7 +27,7 @@ jobs:
         run: |
           docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG .
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
-      
+
       - name: Deploy COI VM
         id: deploy-coi
         uses: yc-actions/yc-coi-deploy@v2
@@ -45,6 +45,5 @@ jobs:
           vm-core-fraction: 100
           vm-zone-id: ru-central1-b
           vm-subnet-id: e2lvfatmnkdm3aiehqo4
-          user-data-path: './user-data.yaml'
+          user-data-path: './user-data.yml'
           docker-compose-path: './docker-compose.yml'
-        

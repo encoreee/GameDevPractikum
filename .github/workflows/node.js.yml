@@ -33,7 +33,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
-          key: ${{ secrets.SERVER_SHH_KEY }}
+          key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
 
       - name: Run commands

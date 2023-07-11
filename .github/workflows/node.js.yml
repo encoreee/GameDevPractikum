@@ -35,6 +35,15 @@ jobs:
           CR_REGISTRY: crp7mrj2ebt9tskfom26
           CR_REPOSITORY: registry
           IMAGE_TAG: ${{ github.sha }}
+          SERVER_SHH_KEY: ${{ secrets.SERVER_SHH_KEY }}
+          API_ADDRESS: ${{ env.API_ADDRESS }}
+          CLIENT_PORT: ${{ env.CLIENT_PORT }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          SERVER_PORT: ${{ env.SERVER_PORT }}
         with:
           yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }}
           folder-id: b1gp461vtc5b867uco3d

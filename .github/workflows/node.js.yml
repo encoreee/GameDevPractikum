@@ -6,19 +6,7 @@ name: Node.js CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
 jobs:
-
-  job1:
-    ## The type of runner that the job will run on, 
-    ## here it runs on ubuntu latest
-    runs-on: ubuntu-latest 
-    steps:
-      - name: step 1
-        ## Reference your environment variables
-        run: echo "AUTHORIZED_KEY {{ secrets.AUTHORIZED_KEY }}\n SERVER_SHH_KEY ${{ secrets.SERVER_SHH_KEY }}\n API_ADDRESS ${{ env.API_ADDRESS }}"
   build:
     runs-on: ubuntu-latest
 

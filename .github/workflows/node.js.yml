@@ -38,7 +38,7 @@ jobs:
 
       - name: Run commands
         env:
-          YANDEX_KEY: ${{ secrets.AUTHORIZED_KEY }}
+          YANDEX_KEY: ${{ secrets.YANDEX_KEY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           sudo docker login --username oauth --password $YANDEX_KEY cr.yandex

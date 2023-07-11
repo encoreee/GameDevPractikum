@@ -30,7 +30,7 @@ jobs:
 
       - name: Deploy COI VM
         id: deploy-coi
-        uses: yc-actions/yc-coi-deploy@v2
+        uses: yc-actions/yc-coi-deploy@v1.0.1
         env:
           CR_REGISTRY: crp7mrj2ebt9tskfom26
           CR_REPOSITORY: registry

@@ -28,31 +28,20 @@ jobs:
           docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG .
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
 
-      - name: Deploy COI VM
-        id: deploy-coi
-        uses: yc-actions/yc-coi-deploy@v1.0.1
-        env:
-          CR_REGISTRY: crp7mrj2ebt9tskfom26
-          CR_REPOSITORY: registry
-          IMAGE_TAG: ${{ github.sha }}
-          SERVER_SHH_KEY: ${{ secrets.SERVER_SHH_KEY }}
-          API_ADDRESS: ${{ env.API_ADDRESS }}
-          CLIENT_PORT: ${{ env.CLIENT_PORT }}
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          SERVER_PORT: ${{ env.SERVER_PORT }}
+      - name: Connect VM
+        uses: appleboy/ssh-action@v0.1.10
         with:
-          yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }}
-          folder-id: b1gp461vtc5b867uco3d
-          vm-name: front-new
-          vm-service-account-id: aje7s53dmrvfne93majh
-          vm-cores: 2
-          vm-memory: 2Gb
-          vm-core-fraction: 100
-          vm-zone-id: ru-central1-b
-          vm-subnet-id: e2lvfatmnkdm3aiehqo4
-          user-data-path: './user-data.yml'
-          docker-compose-path: './docker-compose.yml'
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SERVER_SHH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+
+      - name: Run commands
+        env:
+          YANDEX_KEY: ${{ secrets.AUTHORIZED_KEY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          sudo docker login --username oauth --password $YANDEX_KEY cr.yandex
+          sudo docker pull cr.yandex/crp7mrj2ebt9tskfom26/registry:$IMAGE_TAG
+          sudo docker run cr.yandex/crp7mrj2ebt9tskfom26/registry:$IMAGE_TAG
+

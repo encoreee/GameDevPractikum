@@ -56,4 +56,5 @@ jobs:
           vm-subnet-id: e2lvfatmnkdm3aiehqo4
           user-data-path: './user-data.yaml'
           docker-compose-path: './docker-compose.yml'
+          secrets : inherit
         

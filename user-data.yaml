@@ -3,4 +3,4 @@ users:
   - name: admin
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
-    ssh_authorized_keys: ${{ secrets.SERVER_SHH_KEY }}
+    ssh_authorized_keys: {{ secrets.SERVER_SHH_KEY }}

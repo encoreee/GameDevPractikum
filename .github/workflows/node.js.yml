@@ -10,6 +10,15 @@ on:
     branches: [ "main" ]
 
 jobs:
+
+  job1:
+    ## The type of runner that the job will run on, 
+    ## here it runs on ubuntu latest
+    runs-on: ubuntu-latest 
+    steps:
+      - name: step 1
+        ## Reference your environment variables
+        run: echo "{{ secrets.AUTHORIZED_KEY }} ${{ secrets.SERVER_SHH_KEY }} ${{ env.API_ADDRESS }}"
   build:
     runs-on: ubuntu-latest
 

@@ -6,15 +6,12 @@ name: Node.js CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       
       - name: Login (Yandex Cloud)
         id: login-cr
@@ -41,12 +38,13 @@ jobs:
         with:
           yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }}
           folder-id: b1gp461vtc5b867uco3d
-          vm-name: front-01
+          vm-name: front-new
           vm-service-account-id: aje7s53dmrvfne93majh
           vm-cores: 2
           vm-memory: 2Gb
           vm-core-fraction: 100
+          vm-zone-id: ru-central1-b
           vm-subnet-id: e2lvfatmnkdm3aiehqo4
           user-data-path: './user-data.yaml'
-          docker-compose-path: './docker-compose.yaml'
+          docker-compose-path: './docker-compose.yml'
         

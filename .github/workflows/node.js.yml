@@ -51,6 +51,14 @@ jobs:
 
       - name: Connect VM
         uses: appleboy/ssh-action@v0.1.10
+        env:
+          CLIENT_PORT: ${{ env.CLIENT_PORT }}
+          SERVER_PORT: ${{ env.SERVER_PORT }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
+          API_ADDRESS: ${{ env.API_ADDRESS }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
@@ -60,13 +68,13 @@ jobs:
             mkdir /home/admin/app
             cd /home/admin/app
             sudo touch .env
-            echo "CLIENT_PORT=${{ env.CLIENT_PORT }}
-                  SERVER_PORT=${{ env.SERVER_PORT }}
-                  POSTGRES_USER=${{ env.POSTGRES_USER }}
-                  POSTGRES_PASSWORD=${{ env.POSTGRES_PASSWORD }}
-                  POSTGRES_DB=${{ env.POSTGRES_DB }}
-                  POSTGRES_PORT=${{ env.POSTGRES_PORT }}
-                  API_ADDRESS=${{ env.API_ADDRESS }}" > .env
+            sudo echo "CLIENT_PORT=$CLIENT_POR
+                  SERVER_PORT=$SERVER_PORT
+                  POSTGRES_USER=$POSTGRES_USER
+                  POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+                  POSTGRES_DB=$POSTGRES_DB
+                  POSTGRES_PORT=$POSTGRES_PORT
+                  API_ADDRESS=$API_ADDRESS" > .env
 
   copy-and-run:
     runs-on: ubuntu-latest

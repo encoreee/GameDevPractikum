@@ -41,7 +41,6 @@ jobs:
             sudo rm -r /home/admin/app
 
   mkdir:
-    needs: rmdir
     runs-on: ubuntu-latest
     steps:
       - name: MakeDir

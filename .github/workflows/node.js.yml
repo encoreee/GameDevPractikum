@@ -64,17 +64,11 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
+          envs: CLIENT_PORT,SERVER_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,POSTGRES_PORT,API_ADDRESS
           script: |
             mkdir /home/admin/app
             cd /home/admin/app
-            sudo touch .env
-            sudo echo "CLIENT_PORT=$CLIENT_POR
-                  SERVER_PORT=$SERVER_PORT
-                  POSTGRES_USER=$POSTGRES_USER
-                  POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-                  POSTGRES_DB=$POSTGRES_DB
-                  POSTGRES_PORT=$POSTGRES_PORT
-                  API_ADDRESS=$API_ADDRESS" > .env
+            sudo printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\n" > .env
 
   copy-and-run:
     runs-on: ubuntu-latest

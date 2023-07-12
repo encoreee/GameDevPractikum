@@ -44,14 +44,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: MakeDir
-          uses: appleboy/ssh-action@v0.1.10
-          with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USER }}
-            key: ${{ secrets.KEY }}
-            passphrase: ${{ secrets.PASSPHRASE }}
-            script: |
-              mkdir /home/admin/app
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            mkdir /home/admin/app
         
 
   copy-and-run:

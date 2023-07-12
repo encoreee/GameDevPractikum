@@ -96,7 +96,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             cd /home/admin/app
-            docker-compose up -d
+            sudo docker-compose up -d
 
 
       

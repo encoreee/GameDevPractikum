@@ -13,12 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Login (Yandex Cloud)
-        id: login-cr
-        uses: yc-actions/yc-cr-login@v1
-        with:
-          yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }}
-
       - name: Copy
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -28,3 +22,4 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           source: "./*"
           target: /app
+          debug: true

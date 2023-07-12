@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-stopdocker:
+  stopdocker:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -29,7 +29,7 @@ stopdocker:
             sudo docker rm galaga-db
             sudo docker rm galaga-pgadmin
 
- rmdir:
+  rmdir:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

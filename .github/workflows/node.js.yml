@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Connect VM
+      - name: StopDocker
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST }}
@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Connect VM
+      - name: Rmdir
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST }}
@@ -48,8 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Connect VM
+      - name: MakeDir
         uses: appleboy/ssh-action@v0.1.10
         env:
           CLIENT_PORT: ${{ secrets.CLIENT_PORT }}
@@ -67,14 +66,13 @@ jobs:
           envs: CLIENT_PORT,SERVER_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,POSTGRES_PORT,API_ADDRESS
           script: |
             mkdir /home/admin/app
-            cd /home/admin/app
-            sudo printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\n" > .env
+            printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\n" > /home/admin/app.env
 
   copy-and-run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: copy file via ssh password
+      - name: CopyFiles
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.HOST }}
@@ -84,7 +82,7 @@ jobs:
           source: "./*"
           target: "/home/admin/app"
 
-      - name: Connect VM
+      - name: Compose
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST }}

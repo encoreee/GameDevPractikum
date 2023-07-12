@@ -52,13 +52,13 @@ jobs:
       - name: Connect VM
         uses: appleboy/ssh-action@v0.1.10
         env:
-          CLIENT_PORT: ${{ env.CLIENT_PORT }}
-          SERVER_PORT: ${{ env.SERVER_PORT }}
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
-          API_ADDRESS: ${{ env.API_ADDRESS }}
+          CLIENT_PORT: ${{ secrets.CLIENT_PORT }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          API_ADDRESS: ${{ secrets.API_ADDRESS }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}

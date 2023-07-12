@@ -6,18 +6,48 @@ name: Node.js CI
 on:
   push:
     branches: ['main']
+
 jobs:
-  makedir:
+
+stopdocker:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Run a multi-line script
-        run: |
-          mkdir ../build
-          cp -TR . ../build
-          tar -cvf deploy.tar ../build/
+      - name: Connect VM
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            sudo docker stop galaga-app
+            sudo docker stop galaga-db
+            sudo docker stop galaga-pgadmin
+            sudo docker rm galaga-app
+            sudo docker rm galaga-db
+            sudo docker rm galaga-pgadmin
+
+ rmdir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Connect VM
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            sudo rm -r app
+
+  mkdir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
       - name: Connect VM
         uses: appleboy/ssh-action@v0.1.10
@@ -28,7 +58,8 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             mkdir app
-  build:
+
+  copy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -41,3 +72,19 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           source: "./*"
           target: "app"
+
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Connect VM
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            cd app
+            docker-compose up -d

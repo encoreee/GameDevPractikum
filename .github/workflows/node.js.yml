@@ -7,7 +7,7 @@ on:
   push:
     branches: ['main']
 jobs:
-  build:
+  makedir:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,5 +26,18 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          source: "deploy.tar"
-          target: "destination/folder"
+          script: |
+            mkdir app
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+        source: "./*"
+        target: "app"

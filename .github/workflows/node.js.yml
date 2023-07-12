@@ -42,6 +42,7 @@ jobs:
 
   mkdir:
     runs-on: ubuntu-latest
+    needs: rmdir
     steps:
       - name: MakeDir
         uses: appleboy/ssh-action@v0.1.10
@@ -79,16 +80,17 @@ jobs:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
           API_ADDRESS: ${{ secrets.API_ADDRESS }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          envs: CLIENT_PORT,SERVER_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,POSTGRES_PORT,API_ADDRESS
+          envs: CLIENT_PORT,SERVER_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,POSTGRES_PORT,API_ADDRESS,POSTGRES_HOST
           script: |
-            printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\n" > /home/admin/app/.env    
-            printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\n" > /home/admin/app/packages/server/.env
-             
+            printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\POSTGRES_HOST=$POSTGRES_HOST\n" > /home/admin/app/.env    
+            printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\POSTGRES_HOST=$POSTGRES_HOST\n" > /home/admin/app/packages/server/.env
+
       - name: Compose
         uses: appleboy/ssh-action@v0.1.10
         with:

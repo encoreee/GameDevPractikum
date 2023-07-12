@@ -58,6 +58,15 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             mkdir /home/admin/app
+            cd /home/admin/app
+            sudo touch .env
+            echo "CLIENT_PORT=${{ env.CLIENT_PORT }}
+                  SERVER_PORT=${{ env.SERVER_PORT }}
+                  POSTGRES_USER=${{ env.POSTGRES_USER }}
+                  POSTGRES_PASSWORD=${{ env.POSTGRES_PASSWORD }}
+                  POSTGRES_DB=${{ env.POSTGRES_DB }}
+                  POSTGRES_PORT=${{ env.POSTGRES_PORT }}
+                  API_ADDRESS=${{ env.API_ADDRESS }}" > .env
 
   copy-and-run:
     runs-on: ubuntu-latest

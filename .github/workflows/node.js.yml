@@ -41,6 +41,7 @@ jobs:
             sudo rm -r /home/admin/app
 
   mkdir:
+    needs: rmdir
     runs-on: ubuntu-latest
     steps:
       - name: MakeDir
@@ -55,6 +56,7 @@ jobs:
         
 
   copy-and-run:
+    needs: mkdir
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

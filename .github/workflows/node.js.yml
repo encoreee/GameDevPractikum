@@ -19,29 +19,12 @@ jobs:
         with:
           yc-sa-json-credentials: ${{ secrets.AUTHORIZED_KEY }}
 
-      - name: Build, tag, and push image to Yandex Cloud Container Registry
-        env:
-          CR_REGISTRY: crp7mrj2ebt9tskfom26
-          CR_REPOSITORY: registry
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG .
-          docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
-
-      - name: Connect VM
-        uses: appleboy/ssh-action@v0.1.10
+      - name: Copy
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-
-      - name: Run commands
-        env:
-          YANDEX_KEY: ${{ secrets.YANDEX_KEY }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          sudo docker login --username oauth --password $YANDEX_KEY cr.yandex
-          sudo docker pull cr.yandex/crp7mrj2ebt9tskfom26/registry:$IMAGE_TAG
-          sudo docker run cr.yandex/crp7mrj2ebt9tskfom26/registry:$IMAGE_TAG
-
+          source: "./*"
+          target: /app

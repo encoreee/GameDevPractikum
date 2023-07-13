@@ -99,7 +99,7 @@ jobs:
       - name: Compose
         uses: appleboy/ssh-action@v0.1.10
         with:
-          command_timeout: 60m
+          command_timeout: 120m
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}

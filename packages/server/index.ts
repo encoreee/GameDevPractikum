@@ -15,7 +15,7 @@ import { SERVER_PORT, isDev } from './const/env';
 import { EMOJI } from './const/emoji';
 import { ThemeMode } from './const/themes';
 
-const port = Number(SERVER_PORT) || 3001;
+const port = Number(SERVER_PORT) || 3000;
 
 const root = 'https://ya-praktikum.tech';
 const base = '/api/v2';
@@ -29,7 +29,7 @@ async function startServer() {
   const apiProxy = createProxyMiddleware(base, {
     target: root,
     changeOrigin: true,
-    cookieDomainRewrite: 'https://galagagame.ya-praktikum.tech',
+    cookieDomainRewrite: 'galagagame.ya-praktikum.tech',
   });
 
   const apiRouter = express.Router();

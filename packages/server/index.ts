@@ -29,7 +29,7 @@ async function startServer() {
   const apiProxy = createProxyMiddleware(base, {
     target: root,
     changeOrigin: true,
-    cookieDomainRewrite: 'localhost',
+    cookieDomainRewrite: 'https://galagagame.ya-praktikum.tech',
   });
 
   const apiRouter = express.Router();

@@ -28,6 +28,10 @@ jobs:
               sudo docker rm $(sudo docker ps -a -q) &> /dev/null
             fi
 
+            if [ "$(sudo docker images -q)" ]; then
+              sudo docker rmi $(sudo docker images -q) -f &> /dev/null
+            fi
+
   rmdir:
     runs-on: ubuntu-latest
     steps:

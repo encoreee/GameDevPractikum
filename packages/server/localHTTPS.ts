@@ -11,8 +11,8 @@ import { findIP } from './findIp';
 
 const devHosts = [
   {
-    host: 'my-app.localhost.ya-praktikum.tech',
-    ip: 'localhost',
+    host: 'my-app.10.0.2.2.ya-praktikum.tech',
+    ip: '10.0.2.2',
   },
 ];
 
@@ -34,7 +34,7 @@ interface Options {
 const { PORT = 3000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
 
-const APP_HOSTS = ['localhost'];
+const APP_HOSTS = ['https://galagagame.ya-praktikum.tech'];
 
 if (isDev) {
   const devLocalIP = findIP();

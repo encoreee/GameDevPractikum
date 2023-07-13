@@ -24,4 +24,4 @@ export const AppMessage = {
   LOGOUT_ERROR: `Couldn't complete logout. Please, try later.`,
 };
 
-export const REDIRECT_URI = 'http://localhost:3000';
+export const REDIRECT_URI = 'http://10.0.2.2:3000';

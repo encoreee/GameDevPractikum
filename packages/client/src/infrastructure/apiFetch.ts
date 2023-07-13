@@ -1,5 +1,5 @@
-export const API_ADDRESS = 'http://localhost:3000/api/v2';
-export const LOCAL_ADDRESS = 'http://localhost:3000';
+export const API_ADDRESS = 'http://10.0.2.2:3000/api/v2';
+export const LOCAL_ADDRESS = 'http://10.0.2.2:3000';
 
 export function apiFetch() {
   const request = (method: string) => {

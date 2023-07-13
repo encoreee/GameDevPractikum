@@ -11,7 +11,7 @@ import { appRoutes } from './ssrRoutes';
 import { requireAuth } from './app/requireAuth';
 import { Message, Topic, User, Theme } from './models';
 import sequelize from './app/sequelize';
-import { SERVER_PORT, isDev, DOMAIN_REWRITE_HOST } from './const/env';
+import { SERVER_PORT, isDev } from './const/env';
 import { EMOJI } from './const/emoji';
 import { ThemeMode } from './const/themes';
 
@@ -29,7 +29,7 @@ async function startServer() {
   const apiProxy = createProxyMiddleware(base, {
     target: root,
     changeOrigin: true,
-    cookieDomainRewrite: DOMAIN_REWRITE_HOST,
+    cookieDomainRewrite: '10.0.2.2',
   });
 
   const apiRouter = express.Router();

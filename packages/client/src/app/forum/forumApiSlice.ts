@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import fetch from 'isomorphic-fetch';
 
-const API_ADDRESS = 'http://10.0.2.2:3000';
+const API_ADDRESS = 'http://localhost:3000';
 
 export const forumApiSlice = createApi({
   reducerPath: 'api',

@@ -17,4 +17,4 @@ RUN cd ./packages/server && yarn link client
 
 RUN yarn build --scope=server
 
-EXPOSE ${SERVER_PORT}
+EXPOSE 3000

@@ -29,7 +29,7 @@ async function startServer() {
   const apiProxy = createProxyMiddleware(base, {
     target: root,
     changeOrigin: true,
-    cookieDomainRewrite: '10.0.2.2',
+    cookieDomainRewrite: 'localhost',
   });
 
   const apiRouter = express.Router();

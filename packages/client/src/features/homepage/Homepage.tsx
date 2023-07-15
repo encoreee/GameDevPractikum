@@ -41,6 +41,7 @@ const styles = {
 };
 
 const HomePage: FC = () => {
+  console.log(import.meta.env.DEV);
   const dispatch = useDispatch<AppDispatch>();
   const handleMouseEnter = () => Audio.play(AUDIO_IDS.Jump);
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ const HomePage: FC = () => {
             <Typography>start game</Typography>
           </NavLink>
         </ListItem>
-        <ListItem sx={styles.listItem}>
+        <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <NavLink
             href="/leaderboard"
             sx={styles.link}

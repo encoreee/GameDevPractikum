@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "yarn build:ssr && yarn build:client",
-    "build:client": "tsc && vite build --config vite.config.ts",
+    "build:client": "tsc && vite build  --config vite.config.ts",
     "build:ssr": "tsc && vite build --config vite.ssr.config.ts",
     "preview": "vite preview",
     "lint": "rimraf ./dist && rimraf ./dist-ssr && eslint .",

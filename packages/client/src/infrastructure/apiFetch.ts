@@ -1,5 +1,14 @@
-export const API_ADDRESS = `${import.meta.env.VITE_HOST}/api/v2`;
-export const LOCAL_ADDRESS = import.meta.env.VITE_HOST;
+let VITE_HOST;
+
+if (import.meta.env.SSR) {
+  VITE_HOST = process?.env?.VITE_HOST;
+} else {
+  VITE_HOST = import.meta.env.VITE_HOST;
+}
+
+export const LOCAL_ADDRESS = VITE_HOST;
+
+export const API_ADDRESS = `${LOCAL_ADDRESS}/api/v2`;
 
 export function apiFetch() {
   const request = (method: string) => {

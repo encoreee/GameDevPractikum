@@ -1,13 +1,12 @@
+import { LOCAL_ADDRESS } from '@/infrastructure/apiFetch';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import fetch from 'isomorphic-fetch';
 
-const API_ADDRESS = import.meta.env.VITE_HOST;
-
 export const forumApiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: API_ADDRESS,
+    baseUrl: LOCAL_ADDRESS,
     credentials: 'include',
     fetchFn: fetch,
   }),

@@ -14,7 +14,7 @@ import sequelize from './app/sequelize';
 import { HOST, SERVER_PORT, isDev } from './const/env';
 import { EMOJI } from './const/emoji';
 import { ThemeMode } from './const/themes';
-// import helmet from 'helmet';
+import helmet from 'helmet';
 
 const port = Number(SERVER_PORT) || 3000;
 
@@ -27,7 +27,25 @@ async function startServer() {
   //@ts-ignore
   app.use(cookieParser());
 
-  // app.use(helmet());
+  if (isDev()) {
+    app.use(
+      helmet({
+        contentSecurityPolicy: false,
+        crossOriginOpenerPolicy: false,
+        crossOriginResourcePolicy: false,
+        originAgentCluster: false,
+        referrerPolicy: false,
+        strictTransportSecurity: false,
+        xContentTypeOptions: false,
+        xDnsPrefetchControl: false,
+        xDownloadOptions: false,
+        xFrameOptions: false,
+        xPermittedCrossDomainPolicies: false,
+        xPoweredBy: false,
+        xXssProtection: false,
+      })
+    );
+  }
 
   const apiProxy = createProxyMiddleware(base, {
     target: root,
@@ -292,7 +310,7 @@ async function startServer() {
   let ssrClientPath: string | undefined;
   if (!isDev()) {
     distPath = path.dirname(require.resolve('client/dist/index.html'));
-    ssrClientPath = require.resolve('client/dist-ssr/client.cjs');
+    ssrClientPath = require.resolve('client/dist-ssr/entry-server.cjs');
   }
   const srcPath = path.dirname(require.resolve('client'));
   if (isDev()) {

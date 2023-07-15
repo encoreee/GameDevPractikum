@@ -11,9 +11,10 @@ import { appRoutes } from './ssrRoutes';
 import { requireAuth } from './app/requireAuth';
 import { Message, Topic, User, Theme } from './models';
 import sequelize from './app/sequelize';
-import { SERVER_PORT, isDev } from './const/env';
+import { HOST, SERVER_PORT, isDev } from './const/env';
 import { EMOJI } from './const/emoji';
 import { ThemeMode } from './const/themes';
+// import helmet from 'helmet';
 
 const port = Number(SERVER_PORT) || 3000;
 
@@ -26,10 +27,12 @@ async function startServer() {
   //@ts-ignore
   app.use(cookieParser());
 
+  // app.use(helmet());
+
   const apiProxy = createProxyMiddleware(base, {
     target: root,
     changeOrigin: true,
-    cookieDomainRewrite: 'galagagame.ya-praktikum.tech',
+    cookieDomainRewrite: HOST,
   });
 
   const apiRouter = express.Router();

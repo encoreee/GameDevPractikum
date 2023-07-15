@@ -1,5 +1,5 @@
-export const API_ADDRESS = 'https://galagagame.ya-praktikum.tech/api/v2';
-export const LOCAL_ADDRESS = 'https://galagagame.ya-praktikum.tech';
+export const API_ADDRESS = `${import.meta.env.VITE_HOST}/api/v2`;
+export const LOCAL_ADDRESS = import.meta.env.VITE_HOST;
 
 export function apiFetch() {
   const request = (method: string) => {

@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import fetch from 'isomorphic-fetch';
 
-const API_ADDRESS = 'https://galagagame.ya-praktikum.tech';
+const API_ADDRESS = import.meta.env.VITE_HOST;
 
 export const forumApiSlice = createApi({
   reducerPath: 'api',

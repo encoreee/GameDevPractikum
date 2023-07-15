@@ -14,4 +14,5 @@ export const {
   SERVER_PORT,
   POSTGRES_HOST,
   DOMAIN_REWRITE_HOST,
+  HOST,
 } = process.env;

@@ -15,7 +15,6 @@ services:
       - '${SERVER_PORT}:${SERVER_PORT}'
     environment:
       - SERVER_PORT=${SERVER_PORT}
-      - NODE_ENV=production
     networks:
       - galaga
     depends_on:

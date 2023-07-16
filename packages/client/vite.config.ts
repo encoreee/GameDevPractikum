@@ -47,7 +47,7 @@ export default defineConfig(({ mode }) => {
         output: {
           entryFileNames: `assets/[name]${!isDev ? '.[hash]' : ''}.js`,
           chunkFileNames: `assets/[name]${!isDev ? '.[hash]' : ''}.js`,
-          assetFileNames: `assets/[name]${!isDev ? '.[hash]' : ''}.[ext]`,
+          assetFileNames: `assets/[name].[ext]`,
         },
       },
       chunkSizeWarningLimit: 1000,

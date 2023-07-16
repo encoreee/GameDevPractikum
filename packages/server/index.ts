@@ -343,15 +343,15 @@ async function startServer() {
         render = ssrLoadModule.render;
       }
       const cookie = req.headers?.cookie ?? undefined;
-      const [appHtml, preloadedState] = await render(url, cookie);
+      const [appHtml, preloadedState, emotionCss] = await render(url, cookie);
 
       const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         preloadedState
       )}</script>`;
-      const html = template.replace(
-        `<!-- ssr-outlet -->`,
-        stateMarkup + appHtml
-      );
+      const html = template
+        .replace(`<!-- ssr-outlet -->`, appHtml)
+        .replace('<!-- emotion-css -->', emotionCss)
+        .replace('<!-- initial-state -->', stateMarkup);
       res.status(200).end(html);
     } catch (e) {
       if (isDev()) {

@@ -8,6 +8,8 @@ import { apiSlice } from './app/apiSlice';
 import forum from './app/forum/forumSlice';
 import theme from './app/themeSlice';
 import leaderboard from './app/leaderboardSlice/leaderboardSlice';
+import createEmotionCache from './createEmotionCache';
+import { CacheProvider } from '@emotion/react';
 
 export const store = configureStore({
   reducer: {
@@ -24,13 +26,31 @@ export const store = configureStore({
 
 delete window.__PRELOADED_STATE__;
 
-ReactDOM.hydrateRoot(
-  document.getElementById('root') as HTMLElement,
-  <Provider store={store}>
+const cache = createEmotionCache();
+
+// Если hmr просто рендерим в рут, а не гидрируем
+if (import.meta.hot) {
+  const root = ReactDOM.createRoot(
+    document.getElementById('root') as HTMLElement
+  );
+  root.render(
     <BrowserRouter>
-      <App />
+      <CacheProvider value={cache}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CacheProvider>
     </BrowserRouter>
-  </Provider>
-);
+  );
+} else {
+  ReactDOM.hydrateRoot(
+    document.getElementById('root') as HTMLElement,
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  );
+}
 
 audioBootstrap();

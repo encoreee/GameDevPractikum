@@ -27,22 +27,13 @@ async function startServer() {
   //@ts-ignore
   app.use(cookieParser());
 
-  if (isDev()) {
+  if (!isDev()) {
     app.use(
       helmet({
-        contentSecurityPolicy: false,
-        crossOriginOpenerPolicy: false,
-        crossOriginResourcePolicy: false,
-        originAgentCluster: false,
-        referrerPolicy: false,
-        strictTransportSecurity: false,
+        contentSecurityPolicy: {
+          directives: { 'script-src': ["'self'", "'unsafe-inline'"] },
+        },
         xContentTypeOptions: false,
-        xDnsPrefetchControl: false,
-        xDownloadOptions: false,
-        xFrameOptions: false,
-        xPermittedCrossDomainPolicies: false,
-        xPoweredBy: false,
-        xXssProtection: false,
       })
     );
   }

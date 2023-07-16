@@ -15,7 +15,6 @@ export const initialState: User = {
   phone: '',
   second_name: '',
 };
-
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({

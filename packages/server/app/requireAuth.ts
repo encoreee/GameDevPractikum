@@ -17,7 +17,6 @@ export const requireAuth: RequestHandler = async (
     const id = await getUser(req.cookies);
     if (id) {
       res.locals.user_id = id;
-      console.log(id);
 
       next();
     } else {
@@ -40,7 +39,6 @@ async function getUser(cookies: Cookies): Promise<number | undefined> {
       credentials: 'include',
       headers: { cookie: cookieStr },
     });
-
     const user = (await res.json()) as User;
     return user.id;
   } catch (err) {

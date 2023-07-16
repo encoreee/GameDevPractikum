@@ -10,6 +10,7 @@ import { ForumState } from './app/forum/types';
 import theme, { ThemeState, ThemeMode } from './app/themeSlice';
 import { fetchAsync } from './fetchProfile';
 import { User } from './infrastructure/api/auth/contracts';
+import leaderboard from './app/leaderboardSlice/leaderboardSlice';
 
 export interface PreloadedState {
   forum: ForumState;
@@ -40,6 +41,7 @@ export function render(url: string | Partial<Location>, cookie: string) {
       reducer: {
         forum,
         theme,
+        leaderboard,
         [apiSlice.reducerPath]: apiSlice.reducer,
       },
       middleware: (getDefaultMiddleware) =>

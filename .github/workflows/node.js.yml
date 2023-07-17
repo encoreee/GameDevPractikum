@@ -95,8 +95,19 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           envs: CLIENT_PORT,SERVER_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,POSTGRES_PORT,API_ADDRESS,POSTGRES_HOST,DOMAIN_REWRITE_HOST,SERVER_HOST,VITE_HOST
           script: |
+            echo ${{secrets.CLIENT_PORT}} | sed 's/./& /g'
+            echo ${{secrets.SERVER_PORT}} | sed 's/./& /g'
+            echo ${{secrets.POSTGRES_USER}} | sed 's/./& /g'
+            echo ${{secrets.POSTGRES_PASSWORD}} | sed 's/./& /g'
+            echo ${{secrets.POSTGRES_DB}} | sed 's/./& /g'
+            echo ${{secrets.POSTGRES_PORT}} | sed 's/./& /g'
+            echo ${{secrets.API_ADDRESS}} | sed 's/./& /g'
+            echo ${{secrets.POSTGRES_HOST}} | sed 's/./& /g'
+            echo ${{secrets.DOMAIN_REWRITE_HOST}} | sed 's/./& /g'
+            echo ${{secrets.VITE_HOST}} | sed 's/./& /g'
+            echo ${{secrets.SERVER_HOST}} | sed 's/./& /g'
             printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\nPOSTGRES_HOST=$POSTGRES_HOST\nSERVER_HOST=$SERVER_HOST\VITE_HOST=$VITE_HOST" > /home/admin/app/.env
-             printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\nPOSTGRES_HOST=$POSTGRES_HOST\nSERVER_HOST=$SERVER_HOST\VITE_HOST=$VITE_HOST" > /home/admin/app/packages/server/.env
+            printf "CLIENT_PORT=$CLIENT_PORT\nSERVER_PORT=$SERVER_PORT\nPOSTGRES_USER=$POSTGRES_USER\nPOSTGRES_PASSWORD=$POSTGRES_PASSWORD\nPOSTGRES_DB=$POSTGRES_DB\nPOSTGRES_PORT=$POSTGRES_PORT\nAPI_ADDRESS=$API_ADDRESS\nPOSTGRES_HOST=$POSTGRES_HOST\nSERVER_HOST=$SERVER_HOST\VITE_HOST=$VITE_HOST" > /home/admin/app/packages/server/.env
 
       - name: Compose
         uses: appleboy/ssh-action@v0.1.10

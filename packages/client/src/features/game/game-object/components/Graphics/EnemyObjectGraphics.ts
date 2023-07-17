@@ -1,8 +1,8 @@
 import { Canvas } from '../../../core/Canvas';
 import { GameObject } from '../Objects/GameObject';
 import { GraphicComponent } from './Components';
-import ordinarySrc from '../../../../../assets/enemies/ordinaryEnemy.svg';
-import warriorSrc from '../../../../../assets/enemies/warriorEnemy.svg';
+import { random } from 'lodash';
+import { ordinaryEnemies, warriorEnemies } from './EnemiesPacks';
 
 export enum EnemyType {
   ORDINARY,
@@ -16,10 +16,10 @@ export class EnemyObjectGraphics implements GraphicComponent {
     this.img = new Image();
     switch (enemyType) {
       case EnemyType.ORDINARY:
-        this.img.src = ordinarySrc;
+        this.img.src = ordinaryEnemies[random(0, ordinaryEnemies.length - 1)];
         break;
       case EnemyType.WARRIOR:
-        this.img.src = warriorSrc;
+        this.img.src = warriorEnemies[random(0, warriorEnemies.length - 1)];
         break;
       default:
         throw new Error('Not impemented');

@@ -105,8 +105,8 @@ export const playerConfig: PlayerCreateConfigType = {
   playerLives: {
     lives: 3,
     size: {
-      width: 10,
-      height: 10,
+      width: 20,
+      height: 20,
     },
     gap: 10,
   },
@@ -126,9 +126,9 @@ export const labelsConfig = {
     canvasSize.width / 2 - 125,
     canvasSize.height / 2 - 25
   ),
-  pointFontSize: 23,
+  pointFontSize: 18,
   mainLabelFontSize: 30,
-  pointsLabelColor: 'blue',
+  pointsLabelColor: 'white',
   mainLabelColor: 'white',
 };
 
@@ -140,11 +140,11 @@ export const enemyConfig: EnemyCreateConfigType = {
     height: 50,
   },
   ordinaryEnemyConfig: {
-    size: { width: 60, height: 40 },
+    size: { width: 110, height: 110 },
     moveRadius: 300,
   },
   warriorEnemyConfig: {
-    size: { width: 40, height: 35 },
+    size: { width: 70, height: 70 },
     moveRadius: 300,
   },
   bulletSize: {

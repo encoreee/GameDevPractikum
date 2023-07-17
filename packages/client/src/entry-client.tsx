@@ -28,29 +28,15 @@ delete window.__PRELOADED_STATE__;
 
 const cache = createEmotionCache();
 
-// Если hmr просто рендерим в рут, а не гидрируем
-if (import.meta.hot) {
-  const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
-  );
-  root.render(
-    <BrowserRouter>
-      <CacheProvider value={cache}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </CacheProvider>
-    </BrowserRouter>
-  );
-} else {
-  ReactDOM.hydrateRoot(
-    document.getElementById('root') as HTMLElement,
-    <Provider store={store}>
+ReactDOM.hydrateRoot(
+  document.getElementById('root') as HTMLElement,
+  <Provider store={store}>
+    <CacheProvider value={cache}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </Provider>
-  );
-}
+    </CacheProvider>
+  </Provider>
+);
 
 audioBootstrap();

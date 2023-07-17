@@ -20,7 +20,6 @@ export default defineConfig(() => {
     ],
     build: {
       sourcemap: true,
-      minify: false,
       emptyOutDir: true,
       ssr: true,
       lib: {

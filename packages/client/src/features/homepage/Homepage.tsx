@@ -100,8 +100,8 @@ const HomePage: FC = () => {
         <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <Typography onClick={onLogout}>log out</Typography>
         </ListItem>
-        <Notification text={error} type={FORM_NOTIFICATION_TYPE.ERROR} />
       </List>
+      <Notification text={error} type={FORM_NOTIFICATION_TYPE.ERROR} />
     </MainPageTemplate>
   );
 };

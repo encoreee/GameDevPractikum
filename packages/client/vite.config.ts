@@ -36,7 +36,6 @@ export default defineConfig(({ mode }) => {
       __SERVER_PORT__: process.env.SERVER_PORT,
     },
     build: {
-      minify: false,
       sourcemap: true,
       rollupOptions: {
         input: {

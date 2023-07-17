@@ -1,5 +1,3 @@
-import fetch from 'isomorphic-fetch';
-
 let VITE_HOST;
 
 if (import.meta.env.SSR) {

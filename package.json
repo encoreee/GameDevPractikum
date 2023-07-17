@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "yarn && node init.js && lerna clean --yes && yarn && lerna bootstrap",
+    "bootstrap:prod": "yarn && lerna clean --yes && yarn && lerna bootstrap",
     "build": "lerna run build",
     "buildSerias": "yarn build --scope=client && yarn build --scope=server",
     "dev:client": "lerna run dev  --scope=client",

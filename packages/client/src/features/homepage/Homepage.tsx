@@ -50,7 +50,6 @@ const HomePage: FC = () => {
     const error = await AuthController.logout();
 
     if (error) {
-      console.log(error);
       setError(error);
       return;
     }
@@ -75,7 +74,7 @@ const HomePage: FC = () => {
             <Typography>start game</Typography>
           </NavLink>
         </ListItem>
-        <ListItem sx={styles.listItem}>
+        <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <NavLink
             href="/leaderboard"
             sx={styles.link}
@@ -101,8 +100,8 @@ const HomePage: FC = () => {
         <ListItem sx={styles.listItem} onMouseEnter={handleMouseEnter}>
           <Typography onClick={onLogout}>log out</Typography>
         </ListItem>
-        <Notification text={error} type={FORM_NOTIFICATION_TYPE.ERROR} />
       </List>
+      <Notification text={error} type={FORM_NOTIFICATION_TYPE.ERROR} />
     </MainPageTemplate>
   );
 };

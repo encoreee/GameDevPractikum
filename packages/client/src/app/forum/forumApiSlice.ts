@@ -1,15 +1,14 @@
+import { ApiFetchInstance, LOCAL_ADDRESS } from '@/infrastructure/apiFetch';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import fetch from 'isomorphic-fetch';
-
-const API_ADDRESS = 'https://galagagame.ya-praktikum.tech';
+const fetchFn = ApiFetchInstance.fetch;
 
 export const forumApiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: API_ADDRESS,
+    baseUrl: LOCAL_ADDRESS,
     credentials: 'include',
-    fetchFn: fetch,
+    fetchFn,
   }),
   endpoints: (build) => ({
     getThreadList: build.query<any, void | undefined>({

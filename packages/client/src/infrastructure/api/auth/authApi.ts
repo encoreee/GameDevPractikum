@@ -27,7 +27,9 @@ class AuthApi {
   findUserInDb = (id: string | number) => {
     return apiFetch()
       .get(`${LOCAL_ADDRESS}/api/users/${id}`)
-      .then((res) => res.json())
+      .then((res) => {
+        return res.json();
+      })
       .catch((e) => console.error(e));
   };
 

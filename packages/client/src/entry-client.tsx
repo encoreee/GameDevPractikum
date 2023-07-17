@@ -8,6 +8,8 @@ import { apiSlice } from './app/apiSlice';
 import forum from './app/forum/forumSlice';
 import theme from './app/themeSlice';
 import leaderboard from './app/leaderboardSlice/leaderboardSlice';
+import createEmotionCache from './createEmotionCache';
+import { CacheProvider } from '@emotion/react';
 
 export const store = configureStore({
   reducer: {
@@ -24,12 +26,16 @@ export const store = configureStore({
 
 delete window.__PRELOADED_STATE__;
 
+const cache = createEmotionCache();
+
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <CacheProvider value={cache}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </CacheProvider>
   </Provider>
 );
 

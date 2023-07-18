@@ -6,7 +6,7 @@ import { AppDispatch } from '@/app/store';
 import { apiSlice } from '@/app/apiSlice';
 import AuthController from '@/controllers/authController';
 import Audio, { AUDIO_IDS } from '@/features/Audio';
-import mainShipFullHealth from '../../assets/mainShipFullHealth.svg';
+import mainShipFullHealth from '../../assets/mainship/mainShipFullHealth.svg';
 
 import NavLink from '../../components/NavLink';
 import MainPageTemplate from '@/components/MainPageTemplate';

@@ -1,18 +1,10 @@
 import Avatar from '@/components/Avatar';
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Modal,
-  Stack,
-  Typography,
-} from '@mui/material';
-import { greenButtonStyles, smallTextStyles, userInfoStyles } from '../styles';
+import { Box, Container, Grid, Modal, Stack, Typography } from '@mui/material';
+import { smallTextStyles, userInfoStyles } from '../styles';
 import { ThreadMessage } from '@/infrastructure/api/forum/types';
 import { FC, useState } from 'react';
 import { formatDateFromUTCString } from '@/shared';
-import source from '../../../assets/mainship/MainShipFullHealth.png';
+import source from '../../../assets/mainship/MainShipFullHealth.svg';
 import {
   deleteThreadMessage,
   getThreadMessages,

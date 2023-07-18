@@ -8,7 +8,7 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn bootstrap:prod
+RUN yarn bootstrap
 
 RUN yarn build --scope=client
 

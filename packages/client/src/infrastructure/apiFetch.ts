@@ -1,7 +1,7 @@
 let VITE_HOST;
 
 if (import.meta.env.SSR) {
-  VITE_HOST = process?.env?.VITE_HOST;
+  VITE_HOST = 'http://localhost:3000';
 } else {
   VITE_HOST = import.meta.env.VITE_HOST;
 }

@@ -31,7 +31,14 @@ async function startServer() {
     app.use(
       helmet({
         contentSecurityPolicy: {
-          directives: { 'script-src': ["'self'", "'unsafe-inline'"] },
+          directives: {
+            'script-src': ["'self'", "'unsafe-inline'"],
+            'connect-src': [
+              "'self'",
+              "'http://localhost'",
+              "'http://localhost:3000'",
+            ],
+          },
         },
         xContentTypeOptions: false,
       })

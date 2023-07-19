@@ -69,7 +69,6 @@ async function startServer() {
       const user = await User.create(req.body);
       res.json(user);
     } catch (error) {
-      console.log(error);
       res.sendStatus(500);
     }
   });
@@ -95,7 +94,6 @@ async function startServer() {
         res.sendStatus(404);
       }
     } catch (error) {
-      console.log(error);
       res.sendStatus(500);
     }
   });
@@ -110,7 +108,6 @@ async function startServer() {
         res.sendStatus(404);
       }
     } catch (error) {
-      console.log(error);
       res.sendStatus(500);
     }
   });
@@ -159,7 +156,6 @@ async function startServer() {
       const topic = await Topic.create(req.body);
       res.json(topic);
     } catch (error) {
-      console.log(error);
       res.sendStatus(500);
     }
   });
@@ -181,7 +177,6 @@ async function startServer() {
         res.sendStatus(404);
       }
     } catch (error) {
-      console.log(error);
       res.sendStatus(500);
     }
   });
@@ -216,7 +211,6 @@ async function startServer() {
         res.sendStatus(404);
       }
     } catch (error) {
-      console.log(error);
       res.sendStatus(500);
     }
   });
@@ -244,7 +238,6 @@ async function startServer() {
           res.sendStatus(404);
         }
       } catch (error) {
-        console.log(error);
         res.sendStatus(500);
       }
     }
@@ -261,7 +254,6 @@ async function startServer() {
       const message = await Message.create({ ...req.body });
       res.json(message);
     } catch (error) {
-      console.log(error);
       res.sendStatus(500);
     }
   });
@@ -283,7 +275,6 @@ async function startServer() {
         res.sendStatus(404);
       }
     } catch (error) {
-      console.log(error);
       res.sendStatus(500);
     }
   });
@@ -298,7 +289,6 @@ async function startServer() {
         res.sendStatus(404);
       }
     } catch (error) {
-      console.log(error);
       res.sendStatus(500);
     }
   });

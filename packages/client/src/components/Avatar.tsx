@@ -18,7 +18,7 @@ interface AvatarProps {
 const Avatar: FC<AvatarProps> = ({ src, alt = 'avatar', avatarSize }) => {
   const { data } = useGetUserInfoQuery();
   const avatarSrc = data?.avatar
-    ? `https://ya-praktikum.tech/api/v2/resources/${data.avatar}`
+    ? `https://ya-praktikum.tech/api/v2/resources${data.avatar}`
     : defaultAvatar;
   const boxStyles = defineAvatarSize(avatarSize ?? AvatarSize.SMALL);
 

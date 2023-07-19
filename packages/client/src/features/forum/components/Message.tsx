@@ -25,6 +25,7 @@ const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
   id,
   content,
   nestingLevel = 0,
+  createdAt,
 }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -52,7 +53,11 @@ const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
     <>
       <Grid
         container
-        sx={{ marginLeft: `${nestingLevel * 50}px`, width: 'auto' }}>
+        sx={{
+          marginLeft: `${nestingLevel * 50}px`,
+          marginBottom: '10px',
+          width: 'auto',
+        }}>
         <Grid item xs={2}>
           <Stack sx={userInfoStyles}>
             <Avatar src={userAvatar || source} />
@@ -63,6 +68,9 @@ const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
           <Stack>
             <Typography sx={smallTextStyles}>{content}</Typography>
             <Stack direction={'row'} alignItems={'center'} gap={'0.5rem'}>
+              <Typography color={'grey'} fontSize={'0.5rem'}>
+                {formatDateFromUTCString(createdAt)}
+              </Typography>
               <TextButton
                 variant={TextButtonVariant.PRIMARY}
                 fontSize={8}
@@ -75,9 +83,6 @@ const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
                 onClick={handleMessageDelete}
                 label="Delete"
               />
-              <Typography color={'text.primary'} fontSize={'0.5rem'}>
-                {formatDateFromUTCString(time)}
-              </Typography>
             </Stack>
           </Stack>
         </Grid>

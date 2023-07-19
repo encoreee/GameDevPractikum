@@ -19,7 +19,6 @@ import { useSelector } from 'react-redux';
 import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({
-  time,
   userName,
   userAvatar,
   id,

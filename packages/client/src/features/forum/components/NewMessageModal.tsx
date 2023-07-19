@@ -21,7 +21,14 @@ export const NewMessageModal: FunctionComponent<
   const [, setSearchParams] = useSearchParams();
   const [message, setMessage] = useState<string>('');
   const { data } = useGetUserInfoQuery();
-  const userAvatar = data ? `${API_ADDRESS}/resources${data.avatar}` : '';
+
+  let userAvatar = '';
+  let userName = 'Anonymous';
+  if (data) {
+    userAvatar = `${API_ADDRESS}/resources${data.avatar}`;
+    userName = `${data.first_name} ${data.second_name}`;
+  }
+
   const { id = '' } = useParams();
 
   const onCreate = async () => {
@@ -35,7 +42,7 @@ export const NewMessageModal: FunctionComponent<
           content: message,
           replyId,
           userAvatar,
-          userName: `${data?.first_name} ${data?.second_name}`,
+          userName,
         })
       );
 

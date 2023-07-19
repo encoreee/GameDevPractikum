@@ -37,7 +37,7 @@ User.init(
     },
     phone: {
       type: DataTypes.STRING(128),
-      allowNull: false,
+      allowNull: true,
     },
     avatar: {
       type: DataTypes.STRING(256),

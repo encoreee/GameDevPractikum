@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User, OauthRequest } from '../infrastructure/api/auth/contracts';
-import { API_ADDRESS } from '@/infrastructure/apiFetch';
+import { API_ADDRESS, ApiFetchInstance } from '@/infrastructure/apiFetch';
 import { setTheme } from './themeSlice';
 import AuthApi from '@/infrastructure/api/auth/authApi';
-import fetch from 'isomorphic-fetch';
+
+const fetchFn = ApiFetchInstance.fetchFn;
 
 export const initialState: User = {
   avatar: undefined,
@@ -15,13 +16,12 @@ export const initialState: User = {
   phone: '',
   second_name: '',
 };
-
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: API_ADDRESS,
     credentials: 'include',
-    fetchFn: fetch,
+    fetchFn,
   }),
   endpoints: (build) => ({
     getUserInfo: build.query<User, void | undefined>({
@@ -33,12 +33,13 @@ export const apiSlice = createApi({
           const userInDb = await AuthApi.findUserInDb(user.id);
 
           if (!userInDb) {
-            AuthApi.registerUserInDb(user);
+            await AuthApi.registerUserInDb(user);
             return;
           }
+
           dispatch(setTheme({ theme: userInDb.theme?.name }));
         } catch (error) {
-          // continue regardless of error
+          console.log(error);
         }
       },
     }),

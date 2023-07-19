@@ -11,9 +11,10 @@ import { appRoutes } from './ssrRoutes';
 import { requireAuth } from './app/requireAuth';
 import { Message, Topic, User, Theme } from './models';
 import sequelize from './app/sequelize';
-import { SERVER_PORT, isDev } from './const/env';
+import { HOST, SERVER_PORT, isDev } from './const/env';
 import { EMOJI } from './const/emoji';
 import { ThemeMode } from './const/themes';
+import helmet from 'helmet';
 
 const port = Number(SERVER_PORT) || 3000;
 
@@ -26,10 +27,28 @@ async function startServer() {
   //@ts-ignore
   app.use(cookieParser());
 
+  if (!isDev()) {
+    app.use(
+      helmet({
+        contentSecurityPolicy: {
+          directives: {
+            'script-src': ["'self'", "'unsafe-inline'"],
+            'connect-src': [
+              "'self'",
+              "'http://localhost'",
+              "'http://localhost:3000'",
+            ],
+          },
+        },
+        xContentTypeOptions: false,
+      })
+    );
+  }
+
   const apiProxy = createProxyMiddleware(base, {
     target: root,
     changeOrigin: true,
-    cookieDomainRewrite: 'galagagame.ya-praktikum.tech',
+    cookieDomainRewrite: HOST,
   });
 
   const apiRouter = express.Router();
@@ -289,7 +308,7 @@ async function startServer() {
   let ssrClientPath: string | undefined;
   if (!isDev()) {
     distPath = path.dirname(require.resolve('client/dist/index.html'));
-    ssrClientPath = require.resolve('client/dist-ssr/client.cjs');
+    ssrClientPath = require.resolve('client/dist-ssr/entry-server.cjs');
   }
   const srcPath = path.dirname(require.resolve('client'));
   if (isDev()) {
@@ -331,15 +350,15 @@ async function startServer() {
         render = ssrLoadModule.render;
       }
       const cookie = req.headers?.cookie ?? undefined;
-      const [appHtml, preloadedState] = await render(url, cookie);
+      const [appHtml, preloadedState, emotionCss] = await render(url, cookie);
 
       const stateMarkup = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         preloadedState
       )}</script>`;
-      const html = template.replace(
-        `<!-- ssr-outlet -->`,
-        stateMarkup + appHtml
-      );
+      const html = template
+        .replace(`<!-- ssr-outlet -->`, appHtml)
+        .replace('<!-- emotion-css -->', emotionCss)
+        .replace('<!-- initial-state -->', stateMarkup);
       res.status(200).end(html);
     } catch (e) {
       if (isDev()) {

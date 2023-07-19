@@ -29,7 +29,7 @@ self.addEventListener('install', (event) => {
     caches
       .open(CACHE_NAME)
       .then((cache) => {
-        console.log('Cache opened');
+        console.log('Cache is opened');
         return cache.addAll(URLS);
       })
       .catch((err) => {

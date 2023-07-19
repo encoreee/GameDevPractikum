@@ -1,3 +1,5 @@
+import { LOCAL_ADDRESS } from '@/infrastructure/apiFetch';
+
 export const ValidationAssertions = {
   onlyCyrillicLatinAndDash: (value: string) =>
     /^[А-ЯËа-яёA-Za-z-]+$/.test(value) ||
@@ -24,4 +26,4 @@ export const AppMessage = {
   LOGOUT_ERROR: `Couldn't complete logout. Please, try later.`,
 };
 
-export const REDIRECT_URI = 'https://galagagame.ya-praktikum.tech';
+export const REDIRECT_URI = LOCAL_ADDRESS;

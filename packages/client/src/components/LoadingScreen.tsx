@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material';
-import { FC, PropsWithChildren } from 'react';
+import { FC } from 'react';
 import { styled } from '@mui/system';
 
 import loader from '../assets/loader.gif';
@@ -16,7 +16,7 @@ const boxStyles = {
   padding: 0,
 };
 
-const LoadingScreen: FC<PropsWithChildren> = () => {
+const LoadingScreen: FC = () => {
   return (
     <Container>
       <Box sx={boxStyles}>

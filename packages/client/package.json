@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "yarn build:ssr && yarn build:client",
-    "build:client": "tsc && vite build --config vite.config.ts",
+    "build:client": "tsc && vite build  --config vite.config.ts",
     "build:ssr": "tsc && vite build --config vite.ssr.config.ts",
     "preview": "vite preview",
     "lint": "rimraf ./dist && rimraf ./dist-ssr && eslint .",
@@ -14,8 +14,9 @@
     "test": "jest ./"
   },
   "dependencies": {
-    "@emotion/react": "11.10.6",
-    "@emotion/styled": "11.10.6",
+    "@emotion/react": "^11.11.1",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "5.12.1",
     "@mui/x-date-pickers": "6.2.1",

@@ -5,68 +5,60 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from './app/apiSlice';
 import forum from './app/forum/forumSlice';
-
 import { ForumState } from './app/forum/types';
-import theme, { ThemeState, ThemeMode } from './app/themeSlice';
-import { fetchAsync } from './fetchProfile';
-import { User } from './infrastructure/api/auth/contracts';
+import theme, { ThemeState } from './app/themeSlice';
+import leaderboard, {
+  getLeaderboard,
+} from './app/leaderboardSlice/leaderboardSlice';
+import { ApiFetchInstance } from './infrastructure/apiFetch';
+import createEmotionServer from '@emotion/server/create-instance';
+import { CacheProvider } from '@emotion/react';
+import createEmotionCache from './createEmotionCache';
 
 export interface PreloadedState {
   forum: ForumState;
   theme: ThemeState;
 }
 
-export function render(url: string | Partial<Location>, cookie: string) {
-  return fetchAsync((res) => {
-    let profile: User | undefined;
+export async function render(url: string | Partial<Location>, cookie: string) {
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks, constructStyleTagsFromChunks } =
+    createEmotionServer(cache);
 
-    try {
-      profile = res as User;
-    } catch (error) {
-      console.log(error);
-    }
+  ApiFetchInstance.useCookie(cookie);
 
-    const preloadedState = {
-      forum: {
-        status: { threadList: null, createThread: null, threadMessages: null },
-        threadMessages: [],
-      },
-      theme: {
-        mode: ThemeMode.DARK,
-      },
-    };
+  const store = configureStore({
+    reducer: {
+      forum,
+      theme,
+      leaderboard,
+      [apiSlice.reducerPath]: apiSlice.reducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(apiSlice.middleware),
+    devTools: process.env.NODE_ENV !== 'production',
+  });
 
-    const store = configureStore({
-      reducer: {
-        forum,
-        theme,
-        [apiSlice.reducerPath]: apiSlice.reducer,
-      },
-      middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(apiSlice.middleware),
-      devTools: process.env.NODE_ENV !== 'production',
-      preloadedState,
-    });
+  await store.dispatch(apiSlice.endpoints.getUserInfo.initiate());
 
-    store.dispatch(apiSlice.endpoints.getUserInfo.initiate());
+  await store.dispatch(getLeaderboard(0));
 
-    (async () => {
-      await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
-    })();
-
-    store.dispatch(apiSlice.endpoints.getUserInfo.initiate());
-
-    (async () => {
-      await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
-    })();
-
-    const appHTML = renderToString(
+  const appHTML = renderToString(
+    <StaticRouter location={url}>
       <Provider store={store}>
-        <StaticRouter location={url}>
+        <CacheProvider value={cache}>
           <App />
-        </StaticRouter>
+        </CacheProvider>
       </Provider>
-    );
-    return [appHTML, preloadedState];
-  }, cookie);
+    </StaticRouter>
+  );
+
+  const preloadedState = store.getState();
+
+  // Grab the CSS from emotion
+  const emotionChunks = extractCriticalToChunks(appHTML);
+
+  const emotionCss = constructStyleTagsFromChunks(emotionChunks);
+
+  return [appHTML, preloadedState, emotionCss];
 }

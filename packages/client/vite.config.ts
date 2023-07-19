@@ -10,48 +10,53 @@ import svgr from 'vite-plugin-svgr';
 dotenv.config();
 
 // https://vitejs.dev/config/
-export default defineConfig(() => ({
-  server: {
-    port: Number(process.env.CLIENT_PORT) || 3001,
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@app': fileURLToPath(new URL('./src/app', import.meta.url)),
-      '@hooks': fileURLToPath(new URL('./src/hooks', import.meta.url)),
-      '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
-      '@components': fileURLToPath(
-        new URL('./src/components', import.meta.url)
-      ),
-      '@features': fileURLToPath(new URL('./src/features', import.meta.url)),
-      '@infrastructure': fileURLToPath(
-        new URL('./src/infrastructure', import.meta.url)
-      ),
+export default defineConfig(({ mode }) => {
+  const isDev = mode === 'development';
+  return {
+    envDir: '../../',
+    server: {
+      port: Number(process.env.CLIENT_PORT) || 3001,
     },
-  },
-  define: {
-    __SERVER_PORT__: process.env.SERVER_PORT,
-  },
-  build: {
-    rollupOptions: {
-      input: {
-        app: './index.html',
-        networkCacheServiceWorker:
-          './src/infrastructure/networkCacheServiceWorker.ts',
-      },
-      output: {
-        entryFileNames: 'assets/[name].js',
-        chunkFileNames: `assets/[name].js`,
-        assetFileNames: `assets/[name].[ext]`,
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@app': fileURLToPath(new URL('./src/app', import.meta.url)),
+        '@hooks': fileURLToPath(new URL('./src/hooks', import.meta.url)),
+        '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
+        '@components': fileURLToPath(
+          new URL('./src/components', import.meta.url)
+        ),
+        '@features': fileURLToPath(new URL('./src/features', import.meta.url)),
+        '@infrastructure': fileURLToPath(
+          new URL('./src/infrastructure', import.meta.url)
+        ),
       },
     },
-    chunkSizeWarningLimit: 1000,
-  },
-  plugins: [
-    svgr(),
-    checker({ typescript: true }),
-    react(),
-    eslint({ lintOnStart: true, overrideConfigFile: '../../.eslintrc.js' }),
-    stylelint({ fix: true }),
-  ],
-}));
+    define: {
+      __SERVER_PORT__: process.env.SERVER_PORT,
+    },
+    build: {
+      sourcemap: true,
+      rollupOptions: {
+        input: {
+          app: './index.html',
+          networkCacheServiceWorker:
+            './src/infrastructure/networkCacheServiceWorker.ts',
+        },
+        output: {
+          entryFileNames: `assets/[name]${!isDev ? '.[hash]' : ''}.js`,
+          chunkFileNames: `assets/[name]${!isDev ? '.[hash]' : ''}.js`,
+          assetFileNames: `assets/[name].[ext]`,
+        },
+      },
+      chunkSizeWarningLimit: 1000,
+    },
+    plugins: [
+      svgr(),
+      checker({ typescript: true }),
+      react(),
+      eslint({ lintOnStart: true, overrideConfigFile: '../../.eslintrc.js' }),
+      stylelint({ fix: true }),
+    ],
+  };
+});

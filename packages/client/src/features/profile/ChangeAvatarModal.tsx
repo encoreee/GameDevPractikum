@@ -69,11 +69,7 @@ const ChangeAvatarModal: FunctionComponent<ModalProps> = ({
           text={updateError ? errorReason : ' '}
           type={FORM_NOTIFICATION_TYPE.ERROR}
         />
-        <MainButton
-          label="Update avatar"
-          onClick={handleSubmit}
-          disabled={!file}
-        />
+        <MainButton label="Save" onClick={handleSubmit} disabled={!file} />
       </Stack>
     </ModalWindow>
   );

@@ -1,8 +1,11 @@
-import MainButton from '@/components/MainButton';
-import ModalWindow, { ModalProps } from '@/components/ModalWindow';
 import { Stack } from '@mui/material';
 import { MuiFileInput } from 'mui-file-input';
 import { FunctionComponent, useState } from 'react';
+
+import MainButton from '@/components/MainButton';
+//
+
+import ModalWindow, { ModalProps } from '@/components/ModalWindow';
 
 const ChangeAvatarModal: FunctionComponent<ModalProps> = ({
   open,
@@ -16,6 +19,13 @@ const ChangeAvatarModal: FunctionComponent<ModalProps> = ({
     setFile(newFile);
   };
 
+  const handleSubmit = () => {
+    if (file) {
+      const formData = new FormData();
+      formData.append('avatar', file);
+    }
+  };
+
   return (
     <ModalWindow
       open={open}
@@ -26,6 +36,7 @@ const ChangeAvatarModal: FunctionComponent<ModalProps> = ({
         {open && (
           <>
             <MuiFileInput
+              sx={{ border: '1px solid #c3c3c3', borderRadius: '5px' }}
               id="avatar"
               name="avatar"
               placeholder=" Click to add a file"
@@ -38,7 +49,7 @@ const ChangeAvatarModal: FunctionComponent<ModalProps> = ({
         )}
         <MainButton
           label="Update avatar"
-          // onClick={handleSubmit}
+          onClick={handleSubmit}
           disabled={!file}
         />
       </Stack>

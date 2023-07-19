@@ -141,6 +141,10 @@ Message.init(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    userName: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
   },
   {
     tableName: 'messages',

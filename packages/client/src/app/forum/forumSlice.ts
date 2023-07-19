@@ -44,16 +44,18 @@ export const createThreadMessages = createAsyncThunk(
   async (val: {
     TopicId: string;
     content: string;
+    userName: string;
     replyId?: string;
     userAvatar?: string;
   }) => {
-    const { replyId, TopicId, content, userAvatar } = val;
+    const { replyId, TopicId, content, userAvatar, userName } = val;
 
     const res = await apiFetch().post(`${LOCAL_ADDRESS}/api/messages`, {
       TopicId,
       content,
       replyId,
       userAvatar,
+      userName,
     });
 
     const data = await res.json();

@@ -11,6 +11,8 @@ import { Stack } from '@mui/material';
 import { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { useGetUserInfoQuery } from '@/app/apiSlice';
+import { API_ADDRESS } from '@/infrastructure/apiFetch';
 
 export const NewMessageModal: FunctionComponent<
   ModalProps & { replyId?: string }
@@ -18,6 +20,8 @@ export const NewMessageModal: FunctionComponent<
   const dispatch = useDispatch<AppDispatch>();
   const [, setSearchParams] = useSearchParams();
   const [message, setMessage] = useState<string>('');
+  const { data } = useGetUserInfoQuery();
+  const userAvatar = data ? `${API_ADDRESS}/resources${data.avatar}` : '';
   const { id = '' } = useParams();
 
   const onCreate = async () => {
@@ -26,7 +30,13 @@ export const NewMessageModal: FunctionComponent<
     }
     try {
       await dispatch(
-        createThreadMessages({ TopicId: id, content: message, replyId })
+        createThreadMessages({
+          TopicId: id,
+          content: message,
+          replyId,
+          userAvatar,
+          userName: `${data?.first_name} ${data?.second_name}`,
+        })
       );
 
       handleClose();

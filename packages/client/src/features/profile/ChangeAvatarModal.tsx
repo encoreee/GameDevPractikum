@@ -1,44 +1,19 @@
-import {
-  createThreadMessages,
-  getThreadMessages,
-  getThreadsList,
-} from '@/app/forum/forumSlice';
-import { AppDispatch } from '@/app/store';
-import DataField, { DATA_FIELD_VARIANTS } from '@/components/DataField';
 import MainButton from '@/components/MainButton';
 import ModalWindow, { ModalProps } from '@/components/ModalWindow';
 import { Stack } from '@mui/material';
+import { MuiFileInput } from 'mui-file-input';
 import { FunctionComponent, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
 
-const ChangeAvatarModal: FunctionComponent<
-  ModalProps & { replyId?: string }
-> = ({ open, handleClose, handleOpen, title, replyId }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const [, setSearchParams] = useSearchParams();
-  const [message, setMessage] = useState<string>('');
-  const { id = '' } = useParams();
+const ChangeAvatarModal: FunctionComponent<ModalProps> = ({
+  open,
+  handleClose,
+  handleOpen,
+  title,
+}) => {
+  const [file, setFile] = useState<File | null>(null);
 
-  const onCreate = async () => {
-    if (!message) {
-      return;
-    }
-    try {
-      await dispatch(
-        createThreadMessages({ TopicId: id, content: message, replyId })
-      );
-
-      handleClose();
-      setMessage('');
-
-      await dispatch(getThreadMessages(id));
-      await dispatch(getThreadsList());
-
-      setSearchParams({ page: '1' });
-    } catch (error) {
-      console.error(error);
-    }
+  const handleChange = (newFile: File | null) => {
+    setFile(newFile);
   };
 
   return (
@@ -50,16 +25,22 @@ const ChangeAvatarModal: FunctionComponent<
       <Stack sx={{ padding: '1rem 4rem' }}>
         {open && (
           <>
-            <DataField
-              label="Message"
-              variant={DATA_FIELD_VARIANTS.LABEL_TOP}
+            <MuiFileInput
+              id="avatar"
+              name="avatar"
+              placeholder=" Click to add a file"
+              inputProps={{ accept: 'image/png, image/jpeg' }}
               autoFocus
-              onChange={setMessage}
-              value={message}
+              value={file}
+              onChange={handleChange}
             />
           </>
         )}
-        <MainButton label="Create" onClick={onCreate} disabled={!message} />
+        <MainButton
+          label="Update avatar"
+          // onClick={handleSubmit}
+          disabled={!file}
+        />
       </Stack>
     </ModalWindow>
   );

@@ -15,7 +15,7 @@ import ChangeAvatarModal from './ChangeAvatarModal';
 const ProjectsPage: FC = () => {
   const { data } = useGetUserInfoQuery();
 
-  const modalProps = useModalWindow('Change avatar');
+  const modalProps = useModalWindow('Change avatar ');
   const breadCrumbItems = ['Profile'];
 
   const onChangeAvatarClick = () => {
@@ -41,7 +41,7 @@ const ProjectsPage: FC = () => {
             <TextButton
               label={'Change'}
               variant={TextButtonVariant.PRIMARY}
-              fontSize={12}
+              fontSize={10}
               onClick={onChangeAvatarClick}
             />
             <Typography sx={{ cursor: 'default' }}>&nbsp;</Typography>
@@ -58,7 +58,7 @@ const ProjectsPage: FC = () => {
           </Stack>
         </DataBox>
       </Stack>
-      <ChangeAvatarModal {...modalProps} replyId={`123`} />
+      <ChangeAvatarModal {...modalProps} />
     </MainPageTemplate>
   );
 };

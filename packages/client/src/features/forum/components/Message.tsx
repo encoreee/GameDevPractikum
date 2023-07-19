@@ -4,7 +4,8 @@ import { smallTextStyles, userInfoStyles } from '../styles';
 import { ThreadMessage } from '@/infrastructure/api/forum/types';
 import { FC, useState } from 'react';
 import { formatDateFromUTCString } from '@/shared';
-import source from '../../../assets/mainship/MainShipFullHealth.svg';
+import source from '@assets/defaultAvatar.svg';
+
 import {
   deleteThreadMessage,
   getThreadMessages,

@@ -39,7 +39,7 @@ export const apiSlice = createApi({
 
           dispatch(setTheme({ theme: userInDb.theme?.name }));
         } catch (error) {
-          console.log(error);
+          //continue despite the error
         }
       },
     }),
@@ -62,7 +62,6 @@ export const apiSlice = createApi({
       onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
         try {
           const result = await queryFulfilled;
-          await AuthApi.updateUserInDb(result.data);
           dispatch(
             apiSlice.util.updateQueryData(
               'getUserInfo',
@@ -70,8 +69,31 @@ export const apiSlice = createApi({
               () => result.data
             )
           );
+          await AuthApi.updateUserInDb(result.data);
         } catch (error) {
-          console.error('Failed to update user info');
+          console.error('Failed to update user info in DB');
+        }
+      },
+    }),
+    updateUserAvatar: build.mutation<User, FormData>({
+      query: (body) => ({
+        url: '/user/profile/avatar',
+        method: 'PUT',
+        body,
+      }),
+      onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            apiSlice.util.updateQueryData(
+              'getUserInfo',
+              undefined,
+              () => result.data
+            )
+          );
+          await AuthApi.updateUserInDb(result.data);
+        } catch (error) {
+          console.error('Failed to update user avatar in DB');
         }
       },
     }),
@@ -82,4 +104,5 @@ export const {
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
   usePostOauthQuery,
+  useUpdateUserAvatarMutation,
 } = apiSlice;

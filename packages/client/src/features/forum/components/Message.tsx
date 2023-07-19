@@ -1,10 +1,8 @@
-import Avatar from '@/components/Avatar';
 import { Box, Container, Grid, Modal, Stack, Typography } from '@mui/material';
 import { smallTextStyles, userInfoStyles } from '../styles';
 import { ThreadMessage } from '@/infrastructure/api/forum/types';
 import { FC, useState } from 'react';
 import { formatDateFromUTCString } from '@/shared';
-import source from '../../../assets/mainship/MainShipFullHealth.svg';
 import {
   deleteThreadMessage,
   getThreadMessages,
@@ -15,6 +13,9 @@ import { useParams } from 'react-router-dom';
 import { NewMessageModal } from './NewMessageModal';
 import { useModalWindow } from '@/components/ModalWindow';
 import { useSelector } from 'react-redux';
+import source from '../../../assets/mainship/MainShipFullHealth.svg';
+
+import Avatar from '@/components/Avatar';
 import TextButton, { TextButtonVariant } from '@/components/TextButton';
 
 const Message: FC<ThreadMessage & { nestingLevel?: number }> = ({

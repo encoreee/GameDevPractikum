@@ -22,10 +22,6 @@ const ProjectsPage: FC = () => {
     modalProps.handleOpen();
   };
 
-  const onConfirmAvatarChange = () => {
-    modalProps.handleClose();
-  };
-
   return (
     <MainPageTemplate>
       <Stack alignItems={'start'}>

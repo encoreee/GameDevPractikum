@@ -1,10 +1,15 @@
-import { Stack } from '@mui/material';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { Stack, Typography } from '@mui/material';
 import { MuiFileInput } from 'mui-file-input';
 import { FunctionComponent, useState } from 'react';
+import { useUpdateUserAvatarMutation } from '@/app/apiSlice';
+import { ErrorData } from '../../infrastructure/api/auth/contracts';
+import { AppMessage } from '@/utils/const';
 
 import MainButton from '@/components/MainButton';
-//
-
+import FormNotification, {
+  FORM_NOTIFICATION_TYPE,
+} from '../../components/Notification';
 import ModalWindow, { ModalProps } from '@/components/ModalWindow';
 
 const ChangeAvatarModal: FunctionComponent<ModalProps> = ({
@@ -14,15 +19,26 @@ const ChangeAvatarModal: FunctionComponent<ModalProps> = ({
   title,
 }) => {
   const [file, setFile] = useState<File | null>(null);
+  const [updateUserAvatar, { error }] = useUpdateUserAvatarMutation();
+
+  const updateError = error as FetchBaseQueryError;
+  const updateErrorData = updateError?.data as ErrorData | undefined;
+  const errorReason = updateErrorData?.reason
+    ? updateErrorData.reason
+    : AppMessage.UNKNOWN_API_ERROR;
 
   const handleChange = (newFile: File | null) => {
     setFile(newFile);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (file) {
       const formData = new FormData();
       formData.append('avatar', file);
+      await updateUserAvatar(formData)
+        .unwrap()
+        .then(() => handleClose())
+        .catch((error) => console.error('Error updating avatar', error));
     }
   };
 
@@ -47,6 +63,12 @@ const ChangeAvatarModal: FunctionComponent<ModalProps> = ({
             />
           </>
         )}
+        <Typography sx={{ cursor: 'default' }}>&nbsp;</Typography>
+        <FormNotification
+          maxWidth="980px"
+          text={updateError ? errorReason : ' '}
+          type={FORM_NOTIFICATION_TYPE.ERROR}
+        />
         <MainButton
           label="Update avatar"
           onClick={handleSubmit}

@@ -13,7 +13,6 @@ export const toggleThemeAsync = createAsyncThunk(
 
     try {
       await UserApi.toggleUserTheme(updatedMode);
-
       return updatedMode;
     } catch (error) {
       console.error('Failed to save theme data to DB');

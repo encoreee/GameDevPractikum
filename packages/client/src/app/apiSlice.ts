@@ -39,7 +39,7 @@ export const apiSlice = createApi({
 
           dispatch(setTheme({ theme: userInDb.theme?.name }));
         } catch (error) {
-          console.log(error);
+          //continue despite the error
         }
       },
     }),

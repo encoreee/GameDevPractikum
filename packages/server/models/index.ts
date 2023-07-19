@@ -137,6 +137,14 @@ Message.init(
       defaultValue: null,
       allowNull: true,
     },
+    userAvatar: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    userName: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
   },
   {
     tableName: 'messages',

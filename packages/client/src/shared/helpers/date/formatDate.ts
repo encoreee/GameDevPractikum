@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { wrapDateFromUTCString } from './wrapDate';
 
 export enum FormatEnum {
-  date = 'dd.LL.yyyy', // '12.12.2023'
+  date = 'dd.LL.yyyy HH:mm', // '12.12.2023'
 }
 
 export const formatDateFromDateTime = (

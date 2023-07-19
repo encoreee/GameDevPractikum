@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import defaultAvatar from '@assets/defaultAvatar.svg';
 import { Box } from '@mui/material';
 import { useGetUserInfoQuery } from '@/app/apiSlice';
+import { API_ADDRESS } from '@/infrastructure/apiFetch';
+import defaultAvatar from '@assets/defaultAvatar.svg';
 
 export const AvatarSize = {
   BIG: 'big',
@@ -18,7 +19,7 @@ interface AvatarProps {
 const Avatar: FC<AvatarProps> = ({ src, alt = 'avatar', avatarSize }) => {
   const { data } = useGetUserInfoQuery();
   const avatarSrc = data?.avatar
-    ? `https://ya-praktikum.tech/api/v2/resources/${data.avatar}`
+    ? `${API_ADDRESS}/resources${data.avatar}`
     : defaultAvatar;
   const boxStyles = defineAvatarSize(avatarSize ?? AvatarSize.SMALL);
 

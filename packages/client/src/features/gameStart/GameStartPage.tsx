@@ -61,6 +61,7 @@ const GameStartPage: FunctionComponent = () => {
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              cursor: 'default',
               fontSize: 160,
             }}>
             {currentLabel}

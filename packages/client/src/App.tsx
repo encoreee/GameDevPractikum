@@ -14,10 +14,12 @@ import SignUpPage from './features/auth/pages/SignUpPage';
 import GameStartPage from './features/gameStart/GameStartPage';
 import ForumPages from './features/forum/pages';
 import GameOver from './features/gameOver/GameOver';
+import notifyMe from './utils/notify';
 
 const App: FC = () => {
   useEffect(() => {
     startServiceWorker();
+    notifyMe();
   }, []);
 
   return (

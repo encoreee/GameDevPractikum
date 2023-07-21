@@ -11,7 +11,7 @@ export function startServiceWorker() {
             );
           })
           .catch((error: string) => {
-            console.log('ServiceWorker registration failed: ', error);
+            // continue despite the error
           });
       });
     }

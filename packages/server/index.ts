@@ -33,10 +33,7 @@ async function startServer() {
         contentSecurityPolicy: {
           directives: {
             'script-src': ["'self'", "'unsafe-inline'"],
-            'connect-src': [
-              "'self'",
-              "'https://galagagame.ya-praktikum.tech/'",
-            ],
+            'connect-src': ["'self'"],
           },
         },
         xContentTypeOptions: false,

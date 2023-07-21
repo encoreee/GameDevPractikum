@@ -3,7 +3,7 @@ export function startServiceWorker() {
     if (typeof window !== 'undefined') {
       window.addEventListener('load', () => {
         navigator.serviceWorker
-          .register('/assets/networkCacheServiceWorker.js')
+          .register('/assets/networkcacheserviceworker.js')
           .then((registration) => {
             console.log(
               'ServiceWorker registration successful with scope: ',

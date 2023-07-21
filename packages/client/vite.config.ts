@@ -44,7 +44,11 @@ export default defineConfig(({ mode }) => {
             './src/infrastructure/networkCacheServiceWorker.ts',
         },
         output: {
-          entryFileNames: `assets/[name]${!isDev ? '.[hash]' : ''}.js`,
+          entryFileNames: (assetInfo) => {
+            return assetInfo.name === 'networkCacheServiceWorker'
+              ? 'assets/networkcacheserviceworker.js'
+              : `assets/${!isDev ? '[name].[hash]' : '[name]'}.js`;
+          },
           chunkFileNames: `assets/[name]${!isDev ? '.[hash]' : ''}.js`,
           assetFileNames: `assets/[name].[ext]`,
         },

@@ -17,6 +17,7 @@ import { GameResult, ToResult } from './types';
 import Audio from '../Audio/Audio';
 import { AUDIO_IDS } from '../Audio';
 import Stats from '../game/scenes/Stats';
+import notifyMe from '@/utils/notify';
 
 export enum Steps {
   GameOver,
@@ -128,6 +129,7 @@ const GameOver: FC = () => {
   useEffect(() => {
     Audio.stopAll();
     Audio.play(AUDIO_IDS.endGameTheme, { loop: true });
+    notifyMe('We hope you enjoyed the game');
     return () => {
       Audio.stopAll();
     };

@@ -35,8 +35,7 @@ async function startServer() {
             'script-src': ["'self'", "'unsafe-inline'"],
             'connect-src': [
               "'self'",
-              "'http://localhost'",
-              "'http://localhost:3000'",
+              "'https://galagagame.ya-praktikum.tech/'",
             ],
           },
         },
